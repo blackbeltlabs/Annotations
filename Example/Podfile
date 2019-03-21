@@ -1,0 +1,9 @@
+use_frameworks!
+
+target 'Annotations_Example' do
+  pod 'Annotations', :path => '../'
+end
+
+target 'Annotations_Tests' do
+  pod 'Annotations', :path => '../'
+end

@@ -1,0 +1,6 @@
+framework module Pods_Annotations_Tests {
+  umbrella header "Pods-Annotations_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}

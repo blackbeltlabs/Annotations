@@ -1,0 +1,6 @@
+framework module Pods_Annotations_Example {
+  umbrella header "Pods-Annotations_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

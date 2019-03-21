@@ -1,0 +1,23 @@
+{
+  "name": "Annotations",
+  "version": "0.1.0",
+  "summary": "A short description of Annotations.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/blackbeltlabs/Annotations",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Mirko Kiefer": "mail@mirkokiefer.com"
+  },
+  "source": {
+    "git": "https://github.com/blackbeltlabs/Annotations.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "osx": "10.13"
+  },
+  "swift_version": "4.2",
+  "source_files": "Annotations/Classes/**/*"
+}
