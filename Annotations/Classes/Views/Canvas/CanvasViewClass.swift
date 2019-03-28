@@ -8,13 +8,13 @@
 
 import Cocoa
 
-public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanvas, PenCanvas, TextCanvas {
+public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanvas, PenCanvas {
   public var delegate: CanvasViewDelegate?
   
   public var model: CanvasModel = .empty
   public var isChanged: Bool = false
   
-  public var createMode: CanvasItemType = .text
+  public var createMode: CanvasItemType = .arrow
   
   public var items: [CanvasDrawable] = []
   
@@ -86,7 +86,6 @@ extension CanvasViewClass {
     
     redrawArrows(model: model)
     redrawPens(model: model)
-    redrawText(model: model)
   }
   
   func markState(model: CanvasModel) {
@@ -102,15 +101,6 @@ extension CanvasViewClass {
     case .arrow: return createArrowView(origin: dragFrom, to: to)
     case .pen: return createPenView(origin: dragFrom, to: to)
     default: return (nil, nil)
-    }
-  }
-  
-  public func createItem(mouseUp: PointModel) -> CanvasModel? {
-    switch createMode {
-    case .text:
-      let text = TextModel(text: "Type something", origin: mouseUp)
-      return model.copy(text: model.text + [text])
-    default: return nil
     }
   }
   

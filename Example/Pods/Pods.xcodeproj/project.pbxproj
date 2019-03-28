@@ -19,7 +19,6 @@
 		ACE182242243A79000CEC127 /* PenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE182112243A79000CEC127 /* PenModel.swift */; };
 		ACE182252243A79000CEC127 /* CanvasModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE182122243A79000CEC127 /* CanvasModel.swift */; };
 		ACE182262243A79000CEC127 /* ArrowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE182132243A79000CEC127 /* ArrowModel.swift */; };
-		ACE182272243A79000CEC127 /* TextModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE182142243A79000CEC127 /* TextModel.swift */; };
 		ACE182282243A79000CEC127 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE182152243A79000CEC127 /* History.swift */; };
 		ACE182292243A79000CEC127 /* ArrowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE182172243A79000CEC127 /* ArrowView.swift */; };
 		ACE1822A2243A79000CEC127 /* KnobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE182182243A79000CEC127 /* KnobView.swift */; };
@@ -29,8 +28,6 @@
 		ACE1822E2243A79000CEC127 /* CanvasViewClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE1821D2243A79000CEC127 /* CanvasViewClass.swift */; };
 		ACE1822F2243A79000CEC127 /* EditableCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE1821E2243A79000CEC127 /* EditableCanvasView.swift */; };
 		ACE182302243A79000CEC127 /* ArrowCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE1821F2243A79000CEC127 /* ArrowCanvas.swift */; };
-		ACE182312243A79000CEC127 /* TextCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE182202243A79000CEC127 /* TextCanvas.swift */; };
-		ACE182322243A79000CEC127 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE182212243A79000CEC127 /* TextView.swift */; };
 		ACE182332243A79000CEC127 /* PenCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE182222243A79000CEC127 /* PenCanvas.swift */; };
 		ACE1823B2243A7AB00CEC127 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE182352243A7AB00CEC127 /* Array.swift */; };
 		ACE1823C2243A7AB00CEC127 /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE182362243A7AB00CEC127 /* CGPointExtension.swift */; };
@@ -83,7 +80,6 @@
 		ACE182112243A79000CEC127 /* PenModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PenModel.swift; sourceTree = "<group>"; };
 		ACE182122243A79000CEC127 /* CanvasModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasModel.swift; sourceTree = "<group>"; };
 		ACE182132243A79000CEC127 /* ArrowModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrowModel.swift; sourceTree = "<group>"; };
-		ACE182142243A79000CEC127 /* TextModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextModel.swift; sourceTree = "<group>"; };
 		ACE182152243A79000CEC127 /* History.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = History.swift; path = Annotations/Classes/History.swift; sourceTree = "<group>"; };
 		ACE182172243A79000CEC127 /* ArrowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrowView.swift; sourceTree = "<group>"; };
 		ACE182182243A79000CEC127 /* KnobView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KnobView.swift; sourceTree = "<group>"; };
@@ -93,8 +89,6 @@
 		ACE1821D2243A79000CEC127 /* CanvasViewClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewClass.swift; sourceTree = "<group>"; };
 		ACE1821E2243A79000CEC127 /* EditableCanvasView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditableCanvasView.swift; sourceTree = "<group>"; };
 		ACE1821F2243A79000CEC127 /* ArrowCanvas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrowCanvas.swift; sourceTree = "<group>"; };
-		ACE182202243A79000CEC127 /* TextCanvas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextCanvas.swift; sourceTree = "<group>"; };
-		ACE182212243A79000CEC127 /* TextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		ACE182222243A79000CEC127 /* PenCanvas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PenCanvas.swift; sourceTree = "<group>"; };
 		ACE182352243A7AB00CEC127 /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		ACE182362243A7AB00CEC127 /* CGPointExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
@@ -250,7 +244,6 @@
 				ACE182112243A79000CEC127 /* PenModel.swift */,
 				ACE182122243A79000CEC127 /* CanvasModel.swift */,
 				ACE182132243A79000CEC127 /* ArrowModel.swift */,
-				ACE182142243A79000CEC127 /* TextModel.swift */,
 			);
 			name = Model;
 			path = Annotations/Classes/Model;
@@ -264,8 +257,6 @@
 				ACE182192243A79000CEC127 /* PenView.swift */,
 				ACE1821A2243A79000CEC127 /* Canvas */,
 				ACE1821F2243A79000CEC127 /* ArrowCanvas.swift */,
-				ACE182202243A79000CEC127 /* TextCanvas.swift */,
-				ACE182212243A79000CEC127 /* TextView.swift */,
 				ACE182222243A79000CEC127 /* PenCanvas.swift */,
 			);
 			name = Views;
@@ -493,7 +484,6 @@
 				ACE1823C2243A7AB00CEC127 /* CGPointExtension.swift in Sources */,
 				ACE182402243A7AB00CEC127 /* LayoutExtension.swift in Sources */,
 				ACE1822D2243A79000CEC127 /* CanvasDrawable.swift in Sources */,
-				ACE182272243A79000CEC127 /* TextModel.swift in Sources */,
 				ACE182232243A79000CEC127 /* PointModel.swift in Sources */,
 				ACE1823E2243A7AB00CEC127 /* NSBezierPathExtension.swift in Sources */,
 				ACE182302243A79000CEC127 /* ArrowCanvas.swift in Sources */,
@@ -504,10 +494,8 @@
 				ACE182262243A79000CEC127 /* ArrowModel.swift in Sources */,
 				ACE182252243A79000CEC127 /* CanvasModel.swift in Sources */,
 				ACE182242243A79000CEC127 /* PenModel.swift in Sources */,
-				ACE182322243A79000CEC127 /* TextView.swift in Sources */,
 				ACE1823D2243A7AB00CEC127 /* CAShapeLayerExtension.swift in Sources */,
 				ACE1822C2243A79000CEC127 /* CanvasView.swift in Sources */,
-				ACE182312243A79000CEC127 /* TextCanvas.swift in Sources */,
 				ACE1822A2243A79000CEC127 /* KnobView.swift in Sources */,
 				AAA67BCB4D2856ECC2CB8F5BB2CB0ADE /* Annotations-dummy.m in Sources */,
 				ACE1823F2243A7AB00CEC127 /* StringExtension.swift in Sources */,
