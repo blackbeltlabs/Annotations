@@ -8,7 +8,7 @@
 
 import Cocoa
 
-public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanvas, PenCanvas {
+public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanvas, PenCanvas, RectCanvas {
   public var delegate: CanvasViewDelegate?
   
   public var model: CanvasModel = .empty
@@ -85,6 +85,7 @@ extension CanvasViewClass {
     items = []
     
     redrawArrows(model: model)
+    redrawRects(model: model)
     redrawPens(model: model)
   }
   
@@ -99,6 +100,7 @@ extension CanvasViewClass {
   public func createItem(dragFrom: PointModel, to: PointModel) -> (CanvasDrawable?, KnobView?) {
     switch createMode {
     case .arrow: return createArrowView(origin: dragFrom, to: to)
+//    case .rect: return create
     case .pen: return createPenView(origin: dragFrom, to: to)
     default: return (nil, nil)
     }

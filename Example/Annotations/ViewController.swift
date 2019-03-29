@@ -28,11 +28,11 @@ class ViewController: NSViewController {
     let data = try! Data(contentsOf: url)
     let decoder = JSONDecoder()
     let model = try! decoder.decode(CanvasModel.self, from: data)
+
     history = CanvasHistory(model: model)
     updateHistoryButtons()
-    
     canvasView.delegate = self
-    canvasView.update(model: model)
+//    canvasView.update(model: model)
   }
   
   override var representedObject: Any? {
@@ -40,6 +40,24 @@ class ViewController: NSViewController {
       // Update the view, if already loaded.
     }
   }
+//MARK: IBAction
+    @IBAction func chooseDrawAction(_ sender: NSSegmentedControl) {
+        switch sender.indexOfSelectedItem {
+        case 0:
+            canvasView.createMode = .arrow
+            break
+        case 1:
+            canvasView.createMode = .rect
+            break
+        case 2:
+            canvasView.createMode = .pen
+            break
+        default:
+            canvasView.createMode = .arrow
+            break
+        }
+    }
+    
   
   @IBAction func deleteShape(_ sender: Any) {
     canvasView.deleteSelectedItem()

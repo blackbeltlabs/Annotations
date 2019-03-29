@@ -36,6 +36,9 @@
 		ACE1823F2243A7AB00CEC127 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE182392243A7AB00CEC127 /* StringExtension.swift */; };
 		ACE182402243A7AB00CEC127 /* LayoutExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE1823A2243A7AB00CEC127 /* LayoutExtension.swift */; };
 		F53D59724007DE760209FC71BAA5E3EE /* Pods-Annotations_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 46DCD1FC2451FBB455DA8D285E69C5B3 /* Pods-Annotations_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FEDEA232224D114600AF897D /* RectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDEA231224D114600AF897D /* RectModel.swift */; };
+		FEDEA234224D1AE100AF897D /* RectCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDEA233224D1AE100AF897D /* RectCanvas.swift */; };
+		FEDEA236224D1C0700AF897D /* RectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDEA235224D1C0700AF897D /* RectView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +111,9 @@
 		E468125A7B9E92FD60D1F61482430133 /* Pods-Annotations_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Annotations_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		F3C1A6A0689E078C1AFAB5165862ED06 /* Pods-Annotations_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Annotations_Example-dummy.m"; sourceTree = "<group>"; };
 		F940C819049CFF8741C0F5E3E075E607 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		FEDEA231224D114600AF897D /* RectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectModel.swift; sourceTree = "<group>"; };
+		FEDEA233224D1AE100AF897D /* RectCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectCanvas.swift; sourceTree = "<group>"; };
+		FEDEA235224D1C0700AF897D /* RectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,6 +248,7 @@
 			children = (
 				ACE182102243A79000CEC127 /* PointModel.swift */,
 				ACE182112243A79000CEC127 /* PenModel.swift */,
+				FEDEA231224D114600AF897D /* RectModel.swift */,
 				ACE182122243A79000CEC127 /* CanvasModel.swift */,
 				ACE182132243A79000CEC127 /* ArrowModel.swift */,
 			);
@@ -253,10 +260,12 @@
 			isa = PBXGroup;
 			children = (
 				ACE182172243A79000CEC127 /* ArrowView.swift */,
+				FEDEA235224D1C0700AF897D /* RectView.swift */,
 				ACE182182243A79000CEC127 /* KnobView.swift */,
 				ACE182192243A79000CEC127 /* PenView.swift */,
 				ACE1821A2243A79000CEC127 /* Canvas */,
 				ACE1821F2243A79000CEC127 /* ArrowCanvas.swift */,
+				FEDEA233224D1AE100AF897D /* RectCanvas.swift */,
 				ACE182222243A79000CEC127 /* PenCanvas.swift */,
 			);
 			name = Views;
@@ -481,12 +490,15 @@
 			files = (
 				ACE1822F2243A79000CEC127 /* EditableCanvasView.swift in Sources */,
 				ACE182292243A79000CEC127 /* ArrowView.swift in Sources */,
+				FEDEA234224D1AE100AF897D /* RectCanvas.swift in Sources */,
 				ACE1823C2243A7AB00CEC127 /* CGPointExtension.swift in Sources */,
 				ACE182402243A7AB00CEC127 /* LayoutExtension.swift in Sources */,
 				ACE1822D2243A79000CEC127 /* CanvasDrawable.swift in Sources */,
 				ACE182232243A79000CEC127 /* PointModel.swift in Sources */,
 				ACE1823E2243A7AB00CEC127 /* NSBezierPathExtension.swift in Sources */,
+				FEDEA232224D114600AF897D /* RectModel.swift in Sources */,
 				ACE182302243A79000CEC127 /* ArrowCanvas.swift in Sources */,
+				FEDEA236224D1C0700AF897D /* RectView.swift in Sources */,
 				ACE182282243A79000CEC127 /* History.swift in Sources */,
 				ACE182332243A79000CEC127 /* PenCanvas.swift in Sources */,
 				ACE1822B2243A79000CEC127 /* PenView.swift in Sources */,

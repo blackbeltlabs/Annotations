@@ -66,6 +66,29 @@ extension NSBezierPath {
     let bezierPath = NSBezierPath(path: path)
     return bezierPath
   }
+    
+    static func rect(from start: CGPoint, to end: CGPoint, tailWidth: CGFloat, headWidth: CGFloat, headLength: CGFloat) -> NSBezierPath {
+        let length = hypot(end.x - start.x, end.y - start.y)
+        let tailLength = length - headLength
+        
+        func p(_ x: CGFloat, _ y: CGFloat) -> CGPoint { return CGPoint(x: x, y: y) }
+        let points: [CGPoint] = [
+            p(0, tailWidth / 2),
+            p(tailLength, tailWidth / 2),
+            p(tailLength, headWidth / 2),
+            p(length, 0),
+            p(tailLength, -headWidth / 2),
+            p(tailLength, -tailWidth / 2),
+            p(0, -tailWidth / 2)
+        ]
+        
+        let path = CGMutablePath()
+//        path.addLines(between: points, transform: transform)
+        path.addLines(between: points)
+        path.closeSubpath()
+        
+        return NSBezierPath(path: path)
+    }
   
   class func arrow(from start: CGPoint, to end: CGPoint, tailWidth: CGFloat, headWidth: CGFloat, headLength: CGFloat) -> NSBezierPath {
     let length = hypot(end.x - start.x, end.y - start.y)
