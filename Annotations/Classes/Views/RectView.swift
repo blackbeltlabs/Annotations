@@ -22,14 +22,14 @@ protocol RectView: CanvasDrawable {
     var state: RectViewState { get set }
     var modelIndex: Int { get set }
     var layer: CAShapeLayer { get }
-    var knobDict: [RectPoint: KnobView] { get }
+    var knobDict: [ArrowPoint: KnobView] { get }
 }
 
 extension RectView {
     var model: RectModel { return state.model }
     
     var knobs: [KnobView] {
-        return RectPoint.allCases.map { knobAt(rectPoint: $0)}
+        return ArrowPoint.allCases.map { knobAt(arrowPoint: $0)}
     }
     
     var path: CGPath {
@@ -76,8 +76,8 @@ extension RectView {
         })
     }
     
-    func knobAt(rectPoint: RectPoint) -> KnobView {
-        return knobDict[rectPoint]!
+    func knobAt(arrowPoint: ArrowPoint) -> KnobView {
+        return knobDict[arrowPoint]!
     }
     
     func contains(point: PointModel) -> Bool {
@@ -99,19 +99,19 @@ extension RectView {
     }
     
     func draggedKnob(_ knob: KnobView, from: PointModel, to: PointModel) {
-        let rectPoint = (RectPoint.allCases.first { (rectPoint) -> Bool in
-            return knobDict[rectPoint]! === knob
+        let arrowPoint = (ArrowPoint.allCases.first { (arrowPoint) -> Bool in
+            return knobDict[arrowPoint]! === knob
         })!
         let delta = from.deltaTo(to)
-        state.model = model.copyMoving(rectPoint: rectPoint, delta: delta)
+        state.model = model.copyMoving(arrowPoint: arrowPoint, delta: delta)
     }
     
     func render(state: RectViewState, oldState: RectViewState? = nil) {
         if state.model != oldState?.model {
             layer.shapePath = RectViewClass.createPath(model: state.model)
             
-            for rectPoint in RectPoint.allCases {
-                knobAt(rectPoint: rectPoint).state.model = state.model.valueFor(rectPoint: rectPoint)
+            for arrowPoint in ArrowPoint.allCases {
+                knobAt(arrowPoint: arrowPoint).state.model = state.model.valueFor(arrowPoint: arrowPoint)
             }
             
             delegate?.rectView(self, didUpdate: model, atIndex: modelIndex)
@@ -144,7 +144,7 @@ class RectViewClass: RectView {
     var layer: CAShapeLayer
     var modelIndex: Int
     
-    lazy var knobDict: [RectPoint: KnobView] = [
+    lazy var knobDict: [ArrowPoint: KnobView] = [
         .origin: KnobViewClass(model: model.origin),
         .to: KnobViewClass(model: model.to)
     ]

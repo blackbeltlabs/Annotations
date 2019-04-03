@@ -28,7 +28,7 @@ class ViewController: NSViewController {
     let data = try! Data(contentsOf: url)
     let decoder = JSONDecoder()
     let model = try! decoder.decode(CanvasModel.self, from: data)
-
+    canvasView.createMode = .rect
     history = CanvasHistory(model: model)
     updateHistoryButtons()
     canvasView.delegate = self
@@ -53,7 +53,6 @@ class ViewController: NSViewController {
             canvasView.createMode = .pen
             break
         default:
-            canvasView.createMode = .arrow
             break
         }
     }

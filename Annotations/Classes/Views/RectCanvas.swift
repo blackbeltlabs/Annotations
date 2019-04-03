@@ -26,7 +26,7 @@ extension RectCanvas {
     }
     
     func createRectView(origin: PointModel, to: PointModel) -> (CanvasDrawable?, KnobView?) {
-        if origin.distanceTo(to) < 10 {
+        if origin.distanceTo(to) < 5 {
             return (nil, nil)
         }
         
@@ -37,7 +37,7 @@ extension RectCanvas {
         let newView = RectViewClass(state: state, modelIndex: model.rects.count - 1)
         newView.delegate = self
         
-        let selectedKnob = newView.knobAt(rectPoint: .to)
+        let selectedKnob = newView.knobAt(arrowPoint: .to)
         
         return (newView, selectedKnob)
     }
