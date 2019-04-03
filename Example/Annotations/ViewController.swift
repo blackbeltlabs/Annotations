@@ -28,11 +28,11 @@ class ViewController: NSViewController {
     let data = try! Data(contentsOf: url)
     let decoder = JSONDecoder()
     let model = try! decoder.decode(CanvasModel.self, from: data)
-    canvasView.createMode = .rect
+    canvasView.createMode = .arrow
     history = CanvasHistory(model: model)
     updateHistoryButtons()
     canvasView.delegate = self
-//    canvasView.update(model: model)
+    canvasView.update(model: model)
   }
   
   override var representedObject: Any? {

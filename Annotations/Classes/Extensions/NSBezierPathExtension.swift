@@ -67,8 +67,6 @@ extension NSBezierPath {
     }
     
     static func rect(from start: CGPoint, to end: CGPoint, tailWidth: CGFloat, headWidth: CGFloat, headLength: CGFloat) -> NSBezierPath {
-        print("XStart: \(start.x) YStart: \(start.y)")
-        print("XEnd: \(end.x) YEnd: \(end.y)")
         let length = hypot(end.x - start.x, end.y - start.y)
         let tailLength = length - headLength
         
