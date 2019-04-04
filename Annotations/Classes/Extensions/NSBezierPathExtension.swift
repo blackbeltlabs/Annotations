@@ -72,7 +72,6 @@ extension NSBezierPath {
         
         func p(_ x: CGFloat, _ y: CGFloat) -> CGPoint { return CGPoint(x: x, y: y) }
         
-        let widthLine: CGFloat = 5.0
         /*
         let points: [CGPoint] = [
             p(start.x, start.y),
@@ -87,27 +86,27 @@ extension NSBezierPath {
         let point1s: [CGPoint] = [
             p(start.x, start.y),
             p(start.x, end.y),
-            p(start.x + (end.x > start.x ? widthLine : -(widthLine)), end.y),
-            p(start.x + (end.x > start.x ? widthLine : -(widthLine)), start.y),
+            p(start.x + (end.x > start.x ? tailWidth : -(tailWidth)), end.y),
+            p(start.x + (end.x > start.x ? tailWidth : -(tailWidth)), start.y),
         ]
         let point2s: [CGPoint] = [
-            p(start.x, end.y + ((end.y > start.y) ? (-widthLine) : widthLine)),
+            p(start.x, end.y + ((end.y > start.y) ? (-tailWidth) : tailWidth)),
             p(start.x, end.y),
             p(end.x, end.y),
-            p(end.x, end.y + ((end.y > start.y) ? (-widthLine) : widthLine))
+            p(end.x, end.y + ((end.y > start.y) ? (-tailWidth) : tailWidth))
         ]
         
         let point3s: [CGPoint] = [
-            p(end.x - (end.x > start.x ? widthLine : -(widthLine)), end.y),
+            p(end.x - (end.x > start.x ? tailWidth : -(tailWidth)), end.y),
             p(end.x, end.y),
             p(end.x, start.y),
-            p(end.x - (end.x > start.x ? widthLine : -(widthLine)), start.y)
+            p(end.x - (end.x > start.x ? tailWidth : -(tailWidth)), start.y)
         ]
         
         let point4s: [CGPoint] = [
             p(end.x, start.y),
-            p(end.x, start.y + ((end.y > start.y) ? (-widthLine) : widthLine)),
-            p(start.x, start.y + ((end.y > start.y) ? (-widthLine) : widthLine)),
+            p(end.x, start.y + ((end.y > start.y) ? (-tailWidth) : tailWidth)),
+            p(start.x, start.y + ((end.y > start.y) ? (-tailWidth) : tailWidth)),
             p(start.x, start.y),
             ]
         
