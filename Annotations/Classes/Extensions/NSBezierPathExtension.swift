@@ -80,30 +80,34 @@ extension NSBezierPath {
             p(end.x, end.y),
             p(end.x, start.y)
         ]*/
+        
+        print("Start x:\(start.x) y:\(start.y)")
+        print("End x:\(end.x) y:\(end.y)")
+        
         let point1s: [CGPoint] = [
             p(start.x, start.y),
             p(start.x, end.y),
-            p(start.x + widthLine, end.y),
-            p(start.x + widthLine, start.y),
+            p(start.x + (end.x > start.x ? widthLine : -(widthLine)), end.y),
+            p(start.x + (end.x > start.x ? widthLine : -(widthLine)), start.y),
         ]
         let point2s: [CGPoint] = [
-            p(start.x + 2, end.y + widthLine),
-            p(start.x + 2, end.y),
+            p(start.x, end.y + ((end.y > start.y) ? (-widthLine) : widthLine)),
+            p(start.x, end.y),
             p(end.x, end.y),
-            p(end.x, end.y + widthLine)
+            p(end.x, end.y + ((end.y > start.y) ? (-widthLine) : widthLine))
         ]
         
         let point3s: [CGPoint] = [
-            p(end.x - widthLine, end.y),
+            p(end.x - (end.x > start.x ? widthLine : -(widthLine)), end.y),
             p(end.x, end.y),
             p(end.x, start.y),
-            p(end.x - widthLine, start.y)
+            p(end.x - (end.x > start.x ? widthLine : -(widthLine)), start.y)
         ]
         
         let point4s: [CGPoint] = [
             p(end.x, start.y),
-            p(end.x, start.y + widthLine),
-            p(start.x, start.y + widthLine),
+            p(end.x, start.y + ((end.y > start.y) ? (-widthLine) : widthLine)),
+            p(start.x, start.y + ((end.y > start.y) ? (-widthLine) : widthLine)),
             p(start.x, start.y),
             ]
         

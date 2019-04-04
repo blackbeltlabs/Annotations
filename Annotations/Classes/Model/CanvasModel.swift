@@ -31,7 +31,7 @@ extension Model {
 public struct CanvasModel: Model {
   var arrows: [ArrowModel]
   var pens: [PenModel]
-  var rects: [RectModel]
+  var rects: [RectModel] = []
   
   static var empty: CanvasModel {
     return CanvasModel(arrows: [], pens: [], rects: [])
