@@ -71,15 +71,47 @@ extension NSBezierPath {
         let tailLength = length - headLength
         
         func p(_ x: CGFloat, _ y: CGFloat) -> CGPoint { return CGPoint(x: x, y: y) }
+        
+        let widthLine: CGFloat = 5.0
+        /*
         let points: [CGPoint] = [
             p(start.x, start.y),
             p(start.x, end.y),
             p(end.x, end.y),
             p(end.x, start.y)
+        ]*/
+        let point1s: [CGPoint] = [
+            p(start.x, start.y),
+            p(start.x, end.y),
+            p(start.x + widthLine, end.y),
+            p(start.x + widthLine, start.y),
+        ]
+        let point2s: [CGPoint] = [
+            p(start.x + 2, end.y + widthLine),
+            p(start.x + 2, end.y),
+            p(end.x, end.y),
+            p(end.x, end.y + widthLine)
         ]
         
+        let point3s: [CGPoint] = [
+            p(end.x - widthLine, end.y),
+            p(end.x, end.y),
+            p(end.x, start.y),
+            p(end.x - widthLine, start.y)
+        ]
+        
+        let point4s: [CGPoint] = [
+            p(end.x, start.y),
+            p(end.x, start.y + widthLine),
+            p(start.x, start.y + widthLine),
+            p(start.x, start.y),
+            ]
+        
         let path = CGMutablePath()
-        path.addLines(between: points)
+        path.addLines(between: point1s)
+        path.addLines(between: point2s)
+        path.addLines(between: point3s)
+        path.addLines(between: point4s)
         path.closeSubpath()
         
         return NSBezierPath(path: path)
