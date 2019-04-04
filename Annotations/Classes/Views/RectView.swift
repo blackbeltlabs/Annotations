@@ -22,14 +22,14 @@ protocol RectView: CanvasDrawable {
     var state: RectViewState { get set }
     var modelIndex: Int { get set }
     var layer: CAShapeLayer { get }
-    var knobDict: [ArrowPoint: KnobView] { get }
+    var knobDict: [RectPoint: KnobView] { get }
 }
 
 extension RectView {
     var model: RectModel { return state.model }
     
     var knobs: [KnobView] {
-        return ArrowPoint.allCases.map { knobAt(arrowPoint: $0)}
+        return RectPoint.allCases.map { knobAt(rectPoint: $0)}
     }
     
     var path: CGPath {
@@ -76,8 +76,8 @@ extension RectView {
         })
     }
     
-    func knobAt(arrowPoint: ArrowPoint) -> KnobView {
-        return knobDict[arrowPoint]!
+    func knobAt(rectPoint: RectPoint) -> KnobView {
+        return knobDict[rectPoint]!
     }
     
     func contains(point: PointModel) -> Bool {
@@ -99,22 +99,25 @@ extension RectView {
     }
     
     func draggedKnob(_ knob: KnobView, from: PointModel, to: PointModel) {
-        let arrowPoint = (ArrowPoint.allCases.first { (arrowPoint) -> Bool in
-            return knobDict[arrowPoint]! === knob
-        })!
-        let delta = from.deltaTo(to)
-        state.model = model.copyMoving(arrowPoint: arrowPoint, delta: delta)
+        if let rectPoint = (RectPoint.allCases.first { (rectPoint) -> Bool in
+            return knobDict[rectPoint]! === knob
+        }) {
+            let delta = from.deltaTo(to)
+            state.model = model.copyMoving(rectPoint: rectPoint, delta: delta)
+        }
     }
     
     func render(state: RectViewState, oldState: RectViewState? = nil) {
         if state.model != oldState?.model {
             layer.shapePath = RectViewClass.createPath(model: state.model)
             
-            for arrowPoint in ArrowPoint.allCases {
-                knobAt(arrowPoint: arrowPoint).state.model = state.model.valueFor(arrowPoint: arrowPoint)
+            for rectPoint in RectPoint.allCases {
+                knobAt(rectPoint: rectPoint).state.model = state.model.valueFor(rectPoint: rectPoint)
             }
+
+            self.delegate?.rectView(self, didUpdate: self.model, atIndex: self.modelIndex)
             
-            delegate?.rectView(self, didUpdate: model, atIndex: modelIndex)
+            
         }
         
         if state.isSelected != oldState?.isSelected {
@@ -135,7 +138,7 @@ class RectViewClass: RectView {
     
     var state: RectViewState {
         didSet {
-            render(state: state, oldState: oldValue)
+            self.render(state: self.state, oldState: oldValue)
         }
     }
     
@@ -144,15 +147,24 @@ class RectViewClass: RectView {
     var layer: CAShapeLayer
     var modelIndex: Int
     
-    lazy var knobDict: [ArrowPoint: KnobView] = [
+    /*
+     let points: [CGPoint] = [
+     p(start.x, start.y),
+     p(start.x, end.y),
+     p(end.x, end.y),
+     p(end.x, start.y)
+     ]*/
+    lazy var knobDict: [RectPoint: KnobView] = [
         .origin: KnobViewClass(model: model.origin),
-        .to: KnobViewClass(model: model.to)
+        .to: KnobViewClass(model: model.to),
+        .originY: KnobViewClass(model: model.origin.returnPointModel(dx:model.origin.x, dy:model.to.y)),
+        .toX: KnobViewClass(model: model.to.returnPointModel(dx:model.to.x, dy:model.origin.y))
     ]
     
     init(state: RectViewState, modelIndex: Int) {
         self.state = state
         self.modelIndex = modelIndex
         layer = RectViewClass.createLayer()
-        render(state: state)
+        self.render(state: state)
     }
 }

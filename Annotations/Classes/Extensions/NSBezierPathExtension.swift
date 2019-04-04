@@ -9,6 +9,7 @@
 import Cocoa
 
 extension NSBezierPath {
+
   convenience init(path: CGPath) {
     self.init()
     let pathPtr = UnsafeMutablePointer<NSBezierPath>.allocate(capacity: 1)
@@ -79,6 +80,8 @@ extension NSBezierPath {
             p(end.x, end.y),
             p(end.x, start.y)
         ]*/
+        
+        
         
         print("Start x:\(start.x) y:\(start.y)")
         print("End x:\(end.x) y:\(end.y)")

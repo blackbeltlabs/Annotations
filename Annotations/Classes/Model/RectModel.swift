@@ -7,30 +7,39 @@
 
 import Foundation
 
-//public enum RectPoint: CaseIterable {
-//    case origin
-//    case to
-//}
+public enum RectPoint: CaseIterable {
+    case origin
+    case to
+    case originY
+    case toX
+}
 
 public struct RectModel: Model {
     let origin: PointModel
     let to: PointModel
     
-    func valueFor(arrowPoint: ArrowPoint) -> PointModel {
-        switch arrowPoint {
+    func valueFor(rectPoint: RectPoint) -> PointModel {
+        switch rectPoint {
         case .origin: return origin
         case .to: return to
+        case .originY: return origin.returnPointModel(dx:origin.x, dy:to.y)
+        case .toX: return to.returnPointModel(dx:to.x, dy:origin.y)
         }
     }
     
-    func copyMoving(arrowPoint: ArrowPoint, delta: PointModel) -> RectModel {
-        switch arrowPoint {
+    func copyMoving(rectPoint: RectPoint, delta: PointModel) -> RectModel {
+        switch rectPoint {
         case .origin:
             return RectModel(origin: origin.copyMoving(delta: delta), to: to)
         case .to:
             return RectModel(origin: origin, to: to.copyMoving(delta: delta))
+        case .originY:
+            return RectModel(origin: origin.returnPointModel(dx:origin.x, dy:to.y).copyMoving(delta: delta), to: to.returnPointModel(dx:to.x, dy:origin.y))
+        case .toX:
+            return RectModel(origin: origin.returnPointModel(dx:origin.x, dy:to.y), to: to.returnPointModel(dx:to.x, dy:origin.y).copyMoving(delta: delta))
         }
     }
+    
     
     func copyMoving(delta: PointModel) -> RectModel {
         return RectModel(

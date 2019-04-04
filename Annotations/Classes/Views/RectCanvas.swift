@@ -37,7 +37,7 @@ extension RectCanvas {
         let newView = RectViewClass(state: state, modelIndex: model.rects.count - 1)
         newView.delegate = self
         
-        let selectedKnob = newView.knobAt(arrowPoint: .to)
+        let selectedKnob = newView.knobAt(rectPoint: .to)
         
         return (newView, selectedKnob)
     }
@@ -47,6 +47,9 @@ extension RectCanvas {
     }
     
     func rectView(_ rectView: RectView, didUpdate model: RectModel, atIndex index: Int) {
-        self.model.rects[index] = model
+        DispatchQueue.main.async {
+            self.model.rects[index] = model
+        }
+        
     }
 }
