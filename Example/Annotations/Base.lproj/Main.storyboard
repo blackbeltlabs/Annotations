@@ -720,6 +720,9 @@
                                         <segment label="Pen"/>
                                     </segments>
                                 </segmentedCell>
+                                <connections>
+                                    <action selector="chooseDrawAction:" target="XfG-lQ-9wD" id="RfO-Y6-6Kn"/>
+                                </connections>
                             </segmentedControl>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="V4e-VP-LAe">
                                 <rect key="frame" x="426" y="246" width="22" height="19"/>

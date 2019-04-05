@@ -12,6 +12,7 @@ public struct PointModel: Model {
   let x: Double
   let y: Double
   
+
   var cgPoint: CGPoint {
     return CGPoint(x: x, y: y)
   }
@@ -32,6 +33,23 @@ public struct PointModel: Model {
   func copyMoving(dx: Double, dy: Double) -> PointModel {
     return PointModel(x: x + dx, y: y + dy)
   }
+    
+  func returnPointModel(dx: Double, dy: Double) -> PointModel {
+    return PointModel(x: dx, y: dy)
+  }
+    
+    ///////////TEST//////////
+    func copyMovingEnd(delta: PointModel) -> PointModel {
+        return copyMovingEnd(dx: delta.x, dy: delta.y)
+    }
+    func copyMovingEnd(dx: Double, dy: Double) -> PointModel {
+        return PointModel(x: x - dx, y: y - dy)
+    }
+    
+    func deltaToEnd(_ point: PointModel) -> PointModel {
+        return PointModel(x: point.x - x, y: point.y - y)
+    }
+    
 }
 
 extension CGPoint {

@@ -9,8 +9,9 @@
 import Foundation
 
 public enum CanvasItemType {
-  case arrow
-  case pen
+    case arrow
+    case pen
+    case rect
 }
 
 public protocol Model: Decodable, Encodable, CustomStringConvertible, Equatable {}
@@ -30,15 +31,17 @@ extension Model {
 public struct CanvasModel: Model {
   var arrows: [ArrowModel]
   var pens: [PenModel]
+  var rects: [RectModel] = []
   
   static var empty: CanvasModel {
-    return CanvasModel(arrows: [], pens: [])
+    return CanvasModel(arrows: [], pens: [], rects: [])
   }
   
-  func copy(arrows: [ArrowModel]? = nil, pens: [PenModel]? = nil) -> CanvasModel {
+  func copy(arrows: [ArrowModel]? = nil, pens: [PenModel]? = nil, rects: [RectModel]? = nil) -> CanvasModel {
     return CanvasModel(
       arrows: arrows ?? self.arrows,
-      pens: pens ?? self.pens
+      pens: pens ?? self.pens,
+      rects: rects ?? self.rects
     )
   }
   
@@ -47,7 +50,10 @@ public struct CanvasModel: Model {
     case .arrow:
       return copy(arrows: arrows.copyWithout(index: index))
     case .pen:
-      return copy(pens: pens.copyWithout(index: index))
+        return copy(pens: pens.copyWithout(index: index))
+    case .rect:
+      return copy(rects: rects.copyWithout(index: index))
+    
     }
   }
 }
