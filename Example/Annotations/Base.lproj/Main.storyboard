@@ -730,6 +730,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="cellTitle"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="undo:" target="XfG-lQ-9wD" id="PT9-CQ-0qb"/>
+                                </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Gha-MZ-5cr">
                                 <rect key="frame" x="448" y="246" width="22" height="19"/>
@@ -737,6 +740,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="cellTitle"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="redo:" target="XfG-lQ-9wD" id="5wO-DS-wT6"/>
+                                </connections>
                             </button>
                         </subviews>
                         <constraints>

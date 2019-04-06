@@ -80,9 +80,7 @@ extension NSBezierPath {
             p(end.x, end.y),
             p(end.x, start.y)
         ]*/
-        
-        
-        
+
         print("Start x:\(start.x) y:\(start.y)")
         print("End x:\(end.x) y:\(end.y)")
         
