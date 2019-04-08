@@ -257,12 +257,14 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Annotations_Tests/Pods-Annotations_Tests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Annotations/Annotations.framework",
+				"${BUILT_PRODUCTS_DIR}/TextAnnotation/TextAnnotation.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Annotations.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TextAnnotation.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -279,12 +281,14 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Annotations_Example/Pods-Annotations_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Annotations/Annotations.framework",
+				"${BUILT_PRODUCTS_DIR}/TextAnnotation/TextAnnotation.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Annotations.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TextAnnotation.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

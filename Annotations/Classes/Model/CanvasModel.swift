@@ -9,6 +9,7 @@
 import Foundation
 
 public enum CanvasItemType {
+//    case text
     case arrow
     case pen
     case rect
@@ -53,7 +54,6 @@ public struct CanvasModel: Model {
         return copy(pens: pens.copyWithout(index: index))
     case .rect:
       return copy(rects: rects.copyWithout(index: index))
-    
     }
   }
 }

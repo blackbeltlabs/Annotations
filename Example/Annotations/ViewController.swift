@@ -47,9 +47,12 @@ class ViewController: NSViewController {
             canvasView.createMode = .arrow
             break
         case 1:
-            canvasView.createMode = .rect
+            canvasView.createMode = .arrow
             break
         case 2:
+            canvasView.createMode = .rect
+            break
+        case 3:
             canvasView.createMode = .pen
             break
         default:

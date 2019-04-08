@@ -14,6 +14,8 @@ public enum RectPoint: CaseIterable {
     case toX
 }
 
+let widthDot: Double = 2.5
+
 public struct RectModel: Model {
     let origin: PointModel
     let to: PointModel
@@ -21,13 +23,13 @@ public struct RectModel: Model {
     mutating func valueFor(rectPoint: RectPoint) -> PointModel {
         switch rectPoint {
         case .origin:
-            return origin
+            return origin.returnPointModel(dx:origin.x + (origin.x < to.x ? widthDot : (-widthDot)), dy:origin.y + (origin.y > to.y ? widthDot : (-widthDot)))
         case .to:
-            return to
+            return to.returnPointModel(dx:to.x + (origin.x > to.x ? widthDot : (-widthDot)), dy:to.y + (origin.y > to.y ? widthDot : (-widthDot)))
         case .originY:
-            return origin.returnPointModel(dx:origin.x, dy:to.y)
+            return origin.returnPointModel(dx:origin.x + (origin.x < to.x ? widthDot : (-widthDot)), dy:to.y + (origin.y > to.y ? widthDot : (-widthDot)))
         case .toX:
-            return to.returnPointModel(dx:to.x, dy:origin.y)
+            return to.returnPointModel(dx:to.x + (origin.x > to.x ? widthDot : (-widthDot)), dy:origin.y + (origin.y > to.y ? widthDot : (-widthDot)))
         }
     }
     
