@@ -113,7 +113,7 @@ extension RectView {
         if state.model != oldState?.model {
             
             
-            var pointModel: RectModel = RectModel(origin: PointModel(x: 0, y: 0), to: PointModel(x: 0, y: 0))
+            var pointModel: RectModel! //= RectModel(origin: PointModel(x: 0, y: 0), to: PointModel(x: 0, y: 0))
             
             if (state.model.origin.x == oldState?.model.origin.x && state.model.origin.y == oldState?.model.origin.y) || (state.model.to.x == oldState?.model.to.x && state.model.to.y == oldState?.model.to.y) {
                 pointModel = state.model
@@ -121,28 +121,28 @@ extension RectView {
                 if let old = oldState {
                     let start = old.model.origin.returnPointModel(dx: old.model.origin.x, dy: old.model.to.y)
                     let end = old.model.to.returnPointModel(dx: old.model.to.x, dy: old.model.origin.y)
-                    pointModel = RectModel(origin: end, to: start)
+                    pointModel = RectModel(origin: start, to: end)
                 }
             } else if (state.model.origin.x != oldState?.model.origin.x && state.model.origin.y == oldState?.model.origin.y){
                 pointModel = RectModel(origin: oldState?.model.origin ?? PointModel(x: 0, y: 0), to: state.model.to)
                 if let old = oldState {
                     let start = old.model.origin.returnPointModel(dx: old.model.origin.x, dy: old.model.to.y)
                     let end = old.model.to.returnPointModel(dx: old.model.to.x, dy: old.model.origin.y)
-                    pointModel = RectModel(origin: end, to: start)
+                    pointModel = RectModel(origin: start, to: end)
                 }
             } else if (state.model.to.x != oldState?.model.to.x && state.model.to.y == oldState?.model.to.y) {
                 pointModel = RectModel(origin: state.model.origin, to: oldState?.model.to ?? PointModel(x: 0, y: 0))
                 if let old = oldState {
                     let start = old.model.origin.returnPointModel(dx: old.model.origin.x, dy: old.model.to.y)
                     let end = old.model.to.returnPointModel(dx: old.model.to.x, dy: old.model.origin.y)
-                    pointModel = RectModel(origin: end, to: start)
+                    pointModel = RectModel(origin: start, to: end)
                 }
             } else if (state.model.to.x == oldState?.model.to.x && state.model.to.y != oldState?.model.to.y){
                 pointModel = RectModel(origin: state.model.origin, to: oldState?.model.to ?? PointModel(x: 0, y: 0))
                 if let old = oldState {
                     let start = old.model.origin.returnPointModel(dx: old.model.origin.x, dy: old.model.to.y)
                     let end = old.model.to.returnPointModel(dx: old.model.to.x, dy: old.model.origin.y)
-                    pointModel = RectModel(origin: end, to: start)
+                    pointModel = RectModel(origin: start, to: end)
                 }
             } else {
                 pointModel = state.model
@@ -158,8 +158,7 @@ extension RectView {
             }
 
             self.delegate?.rectView(self, didUpdate: self.model, atIndex: self.modelIndex)
-            
-            
+        
         }
         
         if state.isSelected != oldState?.isSelected {

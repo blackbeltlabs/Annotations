@@ -43,7 +43,7 @@ public struct PointModel: Model {
         return copyMovingEnd(dx: delta.x, dy: delta.y)
     }
     func copyMovingEnd(dx: Double, dy: Double) -> PointModel {
-        return PointModel(x: x - dx, y: y - dy)
+        return PointModel(x:  dx - x, y: dy - y)
     }
     
     func deltaToEnd(_ point: PointModel) -> PointModel {

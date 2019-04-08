@@ -81,8 +81,6 @@ extension NSBezierPath {
             p(end.x, start.y)
         ]*/
 
-        print("Start x:\(start.x) y:\(start.y)")
-        print("End x:\(end.x) y:\(end.y)")
         
         let point1s: [CGPoint] = [
             p(start.x, start.y),
