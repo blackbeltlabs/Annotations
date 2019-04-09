@@ -233,12 +233,15 @@ extension ViewController: CanvasViewDelegate {
         if let data = model.description.data(using: .utf8) {
             do {
                 let temp = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                let modeled = (temp?["texts"] as? [[String: Any]])?.last
-                let view1 = TAContainerView(frame: NSRect(origin: Cgp, size: size))
+                if let modeled = ((temp?["texts"] as? [[String: Any]])?.last) {
+                    if let te = modeled["origin"] as? [String: Any] {
+                    let view1 = TAContainerView(frame: NSRect(origin: CGPoint(x: (te["x"] as? Double)!, y: (te["y"] as? Double)!), size: size))
                     view1.text = "1"
                     view1.activateResponder = self
                     view.addSubview(view1)
                     annotations.append(view1)
+                    }
+                }
             } catch {
                 print(error.localizedDescription)
             }
