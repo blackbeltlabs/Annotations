@@ -2,8 +2,10 @@ use_frameworks!
 
 target 'Annotations_Example' do
   pod 'Annotations', :path => '../'
+  pod 'TextAnnotation', :git => 'https://github.com/blackbeltlabs/TextAnnotation.git'
 end
 
 target 'Annotations_Tests' do
   pod 'Annotations', :path => '../'
+  pod 'TextAnnotation', :git => 'https://github.com/blackbeltlabs/TextAnnotation.git'
 end

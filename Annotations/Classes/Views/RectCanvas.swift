@@ -47,9 +47,6 @@ extension RectCanvas {
     }
     
     func rectView(_ rectView: RectView, didUpdate model: RectModel, atIndex index: Int) {
-        DispatchQueue.main.async {
-            self.model.rects[index] = model
-        }
-        
+        self.model.rects[index] = model
     }
 }

@@ -9,6 +9,7 @@
 import Foundation
 
 public enum CanvasItemType {
+    case text
     case arrow
     case pen
     case rect
@@ -29,16 +30,18 @@ extension Model {
 }
 
 public struct CanvasModel: Model {
+  var texts: [TextModel] = []
   var arrows: [ArrowModel]
   var pens: [PenModel]
   var rects: [RectModel] = []
   
   static var empty: CanvasModel {
-    return CanvasModel(arrows: [], pens: [], rects: [])
+    return CanvasModel(texts: [], arrows: [], pens: [], rects: [])
   }
   
-  func copy(arrows: [ArrowModel]? = nil, pens: [PenModel]? = nil, rects: [RectModel]? = nil) -> CanvasModel {
+    func copy(texts: [TextModel]? = nil,arrows: [ArrowModel]? = nil, pens: [PenModel]? = nil, rects: [RectModel]? = nil) -> CanvasModel {
     return CanvasModel(
+      texts: texts ?? self.texts,
       arrows: arrows ?? self.arrows,
       pens: pens ?? self.pens,
       rects: rects ?? self.rects
@@ -47,13 +50,14 @@ public struct CanvasModel: Model {
   
   func copyWithout(type: CanvasItemType, index: Int) -> CanvasModel {
     switch type {
+    case .text:
+        return copy(texts: texts.copyWithout(index: index))
     case .arrow:
       return copy(arrows: arrows.copyWithout(index: index))
     case .pen:
         return copy(pens: pens.copyWithout(index: index))
     case .rect:
       return copy(rects: rects.copyWithout(index: index))
-    
     }
   }
 }

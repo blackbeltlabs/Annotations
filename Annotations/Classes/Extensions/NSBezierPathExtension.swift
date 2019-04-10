@@ -73,19 +73,6 @@ extension NSBezierPath {
         
         func p(_ x: CGFloat, _ y: CGFloat) -> CGPoint { return CGPoint(x: x, y: y) }
         
-        /*
-        let points: [CGPoint] = [
-            p(start.x, start.y),
-            p(start.x, end.y),
-            p(end.x, end.y),
-            p(end.x, start.y)
-        ]*/
-        
-        
-        
-        print("Start x:\(start.x) y:\(start.y)")
-        print("End x:\(end.x) y:\(end.y)")
-        
         let point1s: [CGPoint] = [
             p(start.x, start.y),
             p(start.x, end.y),
@@ -144,6 +131,19 @@ extension NSBezierPath {
         
         let path = CGMutablePath()
         path.addLines(between: points, transform: transform)
+        path.closeSubpath()
+        
+        return NSBezierPath(path: path)
+    }
+    
+    class func text(from start: CGPoint, tailWidth: CGFloat, headWidth: CGFloat, headLength: CGFloat) -> NSBezierPath {
+        func p(_ x: CGFloat, _ y: CGFloat) -> CGPoint { return CGPoint(x: x, y: y) }
+        let points: [CGPoint] = [
+            p(start.x, start.y),
+        ]
+        
+        let path = CGMutablePath()
+        path.addLines(between: points)
         path.closeSubpath()
         
         return NSBezierPath(path: path)

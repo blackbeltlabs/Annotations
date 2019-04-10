@@ -14,16 +14,22 @@ public enum RectPoint: CaseIterable {
     case toX
 }
 
+let widthDot: Double = 2.5
+
 public struct RectModel: Model {
     let origin: PointModel
     let to: PointModel
     
-    func valueFor(rectPoint: RectPoint) -> PointModel {
+    mutating func valueFor(rectPoint: RectPoint) -> PointModel {
         switch rectPoint {
-        case .origin: return origin
-        case .to: return to
-        case .originY: return origin.returnPointModel(dx:origin.x, dy:to.y)
-        case .toX: return to.returnPointModel(dx:to.x, dy:origin.y)
+        case .origin:
+            return origin.returnPointModel(dx:origin.x + (origin.x < to.x ? widthDot : (-widthDot)), dy:origin.y + (origin.y > to.y ? widthDot : (-widthDot)))
+        case .to:
+            return to.returnPointModel(dx:to.x + (origin.x > to.x ? widthDot : (-widthDot)), dy:to.y + (origin.y > to.y ? widthDot : (-widthDot)))
+        case .originY:
+            return origin.returnPointModel(dx:origin.x + (origin.x < to.x ? widthDot : (-widthDot)), dy:to.y + (origin.y > to.y ? widthDot : (-widthDot)))
+        case .toX:
+            return to.returnPointModel(dx:to.x + (origin.x > to.x ? widthDot : (-widthDot)), dy:origin.y + (origin.y > to.y ? widthDot : (-widthDot)))
         }
     }
     
@@ -34,9 +40,9 @@ public struct RectModel: Model {
         case .to:
             return RectModel(origin: origin, to: to.copyMoving(delta: delta))
         case .originY:
-            return RectModel(origin: origin.returnPointModel(dx:origin.x, dy:to.y).copyMoving(delta: delta), to: to.returnPointModel(dx:to.x, dy:origin.y))
+            return RectModel(origin: origin.returnPointModel(dx:origin.x + delta.x, dy:origin.y), to: to.returnPointModel(dx:to.x, dy:to.y + delta.y))
         case .toX:
-            return RectModel(origin: origin.returnPointModel(dx:origin.x, dy:to.y), to: to.returnPointModel(dx:to.x, dy:origin.y).copyMoving(delta: delta))
+            return RectModel(origin: origin.returnPointModel(dx:origin.x, dy:origin.y + delta.y), to: to.returnPointModel(dx:to.x + delta.x, dy:to.y))
         }
     }
     
