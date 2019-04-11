@@ -85,3 +85,23 @@ class KnobViewClass: KnobView {
     render(state: state)
   }
 }
+
+class KnobView1Class: KnobView {
+    var state: KnobViewState {
+        didSet {
+            render(state: state, oldState: oldValue)
+        }
+    }
+    
+    static let width: CGFloat = 0
+    static let color: NSColor = .gray
+    
+    var layer: CAShapeLayer
+    
+    init(model: PointModel) {
+        state = KnobViewState(model: model)
+        layer = CAShapeLayer()
+        layer.fillColor = KnobView1Class.color.cgColor
+        render(state: state)
+    }
+}

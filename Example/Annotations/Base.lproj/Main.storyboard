@@ -711,15 +711,19 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JrP-53-D0T">
-                                <rect key="frame" x="272" y="8" width="200" height="24"/>
+                                <rect key="frame" x="221" y="8" width="251" height="24"/>
                                 <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="Y11-io-MbH">
                                     <font key="font" metaFont="system"/>
                                     <segments>
-                                        <segment label="Arrow" selected="YES"/>
-                                        <segment label="Rectangle" tag="1"/>
+                                        <segment label="Text" selected="YES"/>
+                                        <segment label="Arrow" tag="1"/>
+                                        <segment label="Rectangle"/>
                                         <segment label="Pen"/>
                                     </segments>
                                 </segmentedCell>
+                                <connections>
+                                    <action selector="chooseDrawAction:" target="XfG-lQ-9wD" id="RfO-Y6-6Kn"/>
+                                </connections>
                             </segmentedControl>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="V4e-VP-LAe">
                                 <rect key="frame" x="426" y="246" width="22" height="19"/>
@@ -727,6 +731,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="cellTitle"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="undo:" target="XfG-lQ-9wD" id="PT9-CQ-0qb"/>
+                                </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Gha-MZ-5cr">
                                 <rect key="frame" x="448" y="246" width="22" height="19"/>
@@ -734,6 +741,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="cellTitle"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="redo:" target="XfG-lQ-9wD" id="5wO-DS-wT6"/>
+                                </connections>
                             </button>
                         </subviews>
                         <constraints>

@@ -1,199 +1,154 @@
 //
 //  TextView.swift
-//  Zappy Arrow Annotation
+//  Annotations
 //
-//  Created by Mirko on 1/7/19.
-//  Copyright © 2019 Blackbelt Labs. All rights reserved.
+//  Created by vuong dao on 4/9/19.
 //
 
 import Cocoa
 
 protocol TextViewDelegate {
-  func textView(_ textView: TextView, didUpdate model: TextModel, atIndex index: Int)
-  func textView(_ textView: TextView, didEndEditing model: TextModel)
+    func textView(_ textView: TextView, didUpdate model: TextModel, atIndex index: Int)
 }
 
 struct TextViewState {
-  var model: TextModel
-  var isSelected: Bool
+    var model: TextModel
+    var isSelected: Bool
 }
 
-protocol TextView: CanvasDrawable, MultilineTextViewDelegate {
-  var state: TextViewState { get set }
-  var delegate: TextViewDelegate? { get set }
-  var textView: MultilineTextView { get }
+protocol TextView: CanvasDrawable {
+    var delegate: TextViewDelegate? { get set }
+    var state: TextViewState { get set }
+    var modelIndex: Int { get set }
+    var layer: CAShapeLayer { get }
+    var knobDict: [TextPoint: KnobView] { get }
 }
 
 extension TextView {
-  
-  func render(state: TextViewState, oldState: TextViewState? = nil) {
-    textView.string = state.model.text
+    var model: TextModel { return state.model }
     
-    if state.model.origin != oldState?.model.origin {
-      
+    var knobs: [KnobView] {
+        return TextPoint.allCases.map { knobAt(textPoint: $0) }
     }
     
-    if state.isSelected != oldState?.isSelected {
-      if state.isSelected {
+    var path: CGPath {
+        get {
+            return layer.path!
+        }
+        set {
+            layer.path = newValue
+            layer.bounds = newValue.boundingBox
+            layer.frame = layer.bounds
+        }
+    }
+    
+    var isSelected: Bool {
+        get { return state.isSelected }
+        set { state.isSelected = newValue }
+    }
+    
+    static func createPath(model: TextModel) -> CGPath {
+        let length = model.origin
+        let text = NSBezierPath.text(
+            from: CGPoint(x: model.origin.x, y: model.origin.y),
+            tailWidth: 5,
+            headWidth: 15,
+            headLength: 20
+        )
         
-      } else {
-        let _ = textView.resignFirstResponder()
-      }
+        return text.cgPath
     }
-  }
-  
-  func multilineTextViewDidStartEditing(_ sender: MultilineTextView) {
     
-  }
-  
-  func multilineTextViewSelected(_ sender: MultilineTextView) {
+    static func createLayer() -> CAShapeLayer {
+        let layer = CAShapeLayer()
+        layer.fillColor = NSColor.red.cgColor
+        layer.strokeColor = NSColor.red.cgColor
+        layer.lineWidth = 0
+        
+        return layer
+    }
     
-  }
-  
-  func multilineTextViewDidChange(_ sender: MultilineTextView) {
-    state.model.text = sender.string
-    delegate?.textView(self, didUpdate: state.model, atIndex: modelIndex)
-  }
-  
-  func multilineTextViewDidEndEditing(_ sender: MultilineTextView) {
-    delegate?.textView(self, didEndEditing: state.model)
-  }
+    func knobAt(point: PointModel) -> KnobView? {
+        return knobs.first(where: { (knob) -> Bool in
+            return knob.contains(point: point)
+        })
+    }
+    
+    func knobAt(textPoint: TextPoint) -> KnobView {
+        return knobDict[textPoint]!
+    }
+    
+    func contains(point: PointModel) -> Bool {
+        return layer.path!.contains(point.cgPoint)
+    }
+    
+    func addTo(canvas: CanvasView) {
+        canvas.canvasLayer.addSublayer(layer)
+    }
+    
+    func removeFrom(canvas: CanvasView) {
+        layer.removeFromSuperlayer()
+        knobs.forEach { $0.removeFrom(canvas: canvas) }
+    }
+    
+    func dragged(from: PointModel, to: PointModel) {
+        let delta = from.deltaTo(to)
+        state.model = model.copyMoving(delta: delta)
+    }
+    
+    func draggedKnob(_ knob: KnobView, from: PointModel, to: PointModel) {
+        let textPoint = (TextPoint.allCases.first { (textPoint) -> Bool in
+            return knobDict[textPoint]! === knob
+        })!
+        let delta = from.deltaTo(to)
+        state.model = model.copyMoving(textPoint: textPoint, delta: delta)
+    }
+    
+    func render(state: TextViewState, oldState: TextViewState? = nil) {
+        if state.model != oldState?.model {
+            layer.shapePath = TextViewClass.createPath(model: state.model)
+            
+            for textPoint in TextPoint.allCases {
+                knobAt(textPoint: textPoint).state.model = state.model.valueFor(textPoint: textPoint)
+            }
+            
+            delegate?.textView(self, didUpdate: model, atIndex: modelIndex)
+        }
+        
+        if state.isSelected != oldState?.isSelected {
+            if state.isSelected {
+                knobs.forEach { (knob) in
+                    layer.addSublayer(knob.layer)
+                }
+            } else {
+                knobs.forEach { (knob) in
+                    knob.layer.removeFromSuperlayer()
+                }
+            }
+        }
+    }
 }
 
 class TextViewClass: TextView {
-  var delegate: TextViewDelegate?
-  
-  var state: TextViewState {
-    didSet {
-      render(state: state, oldState: oldValue)
+    var state: TextViewState {
+        didSet {
+            render(state: state, oldState: oldValue)
+        }
     }
-  }
-  
-  var textView: MultilineTextView
-  
-  var modelIndex: Int
-  
-  var isSelected: Bool {
-    get { return state.isSelected }
-    set { state.isSelected = isSelected }
-  }
-  
-  init(state: TextViewState, modelIndex: Int) {
-    self.state = state
-    self.modelIndex = modelIndex
     
-    textView = MultilineTextView()
-    textView.multilineTextViewDelegate = self
+    var delegate: TextViewDelegate?
     
-    render(state: state)
-  }
-  
-  func addTo(canvas: CanvasView) {
-    let view = canvas.view
-    let origin = state.model.origin
+    var layer: CAShapeLayer
+    var modelIndex: Int
     
-    view.addConstrained(subviews: textView)
-    textView.xConstraint = textView.centerX.snap(anchor: view.left, offset: CGFloat(origin.x))
-    textView.yConstraint = textView.centerY.snap(anchor: view.bottom, offset: CGFloat(-origin.y))
-    textView.left.snapGreater(anchor: view.left)
-    textView.right.snapLess(anchor: view.right)
-  }
-  
-  func removeFrom(canvas: CanvasView) {
-    textView.removeFromSuperview()
-  }
-  
-  func contains(point: PointModel) -> Bool {
-    return textView.frame.contains(point.cgPoint)
-  }
-  
-  func knobAt(point: PointModel) -> KnobView? {
-    return nil
-  }
-  
-  func draggedKnob(_ knob: KnobView, from: PointModel, to: PointModel) {
+    lazy var knobDict: [TextPoint: KnobView] = [
+        .origin: KnobView1Class(model: model.origin)
+    ]
     
-  }
-  
-  func dragged(from: PointModel, to: PointModel) {
-    
-  }
-}
-
-protocol MultilineTextViewDelegate {
-  func multilineTextViewDidStartEditing(_ sender: MultilineTextView)
-  func multilineTextViewDidChange(_ sender: MultilineTextView)
-  func multilineTextViewDidEndEditing(_ sender: MultilineTextView)
-  func multilineTextViewSelected(_ sender: MultilineTextView)
-}
-
-class MultilineTextView: NSTextView {
-  var multilineTextViewDelegate: MultilineTextViewDelegate?
-  
-  var xConstraint: NSLayoutConstraint?
-  var yConstraint: NSLayoutConstraint?
-  
-  override init(frame frameRect: NSRect) {
-    super.init(frame: frameRect)
-    
-    alignment = .center
-    delegate = self
-    drawsBackground = false
-    textColor = NSColor.red
-    font = NSFont.boldSystemFont(ofSize: 30)
-    textContainer?.widthTracksTextView = true
-    wantsLayer = true
-    
-    let knob = KnobViewClass(model: PointModel(x: 0, y: 0))
-    layer?.masksToBounds = false
-    layer?.addSublayer(knob.layer)
-  }
-  
-  override init(frame frameRect: NSRect, textContainer container: NSTextContainer?) {
-    super.init(frame: frameRect, textContainer: container)
-  }
-  
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  
-  override var intrinsicContentSize: NSSize {
-    let maxWidthRight = superview!.frame.width - frame.minX - 10
-    let maxWidthLeft = frame.minX * 2
-    let maxWidth = min(maxWidthRight, maxWidthLeft)
-    let maxSize = CGSize(width: maxWidth, height: 0)
-    let measuredString = string == "" ? " " : string
-    var size = measuredString.sizeWithFont(font!, maxSize: maxSize)
-    size.width = size.width + 10
-    
-    return size
-  }
-  
-  override func mouseDown(with event: NSEvent) {
-    multilineTextViewDelegate?.multilineTextViewSelected(self)
-    
-    super.mouseDown(with: event)
-  }
-  
-  override func becomeFirstResponder() -> Bool {
-    multilineTextViewDelegate?.multilineTextViewDidStartEditing(self)
-    
-    return true
-  }
-  
-  override func resignFirstResponder() -> Bool {
-    
-    return super.resignFirstResponder()
-  }
-}
-
-extension MultilineTextView: NSTextViewDelegate {
-  func textDidEndEditing(_ notification: Notification) {
-    multilineTextViewDelegate?.multilineTextViewDidEndEditing(self)
-  }
-  
-  func textDidChange(_ notification: Notification) {
-    multilineTextViewDelegate?.multilineTextViewDidChange(self)
-    invalidateIntrinsicContentSize()
-  }
+    init(state: TextViewState, modelIndex: Int) {
+        self.state = state
+        self.modelIndex = modelIndex
+        layer = TextViewClass.createLayer()
+        render(state: state)
+    }
 }

@@ -1,14 +1,34 @@
 //
 //  TextModel.swift
-//  Zappy Arrow Annotation
+//  Annotations
 //
-//  Created by Mirko on 1/7/19.
-//  Copyright © 2019 Blackbelt Labs. All rights reserved.
+//  Created by Vuong Dao on 4/8/19.
 //
-
 import Foundation
 
+public enum TextPoint: CaseIterable {
+    case origin
+}
+
 public struct TextModel: Model {
-  var text: String
-  var origin: PointModel
+    let origin: PointModel
+    
+    func valueFor(textPoint: TextPoint) -> PointModel {
+        switch textPoint {
+        case .origin: return origin
+        }
+    }
+    
+    func copyMoving(textPoint: TextPoint, delta: PointModel) -> TextModel {
+        switch textPoint {
+        case .origin:
+            return TextModel(origin: origin)
+        }
+    }
+    
+    func copyMoving(delta: PointModel) -> TextModel {
+        return TextModel(
+            origin: origin
+        )
+    }
 }

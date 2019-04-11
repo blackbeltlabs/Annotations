@@ -1,16 +1,26 @@
 PODS:
   - Annotations (0.1.0)
+  - TextAnnotation (0.1.0)
 
 DEPENDENCIES:
   - Annotations (from `../`)
+  - TextAnnotation (from `https://github.com/blackbeltlabs/TextAnnotation.git`)
 
 EXTERNAL SOURCES:
   Annotations:
     :path: "../"
+  TextAnnotation:
+    :git: https://github.com/blackbeltlabs/TextAnnotation.git
+
+CHECKOUT OPTIONS:
+  TextAnnotation:
+    :commit: 763367c42b048f8e04e1e0622d6d5fcd84eae840
+    :git: https://github.com/blackbeltlabs/TextAnnotation.git
 
 SPEC CHECKSUMS:
   Annotations: a0fb76c4624202dae7418ec52621c5f0217d8b06
+  TextAnnotation: 850e496f5166f966cd54bf8f48e5d92702895339
 
-PODFILE CHECKSUM: 1e62a676030c4b447d3c867bfb90d876f476e35a
+PODFILE CHECKSUM: ca7c11ec9c1302f55db8f47f0389ea4adc5c5860
 
 COCOAPODS: 1.6.1
