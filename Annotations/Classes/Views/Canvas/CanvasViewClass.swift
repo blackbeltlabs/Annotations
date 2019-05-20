@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import TextAnnotation
 
 public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas {
   public var delegate: CanvasViewDelegate?
@@ -30,6 +31,11 @@ public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanva
   public var lastDraggedPoint: PointModel?
   
   public var view: NSView { return self }
+  
+  // TextAnnotation support
+  public var textAnnotations: [TextAnnotation] = []
+  public var selectedTextAnnotation: TextAnnotation?
+  public var lastMouseLocation: NSPoint?
   
   override init(frame frameRect: NSRect) {
     super.init(frame: frameRect)
@@ -62,6 +68,10 @@ public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanva
   override public func mouseDown(with event: NSEvent) {
     let location = eventLocation(event)
     mouseDown(location.pointModel)
+    
+    if createMode == .text {
+      addTextAnnotation(text: "", location: location)
+    }
   }
   
   override public func mouseDragged(with event: NSEvent) {
@@ -99,7 +109,9 @@ extension CanvasViewClass {
   
   public func createItem(dragFrom: PointModel, to: PointModel) -> (CanvasDrawable?, KnobView?) {
     switch createMode {
-    case .text: return createTextView(origin: dragFrom, to: to)
+    case .text:
+      createTextView(origin: dragFrom, to: to)
+      return (nil, nil)
     case .arrow: return createArrowView(origin: dragFrom, to: to)
     case .rect: return createRectView(origin: dragFrom, to: to)
     case .pen: return createPenView(origin: dragFrom, to: to)

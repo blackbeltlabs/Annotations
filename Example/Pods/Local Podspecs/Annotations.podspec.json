@@ -19,5 +19,10 @@
     "osx": "10.13"
   },
   "swift_version": "4.2",
+  "dependencies": {
+    "TextAnnotation": [
+      "0.1.0"
+    ]
+  },
   "source_files": "Annotations/Classes/**/*"
 }

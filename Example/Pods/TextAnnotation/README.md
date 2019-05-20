@@ -30,7 +30,7 @@ pod 'TextAnnotation'
 
 ## Usage
 
-Text annotation support can be added by adopting the `TextAnnotationsController` protocol on a `NSViewController` instance.
+Text annotation support can be added by adopting the `TextAnnotationCanvas` protocol.
 The protocol adds default handling of click and drag events but needs to be notified by those.
 The `TextAnnotationDelegate` protocol can be used to handle editing and move operations.
 Newly created `TextAnnotation` instances get by default the controller assigned as delegate.
@@ -38,25 +38,20 @@ Newly created `TextAnnotation` instances get by default the controller assigned 
 ### Example
 
 ```swift
-class ViewController: NSViewController, TextAnnotationsController {
+class ViewController: NSViewController, TextAnnotationCanvas {
   override func viewDidLoad() {
     super.viewDidLoad()
     
     // Programmatically creating a text annotation
     let location = CGPoint(x: 100, y: 150)
     
-    // Method supplied by TextAnnotationsController protocol implementation
+    // Method supplied by the TextAnnotationCanvas protocol extension
     addTextAnnotation(text: "Some text", location: location)
   }
   
   override func mouseDown(with event: NSEvent) {
-    // TextAnnotationsController needs to handle mouse down events
-    textAnnotationsMouseDown(event: event)
-  }
-  
-  override func mouseDragged(with event: NSEvent) {
-    // TextAnnotationsController needs to handle drag events
-    textAnnotationsMouseDragged(event: event)
+    // TextAnnotationCanvas needs to handle mouse down events
+    let didHandle = textAnnotationCanvasMouseDown(event: event)
   }
 }
 
@@ -79,16 +74,19 @@ extension ViewController: TextAnnotationDelegate {
 public protocol TextAnnotation {
   var text: String { get set }
   var frame: CGRect { get set }
+  var isSelected: Bool { get set }
+  var isEditing: Bool { get set }
 }
 ```
 
-### TextAnnotationsController
+### TextAnnotationCanvas
 
 ```swift
-public protocol TextAnnotationsController {
+public protocol TextAnnotationCanvas {
+  var view: NSView { get }
+  
   func addTextAnnotation(_ textAnnotation: TextAnnotation)
-  func textAnnotationsMouseDown(event: NSEvent)
-  func textAnnotationsMouseDragged(event: NSEvent)
+  func textAnnotationCanvasMouseDown(event: NSEvent)
 }
 ```
 
@@ -96,8 +94,8 @@ public protocol TextAnnotationsController {
 
 ```swift
 public protocol TextAnnotationDelegate {
-  func textAnnotationDidEdit(textAnnotation: TextAnnotation)
-  func textAnnotationDidMove(textAnnotation: TextAnnotation)
+  func textAnnotationDidEdit(_ textAnnotation: TextAnnotation)
+  func textAnnotationDidMove(_ textAnnotation: TextAnnotation)
 }
 ```
 

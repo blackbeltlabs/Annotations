@@ -19,5 +19,6 @@
     "osx": "10.13"
   },
   "swift_version": "4.2",
-  "source_files": "TextAnnotation/Classes/**/*"
+  "source_files": "TextAnnotation/Classes/**/*",
+  "resources": "TextAnnotation/Assets/**/*"
 }
