@@ -23,12 +23,8 @@ extension TextAnnotationCanvas {
     
     self.selectedTextAnnotation = selectedTextAnnotation
   }
-  
-  public func addTextAnnotation(_ textAnnotation: TextAnnotation) {
     
-  }
-    
-  public func addTextAnnotation(text: String, location: CGPoint) {
+  public func addTextAnnotation(text: String, location: CGPoint) -> TextAnnotation {
     let annotation = TextContainerView(frame: NSRect(origin: location, size: CGSize.zero))
     annotation.text = text
     annotation.activateResponder = self
@@ -39,6 +35,8 @@ extension TextAnnotationCanvas {
     set(selectedTextAnnotation: annotation)
     
     annotation.state = .editing
+    
+    return annotation
   }
   
   public func textAnnotationCanvasMouseDown(event: NSEvent) {
@@ -56,6 +54,7 @@ extension TextAnnotationCanvas {
     
     if annotationToActivate == nil {
       set(selectedTextAnnotation: nil)
+      addTextAnnotation(text: "", location: screenPoint)
     }
   }
 }

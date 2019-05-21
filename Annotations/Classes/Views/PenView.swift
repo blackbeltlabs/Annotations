@@ -39,7 +39,7 @@ extension PenView {
   static func createLayer() -> CAShapeLayer {
     let layer = CAShapeLayer()
     layer.fillColor = NSColor.clear.cgColor
-    layer.strokeColor = NSColor.red.cgColor
+    layer.strokeColor = NSColor.zappy.cgColor
     layer.lineWidth = 5
     
     return layer

@@ -65,8 +65,8 @@ extension RectView {
     
     static func createLayer() -> CAShapeLayer {
         let layer = CAShapeLayer()
-        layer.fillColor = NSColor.red.cgColor
-        layer.strokeColor = NSColor.red.cgColor
+        layer.fillColor = NSColor.zappy.cgColor
+        layer.strokeColor = NSColor.zappy.cgColor
         layer.lineWidth = 0
         
         return layer

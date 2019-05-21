@@ -16,7 +16,7 @@ TODO: Add long description of the pod here.
   s.osx.deployment_target = "10.13"
   s.swift_version = "4.2"
   
-  s.dependency 'TextAnnotation', '0.1.0'
+  s.dependency 'TextAnnotation', '0.1.1'
 
   s.source_files = 'Annotations/Classes/**/*'
 end

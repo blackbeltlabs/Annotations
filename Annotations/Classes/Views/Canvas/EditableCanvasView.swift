@@ -41,21 +41,23 @@ extension EditableCanvasView {
     })
   }
   
-  func mouseDown(_ location: PointModel) {
+  func mouseDown(_ location: PointModel) -> Bool {
     lastDraggedPoint = location
     
     if let knob = selectedItem?.knobAt(point: location) {
       selectedKnob = knob
-      return
+      return true
     }
     
     guard let item = itemAt(point: location) else {
       selectedItem = nil
-      return
+      return false
     }
     
     selectedItem = item
     item.isSelected = true
+    
+    return true
   }
   
   func mouseDragged(_ location: PointModel) {
