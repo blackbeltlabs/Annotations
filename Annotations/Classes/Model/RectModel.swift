@@ -17,8 +17,8 @@ public enum RectPoint: CaseIterable {
 let widthDot: Double = 2.5
 
 public struct RectModel: Model {
-    let origin: PointModel
-    let to: PointModel
+    public let origin: PointModel
+    public let to: PointModel
     
     mutating func valueFor(rectPoint: RectPoint) -> PointModel {
         switch rectPoint {

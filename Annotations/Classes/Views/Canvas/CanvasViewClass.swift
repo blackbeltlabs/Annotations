@@ -12,7 +12,7 @@ import TextAnnotation
 public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas {
   public var delegate: CanvasViewDelegate?
   
-  public var model: CanvasModel = .empty
+  public var model = CanvasModel()
   public var isChanged: Bool = false
   
   public var createMode: CanvasItemType = .arrow

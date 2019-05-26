@@ -9,10 +9,10 @@
 import Foundation
 
 public enum CanvasItemType {
-    case text
-    case arrow
-    case pen
-    case rect
+  case text
+  case arrow
+  case pen
+  case rect
 }
 
 public protocol Model: Decodable, Encodable, CustomStringConvertible, Equatable {}
@@ -30,34 +30,33 @@ extension Model {
 }
 
 public struct CanvasModel: Model {
-  var texts: [TextModel] = []
-  var arrows: [ArrowModel]
-  var pens: [PenModel]
-  var rects: [RectModel] = []
+  public var texts: [TextModel] = []
+  public var arrows: [ArrowModel] = []
+  public var pens: [PenModel] = []
+  public var rects: [RectModel] = []
   
-  static var empty: CanvasModel {
-    return CanvasModel(texts: [], arrows: [], pens: [], rects: [])
-  }
+  init() {}
   
-    func copy(texts: [TextModel]? = nil,arrows: [ArrowModel]? = nil, pens: [PenModel]? = nil, rects: [RectModel]? = nil) -> CanvasModel {
-    return CanvasModel(
-      texts: texts ?? self.texts,
-      arrows: arrows ?? self.arrows,
-      pens: pens ?? self.pens,
-      rects: rects ?? self.rects
-    )
+  func copy(texts: [TextModel]? = nil,arrows: [ArrowModel]? = nil, pens: [PenModel]? = nil, rects: [RectModel]? = nil) -> CanvasModel {
+    var newModel = CanvasModel()
+    newModel.texts = texts ?? self.texts
+    newModel.arrows = arrows ?? self.arrows
+    newModel.pens = pens ?? self.pens
+    newModel.rects = rects ?? self.rects
+    return newModel
   }
   
   func copyWithout(type: CanvasItemType, index: Int) -> CanvasModel {
     switch type {
     case .text:
-        return copy(texts: texts.copyWithout(index: index))
+      return copy(texts: texts.copyWithout(index: index))
     case .arrow:
       return copy(arrows: arrows.copyWithout(index: index))
     case .pen:
-        return copy(pens: pens.copyWithout(index: index))
+      return copy(pens: pens.copyWithout(index: index))
     case .rect:
       return copy(rects: rects.copyWithout(index: index))
     }
   }
 }
+

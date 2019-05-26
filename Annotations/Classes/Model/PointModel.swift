@@ -9,8 +9,8 @@
 import Foundation
 
 public struct PointModel: Model {
-    let x: Double
-    let y: Double
+    public let x: Double
+    public let y: Double
     
     
     var cgPoint: CGPoint {

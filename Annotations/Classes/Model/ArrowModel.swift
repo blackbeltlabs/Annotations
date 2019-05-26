@@ -14,8 +14,8 @@ public enum ArrowPoint: CaseIterable {
 }
 
 public struct ArrowModel: Model {
-  let origin: PointModel
-  let to: PointModel
+  public let origin: PointModel
+  public let to: PointModel
   
   func valueFor(arrowPoint: ArrowPoint) -> PointModel {
     switch arrowPoint {

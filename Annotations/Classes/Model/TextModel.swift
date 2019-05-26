@@ -8,6 +8,6 @@
 import Foundation
 
 public struct TextModel: Model {
-  var origin: PointModel
-  var text: String
+  public var origin: PointModel
+  public var text: String
 }

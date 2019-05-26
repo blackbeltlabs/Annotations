@@ -9,5 +9,5 @@
 import Foundation
 
 public struct PenModel: Model {
-  var points: [PointModel]
+  public var points: [PointModel]
 }
