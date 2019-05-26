@@ -18,11 +18,12 @@
   "platforms": {
     "osx": "10.13"
   },
-  "swift_version": "4.2",
+  "swift_versions": "4.2",
   "dependencies": {
     "TextAnnotation": [
-      "0.1.1"
+      "0.3.2"
     ]
   },
-  "source_files": "Annotations/Classes/**/*"
+  "source_files": "Annotations/Classes/**/*",
+  "swift_version": "4.2"
 }

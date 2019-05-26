@@ -78,8 +78,9 @@ public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanva
     }
     
     if selectedTextAnnotation == nil && createMode == .text {
-      let textAnnotation = addTextAnnotation(text: "", location: location)
-      textAnnotation.delegate = self
+//      let textAnnotation = addTextAnnotation(text: "", location: location)
+//      textAnnotation.delegate = self  
+//      textAnnotation.startEditing()
     } else {
       selectedTextAnnotation?.deselect()
       selectedTextAnnotation = nil
@@ -115,8 +116,13 @@ extension CanvasViewClass {
     delegate?.canvasView(self, didUpdateModel: model)
   }
   
-  public func createItem(mouseDown: PointModel) -> (CanvasDrawable?, KnobView?) {
-    return (nil, nil)
+  public func createItem(mouseDown: PointModel) -> CanvasDrawable? {
+    switch createMode {
+    case .text:
+      return createTextView(origin: mouseDown)
+    default:
+      return nil
+    }
   }
   
   public func createItem(dragFrom: PointModel, to: PointModel) -> (CanvasDrawable?, KnobView?) {
@@ -135,19 +141,5 @@ extension CanvasViewClass {
     case let pen as PenView: return delete(pen: pen)
     default: return model
     }
-  }
-}
-
-extension CanvasViewClass: TextAnnotationDelegate {
-  public func textAnnotationDidSelect(textAnnotation: TextAnnotation) {
-    selectedItem = nil
-  }
-  
-  public func textAnnotationDidEdit(textAnnotation: TextAnnotation) {
-    
-  }
-  
-  public func textAnnotationDidMove(textAnnotation: TextAnnotation) {
-    
   }
 }

@@ -1,7 +1,7 @@
 PODS:
   - Annotations (0.1.0):
-    - TextAnnotation (= 0.1.1)
-  - TextAnnotation (0.1.1)
+    - TextAnnotation (= 0.3.2)
+  - TextAnnotation (0.3.2)
 
 DEPENDENCIES:
   - Annotations (from `../`)
@@ -15,13 +15,13 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   TextAnnotation:
-    :commit: b278c6ccd9f383ff01d40d563aab0ac46f6a78c1
+    :commit: a3d87f93b8a2cf86227c56a83d3fbd885fd1c679
     :git: https://github.com/blackbeltlabs/TextAnnotation.git
 
 SPEC CHECKSUMS:
-  Annotations: cf2b8c3380bbd2e81398d715a354da1b492509d4
-  TextAnnotation: 2798fc8be0cec79591db64bd2816eaff572ea20e
+  Annotations: e38760ca89478d38dc86cfcc0a1ba7af4f18f7f2
+  TextAnnotation: 7a79775c1037a671317480f8efcd88ee0739d6d5
 
 PODFILE CHECKSUM: ca7c11ec9c1302f55db8f47f0389ea4adc5c5860
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.7.0

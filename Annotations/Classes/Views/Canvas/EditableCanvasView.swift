@@ -16,7 +16,7 @@ public protocol EditableCanvasView: CanvasView {
   var selectedItem: CanvasDrawable? { get set }
   
   func delete(item: CanvasDrawable) -> CanvasModel
-  func createItem(mouseDown: PointModel) -> (CanvasDrawable?, KnobView?)
+  func createItem(mouseDown: PointModel) -> CanvasDrawable?
   func createItem(dragFrom: PointModel, to: PointModel) -> (CanvasDrawable?, KnobView?)
 }
 
@@ -49,15 +49,21 @@ extension EditableCanvasView {
       return true
     }
     
-    guard let item = itemAt(point: location) else {
-      selectedItem = nil
-      return false
+    if let item = itemAt(point: location) {
+      selectedItem = item
+      item.isSelected = true
+      
+      return true
     }
     
-    selectedItem = item
-    item.isSelected = true
+    selectedItem = nil
     
-    return true
+    if let newItem = createItem(mouseDown: location) {
+      add(newItem)
+      return true
+    }
+
+    return false
   }
   
   func mouseDragged(_ location: PointModel) {

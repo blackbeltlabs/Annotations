@@ -1,10 +1,3 @@
-//
-//  Cursor.swift
-//  TextAnnotation
-//
-//  Created by Mirko on 5/19/19.
-//
-
 import Foundation
 
 class CursorSet {
@@ -22,3 +15,4 @@ class CursorSet {
     return NSCursor(image: image, hotSpot: NSPoint(x: 9, y: 9))
   }()
 }
+
