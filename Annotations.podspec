@@ -2,9 +2,10 @@
 Pod::Spec.new do |s|
   s.name             = 'Annotations'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of Annotations.'
+  s.summary          = 'Swift shape and text annotation component for macOS.'
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+A component that can be used for apps providing visual annotation support of screenshots or other images.
+The component supports free-hand drawing, text boxes as well as shape annotations via arrows or rectangles.
                        DESC
 
   s.homepage         = 'https://github.com/blackbeltlabs/Annotations'
