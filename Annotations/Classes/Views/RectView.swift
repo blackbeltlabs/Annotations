@@ -27,7 +27,8 @@ protocol RectView: CanvasDrawable {
 }
 
 extension RectView {
-    
+    static var modelType: CanvasItemType { return .rect }
+
     var model: RectModel { return state.model }
     
     var knobs: [KnobView] {

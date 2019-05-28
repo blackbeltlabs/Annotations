@@ -24,6 +24,8 @@ protocol PenView: CanvasDrawable {
 }
 
 extension PenView {
+  static var modelType: CanvasItemType { return .pen }
+
   var isSelected: Bool {
     get { return state.isSelected }
     set { state.isSelected = newValue }

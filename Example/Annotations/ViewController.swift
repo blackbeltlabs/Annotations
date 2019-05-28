@@ -84,7 +84,7 @@ class ViewController: NSViewController {
 
 extension ViewController: CanvasViewDelegate {
   func canvasView(_ canvasView: CanvasView, didCreateAnnotation annotation: CanvasDrawable) {
-    print("did create annotation")
+    print("did create annotation \(annotation.modelType)")
   }
   
   func canvasView(_ canvasView: CanvasView, didStartEditing annotation: TextAnnotation) {

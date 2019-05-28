@@ -17,6 +17,8 @@ protocol TextView: CanvasDrawable {
 }
 
 extension TextView {
+  static var modelType: CanvasItemType { return .text }
+
   var model: TextModel { return state.model }
   
   var isSelected: Bool {

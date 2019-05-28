@@ -9,6 +9,8 @@
 import Foundation
 
 public protocol CanvasDrawable: class {
+  static var modelType: CanvasItemType { get }
+
   var modelIndex: Int { get set }
   var isSelected: Bool { get set }
   func addTo(canvas: CanvasView)
@@ -17,4 +19,10 @@ public protocol CanvasDrawable: class {
   func knobAt(point: PointModel) -> KnobView?
   func draggedKnob(_ knob: KnobView, from: PointModel, to: PointModel)
   func dragged(from: PointModel, to: PointModel)
+}
+
+extension CanvasDrawable {
+  public var modelType: CanvasItemType {
+    return type(of: self).modelType
+  }
 }

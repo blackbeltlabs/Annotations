@@ -26,6 +26,8 @@ protocol ArrowView: CanvasDrawable {
 }
 
 extension ArrowView {
+  static var modelType: CanvasItemType { return .arrow }
+
   var model: ArrowModel { return state.model }
   
   var knobs: [KnobView] {
