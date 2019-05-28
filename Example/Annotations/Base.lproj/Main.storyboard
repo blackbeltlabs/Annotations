@@ -714,7 +714,7 @@ CA
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JrP-53-D0T">
-                                <rect key="frame" x="221" y="8" width="251" height="24"/>
+                                <rect key="frame" x="133" y="8" width="339" height="24"/>
                                 <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="Y11-io-MbH">
                                     <font key="font" metaFont="system"/>
                                     <segments>
@@ -722,6 +722,7 @@ CA
                                         <segment label="Arrow" tag="1"/>
                                         <segment label="Rectangle"/>
                                         <segment label="Pen"/>
+                                        <segment label="Obfuscate"/>
                                     </segments>
                                 </segmentedCell>
                                 <connections>

@@ -22,40 +22,37 @@ class ViewController: NSViewController {
     return view as! EditableCanvasView
   }
   
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        let url = Bundle.main.url(forResource: "test_drawing", withExtension: "json")!
-        let data = try! Data(contentsOf: url)
-        let decoder = JSONDecoder()
-        let model = try! decoder.decode(CanvasModel.self, from: data)
-        canvasView.createMode = .text
-        history = CanvasHistory(model: model)
-        updateHistoryButtons()
-        canvasView.delegate = self
-        canvasView.update(model: model)
-    }
+  override func viewDidLoad() {
+    super.viewDidLoad()
     
-//MARK: IBAction
-    @IBAction func chooseDrawAction(_ sender: NSSegmentedControl) {
-        switch sender.indexOfSelectedItem {
-        case 0:
-            canvasView.createMode = .text
-            break
-        case 1:
-            canvasView.createMode = .arrow
-            break
-        case 2:
-            canvasView.createMode = .rect
-            break
-        case 3:
-            canvasView.createMode = .pen
-            break
-        default:
-            break
-        }
+    let url = Bundle.main.url(forResource: "test_drawing", withExtension: "json")!
+    let data = try! Data(contentsOf: url)
+    let decoder = JSONDecoder()
+    let model = try! decoder.decode(CanvasModel.self, from: data)
+    canvasView.createMode = .text
+    history = CanvasHistory(model: model)
+    updateHistoryButtons()
+    canvasView.delegate = self
+    canvasView.update(model: model)
+  }
+  
+  //MARK: IBAction
+  @IBAction func chooseDrawAction(_ sender: NSSegmentedControl) {
+    switch sender.indexOfSelectedItem {
+    case 0:
+      canvasView.createMode = .text
+    case 1:
+      canvasView.createMode = .arrow
+    case 2:
+      canvasView.createMode = .rect
+    case 3:
+      canvasView.createMode = .pen
+    case 4:
+      canvasView.createMode = .obfuscate
+    default: return
     }
-    
+  }
+  
   
   @IBAction func deleteShape(_ sender: Any) {
     canvasView.deleteSelectedItem()

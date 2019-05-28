@@ -1,30 +1,30 @@
 import Foundation
 
-protocol RectCanvas: class, RectViewDelegate {
+protocol ObfuscateCanvas: RectCanvas {
   var model: CanvasModel { get set }
   func add(_ item: CanvasDrawable)
 }
 
-extension RectCanvas {
-  func redrawRects(model: CanvasModel) {
-    for (index, model) in model.rects.enumerated() {
+extension ObfuscateCanvas {
+  func redrawObfuscates(model: CanvasModel) {
+    for (index, model) in model.obfuscates.enumerated() {
       let state = RectViewState(model: model, isSelected: false)
-      let view = RectViewClass(state: state, modelIndex: index)
+      let view = ObfuscateViewClass(state: state, modelIndex: index)
       view.delegate = self
       add(view)
     }
   }
   
-  func createRectView(origin: PointModel, to: PointModel) -> (CanvasDrawable?, KnobView?) {
+  func createObfuscateView(origin: PointModel, to: PointModel) -> (CanvasDrawable?, KnobView?) {
     if origin.distanceTo(to) < 5 {
       return (nil, nil)
     }
     
     let newRect = RectModel(origin: origin, to: to)
-    model.rects.append(newRect)
+    model.obfuscates.append(newRect)
     
     let state = RectViewState(model: newRect, isSelected: false)
-    let newView = RectViewClass(state: state, modelIndex: model.rects.count - 1)
+    let newView = ObfuscateViewClass(state: state, modelIndex: model.obfuscates.count - 1)
     newView.delegate = self
     
     let selectedKnob = newView.knobAt(rectPoint: .to)
@@ -32,8 +32,8 @@ extension RectCanvas {
     return (newView, selectedKnob)
   }
   
-  func delete(rect: RectView) -> CanvasModel {
-    return model.copyWithout(type: .rect, index: rect.modelIndex)
+  func delete(obfuscate: RectView) -> CanvasModel {
+    return model.copyWithout(type: .obfuscate, index: obfuscate.modelIndex)
   }
   
   func rectView(_ rectView: RectView, didUpdate model: RectModel, atIndex index: Int) {
@@ -41,6 +41,6 @@ extension RectCanvas {
       return
     }
     
-    self.model.rects[index] = model
+    self.model.obfuscates[index] = model
   }
 }

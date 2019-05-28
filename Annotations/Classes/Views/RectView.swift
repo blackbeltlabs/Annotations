@@ -52,23 +52,14 @@ extension RectView {
     }
     
     static func createPath(model: RectModel) -> CGPath {
-        let length = model.origin.distanceTo(model.to)
-        let rect = NSBezierPath.rect(
-            from: CGPoint(x: model.origin.x, y: model.origin.y),
-            to: model.to.cgPoint,
-            tailWidth: 5,
-            headWidth: 15,
-            headLength: length >= 20 ? 20 : CGFloat(length)
-        )
-        
-        return rect.cgPath
+      return NSBezierPath(rect: NSRect(fromPoint: model.origin.cgPoint, toPoint: model.to.cgPoint)).cgPath
     }
     
     static func createLayer() -> CAShapeLayer {
         let layer = CAShapeLayer()
-        layer.fillColor = NSColor.zappy.cgColor
+        layer.fillColor = NSColor.clear.cgColor
         layer.strokeColor = NSColor.zappy.cgColor
-        layer.lineWidth = 0
+        layer.lineWidth = 5
         
         return layer
     }
@@ -195,11 +186,17 @@ class RectViewClass: RectView {
         .originY: KnobViewClass(model: model.origin.returnPointModel(dx:model.origin.x, dy:model.to.y)),
         .toX: KnobViewClass(model: model.to.returnPointModel(dx:model.to.x, dy:model.origin.y))
     ]
+  
+    convenience init(state: RectViewState, modelIndex: Int) {
+        let layer = type(of: self).createLayer()
     
-    init(state: RectViewState, modelIndex: Int) {
+        self.init(state: state, modelIndex: modelIndex, layer: layer)
+    }
+    
+    init(state: RectViewState, modelIndex: Int, layer: CAShapeLayer) {
         self.state = state
         self.modelIndex = modelIndex
-        layer = RectViewClass.createLayer()
+        self.layer = layer
         self.render(state: state)
     }
 }

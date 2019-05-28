@@ -9,7 +9,7 @@
 import Cocoa
 import TextAnnotation
 
-public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas {
+public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, ObfuscateCanvas {
   public var delegate: CanvasViewDelegate?
   public var textCanvasDelegate: TextAnnotationDelegate?
   
@@ -128,6 +128,7 @@ extension CanvasViewClass {
     redrawArrows(model: model)
     redrawPens(model: model)
     redrawRects(model: model)
+    redrawObfuscates(model: model)
   }
   
   func markState(model: CanvasModel) {
@@ -148,6 +149,7 @@ extension CanvasViewClass {
     case .text: return (nil, nil)
     case .arrow: return createArrowView(origin: dragFrom, to: to)
     case .rect: return createRectView(origin: dragFrom, to: to)
+    case .obfuscate: return createObfuscateView(origin: dragFrom, to: to)
     case .pen: return createPenView(origin: dragFrom, to: to)
     }
   }
@@ -155,6 +157,7 @@ extension CanvasViewClass {
   public func delete(item: CanvasDrawable) -> CanvasModel {
     switch item {
     case let arrow as ArrowView: return delete(arrow: arrow)
+    case let obfuscate as ObfuscateView: return delete(obfuscate: obfuscate)
     case let rect as RectView: return delete(rect: rect)
     case let pen as PenView: return delete(pen: pen)
     default: return model

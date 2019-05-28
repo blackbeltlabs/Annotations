@@ -14,7 +14,7 @@ public enum RectPoint: CaseIterable {
     case toX
 }
 
-let widthDot: Double = 2.5
+let widthDot: Double = 0
 
 public struct RectModel: Model {
     public let origin: PointModel
