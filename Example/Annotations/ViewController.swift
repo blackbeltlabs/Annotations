@@ -71,6 +71,11 @@ class ViewController: NSViewController {
     updateHistoryButtons()
   }
   
+  @IBAction func didToggleCheckbox(_ sender: NSButton) {
+    let isOn = sender.state == .on
+    canvasView.isUserInteractionEnabled = isOn
+  }
+  
   func save(model: CanvasModel) {
     history.save(item: model)
     updateHistoryButtons()

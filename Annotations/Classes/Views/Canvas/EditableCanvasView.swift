@@ -9,6 +9,7 @@
 import Foundation
 
 public protocol EditableCanvasView: CanvasView {
+  var isUserInteractionEnabled: Bool { get set }
   var createMode: CanvasItemType { get set }
   var isChanged: Bool { get set }
   var selectedKnob: KnobView? { get set }
@@ -42,6 +43,10 @@ extension EditableCanvasView {
   }
   
   func mouseDown(_ location: PointModel) -> Bool {
+    guard isUserInteractionEnabled else {
+      return false
+    }
+    
     lastDraggedPoint = location
     
     if let knob = selectedItem?.knobAt(point: location) {
@@ -67,6 +72,10 @@ extension EditableCanvasView {
   }
   
   func mouseDragged(_ location: PointModel) {
+    guard isUserInteractionEnabled else {
+      return
+    }
+    
     let lastDraggedPoint = self.lastDraggedPoint!
     
     // create new item
@@ -99,6 +108,10 @@ extension EditableCanvasView {
   }
   
   func mouseUp(_ location: PointModel) {
+    guard isUserInteractionEnabled else {
+      return
+    }
+    
     selectedKnob = nil
     
     if let selectedItem = selectedItem {
