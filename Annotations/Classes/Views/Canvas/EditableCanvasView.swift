@@ -68,12 +68,12 @@ extension EditableCanvasView {
       return true
     }
     
-    selectedItem = nil
-    
-    if let newItem = createItem(mouseDown: location) {
+    if selectedItem == nil, selectedTextAnnotation == nil, let newItem = createItem(mouseDown: location) {
       add(newItem)
       return true
     }
+    
+    selectedItem = nil
 
     return false
   }
