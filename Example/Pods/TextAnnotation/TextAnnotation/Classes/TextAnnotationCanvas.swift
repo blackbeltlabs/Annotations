@@ -30,7 +30,7 @@ extension TextAnnotationCanvas {
     annotation.activateResponder = self
     annotation.activeAreaResponder = self
     
-    annotation.state = .editing
+    annotation.state = .active
     
     return annotation
   }

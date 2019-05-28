@@ -8,9 +8,13 @@
 
 import Cocoa
 import CoreGraphics
+import TextAnnotation
 
 public protocol CanvasViewDelegate {
   func canvasView(_ canvasView: CanvasView, didUpdateModel model: CanvasModel)
+  func canvasView(_ canvasView: CanvasView, didCreateAnnotation annotation: CanvasDrawable)
+  func canvasView(_ canvasView: CanvasView, didStartEditing annotation: TextAnnotation)
+  func canvasView(_ canvasView: CanvasView, didEndEditing annotation: TextAnnotation)
 }
 
 public protocol CanvasView: class {
@@ -31,6 +35,8 @@ extension CanvasView {
   public func add(_ item: CanvasDrawable) {
     item.addTo(canvas: self)
     items.append(item)
+    
+    delegate?.canvasView(self, didCreateAnnotation: item)
   }
   
   public func update(model: CanvasModel) {

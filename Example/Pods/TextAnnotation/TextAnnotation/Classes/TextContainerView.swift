@@ -22,6 +22,15 @@ open class TextContainerView: NSView {
       guard state != oldValue, let theTextView = textView else { return }
       
       var isActive: Bool = false
+      
+      if state == .editing {
+        delegate?.textAnnotationDidStartEditing(textAnnotation: self)
+      }
+      
+      if oldValue == .editing {
+        delegate?.textAnnotationDidEndEditing(textAnnotation: self)
+      }
+      
       if state == .inactive {
         let selected = theTextView.selectedRange().upperBound
         let range = NSRange(location: selected == 0 ? theTextView.string.count : selected, length: 0)
@@ -350,9 +359,6 @@ open class TextContainerView: NSView {
 }
 
 extension TextContainerView: NSTextViewDelegate {
-  
-  // MARK: - NSTextDelegate
-  
   open func textDidChange(_ notification: Notification) {
     updateFrameWithText(textView.string)
     delegate?.textAnnotationDidEdit(textAnnotation: self)

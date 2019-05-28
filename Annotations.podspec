@@ -17,7 +17,7 @@ The component supports free-hand drawing, text boxes as well as shape annotation
   s.osx.deployment_target = "10.13"
   s.swift_version = "4.2"
   
-  s.dependency 'TextAnnotation', '0.3.2'
+  s.dependency 'TextAnnotation', '0.4.0'
 
   s.source_files = 'Annotations/Classes/**/*'
 end

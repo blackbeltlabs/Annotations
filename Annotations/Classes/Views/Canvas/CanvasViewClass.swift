@@ -11,6 +11,7 @@ import TextAnnotation
 
 public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas {
   public var delegate: CanvasViewDelegate?
+  public var textCanvasDelegate: TextAnnotationDelegate?
   
   public var model = CanvasModel()
   public var isChanged: Bool = false

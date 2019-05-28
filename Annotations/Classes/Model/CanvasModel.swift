@@ -35,7 +35,7 @@ public struct CanvasModel: Model {
   public var pens: [PenModel] = []
   public var rects: [RectModel] = []
   
-  init() {}
+  public init() {}
   
   func copy(texts: [TextModel]? = nil,arrows: [ArrowModel]? = nil, pens: [PenModel]? = nil, rects: [RectModel]? = nil) -> CanvasModel {
     var newModel = CanvasModel()

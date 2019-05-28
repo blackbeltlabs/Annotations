@@ -8,7 +8,7 @@
 import Foundation
 import TextAnnotation
 
-protocol TextCanvas: TextAnnotationCanvas, TextAnnotationDelegate {
+protocol TextCanvas: TextAnnotationCanvas, TextAnnotationDelegate where Self: CanvasView {
   var selectedItem: CanvasDrawable? { get set }
   var model: CanvasModel { get set }
 }
@@ -47,5 +47,13 @@ extension TextCanvas {
   
   public func textAnnotationDidMove(textAnnotation: TextAnnotation) {
     
+  }
+  
+  public func textAnnotationDidStartEditing(textAnnotation: TextAnnotation) {
+    delegate?.canvasView(self, didStartEditing: textAnnotation)
+  }
+  
+  public func textAnnotationDidEndEditing(textAnnotation: TextAnnotation) {
+    delegate?.canvasView(self, didEndEditing: textAnnotation)
   }
 }

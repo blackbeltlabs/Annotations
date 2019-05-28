@@ -8,6 +8,7 @@
 
 import Cocoa
 import Annotations
+import TextAnnotation
 
 typealias CanvasHistory = HistoryClass<CanvasModel>
 
@@ -82,7 +83,20 @@ class ViewController: NSViewController {
 }
 
 extension ViewController: CanvasViewDelegate {
+  func canvasView(_ canvasView: CanvasView, didCreateAnnotation annotation: CanvasDrawable) {
+    print("did create annotation")
+  }
+  
+  func canvasView(_ canvasView: CanvasView, didStartEditing annotation: TextAnnotation) {
+    print("did start editing")
+  }
+  
+  func canvasView(_ canvasView: CanvasView, didEndEditing annotation: TextAnnotation) {
+    print("did end editing")
+  }
+  
   func canvasView(_ canvasView: CanvasView, didUpdateModel model: CanvasModel) {
+    print("did update")
     save(model: model)
   }
 }
