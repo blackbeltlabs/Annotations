@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import TextAnnotation
 
 public protocol EditableCanvasView: CanvasView {
   var isUserInteractionEnabled: Bool { get set }
@@ -15,6 +16,8 @@ public protocol EditableCanvasView: CanvasView {
   var selectedKnob: KnobView? { get set }
   var lastDraggedPoint: PointModel? { get set }
   var selectedItem: CanvasDrawable? { get set }
+  
+  var selectedTextAnnotation: TextAnnotation? { get set }
   
   func delete(item: CanvasDrawable) -> CanvasModel
   func createItem(mouseDown: PointModel) -> CanvasDrawable?
@@ -27,13 +30,17 @@ extension EditableCanvasView {
   }
   
   public func deleteSelectedItem() {
-    guard let selectedItem = selectedItem else {
+    if let selectedItem = selectedItem {
+      let newModel = delete(item: selectedItem)
+      update(model: newModel)
+      delegate?.canvasView(self, didUpdateModel: newModel)
       return
     }
     
-    let newModel = delete(item: selectedItem)
-    update(model: newModel)
-    delegate?.canvasView(self, didUpdateModel: newModel)
+    if let selectedTextAnnotation = selectedTextAnnotation {
+      selectedTextAnnotation.delete()
+      self.selectedTextAnnotation = nil
+    }
   }
   
   func itemAt(point: PointModel) -> CanvasDrawable? {
