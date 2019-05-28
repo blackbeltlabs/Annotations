@@ -80,6 +80,8 @@ public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanva
   }
   
   override public func mouseDown(with event: NSEvent) {
+    super.mouseDown(with: event)
+    
     let location = eventLocation(event)
     
     if mouseDown(location.pointModel) {
@@ -97,11 +99,15 @@ public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanva
   }
   
   override public func mouseDragged(with event: NSEvent) {
+    super.mouseDragged(with: event)
+    
     let location = eventLocation(event)
     mouseDragged(location.pointModel)
   }
   
   override public func mouseUp(with event: NSEvent) {
+    super.mouseUp(with: event)
+    
     let location = eventLocation(event)
     mouseUp(location.pointModel)
   }
