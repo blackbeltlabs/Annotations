@@ -16,8 +16,7 @@ public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanva
   public var isUserInteractionEnabled: Bool = true {
     didSet {
       if !isUserInteractionEnabled {
-        selectedItem = nil
-        selectedTextAnnotation?.deselect()
+        deselectSelectedItem()
       }
     }
   }

@@ -43,6 +43,12 @@ extension EditableCanvasView {
     }
   }
   
+  public func deselectSelectedItem() {
+    selectedItem = nil
+    selectedTextAnnotation?.deselect()
+    selectedTextAnnotation = nil
+  }
+  
   func itemAt(point: PointModel) -> CanvasDrawable? {
     return items.first(where: { (item) -> Bool in
       return item.contains(point: point)
