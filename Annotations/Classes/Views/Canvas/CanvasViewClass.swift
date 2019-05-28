@@ -114,7 +114,10 @@ public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanva
 
 extension CanvasViewClass {
   public func redraw() {
-    items.forEach { $0.removeFrom(canvas: self) }
+    items.forEach {
+      guard $0.modelType != .text else { return }
+      $0.removeFrom(canvas: self)
+    }
     items = []
     
     redrawArrows(model: model)
