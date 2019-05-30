@@ -42,6 +42,8 @@ extension TextView {
     view.addTo(canvas: textCanvas)
     
     view.startEditing()
+    
+    delegate?.textView(self, didUpdate: model, atIndex: modelIndex)
   }
   
   func removeFrom(canvas: CanvasView) {

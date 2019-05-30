@@ -120,7 +120,7 @@ public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanva
 extension CanvasViewClass {
   public func redraw() {
     items.forEach {
-      guard $0.modelType != .text else { return }
+      guard !(model.texts.count > 0 && $0.modelType == .text) else { return }
       $0.removeFrom(canvas: self)
     }
     items = []

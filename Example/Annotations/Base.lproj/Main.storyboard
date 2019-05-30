@@ -759,6 +759,16 @@ CA
                                     <action selector="didToggleCheckbox:" target="XfG-lQ-9wD" id="jxl-IV-eXg"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vi4-iR-pfq">
+                                <rect key="frame" x="401" y="65" width="75" height="32"/>
+                                <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="inD-Yx-Mhg">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="didTapReset:" target="XfG-lQ-9wD" id="fVh-Im-ToL"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="wKk-SA-T8e" firstAttribute="trailing" secondItem="JrP-53-D0T" secondAttribute="trailing" id="5vx-4G-YUZ"/>
@@ -768,6 +778,8 @@ CA
                             <constraint firstAttribute="trailing" secondItem="JrP-53-D0T" secondAttribute="trailing" constant="10" id="LEl-ts-QHM"/>
                             <constraint firstItem="Gha-MZ-5cr" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="5" id="RFI-sf-0Sa"/>
                             <constraint firstAttribute="trailing" secondItem="Gha-MZ-5cr" secondAttribute="trailing" constant="10" id="SiN-dI-imO"/>
+                            <constraint firstItem="wKk-SA-T8e" firstAttribute="top" secondItem="Vi4-iR-pfq" secondAttribute="bottom" constant="12" id="UDd-Um-k5v"/>
+                            <constraint firstItem="Vi4-iR-pfq" firstAttribute="trailing" secondItem="wKk-SA-T8e" secondAttribute="trailing" id="XVG-Of-osC"/>
                             <constraint firstItem="Gha-MZ-5cr" firstAttribute="leading" secondItem="V4e-VP-LAe" secondAttribute="trailing" id="ixG-lm-rmy"/>
                         </constraints>
                     </view>

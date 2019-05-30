@@ -8,7 +8,7 @@
 import Foundation
 import TextAnnotation
 
-protocol TextCanvas: TextAnnotationCanvas, TextAnnotationDelegate where Self: CanvasView {
+protocol TextCanvas: TextAnnotationCanvas, TextAnnotationDelegate, TextViewDelegate where Self: CanvasView {
   var selectedItem: CanvasDrawable? { get set }
   var model: CanvasModel { get set }
 }
@@ -19,6 +19,7 @@ extension TextCanvas {
     newTextView.delegate = self
     
     let textModel = TextModel(origin: origin, text: "")
+    model.texts.append(textModel)
     
     let state = TextViewState(model: textModel, isSelected: false)
     
@@ -26,6 +27,13 @@ extension TextCanvas {
     newView.view = newTextView
     
     return newView
+  }
+}
+
+// TextViewDelegate
+extension TextCanvas {
+  func textView(_ arrowView: TextView, didUpdate model: TextModel, atIndex index: Int) {
+    self.model.texts[index] = model
   }
 }
 

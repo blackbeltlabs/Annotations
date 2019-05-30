@@ -73,6 +73,10 @@ class ViewController: NSViewController {
     canvasView.isUserInteractionEnabled = isOn
   }
   
+  @IBAction func didTapReset(_ sender: NSButton) {
+    canvasView.update(model: CanvasModel())
+  }
+  
   func save(model: CanvasModel) {
     history.save(item: model)
     updateHistoryButtons()
