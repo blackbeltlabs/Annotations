@@ -1,5 +1,5 @@
 PODS:
-  - Annotations (0.3.1):
+  - Annotations (0.6.1):
     - TextAnnotation (= 0.4.2)
   - TextAnnotation (0.4.2)
 
@@ -14,7 +14,7 @@ EXTERNAL SOURCES:
     :path: "../../TextAnnotation"
 
 SPEC CHECKSUMS:
-  Annotations: ae988dd940cb9e758de5db303bf4c2b680b0ac77
+  Annotations: d9af87ee3c478b90bef160ed8bd5be00d274e065
   TextAnnotation: e9f1f38f9ee5fc7acc895a8a418c46f7f295b5cd
 
 PODFILE CHECKSUM: d9c6849d4a8ef6e855ac01439e9c2a9040171a2d
