@@ -20,7 +20,7 @@ public struct RectModel: Model {
     public let origin: PointModel
     public let to: PointModel
     
-    mutating func valueFor(rectPoint: RectPoint) -> PointModel {
+    func valueFor(rectPoint: RectPoint) -> PointModel {
         switch rectPoint {
         case .origin:
             return origin.returnPointModel(dx:origin.x + (origin.x < to.x ? widthDot : (-widthDot)), dy:origin.y + (origin.y > to.y ? widthDot : (-widthDot)))

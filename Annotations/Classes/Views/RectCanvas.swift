@@ -37,10 +37,6 @@ extension RectCanvas {
   }
   
   func rectView(_ rectView: RectView, didUpdate model: RectModel, atIndex index: Int) {
-    guard rectView.modelType == .obfuscate else {
-      return
-    }
-    
     self.model.rects[index] = model
   }
 }
