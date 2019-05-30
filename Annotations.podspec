@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Annotations'
-  s.version          = '0.5.0'
+  s.version          = '0.6.0'
   s.summary          = 'Swift shape and text annotation component for macOS.'
   s.description      = <<-DESC
 A component that can be used for apps providing visual annotation support of screenshots or other images.

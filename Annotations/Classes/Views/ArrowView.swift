@@ -65,8 +65,8 @@ extension ArrowView {
   
   static func createLayer() -> CAShapeLayer {
     let layer = CAShapeLayer()
-    layer.fillColor = NSColor.zappy.cgColor
-    layer.strokeColor = NSColor.zappy.cgColor
+    layer.fillColor = NSColor.annotations.cgColor
+    layer.strokeColor = NSColor.annotations.cgColor
     layer.lineWidth = 0
     
     return layer

@@ -14,7 +14,6 @@ public struct KnobViewState {
 
 public protocol KnobView: class {
   static var width: CGFloat { get }
-  static var color: NSColor { get }
   
   var state: KnobViewState { get set }
   var layer: CAShapeLayer { get set }
@@ -73,35 +72,16 @@ class KnobViewClass: KnobView {
     }
   }
   
-  static let width: CGFloat = 10
-  static let color: NSColor = .gray
+  static let width: CGFloat = 9
   
   var layer: CAShapeLayer
   
   init(model: PointModel) {
     state = KnobViewState(model: model)
     layer = CAShapeLayer()
-    layer.fillColor = KnobViewClass.color.cgColor
+    layer.fillColor = NSColor.annotations.cgColor
+    layer.strokeColor = NSColor.knob.cgColor
+    layer.lineWidth = 1
     render(state: state)
   }
-}
-
-class KnobView1Class: KnobView {
-    var state: KnobViewState {
-        didSet {
-            render(state: state, oldState: oldValue)
-        }
-    }
-    
-    static let width: CGFloat = 0
-    static let color: NSColor = .gray
-    
-    var layer: CAShapeLayer
-    
-    init(model: PointModel) {
-        state = KnobViewState(model: model)
-        layer = CAShapeLayer()
-        layer.fillColor = KnobView1Class.color.cgColor
-        render(state: state)
-    }
 }
