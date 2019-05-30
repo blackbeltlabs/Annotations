@@ -9,43 +9,40 @@
 /* Begin PBXBuildFile section */
 		03C4DB7E3576DCA08A59F690F928258D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6EF947EAA962337F986557602362FD58 /* Assets.xcassets */; };
 		04B40AF3FB2C56826FD94BFE3DA62788 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4198E3B04FD48F560303612482B374A6 /* Cocoa.framework */; };
+		05C03A88006433C080D6412C9C5B8ACA /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B738549F28EBBDD457B168DC0D057C /* TextView.swift */; };
 		0C9E9D5E179CA0FEDD7012D2EA9C827F /* Pods-Annotations_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A391360EBC4D8451A58B44F9EF061DE /* Pods-Annotations_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0DADE2C4DC7D34F94EB3F7CBBAC1A7A8 /* TextAnnotation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F1B1127E5F620439A14E00B9F21D1B /* TextAnnotation.framework */; };
 		122AE413E41CBE1F86BA6061B5848B20 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63298400C77636A923DA66DB3B90C61D /* StringExtension.swift */; };
+		122BE152A5B3B4054DEA77D52452147A /* CursorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF23E35FC4875E06A0E47341F82A4F5 /* CursorSet.swift */; };
 		136D5FC62C38F54E811C10F1C10E7E88 /* ObfuscateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97084AFB382A9517776854B2A3D72071 /* ObfuscateView.swift */; };
 		14E61A499FE1F82FAFFB67AEF3BFB4C3 /* RectCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C43887771BA6BE94758C883B0B1543 /* RectCanvas.swift */; };
 		2250DB0D6899591F8E80C2A020B6872B /* PenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02389791BBC2FEADB8BFFB29DA6C0F9 /* PenView.swift */; };
+		27874E97C189308FFD9A538039832696 /* TextAnnotationCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6024B6892CE30E7FACE4026D83396AD3 /* TextAnnotationCanvas.swift */; };
 		2A1AA54B968A8CDD1ED8DA920C8B9BC4 /* TextAnnotation-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 299D7C4955D889E732A82B060F7C4C46 /* TextAnnotation-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2B5F67F82C95AD98287EC7DCF10BD49B /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377DAB794701DBF47BA072E33F60841C /* CanvasView.swift */; };
 		2F66B29DCD295226039BB17009F4EB85 /* Annotations-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 75C6A7A1B3E2C1607ED4DD8AAE06199F /* Annotations-dummy.m */; };
 		347AEC6585E949131AA0352D316A9F5D /* PointModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066676D36B728514EADC4DF24FC3D524 /* PointModel.swift */; };
 		3FC7525D8ECBB01B9C7454A345368422 /* NSBezierPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE6C3A1796F063682EC2809BA2904A5 /* NSBezierPathExtension.swift */; };
+		4A08DDBECBD755DAC9CE5D72A5036037 /* TextContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2E13CC846147E81B18DE1E298CD1C7 /* TextContainerView.swift */; };
 		4FFC2FB99744ADB47006F6AECFB03838 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895034233855F6368E967175CD11F3DA /* TextView.swift */; };
 		5802440EB17843CB8830DE5F37C787C3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4198E3B04FD48F560303612482B374A6 /* Cocoa.framework */; };
+		59F5785587B069675DC50C98F0998DD0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF337489BDDB69308F57B02B4D83B8C5 /* Constants.swift */; };
 		5A5A357F6363F0C23B5E8D71076AD9A2 /* PenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F37EFB2937291B149E25652565D6995 /* PenModel.swift */; };
 		5E3469BE0FA943FA442F755FFB9A6F19 /* TextModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A101140DD66E6CA1B388AADB7C36DC /* TextModel.swift */; };
+		66160F66757DCC1A507BF905DCA61611 /* KnobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F38A854BF7FFC640FC3049EA816BC0 /* KnobView.swift */; };
+		6947A95206DC4574CBB2EE9AF6F1772D /* TextAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B385FC4556E030899E59B91056BEE5 /* TextAnnotation.swift */; };
 		6F9249354407EDA15D7C04320B29BDD1 /* NSColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27879F0321F4F51632624DBE7D03E05 /* NSColorExtension.swift */; };
 		744C737B7F3929B96BCCDE50C65FA8D8 /* RectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAC6EF9A3B7A58AF77D8A66C357D317 /* RectModel.swift */; };
 		78BF81BB7EC4C03DC3F10A51409EF391 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23433004CDF5972492AE36E83EA79939 /* History.swift */; };
 		7ABC2F22D67F0E658558998C71D1F8A4 /* KnobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D056B890D67BF157D499D154DB616697 /* KnobView.swift */; };
 		7B2D17310F9C78EAE387D8EB3E4498B2 /* Annotations-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7837D21C868F0B5CC1E7A6A566EA5904 /* Annotations-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7C00330A5FA7D4D7F226B841A294FDB6 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC1BBBBA326BDBF58DEB63EFC9F85E /* SelectionView.swift */; };
 		806F9EDD7635A4E98B4CFED7B9323B04 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4198E3B04FD48F560303612482B374A6 /* Cocoa.framework */; };
 		8EDDD449B493C2C1F2B802B15B12E857 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495A94DFF0A8E491A26522C07D120851 /* Array.swift */; };
 		938B403BDCAC44EEE3C14ABB3D3276C0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4198E3B04FD48F560303612482B374A6 /* Cocoa.framework */; };
 		945CE566C540AFCBD8410216329327FF /* Pods-Annotations_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB4EF5BC8E3AC2302538CC760D56C5 /* Pods-Annotations_Tests-dummy.m */; };
 		992DD48B2C9F3700645B22E232819084 /* EditableCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C89BFB38DB52CA07D4C2E38B06AE33 /* EditableCanvasView.swift */; };
 		A6BF5D853B7E9039C9100C6DC4DA2897 /* ArrowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93C8BB33D75A7664062429DA64C19A5 /* ArrowView.swift */; };
-		AC894428229FEA5C0072603D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF337489BDDB69308F57B02B4D83B8C5 /* Constants.swift */; };
-		AC894429229FEA5C0072603D /* CursorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF23E35FC4875E06A0E47341F82A4F5 /* CursorSet.swift */; };
-		AC89442A229FEA5C0072603D /* KnobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F38A854BF7FFC640FC3049EA816BC0 /* KnobView.swift */; };
-		AC89442B229FEA5C0072603D /* MouseTrackingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB234510D220491CA1102B6A57BD615 /* MouseTrackingView.swift */; };
-		AC89442C229FEA5C0072603D /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC1BBBBA326BDBF58DEB63EFC9F85E /* SelectionView.swift */; };
-		AC89442D229FEA5C0072603D /* TextAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B385FC4556E030899E59B91056BEE5 /* TextAnnotation.swift */; };
-		AC89442E229FEA5C0072603D /* TextAnnotationCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6024B6892CE30E7FACE4026D83396AD3 /* TextAnnotationCanvas.swift */; };
-		AC89442F229FEA5C0072603D /* TextAnnotationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A55E3756D5856A9E58CF330C999965B /* TextAnnotationDelegate.swift */; };
-		AC894430229FEA5C0072603D /* TextContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2E13CC846147E81B18DE1E298CD1C7 /* TextContainerView.swift */; };
-		AC894431229FEA5C0072603D /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B738549F28EBBDD457B168DC0D057C /* TextView.swift */; };
-		AC894432229FEA620072603D /* TextAnnotation-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 59D4ACD78F42699F9AF8668FD7B0364A /* TextAnnotation-dummy.m */; };
 		ACC5478CDAFE992E3563755133FEDD6E /* ArrowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25206E7C7AAFE3E4E1528F8F58C78D2F /* ArrowModel.swift */; };
 		B45AD656335625B7C58ABB787CE72415 /* TextCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0017E0D22AC3AA94075CA056C7793D /* TextCanvas.swift */; };
 		B7BBB2B6720354B171F538E3163B194E /* RectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6639BC842D40B2242584351688E4606 /* RectView.swift */; };
@@ -55,11 +52,14 @@
 		D75C6DA12EE9897E3A60AFB5CAD27BE0 /* Pods-Annotations_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 74FEC23ED4A956EF7AA85CB934F78D72 /* Pods-Annotations_Example-dummy.m */; };
 		DC37E2C6D543D1FDB146B8DAC99331C4 /* CanvasModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC5ABE645BAF0C1F8C0B2951EF38B7A /* CanvasModel.swift */; };
 		E03E01B1EF2C7F14444D9B45F66FDA0C /* ObfuscateCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26311B3D33CE3EA852412F0B598F418 /* ObfuscateCanvas.swift */; };
+		E1B3D51AFB3D94A53A5497FD27C92D6C /* TextAnnotation-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 59D4ACD78F42699F9AF8668FD7B0364A /* TextAnnotation-dummy.m */; };
 		E3EC7579D877E283AACBA10112C0E05F /* ArrowCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828393768931957CA8584AA1C37FFA6B /* ArrowCanvas.swift */; };
 		EBAD10BE584517AE33F0C5B12F8D732F /* CAShapeLayerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCADA9406C524DFE6452698C805215A7 /* CAShapeLayerExtension.swift */; };
 		F4F35AE7BDE33090FDD016DAF93CDDEE /* CanvasDrawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EE2AF4AE91F60983F640C9C7F27244 /* CanvasDrawable.swift */; };
+		F69C4231CEC6761FABB6605ECBA05085 /* MouseTrackingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB234510D220491CA1102B6A57BD615 /* MouseTrackingView.swift */; };
 		F75892A9AA32415584D0946E891F0EBA /* CATransactionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAF9DEA17D56F2DAF6AB11553BE30D8 /* CATransactionExtension.swift */; };
 		FCA3C197B9C0A50BF9929C4E32620620 /* PenCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496BF13E6846147617848B4730F1CF00 /* PenCanvas.swift */; };
+		FF7F6BAB2113A6AAED0C5CD92C6CF929 /* TextAnnotationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A55E3756D5856A9E58CF330C999965B /* TextAnnotationDelegate.swift */; };
 		FFF5F4B8025B104839F4917986EA5329 /* LayoutExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98678050EAC066F491DD263E1EAD2DA7 /* LayoutExtension.swift */; };
 /* End PBXBuildFile section */
 
@@ -591,6 +591,14 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1020;
 				LastUpgradeCheck = 1020;
+				TargetAttributes = {
+					44E8958D36759D86804434716D4A39DF = {
+						LastSwiftMigration = 1020;
+					};
+					948D1064C68C8099881C07922649E558 = {
+						LastSwiftMigration = 1020;
+					};
+				};
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 8.0";
@@ -649,17 +657,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC894432229FEA620072603D /* TextAnnotation-dummy.m in Sources */,
-				AC894428229FEA5C0072603D /* Constants.swift in Sources */,
-				AC894429229FEA5C0072603D /* CursorSet.swift in Sources */,
-				AC89442A229FEA5C0072603D /* KnobView.swift in Sources */,
-				AC89442B229FEA5C0072603D /* MouseTrackingView.swift in Sources */,
-				AC89442C229FEA5C0072603D /* SelectionView.swift in Sources */,
-				AC89442D229FEA5C0072603D /* TextAnnotation.swift in Sources */,
-				AC89442E229FEA5C0072603D /* TextAnnotationCanvas.swift in Sources */,
-				AC89442F229FEA5C0072603D /* TextAnnotationDelegate.swift in Sources */,
-				AC894430229FEA5C0072603D /* TextContainerView.swift in Sources */,
-				AC894431229FEA5C0072603D /* TextView.swift in Sources */,
+				59F5785587B069675DC50C98F0998DD0 /* Constants.swift in Sources */,
+				122BE152A5B3B4054DEA77D52452147A /* CursorSet.swift in Sources */,
+				66160F66757DCC1A507BF905DCA61611 /* KnobView.swift in Sources */,
+				F69C4231CEC6761FABB6605ECBA05085 /* MouseTrackingView.swift in Sources */,
+				7C00330A5FA7D4D7F226B841A294FDB6 /* SelectionView.swift in Sources */,
+				E1B3D51AFB3D94A53A5497FD27C92D6C /* TextAnnotation-dummy.m in Sources */,
+				6947A95206DC4574CBB2EE9AF6F1772D /* TextAnnotation.swift in Sources */,
+				27874E97C189308FFD9A538039832696 /* TextAnnotationCanvas.swift in Sources */,
+				FF7F6BAB2113A6AAED0C5CD92C6CF929 /* TextAnnotationDelegate.swift in Sources */,
+				4A08DDBECBD755DAC9CE5D72A5036037 /* TextContainerView.swift in Sources */,
+				05C03A88006433C080D6412C9C5B8ACA /* TextView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -817,7 +825,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -851,7 +859,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -885,7 +893,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -991,7 +999,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};

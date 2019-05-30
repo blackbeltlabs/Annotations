@@ -9,7 +9,7 @@
 import Cocoa
 import TextAnnotation
 
-public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, ObfuscateCanvas {
+public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, TextAnnotationDelegate, ObfuscateCanvas {
   public var delegate: CanvasViewDelegate?
   public var textCanvasDelegate: TextAnnotationDelegate?
   

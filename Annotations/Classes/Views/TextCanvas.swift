@@ -8,7 +8,7 @@
 import Foundation
 import TextAnnotation
 
-protocol TextCanvas: TextAnnotationCanvas, TextAnnotationDelegate, TextViewDelegate where Self: CanvasView {
+protocol TextCanvas: TextAnnotationCanvas, TextViewDelegate where Self: CanvasView {
   var selectedItem: CanvasDrawable? { get set }
   var model: CanvasModel { get set }
 }
