@@ -111,8 +111,10 @@ extension ObfuscateView {
           layer.addSublayer(knob.layer)
         }
       } else {
-        knobs.forEach { (knob) in
-          knob.layer.removeFromSuperlayer()
+        CATransaction.withoutAnimation {
+          knobs.forEach { (knob) in
+            knob.layer.removeFromSuperlayer()
+          }
         }
       }
     }

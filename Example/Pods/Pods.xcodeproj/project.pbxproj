@@ -42,6 +42,7 @@
 		945CE566C540AFCBD8410216329327FF /* Pods-Annotations_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB4EF5BC8E3AC2302538CC760D56C5 /* Pods-Annotations_Tests-dummy.m */; };
 		94B5DC5D75975E9B5A7023EA97574853 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4198E3B04FD48F560303612482B374A6 /* Cocoa.framework */; };
 		9B2E15C33BCFE3790EF8DF71B9EDA607 /* PenCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA83D70368D9D6326E626FCC3C6202CF /* PenCanvas.swift */; };
+		AC894427229FD7AA0072603D /* CATransactionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC894426229FD7AA0072603D /* CATransactionExtension.swift */; };
 		ACABFEF2229DA297005D0B0F /* ObfuscateCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACABFEF1229DA297005D0B0F /* ObfuscateCanvas.swift */; };
 		ACABFEF6229DA384005D0B0F /* ObfuscateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACABFEF5229DA384005D0B0F /* ObfuscateView.swift */; };
 		ACFB283A4DDDE0B3F4B4F5C28DCB31BC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF337489BDDB69308F57B02B4D83B8C5 /* Constants.swift */; };
@@ -158,6 +159,7 @@
 		A7001F9A8FEEB4CEBB145E205706F734 /* ArrowView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ArrowView.swift; sourceTree = "<group>"; };
 		A7537221D9440127727AF022A007184D /* CanvasDrawable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CanvasDrawable.swift; sourceTree = "<group>"; };
 		AB2AA82E3E667FF8D1222C5376E6940F /* Annotations-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Annotations-prefix.pch"; sourceTree = "<group>"; };
+		AC894426229FD7AA0072603D /* CATransactionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CATransactionExtension.swift; sourceTree = "<group>"; };
 		ACABFEF1229DA297005D0B0F /* ObfuscateCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObfuscateCanvas.swift; sourceTree = "<group>"; };
 		ACABFEF5229DA384005D0B0F /* ObfuscateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObfuscateView.swift; sourceTree = "<group>"; };
 		B085489C2DBDA5BA7C50335DD2801AA2 /* Pods-Annotations_Example-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Annotations_Example-Info.plist"; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 				A41434401ABE95706646B4CC4F62C144 /* Array.swift */,
 				6FAEC5B1BC2F0B8C27F0FFA599227BAE /* CAShapeLayerExtension.swift */,
 				F11A960D4E698ACCF0E223135A7882BC /* CGPointExtension.swift */,
+				AC894426229FD7AA0072603D /* CATransactionExtension.swift */,
 				0F152DB47A0063EB4FC3EB1D5A0785D1 /* LayoutExtension.swift */,
 				802BF712853E833980887F288E8B3E0E /* NSBezierPathExtension.swift */,
 				5E12D1D50B9BBBAD38556F88C213404A /* NSColorExtension.swift */,
@@ -690,6 +693,7 @@
 				D81D770FD99CD1895EC2BAF111FD69E6 /* LayoutExtension.swift in Sources */,
 				4B36E355E49A4A687B956C4572D11146 /* NSBezierPathExtension.swift in Sources */,
 				BDFC1D5CF2E31D353DB8634B41D47DDD /* NSColorExtension.swift in Sources */,
+				AC894427229FD7AA0072603D /* CATransactionExtension.swift in Sources */,
 				9B2E15C33BCFE3790EF8DF71B9EDA607 /* PenCanvas.swift in Sources */,
 				03374A160279ECCB686D86893AE42BB8 /* PenModel.swift in Sources */,
 				4C580F1BCFF4D0A89EF5851C00F9FDA4 /* PenView.swift in Sources */,
