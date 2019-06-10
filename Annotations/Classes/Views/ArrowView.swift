@@ -55,9 +55,9 @@ extension ArrowView {
     let arrow = NSBezierPath.arrow(
       from: CGPoint(x: model.origin.x, y: model.origin.y),
       to: model.to.cgPoint,
-      tailWidth: 5,
-      headWidth: 15,
-      headLength: length >= 20 ? 20 : CGFloat(length)
+      tailWidth: 5 + CGFloat(length) / 45,
+      headWidth: 15 + CGFloat(length) / 15,
+      headLength: length >= 20 ? 20 + CGFloat(length) / 15 : CGFloat(length)
     )
     
     return arrow.cgPath
