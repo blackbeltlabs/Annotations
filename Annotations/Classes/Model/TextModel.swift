@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import TextAnnotation
 
 public struct TextModel: Model {
   public var origin: PointModel
   public var text: String
+  public var actions: [TextAnnotationActionClass]?
 }

@@ -14,6 +14,8 @@ protocol TextView: CanvasDrawable {
   var delegate: TextViewDelegate? { get set }
   var state: TextViewState { get set }
   var view: TextAnnotation! { get set }
+  func renderAnnotationActions(actions: [TextAnnotationAction])
+  func deselect()
 }
 
 extension TextView {
@@ -60,6 +62,15 @@ extension TextView {
   
   func render(state: TextViewState, oldState: TextViewState? = nil) {
     
+  }
+	
+  func renderAnnotationActions(actions: [TextAnnotationAction]) {
+    view.setState(with: actions)
+  }
+	
+  func deselect() {
+    isSelected = false
+    view.deselect()
   }
 }
 
