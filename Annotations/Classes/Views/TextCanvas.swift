@@ -19,7 +19,7 @@ extension TextCanvas {
     newTextView.delegate = self
     
     let textModel = TextModel(origin: origin,
-															text: text)
+                              text: text)
     model.texts.append(textModel)
     
     let state = TextViewState(model: textModel, isSelected: false)
