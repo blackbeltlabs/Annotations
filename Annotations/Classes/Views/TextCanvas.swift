@@ -14,35 +14,35 @@ protocol TextCanvas: TextAnnotationCanvas, TextViewDelegate, TextAnnotationDeleg
 }
 
 extension TextCanvas {
-	func createTextView(text: String = "", origin: PointModel) -> TextView {
+  func createTextView(text: String = "", origin: PointModel) -> TextView {
     let newTextView = createTextAnnotation(text: text, location: origin.cgPoint)
     newTextView.delegate = self
     
     let textModel = TextModel(origin: origin,
-															text: text,
-															actions: [])
+															text: text)
     model.texts.append(textModel)
     
     let state = TextViewState(model: textModel, isSelected: false)
     
-    let newView = TextViewClass(state: state, modelIndex: model.texts.count - 1)
-    newView.view = newTextView
+    let modelIndex = model.texts.count - 1
     
+    let newView = TextViewClass(state: state,
+                                modelIndex: modelIndex,
+                                view: newTextView)
+    newView.delegate = self
+
     return newView
   }
-	
-  func createTextView(text: String, origin: PointModel, index: Int) -> TextView {
-    let newTextView = createTextAnnotation(text: text, location: origin.cgPoint)
-    newTextView.delegate = self
+  
+  func createTextView(textModel: TextModel, index: Int) -> TextView {
+    let newTextView = createTextAnnotation(modelable: textModel)
     
-    let textModel = TextModel(origin: origin,
-                              text: text,
-                              actions: [])
+    newTextView.delegate = self
     
     let state = TextViewState(model: textModel, isSelected: false)
     
-    let newView = TextViewClass(state: state, modelIndex: index)
-    newView.view = newTextView
+    let newView = TextViewClass(state: state, modelIndex: index, view: newTextView)
+    newView.delegate = self
     
     return newView
   }
@@ -50,14 +50,16 @@ extension TextCanvas {
 	
   func redrawTexts(model: CanvasModel) {
     for (index, model) in model.texts.enumerated() {
-      let view = createTextView(text: model.text, origin: model.origin, index: index)
+      let view = createTextView(textModel: model, index: index)
       view.delegate = self
       add(view)
-      if let actions = model.actions {
-        view.renderAnnotationActions(actions: actions)
+      
+      DispatchQueue.main.async {
+        view.updateFrame(with: model)
+        view.deselect()
+        view.isSelected = false
       }
-      view.deselect()
-      view.isSelected = false
+     
     }
   }
 }
@@ -65,7 +67,11 @@ extension TextCanvas {
 // TextViewDelegate
 extension TextCanvas {
   func textView(_ arrowView: TextView, didUpdate model: TextModel, atIndex index: Int) {
+    guard !model.text.isEmpty else {
+      return
+    }
     self.model.texts[index] = model
+    delegate?.canvasView(self, didUpdateModel: self.model)
   }
 }
 
@@ -95,29 +101,5 @@ extension TextCanvas {
   
   public func textAnnotationDidEndEditing(textAnnotation: TextAnnotation) {
     delegate?.canvasView(self, didEndEditing: textAnnotation)
-  }
-	
-  public func textAnnotationDidActionPerformed(textAnnotation: TextAnnotation,
-                                               action: TextAnnotationAction,
-                                               allActions: [TextAnnotationAction]) {
-    let tempTexts = model.texts
-    guard let index = model.texts.firstIndex(where: { $0.text == textAnnotation.text }) else {
-      return
-    }
-    
-    var canvasModel = self.model
-    
-    var textModel = model.texts[index]
-    
-    if let allActions = allActions as? [TextAnnotationActionClass] {
-      textModel.actions = allActions
-    }
-    
-    canvasModel.texts[index] = textModel
-    
-    self.model = canvasModel
-    
-    delegate?.canvasView(self, didUpdateModel: canvasModel)
-    print("Action performed = \(action)")
   }
 }

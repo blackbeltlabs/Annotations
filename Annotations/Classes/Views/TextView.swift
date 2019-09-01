@@ -2,7 +2,7 @@ import Cocoa
 import TextAnnotation
 
 protocol TextViewDelegate {
-  func textView(_ arrowView: TextView, didUpdate model: TextModel, atIndex index: Int)
+  func textView(_ textView: TextView, didUpdate model: TextModel, atIndex index: Int)
 }
 
 struct TextViewState {
@@ -13,8 +13,9 @@ struct TextViewState {
 protocol TextView: CanvasDrawable {
   var delegate: TextViewDelegate? { get set }
   var state: TextViewState { get set }
-  var view: TextAnnotation! { get set }
-  func renderAnnotationActions(actions: [TextAnnotationAction])
+  var modelIndex: Int { get set }
+  var view: TextAnnotation { get }
+  func updateFrame(with action: TextAnnotationModelable)
   func deselect()
 }
 
@@ -43,9 +44,9 @@ extension TextView {
     
     view.addTo(canvas: textCanvas)
     
-    view.startEditing()
+   // view.startEditing()
     
-    delegate?.textView(self, didUpdate: model, atIndex: modelIndex)
+   // delegate?.textView(self, didUpdate: model, atIndex: modelIndex)
   }
   
   func removeFrom(canvas: CanvasView) {
@@ -64,8 +65,8 @@ extension TextView {
     
   }
 	
-  func renderAnnotationActions(actions: [TextAnnotationAction]) {
-    view.setState(with: actions)
+  func updateFrame(with action: TextAnnotationModelable) {
+    view.updateFrame(with: action)
   }
 	
   func deselect() {
@@ -75,6 +76,7 @@ extension TextView {
 }
 
 class TextViewClass: TextView {
+  
   var state: TextViewState {
     didSet {
       render(state: state, oldState: oldValue)
@@ -83,12 +85,29 @@ class TextViewClass: TextView {
   
   var delegate: TextViewDelegate?
   
-  var view: TextAnnotation!
+  let view: TextAnnotation
   
   var modelIndex: Int
   
-  init(state: TextViewState, modelIndex: Int) {
+  init(state: TextViewState, modelIndex: Int, view: TextAnnotation) {
     self.state = state
     self.modelIndex = modelIndex
+    self.view = view
+    view.textUpdateDelegate = self
+  }
+}
+
+extension TextViewClass: TextAnnotationUpdateDelegate {
+  func textAnnotationUpdated(textAnnotation: TextAnnotation,
+                             modelable: TextAnnotationModelable) {
+    
+    let model = TextModel(origin: PointModel(x: Double(modelable.frame.origin.x),
+                                             y: Double(modelable.frame.origin.y)),
+                          text: modelable.text,
+                          frame: modelable.frame,
+                          fontName: modelable.fontName,
+                          fontSize: modelable.fontSize)
+    
+    delegate?.textView(self, didUpdate: model, atIndex: modelIndex)
   }
 }

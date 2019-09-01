@@ -93,8 +93,7 @@ public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanva
 //      textAnnotation.delegate = self  
 //      textAnnotation.startEditing()
     } else {
-      selectedTextAnnotation?.deselect()
-      selectedTextAnnotation = nil
+      deselectTextAnnotation()
     }
   }
   
@@ -165,5 +164,14 @@ extension CanvasViewClass {
     case let pen as PenView: return delete(pen: pen)
     default: return model
     }
+  }
+  
+  public var isSelectedTextAnnotation: Bool {
+    return selectedTextAnnotation != nil
+  }
+  
+  public func deselectTextAnnotation() {
+    selectedTextAnnotation?.deselect()
+    selectedTextAnnotation = nil
   }
 }
