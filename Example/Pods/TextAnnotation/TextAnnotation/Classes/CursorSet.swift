@@ -1,4 +1,5 @@
 import Foundation
+import AppKit
 
 class CursorSet {
   static var shared = CursorSet()

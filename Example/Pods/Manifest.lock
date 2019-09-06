@@ -1,22 +1,27 @@
 PODS:
-  - Annotations (0.6.1):
+  - Annotations (0.7.0):
     - TextAnnotation (= 0.4.3)
   - TextAnnotation (0.4.3)
 
 DEPENDENCIES:
   - Annotations (from `../`)
-  - TextAnnotation (from `../../TextAnnotation`)
+  - TextAnnotation (from `https://github.com/ulian-onua/TextAnnotation`)
 
 EXTERNAL SOURCES:
   Annotations:
     :path: "../"
   TextAnnotation:
-    :path: "../../TextAnnotation"
+    :git: https://github.com/ulian-onua/TextAnnotation
+
+CHECKOUT OPTIONS:
+  TextAnnotation:
+    :commit: 77673244c569cdf0e0a7f60fad27f8fd5ecdc448
+    :git: https://github.com/ulian-onua/TextAnnotation
 
 SPEC CHECKSUMS:
-  Annotations: 6a2aecb06df5de6e44f5fa202ec70613f234ba1c
+  Annotations: 3caba2f10441098b0f9bfa665d7eb3e260ca7f5d
   TextAnnotation: 4795b57ed2dbec40bea792ac3f5689d53f9eae51
 
-PODFILE CHECKSUM: d9c6849d4a8ef6e855ac01439e9c2a9040171a2d
+PODFILE CHECKSUM: d7d81e0a25adc13582282dfbbdc563fcede33b90
 
-COCOAPODS: 1.7.0
+COCOAPODS: 1.7.5

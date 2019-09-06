@@ -16,6 +16,7 @@ public protocol ActivateResponder: class {
 
 open class TextContainerView: NSView {
   public var delegate: TextAnnotationDelegate?
+  public var textUpdateDelegate: TextAnnotationUpdateDelegate?
   
   public var state: TextAnnotationState = .inactive {
     didSet {
@@ -24,10 +25,21 @@ open class TextContainerView: NSView {
       var isActive: Bool = false
       
       if state == .editing {
+        textSnapshot = text
         delegate?.textAnnotationDidStartEditing(textAnnotation: self)
       }
       
       if oldValue == .editing {
+				if textSnapshot != text, text != "" {
+          let text = self.text
+          let action = TextAnnotationAction(text: text,
+                                            frame: frame,
+                                            fontName: textView.getFont().fontName,
+                                            fontSize: textView.getFont().pointSize)
+          textUpdateDelegate?.textAnnotationUpdated(textAnnotation: self,
+                                                    modelable: action)
+				}
+				
         delegate?.textAnnotationDidEndEditing(textAnnotation: self)
       }
       
@@ -40,6 +52,7 @@ open class TextContainerView: NSView {
         doubleClickGestureRecognizer.isEnabled = !theTextView.isEditable
         
         delegate?.textAnnotationDidDeselect(textAnnotation: self)
+        theTextView.window?.resignFirstResponder()
       } else {
         if state == .scaling {
           theTextView.calculateScaleRatio()
@@ -62,11 +75,11 @@ open class TextContainerView: NSView {
       if let tally = leftTally {
         tally.isHidden = !isActive
       }
-      
+
       if let tally = rightTally {
         tally.isHidden = !isActive
       }
-      
+
       if let tally = scaleTally {
         tally.isHidden = !isActive
         tally.display()
@@ -85,13 +98,13 @@ open class TextContainerView: NSView {
       guard let theTextView = textView else { return }
       theTextView.string = newValue
       updateFrameWithText(theTextView.string)
+      textSnapshot = newValue
     }
   }
   var leftTally: MouseTrackingView?
   var rightTally: MouseTrackingView?
   var scaleTally: KnobView?
-  
-  
+ 
   // MARK: Private
   
   private var backgroundView: SelectionView!
@@ -104,6 +117,9 @@ open class TextContainerView: NSView {
   private var doubleClickGestureRecognizer: NSClickGestureRecognizer!
   
   private var lastMouseLocation: NSPoint?
+  private var lastMouseDownLocation: NSPoint?
+  private var textSnapshot: String = ""
+  
   private var didMove = false
   
   private var cursorSet = CursorSet.shared
@@ -114,12 +130,31 @@ open class TextContainerView: NSView {
     }
   }
   
-  // MARK: - Methods
-  // MARK: Lifecycle
+  // MARK: - Init
   
   override init(frame frameRect: NSRect) {
     super.init(frame: frameRect)
-    
+    performSubfieldsInit(frameRect: frameRect)
+    self.text = ""
+  }
+  
+  required public init?(coder decoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  public init(frame frameRect: NSRect, text: String) {
+    super.init(frame: frameRect)
+    performSubfieldsInit(frameRect: frameRect)
+    self.text = text
+  }
+
+  init(modelable: TextAnnotationModelable) {
+    super.init(frame: modelable.frame)
+    performSubfieldsInit(frameRect: modelable.frame)
+    updateFrame(with: modelable)
+  }
+  
+  func performSubfieldsInit(frameRect: CGRect) {
     let size = frameRect.size
     
     backgroundView = SelectionView(frame: NSRect(origin: CGPoint.zero, size: size))
@@ -167,50 +202,44 @@ open class TextContainerView: NSView {
     scaleTally = tally
   }
   
-  required public init?(coder decoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  
-  // MARK: - Private
+  // MARK: - Mouse actions
   
   open override func mouseDown(with event: NSEvent) {
     let mouseLocation = self.convert(event.locationInWindow, from: nil)
     state = mouseDownState(location: mouseLocation)
     
     lastMouseLocation = event.locationInWindow
+    lastMouseDownLocation = event.locationInWindow
+    textView.makeFontSnapshot()
   }
   
   open override func mouseDragged(with event: NSEvent) {
-    guard let lastMouseLocation = lastMouseLocation else {
-      return
+    guard let difference = getDifference(with: event,
+                                         lastMouseLocation: lastMouseLocation) else {
+                                          return
     }
-    
-    let locationInWindow = event.locationInWindow
-    
-    let difference = CGSize(
-      width: locationInWindow.x - lastMouseLocation.x,
-      height: locationInWindow.y - lastMouseLocation.y
-    )
     
     if difference.width > 0 || difference.height > 0 {
       didMove = true
     }
     
-    self.lastMouseLocation = locationInWindow
+    self.lastMouseLocation = event.locationInWindow
     
     switch state {
     case .active:
       move(difference: difference)
     case .resizeLeft, .resizeRight:
-      resize(distance: difference.width)
+      resize(distance: difference.width, state: state)
     case .scaling:
-      scale(difference: difference)
+      scale(difference: difference, state: state)
       cursorSet.scaleCursor.set()
     default: return
     }
   }
   
   open override func mouseUp(with event: NSEvent) {
+    addMouseUpEventToHistory(event: event,
+                             state: state)
     state = .active
     
     if didMove {
@@ -219,7 +248,11 @@ open class TextContainerView: NSView {
     }
     
     lastMouseLocation = nil
+    lastMouseDownLocation = nil
+    textView.deleteFontSnapshot()
   }
+  
+  // MARK: - Gestures handlers
   
   @objc private func singleClickGestureHandle(_ gesture: NSClickGestureRecognizer) {
     guard let theTextView = textView, !theTextView.isEditable else { return }
@@ -229,15 +262,10 @@ open class TextContainerView: NSView {
   }
   
   @objc private func doubleClickGestureHandle(_ gesture: NSClickGestureRecognizer) {
-    guard let theTextView = textView else { return }
-    
-    state = .editing
     startEditing()
-    doubleClickGestureRecognizer.isEnabled = !theTextView.isEditable
-    
-    guard let responder = activateResponder else { return }
-    responder.textViewDidActivate(self)
   }
+  
+  // MARK: - Frame updating
   
   private func updateFrameWithText(_ string: String) {
     guard let theTextView = textView else { return }
@@ -288,7 +316,51 @@ open class TextContainerView: NSView {
     }
   }
   
-  // MARK: - Public
+  public func updateFrame(with action: TextAnnotationModelable) {
+    self.textView.resetFontSize()
+
+    self.text = action.text
+    if action.frame.size.width != 0 && action.frame.size.height != 0 {
+      self.frame = action.frame
+    }
+    
+    
+    if let fontName = action.fontName, let size = action.fontSize {
+      self.textView.font = NSFont(name: fontName, size: size)
+    }
+  }
+  
+  // MARK: - Helpers
+  
+  private func addMouseUpEventToHistory(event: NSEvent, state: TextAnnotationState) {
+    switch state {
+    case .active, .resizeLeft, .resizeRight, .dragging, .scaling:
+      let font = textView.getFont()
+      let action                              = TextAnnotationAction(text: text,
+                                                                        frame: frame,
+                                                                        fontName: font.fontName,
+                                                                        fontSize: font.pointSize)
+      textUpdateDelegate?.textAnnotationUpdated(textAnnotation: self,
+                                                modelable: action)
+    default:
+      break
+    }
+  }
+	
+	// MARK: - Undo / Redo helpers
+
+  private func getDifference(with event: NSEvent,
+                             lastMouseLocation: NSPoint?) -> CGSize? {
+    guard let lastMouseLocation = lastMouseLocation else {
+      return nil
+    }
+
+    let locationInWindow = event.locationInWindow
+    return CGSize(width: locationInWindow.x - lastMouseLocation.x,
+                  height: locationInWindow.y - lastMouseLocation.y)
+  }
+  
+  // MARK: - State changes
   
   func move(difference: CGSize) {
     var newFrame = frame
@@ -300,7 +372,7 @@ open class TextContainerView: NSView {
     frame = newFrame
   }
   
-  public func resize(distance: CGFloat) {
+  public func resize(distance: CGFloat, state: TextAnnotationState) {
     guard state == .resizeRight || state == .resizeLeft else { return }
     
     var theFrame = frame
@@ -329,7 +401,7 @@ open class TextContainerView: NSView {
     frame = theFrame
   }
   
-  public func scale(difference: CGSize) {
+  public func scale(difference: CGSize, state: TextAnnotationState) {
     guard state == .scaling else { return }
     
     // we should scale it proportionally, driver of the mpvement is height difference
@@ -341,7 +413,7 @@ open class TextContainerView: NSView {
     
     frame = CGRect(origin: CGPoint(x: frame.origin.x, y: frame.origin.y + difference.height),
                    size: CGSize(width: width, height: height))
-    textView.resetFontSize()
+    textView.resetFontSize()    
   }
   
   public func mouseDownState(location: NSPoint) -> TextAnnotationState {
@@ -382,20 +454,15 @@ extension TextContainerView: MouseTrackingResponder {
 // Extension should be here bacause `var textView: TextView` is private property
 extension TextContainerView: TextAnnotation {
   public func startEditing() {
-    var window: NSWindow? = NSApplication.shared.mainWindow
-    if window == nil {
-      let list = NSApplication.shared.windows
-      if !list.isEmpty {
-        window = list.first
-      }
-    }
+    state = .editing
     
-    if let theWindow = window {
-      textView.isEditable = true
-      textView.isSelectable = true
-      theWindow.makeFirstResponder(textView)
-    }
+    doubleClickGestureRecognizer.isEnabled = !textView.isEditable
+    
+    guard let responder = activateResponder else { return }
+    responder.textViewDidActivate(self)
+    
+    textView.isEditable = true
+    textView.isSelectable = true
+    textView.window?.makeFirstResponder(textView)
   }
 }
-
-

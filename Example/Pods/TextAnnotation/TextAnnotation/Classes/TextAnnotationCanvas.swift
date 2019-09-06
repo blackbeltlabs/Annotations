@@ -1,6 +1,6 @@
 import Cocoa
 
-public protocol TextAnnotationCanvas: ActivateResponder, MouseTrackingResponder {
+public protocol TextAnnotationCanvas: ActivateResponder, MouseTrackingResponder where Self: TextAnnotationDelegate {
   var view: NSView { get }
   var textAnnotations: [TextAnnotation] { get set }
   var selectedTextAnnotation: TextAnnotation? { get set }
@@ -25,14 +25,27 @@ extension TextAnnotationCanvas {
   }
   
   public func createTextAnnotation(text: String, location: CGPoint) -> TextAnnotation {
-    let annotation = TextContainerView(frame: NSRect(origin: location, size: CGSize.zero))
-    annotation.text = text
+    let annotation = TextContainerView(frame: NSRect(origin: location, size: CGSize.zero),
+                                       text: text)
+
     annotation.activateResponder = self
     annotation.activeAreaResponder = self
     
     annotation.state = .active
     
     return annotation
+  }
+  
+  public func createTextAnnotation(modelable: TextAnnotationModelable) -> TextAnnotation {
+    let annotation = TextContainerView(modelable: modelable)
+    
+    annotation.activateResponder = self
+    annotation.activeAreaResponder = self
+    
+    annotation.state = .inactive
+    
+    return annotation
+    
   }
   
   public func add(textAnnotation: TextAnnotation) {
@@ -55,12 +68,13 @@ extension TextAnnotationCanvas {
         break
       }
     }
-    
+		
     if annotationToActivate == nil {
       set(selectedTextAnnotation: nil)
-      let newAnnotation = createTextAnnotation(text: "", location: screenPoint)
-      newAnnotation.addTo(canvas: self)
-      selectedTextAnnotation?.startEditing()
+//      let newAnnotation = createTextAnnotation(text: "", location: screenPoint, size: nil)
+//      newAnnotation.addTo(canvas: self)
+//      newAnnotation.delegate = self
+//      newAnnotation.startEditing()
     }
   }
 }
