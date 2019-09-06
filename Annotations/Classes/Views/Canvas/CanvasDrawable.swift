@@ -13,6 +13,7 @@ public protocol CanvasDrawable: class {
 
   var modelIndex: Int { get set }
   var isSelected: Bool { get set }
+  var color: NSColor { get }
   func addTo(canvas: CanvasView)
   func removeFrom(canvas: CanvasView)
   func contains(point: PointModel) -> Bool

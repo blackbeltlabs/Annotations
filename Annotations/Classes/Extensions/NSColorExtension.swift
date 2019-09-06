@@ -13,4 +13,15 @@ extension NSColor {
   static var obfuscate: NSColor {
     return #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
   }
+  
+  public static func color(from modelColor: ModelColor) -> NSColor {
+    return NSColor(red: modelColor.red,
+                   green: modelColor.green,
+                   blue: modelColor.blue,
+                   alpha: modelColor.alpha)
+  }
+  
+  public var annotationModelColor: ModelColor {
+    return ModelColor(red: redComponent, green: greenComponent, blue: blueComponent, alpha: alphaComponent)
+  }
 }

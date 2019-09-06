@@ -17,22 +17,22 @@ extension ArrowCanvas {
   func redrawArrows(model: CanvasModel) {
     for (index, model) in model.arrows.enumerated() {
       let state = ArrowViewState(model: model, isSelected: false)
-      let view = ArrowViewClass(state: state, modelIndex: index)
+      let view = ArrowViewClass(state: state, modelIndex: index, color: model.color)
       view.delegate = self
       add(view)
     }
   }
   
-  func createArrowView(origin: PointModel, to: PointModel) -> (CanvasDrawable?, KnobView?) {
+  func createArrowView(origin: PointModel, to: PointModel, color: ModelColor) -> (CanvasDrawable?, KnobView?) {
     if origin.distanceTo(to) < 10 {
       return (nil, nil)
     }
     
-    let newArrow = ArrowModel(origin: origin, to: to)
+    let newArrow = ArrowModel(origin: origin, to: to, color: color)
     model.arrows.append(newArrow)
     
     let state = ArrowViewState(model: newArrow, isSelected: false)
-    let newView = ArrowViewClass(state: state, modelIndex: model.arrows.count - 1)
+    let newView = ArrowViewClass(state: state, modelIndex: model.arrows.count - 1, color: color)
     newView.delegate = self
     
     let selectedKnob = newView.knobAt(arrowPoint: .to)

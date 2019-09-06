@@ -16,6 +16,7 @@ public enum ArrowPoint: CaseIterable {
 public struct ArrowModel: Model {
   public let origin: PointModel
   public let to: PointModel
+  public let color: ModelColor
   
   func valueFor(arrowPoint: ArrowPoint) -> PointModel {
     switch arrowPoint {
@@ -27,16 +28,17 @@ public struct ArrowModel: Model {
   func copyMoving(arrowPoint: ArrowPoint, delta: PointModel) -> ArrowModel {
     switch arrowPoint {
     case .origin:
-      return ArrowModel(origin: origin.copyMoving(delta: delta), to: to)
+      return ArrowModel(origin: origin.copyMoving(delta: delta), to: to, color: color)
     case .to:
-      return ArrowModel(origin: origin, to: to.copyMoving(delta: delta))
+      return ArrowModel(origin: origin, to: to.copyMoving(delta: delta), color: color)
     }
   }
   
   func copyMoving(delta: PointModel) -> ArrowModel {
     return ArrowModel(
       origin: origin.copyMoving(delta: delta),
-      to: to.copyMoving(delta: delta)
+      to: to.copyMoving(delta: delta),
+      color: color
     )
   }
 }

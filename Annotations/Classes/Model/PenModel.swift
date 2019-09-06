@@ -10,4 +10,5 @@ import Foundation
 
 public struct PenModel: Model {
   public var points: [PointModel]
+  public let color: ModelColor
 }

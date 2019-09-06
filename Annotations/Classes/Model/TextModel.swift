@@ -9,24 +9,35 @@ import Foundation
 import TextAnnotation
 
 public struct TextModel: Model, TextAnnotationModelable {
-  public var origin: PointModel
-  public var text: String
-  private var _frame: CGRect?
+  public let origin: PointModel
+  public let text: String
+  public let fontName: String?
+  public let fontSize: CGFloat?
+  public let color: TextColor
   
-  public var fontName: String?
-  public var fontSize: CGFloat?
+  private let _frame: CGRect?
   
-  init(origin: PointModel, text: String) {
+  init(origin: PointModel, text: String, color: TextColor) {
     self.origin = origin
     self.text = text
+    self._frame = nil
+    self.fontName = nil
+    self.fontSize = nil
+    self.color = color
   }
   
-  init(origin: PointModel, text: String, frame: CGRect?, fontName: String?, fontSize: CGFloat?) {
+  init(origin: PointModel,
+       text: String,
+       frame: CGRect?,
+       fontName: String?,
+       fontSize: CGFloat?,
+       color: TextColor) {
     self.origin = origin
     self.text = text
     self._frame = frame
     self.fontName = fontName
     self.fontSize = fontSize
+    self.color = color
   }
   
   public var frame: CGRect {

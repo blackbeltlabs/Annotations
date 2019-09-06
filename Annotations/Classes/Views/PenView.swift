@@ -38,10 +38,10 @@ extension PenView {
     return path.cgPath
   }
   
-  static func createLayer() -> CAShapeLayer {
+  static func createLayer(color: CGColor) -> CAShapeLayer {
     let layer = CAShapeLayer()
     layer.fillColor = NSColor.clear.cgColor
-    layer.strokeColor = NSColor.annotations.cgColor
+    layer.strokeColor = color
     layer.lineWidth = 5
     
     return layer
@@ -126,11 +126,13 @@ class PenViewClass: PenView {
   }
   
   var modelIndex: Int
+  let color: NSColor
   
-  init(state: PenViewState, modelIndex: Int) {
+  init(state: PenViewState, modelIndex: Int, color: ModelColor) {
     self.state = state
     self.modelIndex = modelIndex
-    layer = PenViewClass.createLayer()
+    self.color = NSColor.color(from: color)
+    layer = PenViewClass.createLayer(color: self.color.cgColor)
     render(state: state)
   }
 }

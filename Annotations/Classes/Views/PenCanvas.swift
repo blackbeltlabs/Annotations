@@ -17,21 +17,23 @@ extension PenCanvas {
   func redrawPens(model: CanvasModel) {
     for (index, model) in model.pens.enumerated() {
       let state = PenViewState(model: model, isSelected: false)
-      let view = PenViewClass(state: state, modelIndex: index)
+      let view = PenViewClass(state: state, modelIndex: index, color: model.color)
       view.delegate = self
       add(view)
     }
   }
   
-  func createPenView(origin: PointModel, to: PointModel) -> (CanvasDrawable?, KnobView?) {
+  func createPenView(origin: PointModel, to: PointModel, color: ModelColor) -> (CanvasDrawable?, KnobView?) {
     if origin.distanceTo(to) < 5 { return (nil, nil) }
     
-    let newPen = PenModel(points: [to])
+    let newPen = PenModel(points: [to], color: color)
     
     model.pens.append(newPen)
     
     let state = PenViewState(model: newPen, isSelected: false)
-    let newView = PenViewClass(state: state, modelIndex: model.pens.count - 1)
+    let newView = PenViewClass(state: state,
+                               modelIndex: model.pens.count - 1,
+                               color: color)
     newView.delegate = self
     
     return (newView, nil)
