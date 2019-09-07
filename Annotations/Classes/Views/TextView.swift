@@ -73,6 +73,10 @@ extension TextView {
     isSelected = false
     view.deselect()
   }
+  
+  func doInitialSetupOnCanvas() {
+    view.startEditing()
+  }
 }
 
 class TextViewClass: TextView {

@@ -58,12 +58,9 @@ extension TextCanvas {
       view.delegate = self
       add(view)
       
-      DispatchQueue.main.async {
-        view.updateFrame(with: model)
-        view.deselect()
-        view.isSelected = false
-      }
-     
+      view.updateFrame(with: model)
+      view.deselect()
+      view.isSelected = false
     }
   }
 }
