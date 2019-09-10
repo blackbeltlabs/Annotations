@@ -25,7 +25,11 @@ public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanva
   public var isChanged: Bool = false
   
   public var createMode: CanvasItemType = .arrow
-  public var createColor: ModelColor = ModelColor.defaultColor()
+  public var createColor: ModelColor = ModelColor.defaultColor() {
+    didSet {
+      updateSelectedItemColor(createColor)
+    }
+  }
   public var items: [CanvasDrawable] = []
   
   var trackingArea: NSTrackingArea?
@@ -135,6 +139,9 @@ extension CanvasViewClass {
     redrawRects(model: model)
     redrawObfuscates(model: model)
     redrawTexts(model: model)
+    
+    selectedItem = nil
+    selectedTextAnnotation = nil
   }
   
   func markState(model: CanvasModel) {
@@ -182,5 +189,29 @@ extension CanvasViewClass {
   public func deselectTextAnnotation() {
     selectedTextAnnotation?.deselect()
     selectedTextAnnotation = nil
+  }
+  
+  // MARK: - Update items color
+  
+  public func updateSelectedItemColor(_ color: ModelColor) {
+    if let selectedTextAnnotation = selectedTextAnnotation {
+      
+      let previousColor = selectedTextAnnotation.textColor
+      guard color.textColor != previousColor else { return }
+      
+      selectedTextAnnotation.updateColor(with: NSColor.color(from: color))
+      
+    } else if let selectedItem = selectedItem {
+      guard let selectedItemColor = selectedItem.color else { return }
+      
+      let previousColor = selectedItemColor.annotationModelColor
+      guard previousColor != color else { return }
+            
+      selectedItem.updateColor(NSColor.color(from: color))
+      
+      delegate?.canvasView(self, didUpdateModel: model)
+      
+    }
+    
   }
 }

@@ -119,6 +119,10 @@ extension ObfuscateView {
       }
     }
   }
+  
+  func updateColor(_ color: NSColor) {
+    
+  }
 }
 
 class ObfuscateViewClass: ObfuscateView {
@@ -133,7 +137,7 @@ class ObfuscateViewClass: ObfuscateView {
   
   var layer: CAShapeLayer
   var modelIndex: Int
-  let color: NSColor
+  let color: NSColor?
   
   lazy var knobDict: [RectPoint: KnobView] = [
     .origin: KnobViewClass(model: model.origin),

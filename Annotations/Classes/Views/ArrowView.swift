@@ -21,7 +21,7 @@ protocol ArrowView: CanvasDrawable {
   var delegate: ArrowViewDelegate? { get set }
   var state: ArrowViewState { get set }
   var modelIndex: Int { get set }
-  var color: NSColor { get }
+  var color: NSColor? { get }
   var layer: CAShapeLayer { get }
   var knobDict: [ArrowPoint: KnobView] { get }
 }
@@ -134,6 +134,12 @@ extension ArrowView {
       }
     }
   }
+  
+  func updateColor(_ color: NSColor) {
+    layer.fillColor = color.cgColor
+    layer.strokeColor = color.cgColor
+    state.model = model.copyWithColor(color: color.annotationModelColor)
+  }
 }
 
 class ArrowViewClass: ArrowView {
@@ -147,7 +153,11 @@ class ArrowViewClass: ArrowView {
   
   var layer: CAShapeLayer
   var modelIndex: Int
-  let color: NSColor
+  
+  var color: NSColor? {
+    guard let fillColor = layer.fillColor else { return nil }
+    return NSColor(cgColor: fillColor)
+  }
   
   lazy var knobDict: [ArrowPoint: KnobView] = [
     .origin: KnobViewClass(model: model.origin),
@@ -157,8 +167,7 @@ class ArrowViewClass: ArrowView {
   init(state: ArrowViewState, modelIndex: Int, color: ModelColor) {
     self.state = state
     self.modelIndex = modelIndex
-    self.color = NSColor.color(from: color)
-    layer = ArrowViewClass.createLayer(color: self.color.cgColor)
+    layer = ArrowViewClass.createLayer(color: NSColor.color(from: color).cgColor)
     render(state: state)
   }
 }

@@ -47,4 +47,13 @@ public struct TextModel: Model, TextAnnotationModelable {
       return CGRect(x: origin.x, y: origin.y, width: 0.0, height: 0.0)
     }
   }
+  
+  func copyWithColor(color: ModelColor) -> TextModel {
+    return TextModel(origin: origin,
+                     text: text,
+                     frame: frame,
+                     fontName: fontName,
+                     fontSize: fontSize,
+                     color: color.textColor)
+  }
 }

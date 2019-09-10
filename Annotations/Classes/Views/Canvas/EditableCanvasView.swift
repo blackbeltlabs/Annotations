@@ -25,6 +25,7 @@ public protocol EditableCanvasView: CanvasView {
   func delete(item: CanvasDrawable) -> CanvasModel
   func createItem(mouseDown: PointModel, color: ModelColor) -> CanvasDrawable?
   func createItem(dragFrom: PointModel, to: PointModel, color: ModelColor) -> (CanvasDrawable?, KnobView?)
+  func updateSelectedItemColor(_ color: ModelColor)
 }
 
 extension EditableCanvasView {

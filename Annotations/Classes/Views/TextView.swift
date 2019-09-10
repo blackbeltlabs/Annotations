@@ -77,6 +77,12 @@ extension TextView {
   func doInitialSetupOnCanvas() {
     view.startEditing()
   }
+  
+  func updateColor(_ color: NSColor) {
+    let model = self.model.copyWithColor(color: color.annotationModelColor)
+    view.updateColor(with: color)
+    delegate?.textView(self, didUpdate: model, atIndex: modelIndex)
+  }
 }
 
 class TextViewClass: TextView {
@@ -92,7 +98,7 @@ class TextViewClass: TextView {
   let view: TextAnnotation
   
   var modelIndex: Int
-  let color: NSColor
+  let color: NSColor?
   
   init(state: TextViewState, modelIndex: Int, view: TextAnnotation, color: ModelColor) {
     self.state = state

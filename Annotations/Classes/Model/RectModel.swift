@@ -59,4 +59,8 @@ public struct RectModel: Model {
             color: color
         )
     }
+  
+  func copyWithColor(color: ModelColor) -> RectModel {
+    return RectModel(origin: origin, to: to, color: color)
+  }
 }

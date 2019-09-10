@@ -119,6 +119,11 @@ extension RectView {
       }
     }
   }
+  
+  func updateColor(_ color: NSColor) {
+    layer.strokeColor = color.cgColor
+    state.model = model.copyWithColor(color: color.annotationModelColor)
+  }
 }
 
 class RectViewClass: RectView {
@@ -132,7 +137,11 @@ class RectViewClass: RectView {
   
   var layer: CAShapeLayer
   var modelIndex: Int
-  let color: NSColor
+  
+  var color: NSColor? {
+    guard let color = layer.strokeColor else { return nil }
+    return NSColor(cgColor: color)
+  }
   
   lazy var knobDict: [RectPoint: KnobView] = [
     .origin: KnobViewClass(model: model.origin),
@@ -145,13 +154,12 @@ class RectViewClass: RectView {
     let layerColor = NSColor.color(from: color).cgColor
     let layer = type(of: self).createLayer(color: layerColor)
     
-    self.init(state: state, modelIndex: modelIndex, layer: layer, color: color)
+    self.init(state: state, modelIndex: modelIndex, layer: layer)
   }
   
-  init(state: RectViewState, modelIndex: Int, layer: CAShapeLayer, color: ModelColor) {
+  init(state: RectViewState, modelIndex: Int, layer: CAShapeLayer) {
     self.state = state
     self.modelIndex = modelIndex
-    self.color = NSColor.color(from: color)
     self.layer = layer
     self.render(state: state)
   }

@@ -41,4 +41,10 @@ public struct ArrowModel: Model {
       color: color
     )
   }
+  
+  func copyWithColor(color: ModelColor) -> ArrowModel {
+    return ArrowModel(origin: origin,
+                      to: to,
+                      color: color)
+  }
 }
