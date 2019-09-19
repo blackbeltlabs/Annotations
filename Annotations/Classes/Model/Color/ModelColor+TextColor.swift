@@ -7,3 +7,9 @@ extension ModelColor {
     return TextColor(red: red, green: green, blue: blue, alpha: alpha)
   }
 }
+
+public extension TextColor {
+  var modelColor: ModelColor {
+    return ModelColor(red: red, green: green, blue: blue, alpha: alpha)
+  }
+}
