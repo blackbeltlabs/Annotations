@@ -17,6 +17,8 @@ The module is designed to be used alongside other drawing modules which for exam
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
+![](Spec/gifs/demo.gif)
+
 ## Requirements
 
 ## Installation

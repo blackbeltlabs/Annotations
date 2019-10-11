@@ -31,13 +31,7 @@ open class TextContainerView: NSView {
       
       if oldValue == .editing {
 				if textSnapshot != text, text != "" {
-          let text = self.text
-          let action = TextAnnotationAction(text: text,
-                                            frame: frame,
-                                            fontName: textView.getFont().fontName,
-                                            fontSize: textView.getFont().pointSize)
-          textUpdateDelegate?.textAnnotationUpdated(textAnnotation: self,
-                                                    modelable: action)
+          notifyAboutTextAnnotationUpdates()
 				}
 				
         delegate?.textAnnotationDidEndEditing(textAnnotation: self)
@@ -124,6 +118,20 @@ open class TextContainerView: NSView {
   
   private var cursorSet = CursorSet.shared
   
+  public var textColor: TextColor {
+    set {
+      textView.textColor = NSColor.color(from: newValue)
+      notifyAboutTextAnnotationUpdates()
+    }
+    
+    get {
+      guard let textViewNsColor = textView.textColor else {
+        return TextColor.defaultColor()
+      }
+      return textViewNsColor.textColor
+    }
+  }
+  
   override open var frame: NSRect {
     didSet {
       updateSubviewsFrames(oldValue, frame: frame)
@@ -134,7 +142,7 @@ open class TextContainerView: NSView {
   
   override init(frame frameRect: NSRect) {
     super.init(frame: frameRect)
-    performSubfieldsInit(frameRect: frameRect)
+    performSubfieldsInit(frameRect: frameRect, textColor: TextColor.defaultColor())
     self.text = ""
   }
   
@@ -142,19 +150,19 @@ open class TextContainerView: NSView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  public init(frame frameRect: NSRect, text: String) {
+  public init(frame frameRect: NSRect, text: String, color: TextColor) {
     super.init(frame: frameRect)
-    performSubfieldsInit(frameRect: frameRect)
+    performSubfieldsInit(frameRect: frameRect, textColor: color)
     self.text = text
   }
 
   init(modelable: TextAnnotationModelable) {
     super.init(frame: modelable.frame)
-    performSubfieldsInit(frameRect: modelable.frame)
+    performSubfieldsInit(frameRect: modelable.frame, textColor: modelable.color)
     updateFrame(with: modelable)
   }
   
-  func performSubfieldsInit(frameRect: CGRect) {
+  func performSubfieldsInit(frameRect: CGRect, textColor: TextColor) {
     let size = frameRect.size
     
     backgroundView = SelectionView(frame: NSRect(origin: CGPoint.zero, size: size))
@@ -164,7 +172,10 @@ open class TextContainerView: NSView {
     textView = TextView(frame: NSRect.zero, responder: self)
     textView.alignment = .natural
     textView.backgroundColor = NSColor.clear
-    textView.textColor = Palette.controlFillColor
+    textView.textColor = NSColor(red: textColor.red,
+                                 green: textColor.green,
+                                 blue: textColor.blue,
+                                 alpha: textColor.alpha)
     textView.font = NSFont(name: "HelveticaNeue-Bold", size: 30)
     textView.isSelectable = false
     textView.isRichText = false
@@ -335,13 +346,7 @@ open class TextContainerView: NSView {
   private func addMouseUpEventToHistory(event: NSEvent, state: TextAnnotationState) {
     switch state {
     case .active, .resizeLeft, .resizeRight, .dragging, .scaling:
-      let font = textView.getFont()
-      let action                              = TextAnnotationAction(text: text,
-                                                                        frame: frame,
-                                                                        fontName: font.fontName,
-                                                                        fontSize: font.pointSize)
-      textUpdateDelegate?.textAnnotationUpdated(textAnnotation: self,
-                                                modelable: action)
+      notifyAboutTextAnnotationUpdates()
     default:
       break
     }
@@ -427,6 +432,21 @@ open class TextContainerView: NSView {
     }
     
     return state
+  }
+  
+  private func notifyAboutTextAnnotationUpdates() {
+    let font = textView.getFont()
+    let action = TextAnnotationAction(text: text,
+                                      frame: frame,
+                                      fontName: font.fontName,
+                                      fontSize: font.pointSize,
+                                      color: textColor)
+    textUpdateDelegate?.textAnnotationUpdated(textAnnotation: self,
+                                              modelable: action)
+  }
+  
+  public func updateColor(with color: NSColor) {
+    textColor = color.textColor
   }
 }
 

@@ -6,6 +6,7 @@ public protocol TextAnnotationModelable {
   var frame: CGRect { get }
   var fontName: String? { get }
   var fontSize: CGFloat? { get }
+  var color: TextColor { get }
 }
 
 struct TextAnnotationAction: TextAnnotationModelable {
@@ -13,4 +14,5 @@ struct TextAnnotationAction: TextAnnotationModelable {
   let frame: CGRect
   let fontName: String?
   let fontSize: CGFloat?
+  let color: TextColor
 }
