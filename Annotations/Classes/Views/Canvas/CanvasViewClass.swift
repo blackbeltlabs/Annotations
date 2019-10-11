@@ -122,6 +122,13 @@ public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanva
   func eventLocation(_ event: NSEvent) -> CGPoint {
     return convert(event.locationInWindow, from: nil)
   }
+  
+  public override func hitTest(_ point: NSPoint) -> NSView? {
+    guard isUserInteractionEnabled else {
+      return nil
+    }
+    return super.hitTest(point)
+  }
 }
 
 extension CanvasViewClass {
