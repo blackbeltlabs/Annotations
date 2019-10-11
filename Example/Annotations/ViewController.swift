@@ -15,12 +15,26 @@ typealias CanvasHistory = HistoryClass<CanvasModel>
 class ViewController: NSViewController {
   var history: CanvasHistory!
   
+  @IBOutlet weak var canvasView: CanvasViewClass!
   @IBOutlet var undoButton: NSButton!
   @IBOutlet var redoButton: NSButton!
   
-  var canvasView: EditableCanvasView {
-    return view as! EditableCanvasView
+  @IBOutlet weak var pickerViewsStackView: NSStackView!
+  var selectedPickerView: ColorPickerView?
+  
+//  var canvasView: EditableCanvasView {
+//    return view as! EditableCanvasView
+//  }
+  
+  var colorPickerViews: [ColorPickerView] {
+    return pickerViewsStackView.arrangedSubviews.compactMap {
+      $0 as? ColorPickerView
+    }
   }
+  
+  lazy var colorPickerColors: [NSColor] = {
+    return ModelColor.defaultColors().map { NSColor.color(from: $0) }
+  }()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -34,6 +48,24 @@ class ViewController: NSViewController {
     updateHistoryButtons()
     canvasView.delegate = self
     canvasView.update(model: model)
+    setupColorPickerViews()
+  }
+  
+  func setupColorPickerViews() {
+    
+    for (index, element) in colorPickerViews.enumerated() {
+      element.viewId = index
+      let clickGR = NSClickGestureRecognizer(target: self, action: #selector(colorPickerViewTapped(gr:)))
+      element.addGestureRecognizer(clickGR)
+    }
+    
+    for (pickerView, color) in zip(colorPickerViews, colorPickerColors) {
+      pickerView.setBackgroundColor(color: color)
+    }
+    
+    if let firstPickerView = colorPickerViews.first {
+      selectColor(with: firstPickerView)
+    }
   }
   
   //MARK: IBAction
@@ -77,6 +109,22 @@ class ViewController: NSViewController {
   
   @IBAction func didTapReset(_ sender: NSButton) {
     canvasView.update(model: CanvasModel())
+  }
+  
+  @objc func colorPickerViewTapped(gr: NSGestureRecognizer) {
+    guard let pickerView = gr.view as? ColorPickerView else { return }
+    selectColor(with: pickerView)
+  }
+  
+  func selectColor(with pickerView: ColorPickerView) {
+    let color = colorPickerColors[pickerView.viewId]
+    
+    selectedPickerView?.isSelected = false
+    
+    pickerView.isSelected = true
+    selectedPickerView = pickerView
+    
+    canvasView.createColor = color.annotationModelColor
   }
   
   func save(model: CanvasModel) {

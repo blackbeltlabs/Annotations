@@ -77,6 +77,12 @@ extension TextView {
   func doInitialSetupOnCanvas() {
     view.startEditing()
   }
+  
+  func updateColor(_ color: NSColor) {
+    let model = self.model.copyWithColor(color: color.annotationModelColor)
+    view.updateColor(with: color)
+    delegate?.textView(self, didUpdate: model, atIndex: modelIndex)
+  }
 }
 
 class TextViewClass: TextView {
@@ -92,11 +98,13 @@ class TextViewClass: TextView {
   let view: TextAnnotation
   
   var modelIndex: Int
+  let color: NSColor?
   
-  init(state: TextViewState, modelIndex: Int, view: TextAnnotation) {
+  init(state: TextViewState, modelIndex: Int, view: TextAnnotation, color: ModelColor) {
     self.state = state
     self.modelIndex = modelIndex
     self.view = view
+    self.color = NSColor.color(from: color)
     view.textUpdateDelegate = self
   }
 }
@@ -110,7 +118,8 @@ extension TextViewClass: TextAnnotationUpdateDelegate {
                           text: modelable.text,
                           frame: modelable.frame,
                           fontName: modelable.fontName,
-                          fontSize: modelable.fontSize)
+                          fontSize: modelable.fontSize,
+                          color: modelable.color)
     
     delegate?.textView(self, didUpdate: model, atIndex: modelIndex)
   }

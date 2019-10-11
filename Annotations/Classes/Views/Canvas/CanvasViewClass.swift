@@ -25,7 +25,11 @@ public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanva
   public var isChanged: Bool = false
   
   public var createMode: CanvasItemType = .arrow
-  
+  public var createColor: ModelColor = ModelColor.defaultColor() {
+    didSet {
+      updateSelectedItemColor(createColor)
+    }
+  }
   public var items: [CanvasDrawable] = []
   
   var trackingArea: NSTrackingArea?
@@ -50,6 +54,8 @@ public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanva
   public var textAnnotations: [TextAnnotation] = []
   public var selectedTextAnnotation: TextAnnotation?
   public var lastMouseLocation: NSPoint?
+  
+  // MARK: - Initializers
   
   override init(frame frameRect: NSRect) {
     super.init(frame: frameRect)
@@ -78,6 +84,8 @@ public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanva
     self.addTrackingArea(newTrackingArea)
     self.trackingArea = newTrackingArea
   }
+  
+  // MARK: - Actions
   
   override public func mouseDown(with event: NSEvent) {
     super.mouseDown(with: event)
@@ -131,30 +139,36 @@ extension CanvasViewClass {
     redrawRects(model: model)
     redrawObfuscates(model: model)
     redrawTexts(model: model)
+    
+    selectedItem = nil
+    selectedTextAnnotation = nil
   }
   
   func markState(model: CanvasModel) {
     delegate?.canvasView(self, didUpdateModel: model)
   }
   
-  public func createItem(mouseDown: PointModel) -> CanvasDrawable? {
+  // MARK: - Create item
+  public func createItem(mouseDown: PointModel, color: ModelColor) -> CanvasDrawable? {
     switch createMode {
     case .text:
-      return createTextView(origin: mouseDown)
+      return createTextView(origin: mouseDown, color: color)
     default:
       return nil
     }
   }
   
-  public func createItem(dragFrom: PointModel, to: PointModel) -> (CanvasDrawable?, KnobView?) {
+  public func createItem(dragFrom: PointModel, to: PointModel, color: ModelColor) -> (CanvasDrawable?, KnobView?) {
     switch createMode {
     case .text: return (nil, nil)
-    case .arrow: return createArrowView(origin: dragFrom, to: to)
-    case .rect: return createRectView(origin: dragFrom, to: to)
-    case .obfuscate: return createObfuscateView(origin: dragFrom, to: to)
-    case .pen: return createPenView(origin: dragFrom, to: to)
+    case .arrow: return createArrowView(origin: dragFrom, to: to, color: color)
+    case .rect: return createRectView(origin: dragFrom, to: to, color: color)
+    case .obfuscate: return createObfuscateView(origin: dragFrom, to: to, color: color)
+    case .pen: return createPenView(origin: dragFrom, to: to, color: color)
     }
   }
+  
+  // MARK: - Delete item
   
   public func delete(item: CanvasDrawable) -> CanvasModel {
     switch item {
@@ -166,6 +180,8 @@ extension CanvasViewClass {
     }
   }
   
+  // MARK: - Text annotation
+  
   public var isSelectedTextAnnotation: Bool {
     return selectedTextAnnotation != nil
   }
@@ -173,5 +189,29 @@ extension CanvasViewClass {
   public func deselectTextAnnotation() {
     selectedTextAnnotation?.deselect()
     selectedTextAnnotation = nil
+  }
+  
+  // MARK: - Update items color
+  
+  public func updateSelectedItemColor(_ color: ModelColor) {
+    if let selectedTextAnnotation = selectedTextAnnotation {
+      
+      let previousColor = selectedTextAnnotation.textColor
+      guard color.textColor != previousColor else { return }
+      
+      selectedTextAnnotation.updateColor(with: NSColor.color(from: color))
+      
+    } else if let selectedItem = selectedItem {
+      guard let selectedItemColor = selectedItem.color else { return }
+      
+      let previousColor = selectedItemColor.annotationModelColor
+      guard previousColor != color else { return }
+            
+      selectedItem.updateColor(NSColor.color(from: color))
+      
+      delegate?.canvasView(self, didUpdateModel: model)
+      
+    }
+    
   }
 }

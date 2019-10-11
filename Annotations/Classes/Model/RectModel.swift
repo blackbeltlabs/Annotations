@@ -19,6 +19,7 @@ let widthDot: Double = 0
 public struct RectModel: Model {
     public let origin: PointModel
     public let to: PointModel
+    public let color: ModelColor
     
     func valueFor(rectPoint: RectPoint) -> PointModel {
         switch rectPoint {
@@ -36,13 +37,17 @@ public struct RectModel: Model {
     func copyMoving(rectPoint: RectPoint, delta: PointModel) -> RectModel {
         switch rectPoint {
         case .origin:
-            return RectModel(origin: origin.copyMoving(delta: delta), to: to)
+          return RectModel(origin: origin.copyMoving(delta: delta), to: to, color: color)
         case .to:
-            return RectModel(origin: origin, to: to.copyMoving(delta: delta))
+          return RectModel(origin: origin, to: to.copyMoving(delta: delta), color: color)
         case .originY:
-            return RectModel(origin: origin.returnPointModel(dx:origin.x + delta.x, dy:origin.y), to: to.returnPointModel(dx:to.x, dy:to.y + delta.y))
+          return RectModel(origin: origin.returnPointModel(dx:origin.x + delta.x, dy:origin.y),
+                           to: to.returnPointModel(dx:to.x, dy:to.y + delta.y),
+                           color:color)
         case .toX:
-            return RectModel(origin: origin.returnPointModel(dx:origin.x, dy:origin.y + delta.y), to: to.returnPointModel(dx:to.x + delta.x, dy:to.y))
+          return RectModel(origin: origin.returnPointModel(dx:origin.x, dy:origin.y + delta.y),
+                           to: to.returnPointModel(dx:to.x + delta.x, dy:to.y),
+                           color: color)
         }
     }
     
@@ -50,7 +55,12 @@ public struct RectModel: Model {
     func copyMoving(delta: PointModel) -> RectModel {
         return RectModel(
             origin: origin.copyMoving(delta: delta),
-            to: to.copyMoving(delta: delta)
+            to: to.copyMoving(delta: delta),
+            color: color
         )
     }
+  
+  func copyWithColor(color: ModelColor) -> RectModel {
+    return RectModel(origin: origin, to: to, color: color)
+  }
 }

@@ -119,6 +119,10 @@ extension ObfuscateView {
       }
     }
   }
+  
+  func updateColor(_ color: NSColor) {
+    
+  }
 }
 
 class ObfuscateViewClass: ObfuscateView {
@@ -133,6 +137,7 @@ class ObfuscateViewClass: ObfuscateView {
   
   var layer: CAShapeLayer
   var modelIndex: Int
+  let color: NSColor?
   
   lazy var knobDict: [RectPoint: KnobView] = [
     .origin: KnobViewClass(model: model.origin),
@@ -141,16 +146,17 @@ class ObfuscateViewClass: ObfuscateView {
     .toX: KnobViewClass(model: model.to.returnPointModel(dx:model.to.x, dy:model.origin.y))
   ]
   
-  convenience init(state: ObfuscateViewState, modelIndex: Int) {
+  convenience init(state: ObfuscateViewState, modelIndex: Int, color: ModelColor) {
     let layer = type(of: self).createLayer()
     
-    self.init(state: state, modelIndex: modelIndex, layer: layer)
+    self.init(state: state, modelIndex: modelIndex, layer: layer, color: color)
   }
   
-  init(state: ObfuscateViewState, modelIndex: Int, layer: CAShapeLayer) {
+  init(state: ObfuscateViewState, modelIndex: Int, layer: CAShapeLayer, color: ModelColor) {
     self.state = state
     self.modelIndex = modelIndex
     self.layer = layer
+    self.color = NSColor.color(from: color)
     self.render(state: state)
   }
 }

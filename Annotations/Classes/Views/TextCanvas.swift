@@ -14,12 +14,15 @@ protocol TextCanvas: TextAnnotationCanvas, TextViewDelegate, TextAnnotationDeleg
 }
 
 extension TextCanvas {
-  func createTextView(text: String = "", origin: PointModel) -> TextView {
-    let newTextView = createTextAnnotation(text: text, location: origin.cgPoint)
+  func createTextView(text: String = "", origin: PointModel, color: ModelColor) -> TextView {
+    let newTextView = createTextAnnotation(text: text,
+                                           location: origin.cgPoint,
+                                           color: color.textColor)
     newTextView.delegate = self
     
     let textModel = TextModel(origin: origin,
-                              text: text)
+                              text: text,
+                              color: color.textColor)
     model.texts.append(textModel)
     
     let state = TextViewState(model: textModel, isSelected: false)
@@ -28,7 +31,8 @@ extension TextCanvas {
     
     let newView = TextViewClass(state: state,
                                 modelIndex: modelIndex,
-                                view: newTextView)
+                                view: newTextView,
+                                color: color)
     newView.delegate = self
 
     return newView
@@ -41,7 +45,7 @@ extension TextCanvas {
     
     let state = TextViewState(model: textModel, isSelected: false)
     
-    let newView = TextViewClass(state: state, modelIndex: index, view: newTextView)
+    let newView = TextViewClass(state: state, modelIndex: index, view: newTextView, color: ModelColor.defaultColor())
     newView.delegate = self
     
     return newView

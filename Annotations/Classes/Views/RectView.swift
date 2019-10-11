@@ -48,10 +48,10 @@ extension RectView {
     return NSBezierPath(rect: NSRect(fromPoint: model.origin.cgPoint, toPoint: model.to.cgPoint)).cgPath
   }
   
-  static func createLayer() -> CAShapeLayer {
+  static func createLayer(color: CGColor) -> CAShapeLayer {
     let layer = CAShapeLayer()
     layer.fillColor = NSColor.clear.cgColor
-    layer.strokeColor = NSColor.annotations.cgColor
+    layer.strokeColor = color
     layer.lineWidth = 5
     
     return layer
@@ -119,6 +119,11 @@ extension RectView {
       }
     }
   }
+  
+  func updateColor(_ color: NSColor) {
+    layer.strokeColor = color.cgColor
+    state.model = model.copyWithColor(color: color.annotationModelColor)
+  }
 }
 
 class RectViewClass: RectView {
@@ -133,6 +138,11 @@ class RectViewClass: RectView {
   var layer: CAShapeLayer
   var modelIndex: Int
   
+  var color: NSColor? {
+    guard let color = layer.strokeColor else { return nil }
+    return NSColor(cgColor: color)
+  }
+  
   lazy var knobDict: [RectPoint: KnobView] = [
     .origin: KnobViewClass(model: model.origin),
     .to: KnobViewClass(model: model.to),
@@ -140,8 +150,9 @@ class RectViewClass: RectView {
     .toX: KnobViewClass(model: model.to.returnPointModel(dx:model.to.x, dy:model.origin.y))
   ]
   
-  convenience init(state: RectViewState, modelIndex: Int) {
-    let layer = type(of: self).createLayer()
+  convenience init(state: RectViewState, modelIndex: Int, color: ModelColor) {
+    let layerColor = NSColor.color(from: color).cgColor
+    let layer = type(of: self).createLayer(color: layerColor)
     
     self.init(state: state, modelIndex: modelIndex, layer: layer)
   }

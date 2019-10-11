@@ -25,6 +25,8 @@ protocol PenView: CanvasDrawable {
 
 extension PenView {
   static var modelType: CanvasItemType { return .pen }
+  
+  var model: PenModel { return state.model }
 
   var isSelected: Bool {
     get { return state.isSelected }
@@ -38,10 +40,10 @@ extension PenView {
     return path.cgPath
   }
   
-  static func createLayer() -> CAShapeLayer {
+  static func createLayer(color: CGColor) -> CAShapeLayer {
     let layer = CAShapeLayer()
     layer.fillColor = NSColor.clear.cgColor
-    layer.strokeColor = NSColor.annotations.cgColor
+    layer.strokeColor = color
     layer.lineWidth = 5
     
     return layer
@@ -113,6 +115,12 @@ extension PenView {
     layer.lineDashPattern = nil
     layer.removeAnimation(forKey: "temp")
   }
+  
+  
+  func updateColor(_ color: NSColor) {
+    layer.strokeColor = color.cgColor
+    state.model = model.copyWithColor(color: color.annotationModelColor)
+  }
 }
 
 class PenViewClass: PenView {
@@ -126,11 +134,15 @@ class PenViewClass: PenView {
   }
   
   var modelIndex: Int
+  var color: NSColor? {
+    guard let color = layer.strokeColor else { return nil }
+    return NSColor(cgColor: color)
+  }
   
-  init(state: PenViewState, modelIndex: Int) {
+  init(state: PenViewState, modelIndex: Int, color: ModelColor) {
     self.state = state
     self.modelIndex = modelIndex
-    layer = PenViewClass.createLayer()
+    layer = PenViewClass.createLayer(color: NSColor.color(from:color).cgColor)
     render(state: state)
   }
 }

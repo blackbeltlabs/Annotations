@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6D5272240A6C6BACF8638AE7 /* Pods_Annotations_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9050EF32AE3A75232273248 /* Pods_Annotations_Example.framework */; };
+		6FA3D1FA231E4F6E00CA2306 /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA3D1F9231E4F6E00CA2306 /* ColorPickerView.swift */; };
 		ACE1820E2243A76A00CEC127 /* test_drawing.json in Resources */ = {isa = PBXBuildFile; fileRef = ACE1820D2243A76A00CEC127 /* test_drawing.json */; };
 		ED83F67C20348A760038D96B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED83F67B20348A760038D96B /* AppDelegate.swift */; };
 		ED83F67E20348A760038D96B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED83F67D20348A760038D96B /* ViewController.swift */; };
@@ -30,6 +31,7 @@
 /* Begin PBXFileReference section */
 		30E97258C721028D28AB511A /* Annotations.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Annotations.podspec; path = ../Annotations.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		5E382058B2DE95F267422F8B /* Pods-Annotations_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Annotations_Example.debug.xcconfig"; path = "Target Support Files/Pods-Annotations_Example/Pods-Annotations_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		6FA3D1F9231E4F6E00CA2306 /* ColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerView.swift; sourceTree = "<group>"; };
 		939069324F5A0D4956C3E25B /* Pods-Annotations_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Annotations_Tests.debug.xcconfig"; path = "Target Support Files/Pods-Annotations_Tests/Pods-Annotations_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		99A7D254385C1FB589AD3CCE /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		ACE1820D2243A76A00CEC127 /* test_drawing.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_drawing.json; sourceTree = "<group>"; };
@@ -81,6 +83,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		6FA3D1F8231E4F4E00CA2306 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6FA3D1F9231E4F6E00CA2306 /* ColorPickerView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		D55ABF4C4919C93CA65C8CB5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -114,6 +124,7 @@
 		ED83F67A20348A760038D96B /* Annotations */ = {
 			isa = PBXGroup;
 			children = (
+				6FA3D1F8231E4F4E00CA2306 /* Views */,
 				ED83F67B20348A760038D96B /* AppDelegate.swift */,
 				ED83F67D20348A760038D96B /* ViewController.swift */,
 				ED83F67F20348A760038D96B /* Assets.xcassets */,
@@ -342,6 +353,7 @@
 			files = (
 				ED83F67E20348A760038D96B /* ViewController.swift in Sources */,
 				ED83F67C20348A760038D96B /* AppDelegate.swift in Sources */,
+				6FA3D1FA231E4F6E00CA2306 /* ColorPickerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

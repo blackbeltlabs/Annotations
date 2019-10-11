@@ -16,14 +16,16 @@ public protocol EditableCanvasView: CanvasView {
   var selectedKnob: KnobView? { get set }
   var lastDraggedPoint: PointModel? { get set }
   var selectedItem: CanvasDrawable? { get set }
+  var createColor: ModelColor { get set }
   
   var selectedTextAnnotation: TextAnnotation? { get set }
   var isSelectedTextAnnotation: Bool { get }
   func deselectTextAnnotation()
   
   func delete(item: CanvasDrawable) -> CanvasModel
-  func createItem(mouseDown: PointModel) -> CanvasDrawable?
-  func createItem(dragFrom: PointModel, to: PointModel) -> (CanvasDrawable?, KnobView?)
+  func createItem(mouseDown: PointModel, color: ModelColor) -> CanvasDrawable?
+  func createItem(dragFrom: PointModel, to: PointModel, color: ModelColor) -> (CanvasDrawable?, KnobView?)
+  func updateSelectedItemColor(_ color: ModelColor)
 }
 
 extension EditableCanvasView {
@@ -76,7 +78,7 @@ extension EditableCanvasView {
       return true
     }
     
-    if selectedItem == nil, selectedTextAnnotation == nil, let newItem = createItem(mouseDown: location) {
+    if selectedItem == nil, selectedTextAnnotation == nil, let newItem = createItem(mouseDown: location, color: createColor) {
       
       add(newItem)
       newItem.doInitialSetupOnCanvas()
@@ -90,15 +92,19 @@ extension EditableCanvasView {
   }
   
   func mouseDragged(_ location: PointModel) {
+
     guard isUserInteractionEnabled else {
       return
     }
     
-    let lastDraggedPoint = self.lastDraggedPoint!
+    // should check if not nil here otherwise crash can occur
+    guard let lastDragPoint = self.lastDraggedPoint else { return }
+    
+    let lastDraggedPoint = lastDragPoint
     
     // create new item
     if selectedItem == nil {
-      let (newItem, newKnob) = createItem(dragFrom: lastDraggedPoint, to: location)
+      let (newItem, newKnob) = createItem(dragFrom: lastDraggedPoint, to: location, color: createColor)
       
       if let item = newItem {
         add(item)
@@ -126,6 +132,7 @@ extension EditableCanvasView {
   }
   
   func mouseUp(_ location: PointModel) {
+
     guard isUserInteractionEnabled else {
       return
     }
@@ -140,5 +147,7 @@ extension EditableCanvasView {
       delegate?.canvasView(self, didUpdateModel: model)
       isChanged = false
     }
+    
+    lastDraggedPoint = nil
   }
 }
