@@ -18,6 +18,8 @@ public protocol EditableCanvasView: CanvasView {
   var selectedItem: CanvasDrawable? { get set }
   
   var selectedTextAnnotation: TextAnnotation? { get set }
+  var isSelectedTextAnnotation: Bool { get }
+  func deselectTextAnnotation()
   
   func delete(item: CanvasDrawable) -> CanvasModel
   func createItem(mouseDown: PointModel) -> CanvasDrawable?
@@ -75,7 +77,10 @@ extension EditableCanvasView {
     }
     
     if selectedItem == nil, selectedTextAnnotation == nil, let newItem = createItem(mouseDown: location) {
+      
       add(newItem)
+      newItem.doInitialSetupOnCanvas()
+      
       return true
     }
     

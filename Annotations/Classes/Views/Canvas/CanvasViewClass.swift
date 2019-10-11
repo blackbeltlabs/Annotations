@@ -9,7 +9,7 @@
 import Cocoa
 import TextAnnotation
 
-public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, TextAnnotationDelegate, ObfuscateCanvas {
+public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, ObfuscateCanvas, TextAnnotationCanvas {
   public var delegate: CanvasViewDelegate?
   public var textCanvasDelegate: TextAnnotationDelegate?
   
@@ -93,8 +93,7 @@ public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanva
 //      textAnnotation.delegate = self  
 //      textAnnotation.startEditing()
     } else {
-      selectedTextAnnotation?.deselect()
-      selectedTextAnnotation = nil
+      deselectTextAnnotation()
     }
   }
   
@@ -119,16 +118,19 @@ public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanva
 
 extension CanvasViewClass {
   public func redraw() {
+		
     items.forEach {
-      guard !(model.texts.count > 0 && $0.modelType == .text) else { return }
+      //guard !(model.texts.count > 0 && $0.modelType == .text) else { return }
       $0.removeFrom(canvas: self)
     }
+    
     items = []
     
     redrawArrows(model: model)
     redrawPens(model: model)
     redrawRects(model: model)
     redrawObfuscates(model: model)
+    redrawTexts(model: model)
   }
   
   func markState(model: CanvasModel) {
@@ -162,5 +164,14 @@ extension CanvasViewClass {
     case let pen as PenView: return delete(pen: pen)
     default: return model
     }
+  }
+  
+  public var isSelectedTextAnnotation: Bool {
+    return selectedTextAnnotation != nil
+  }
+  
+  public func deselectTextAnnotation() {
+    selectedTextAnnotation?.deselect()
+    selectedTextAnnotation = nil
   }
 }

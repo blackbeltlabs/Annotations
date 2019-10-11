@@ -19,10 +19,17 @@ public protocol CanvasDrawable: class {
   func knobAt(point: PointModel) -> KnobView?
   func draggedKnob(_ knob: KnobView, from: PointModel, to: PointModel)
   func dragged(from: PointModel, to: PointModel)
+  func doInitialSetupOnCanvas()
 }
 
 extension CanvasDrawable {
   public var modelType: CanvasItemType {
     return type(of: self).modelType
+  }
+  
+  // this method is called to perform some actions after adding to the canvas
+  // override if some initial actions are required (like start text editing after adding to the canvas)
+  func doInitialSetupOnCanvas() {
+    
   }
 }

@@ -1,9 +1,16 @@
 import Cocoa
 
+struct FontSnapshot {
+  let name: String
+  let size: CGFloat
+}
+
 class TextView: NSTextView {
   
   // MARK: - Variables
   lazy var twoSymbolsWidth: CGFloat = 2 * getFont().xHeight
+  fileprivate(set) var lastFontSnapshot: FontSnapshot?
+  
   private weak var activeAreaResponder: MouseTrackingResponder?
   
   // MARK: Private
@@ -68,11 +75,25 @@ class TextView: NSTextView {
     }
   }
   
-  // MARK: - Private
-  
-  private func getFont() -> NSFont {
+  public func getFont() -> NSFont {
     return font ?? NSFont.systemFont(ofSize: 15)
   }
+	
+  public var currentFontSnapshot: FontSnapshot {
+    let currentFont = getFont()
+    return FontSnapshot(name: currentFont.fontName,
+                        size: currentFont.pointSize)
+  }
+  
+  public func makeFontSnapshot() {
+    lastFontSnapshot = currentFontSnapshot
+  }
+  
+  public func deleteFontSnapshot() {
+    lastFontSnapshot = nil
+  }
+  
+  // MARK: - Private
   
   private func numberOfLines() -> Int {
     var numberOfLines = 1

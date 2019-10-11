@@ -53,12 +53,14 @@ class ViewController: NSViewController {
     }
   }
   
-  
   @IBAction func deleteShape(_ sender: Any) {
     canvasView.deleteSelectedItem()
   }
   
   @IBAction func undo(_ sender: Any) {
+    if canvasView.isSelectedTextAnnotation {
+      canvasView.deselectTextAnnotation()
+    }
     canvasView.update(model: history.undo())
     updateHistoryButtons()
   }
