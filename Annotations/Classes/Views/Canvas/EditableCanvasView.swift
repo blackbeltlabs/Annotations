@@ -66,16 +66,18 @@ extension EditableCanvasView {
     
     lastDraggedPoint = location
     
-    if let knob = selectedItem?.knobAt(point: location) {
-      selectedKnob = knob
-      return true
-    }
-    
-    if let item = itemAt(point: location) {
-      selectedItem = item
-      item.isSelected = true
+    if createMode != .text {
+      if let knob = selectedItem?.knobAt(point: location) {
+        selectedKnob = knob
+        return true
+      }
       
-      return true
+      if let item = itemAt(point: location) {
+        selectedItem = item
+        item.isSelected = true
+        
+        return true
+      }
     }
     
     if selectedItem == nil, selectedTextAnnotation == nil, let newItem = createItem(mouseDown: location, color: createColor) {
