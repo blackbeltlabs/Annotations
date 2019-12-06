@@ -194,8 +194,11 @@ extension CanvasViewClass {
   }
   
   public func deselectTextAnnotation() {
-    selectedTextAnnotation?.deselect()
-    selectedTextAnnotation = nil
+    guard let selectedTextAnnotation = self.selectedTextAnnotation else { return }
+    selectedTextAnnotation.deselect()
+    self.selectedTextAnnotation = nil
+    
+    delegate?.canvasView(self, didDeselect: selectedTextAnnotation)
   }
   
   // MARK: - Update items color
