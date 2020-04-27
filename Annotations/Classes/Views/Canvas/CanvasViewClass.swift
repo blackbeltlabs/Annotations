@@ -9,7 +9,7 @@
 import Cocoa
 import TextAnnotation
 
-public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, ObfuscateCanvas, TextAnnotationCanvas {
+public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, ObfuscateCanvas, TextAnnotationCanvas, HighlightCanvas {
   public var delegate: CanvasViewDelegate?
   public var textCanvasDelegate: TextAnnotationDelegate?
   
@@ -172,6 +172,7 @@ extension CanvasViewClass {
     case .rect: return createRectView(origin: dragFrom, to: to, color: color)
     case .obfuscate: return createObfuscateView(origin: dragFrom, to: to, color: color)
     case .pen: return createPenView(origin: dragFrom, to: to, color: color)
+    case .highlight: return createHighlightView(origin: dragFrom, to: to, color: color, size: frame.size)
     }
   }
   

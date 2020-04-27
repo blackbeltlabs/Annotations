@@ -81,6 +81,8 @@ class ViewController: NSViewController {
       canvasView.createMode = .pen
     case 4:
       canvasView.createMode = .obfuscate
+    case 5:
+      canvasView.createMode = .highlight
     default: return
     }
   }
@@ -145,6 +147,10 @@ extension ViewController: CanvasViewDelegate {
   
   func canvasView(_ canvasView: CanvasView, didStartEditing annotation: TextAnnotation) {
     print("did start editing")
+  }
+  
+  func canvasView(_ canvasView: CanvasView, didDeselect annotation: TextAnnotation) {
+    print("did select canvas")
   }
   
   func canvasView(_ canvasView: CanvasView, didEndEditing annotation: TextAnnotation) {

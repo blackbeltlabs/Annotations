@@ -31,6 +31,10 @@ public struct ModelColor: Codable, Equatable {
     return ModelColor.colorFromRelative(red: 96.0, green: 97.0, blue: 237.0)
   }()
   
+  public static let transparent: ModelColor = {
+    return ModelColor.colorFromRelative(red: 0, green: 0, blue: 0, alpha: 0.5)
+  }()
+  
   // MARK: - Default colors
   
   public static func defaultColor() -> ModelColor {

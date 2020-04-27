@@ -4,6 +4,16 @@
       "origin": { "x": 150, "y": 150 },
       "text": "Some text",
       "color": {"red": 0.3, "green": 0.7, "blue": 0.2, "alpha": 1.0}
+    },
+    {
+      "origin": { "x": 150, "y": 150 },
+      "text": "Some text",
+      "color": {"red": 0.3, "green": 0.7, "blue": 0.2, "alpha": 1.0}
+    },
+    {
+      "origin": { "x": 150, "y": 150 },
+      "text": "Some text",
+      "color": {"red": 0.3, "green": 0.7, "blue": 0.2, "alpha": 1.0}
     }
   ],
   "arrows": [
@@ -37,5 +47,6 @@
       "to": { "x": 100, "y": 100 },
       "color": {"red": 1.0, "green": 1.0, "blue": 0.0, "alpha": 1.0 }
     }
-  ]
+  ],
+  "highlights" : []
 }

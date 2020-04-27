@@ -9,47 +9,50 @@
 import Foundation
 
 public struct PointModel: Model {
-    public let x: Double
-    public let y: Double
-    
-    
-    var cgPoint: CGPoint {
-        return CGPoint(x: x, y: y)
-    }
-    
-    func distanceTo(_ point: PointModel) -> Double {
-        let delta = deltaTo(point)
-        return sqrt(pow(delta.x, 2) + pow(delta.y, 2))
-    }
-    
-    func deltaTo(_ point: PointModel) -> PointModel {
-        return PointModel(x: point.x - x, y: point.y - y)
-    }
-    
-    func copyMoving(delta: PointModel) -> PointModel {
-        return copyMoving(dx: delta.x, dy: delta.y)
-    }
-    
-    func copyMoving(dx: Double, dy: Double) -> PointModel {
-        return PointModel(x: x + dx, y: y + dy)
-    }
-    
-    func returnPointModel(dx: Double, dy: Double) -> PointModel {
-        return PointModel(x: dx, y: dy)
-    }
-    
-    ///////////TEST//////////
-    func copyMovingEnd(delta: PointModel) -> PointModel {
-        return copyMovingEnd(dx: delta.x, dy: delta.y)
-    }
-    func copyMovingEnd(dx: Double, dy: Double) -> PointModel {
-        return PointModel(x:  dx - x, y: dy - y)
-    }
-    
-    func deltaToEnd(_ point: PointModel) -> PointModel {
-        return PointModel(x: point.x - x, y: point.y - y)
-    }
-    
+  public let x: Double
+  public let y: Double
+  
+  
+  var cgPoint: CGPoint {
+    CGPoint(x: x, y: y)
+  }
+  
+  static var zero: PointModel {
+    PointModel(x: 0, y: 0)
+  }
+  
+  func distanceTo(_ point: PointModel) -> Double {
+    let delta = deltaTo(point)
+    return sqrt(pow(delta.x, 2) + pow(delta.y, 2))
+  }
+  
+  func deltaTo(_ point: PointModel) -> PointModel {
+    return PointModel(x: point.x - x, y: point.y - y)
+  }
+  
+  func copyMoving(delta: PointModel) -> PointModel {
+    return copyMoving(dx: delta.x, dy: delta.y)
+  }
+  
+  func copyMoving(dx: Double, dy: Double) -> PointModel {
+    return PointModel(x: x + dx, y: y + dy)
+  }
+  
+  func returnPointModel(dx: Double, dy: Double) -> PointModel {
+    return PointModel(x: dx, y: dy)
+  }
+  
+  func copyMovingEnd(delta: PointModel) -> PointModel {
+    return copyMovingEnd(dx: delta.x, dy: delta.y)
+  }
+  func copyMovingEnd(dx: Double, dy: Double) -> PointModel {
+    return PointModel(x:  dx - x, y: dy - y)
+  }
+  
+  func deltaToEnd(_ point: PointModel) -> PointModel {
+    return PointModel(x: point.x - x, y: point.y - y)
+  }
+  
 }
 
 extension CGPoint {
@@ -61,3 +64,4 @@ extension CGPoint {
     return pointModel.deltaTo(point.pointModel)
   }
 }
+

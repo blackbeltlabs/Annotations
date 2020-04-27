@@ -14,6 +14,7 @@ public enum CanvasItemType {
   case pen
   case rect
   case obfuscate
+  case highlight
 }
 
 public protocol Model: Decodable, Encodable, CustomStringConvertible, Equatable {}
@@ -36,16 +37,18 @@ public struct CanvasModel: Model {
   public var pens: [PenModel] = []
   public var rects: [RectModel] = []
   public var obfuscates: [RectModel] = []
+  public var highlights: [RectModel] = []
   
   public init() {}
   
-  func copy(texts: [TextModel]? = nil, arrows: [ArrowModel]? = nil, pens: [PenModel]? = nil, rects: [RectModel]? = nil, obfuscates: [RectModel]? = nil) -> CanvasModel {
+  func copy(texts: [TextModel]? = nil, arrows: [ArrowModel]? = nil, pens: [PenModel]? = nil, rects: [RectModel]? = nil, obfuscates: [RectModel]? = nil, highlights: [RectModel]? = nil) -> CanvasModel {
     var newModel = CanvasModel()
     newModel.texts = texts ?? self.texts
     newModel.arrows = arrows ?? self.arrows
     newModel.pens = pens ?? self.pens
     newModel.rects = rects ?? self.rects
     newModel.obfuscates = obfuscates ?? self.obfuscates
+    newModel.highlights = highlights ?? self.highlights
     return newModel
   }
   
@@ -61,6 +64,8 @@ public struct CanvasModel: Model {
       return copy(rects: rects.copyWithout(index: index))
     case .obfuscate:
       return copy(obfuscates: obfuscates.copyWithout(index: index))
+    case .highlight:
+      return copy(highlights: highlights.copyWithout(index: index))
     }
   }
 }

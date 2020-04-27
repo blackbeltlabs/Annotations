@@ -72,7 +72,7 @@ extension EditableCanvasView {
         return true
       }
       
-      if let item = itemAt(point: location) {
+      if let item = itemAt(point: location), item.modelType != .highlight {
         selectedItem = item
         item.isSelected = true
         
