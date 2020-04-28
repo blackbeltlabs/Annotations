@@ -146,6 +146,7 @@ extension CanvasViewClass {
     redrawRects(model: model)
     redrawObfuscates(model: model)
     redrawTexts(model: model)
+    redrawHighlights(model: model)
     
     selectedItem = nil
     selectedTextAnnotation = nil
@@ -184,6 +185,7 @@ extension CanvasViewClass {
     case let obfuscate as ObfuscateView: return delete(obfuscate: obfuscate)
     case let rect as RectView: return delete(rect: rect)
     case let pen as PenView: return delete(pen: pen)
+    case let highlight as HighlightView: return delete(highlight: highlight)
     default: return model
     }
   }

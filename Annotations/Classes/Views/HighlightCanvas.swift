@@ -34,7 +34,7 @@ extension HighlightCanvas {
     return (newView, selectedKnob)
   }
   
-  func delete(highlight: RectView) -> CanvasModel {
+  func delete(highlight: HighlightView) -> CanvasModel {
     return model.copyWithout(type: .highlight, index: highlight.modelIndex)
   }
   
