@@ -180,19 +180,15 @@ extension NSBezierPath {
       
     let bottomLeft = CGPoint(x: rect.minX + cornerRadius, y: rect.minY + cornerRadius)
     path.move(to: CGPoint(x: bottomLeft.x, y: bottomLeft.y))
-//    path.appendArc(withCenter: bottomLeft, radius: cornerRadius, startAngle: 0 , endAngle: .pi, clockwise: false)
-//
+    
     let bottomRight = CGPoint(x: rect.maxX - cornerRadius, y: rect.minY + cornerRadius)
     path.line(to: CGPoint(x: bottomRight.x, y: bottomRight.y))
-//    path.appendArc(withCenter: bottomRight, radius: cornerRadius, startAngle: .pi / 2, endAngle: .pi, clockwise: false)
       
     let topRight = CGPoint(x: rect.maxX - cornerRadius, y: rect.maxY - cornerRadius)
     path.line(to: CGPoint(x: topRight.x, y: topRight.y))
-//    path.appendArc(withCenter: topRight, radius: radius, startAngle: .pi, endAngle: .pi / 2, clockwise: false)
       
     let topLeft = CGPoint(x: rect.minX + cornerRadius, y: rect.maxY - cornerRadius)
     path.line(to: CGPoint(x: topLeft.x, y: topLeft.y))
-//    path.appendArc(withCenter: topLeft, radius: cornerRadius, startAngle: 0, endAngle: .pi / 2, clockwise: false)
       
     path.close()
     return path.cgPath
