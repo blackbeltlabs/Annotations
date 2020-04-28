@@ -20,13 +20,13 @@ extension HighlightCanvas {
       return (nil, nil)
     }
     
-    let newRect = RectModel(origin: origin, to: to, color: .transparent)
+    let newRect = RectModel(origin: origin, to: to, color: color)
     model.highlights.append(newRect)
     
     let state = HighlightViewState(model: newRect, isSelected: false)
     let newView = HighlightViewClass(state: state,
                                      modelIndex: model.highlights.count - 1,
-                                     color: .transparent)
+                                     color: color)
     newView.delegate = self
     
     let selectedKnob = newView.knobAt(rectPoint: .to)

@@ -41,7 +41,9 @@ extension HighlightView {
       guard let mask = layer.mask as? CAShapeLayer else { return }
 
       let maskPath = CGMutablePath()
-      maskPath.addPath(NSBezierPath.concaveRectPath(rect: newValue.boundingBoxOfPath, radius: 4))
+      let bezier = NSBezierPath.concaveRectPath(rect: newValue.boundingBoxOfPath,
+                                                radius: 4)
+      maskPath.addPath(bezier)
       maskPath.addRect(frame)
       mask.path = maskPath
     }
@@ -61,8 +63,7 @@ extension HighlightView {
     maskLayer.fillRule = .evenOdd
     
     let layer = CAShapeLayer()
-    layer.strokeColor = .clear
-    layer.fillColor = color
+    layer.fillColor = NSColor.color(from: .transparent).cgColor
     layer.mask = maskLayer
     
     return layer
