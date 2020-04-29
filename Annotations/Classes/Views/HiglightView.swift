@@ -15,7 +15,6 @@ protocol HighlightView: CanvasDrawable {
   var modelIndex: Int { get set }
   var layer: CAShapeLayer { get }
   var knobDict: [RectPoint: KnobView] { get }
-  
 }
 
 extension HighlightView {
