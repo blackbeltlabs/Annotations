@@ -15,6 +15,7 @@ protocol HighlightView: CanvasDrawable {
   var modelIndex: Int { get set }
   var layer: CAShapeLayer { get }
   var knobDict: [RectPoint: KnobView] { get }
+  var maskPath: CGPath? { get set }
 }
 
 extension HighlightView {
@@ -45,6 +46,8 @@ extension HighlightView {
       maskPath.addPath(bezier)
       maskPath.addRect(frame)
       mask.path = maskPath
+      
+      self.maskPath = bezier
     }
   }
   
@@ -79,7 +82,7 @@ extension HighlightView {
   }
   
   func contains(point: PointModel) -> Bool {
-    return layer.path!.contains(point.cgPoint)
+    return maskPath?.contains(point.cgPoint) ?? false
   }
   
   func addTo(canvas: CanvasView) {
@@ -147,6 +150,7 @@ class HighlightViewClass: HighlightView {
   var delegate: HighlightViewDelegate?
   
   var layer: CAShapeLayer
+  var maskPath: CGPath?
   var modelIndex: Int
   
   var color: NSColor? {
