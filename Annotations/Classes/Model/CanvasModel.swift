@@ -41,7 +41,13 @@ public struct CanvasModel: Model {
   
   public init() {}
   
-  func copy(texts: [TextModel]? = nil, arrows: [ArrowModel]? = nil, pens: [PenModel]? = nil, rects: [RectModel]? = nil, obfuscates: [RectModel]? = nil, highlights: [RectModel]? = nil) -> CanvasModel {
+  func copy(texts: [TextModel]? = nil,
+            arrows: [ArrowModel]? = nil,
+            pens: [PenModel]? = nil,
+            rects: [RectModel]? = nil,
+            obfuscates: [RectModel]? = nil,
+            highlights: [RectModel]? = nil) -> CanvasModel {
+    
     var newModel = CanvasModel()
     newModel.texts = texts ?? self.texts
     newModel.arrows = arrows ?? self.arrows

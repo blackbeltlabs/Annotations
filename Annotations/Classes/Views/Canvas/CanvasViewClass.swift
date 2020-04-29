@@ -141,12 +141,12 @@ extension CanvasViewClass {
     
     items = []
     
+    redrawHighlights(model: model)
     redrawArrows(model: model)
     redrawPens(model: model)
     redrawRects(model: model)
     redrawObfuscates(model: model)
     redrawTexts(model: model)
-    redrawHighlights(model: model)
     
     selectedItem = nil
     selectedTextAnnotation = nil
