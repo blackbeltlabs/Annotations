@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -717,7 +717,7 @@ CA
                                 <rect key="frame" x="0.0" y="0.0" width="511" height="244"/>
                             </customView>
                             <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JrP-53-D0T">
-                                <rect key="frame" x="164" y="8" width="339" height="24"/>
+                                <rect key="frame" x="84" y="8" width="419" height="24"/>
                                 <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="Y11-io-MbH">
                                     <font key="font" metaFont="system"/>
                                     <segments>
@@ -726,6 +726,7 @@ CA
                                         <segment label="Rectangle"/>
                                         <segment label="Pen"/>
                                         <segment label="Obfuscate"/>
+                                        <segment label="Highlight"/>
                                     </segments>
                                 </segmentedCell>
                                 <connections>

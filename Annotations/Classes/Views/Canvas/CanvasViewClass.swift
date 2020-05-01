@@ -9,7 +9,7 @@
 import Cocoa
 import TextAnnotation
 
-public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, ObfuscateCanvas, TextAnnotationCanvas {
+public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, ObfuscateCanvas, TextAnnotationCanvas, HighlightCanvas, TextAnnotationDelegate {
   public var delegate: CanvasViewDelegate?
   public var textCanvasDelegate: TextAnnotationDelegate?
   
@@ -134,18 +134,29 @@ public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanva
 extension CanvasViewClass {
   public func redraw() {
 		
-    items.forEach {
-      //guard !(model.texts.count > 0 && $0.modelType == .text) else { return }
-      $0.removeFrom(canvas: self)
-    }
-    
+    items.forEach { $0.removeFrom(canvas: self) }
     items = []
     
-    redrawArrows(model: model)
-    redrawPens(model: model)
-    redrawRects(model: model)
-    redrawObfuscates(model: model)
-    redrawTexts(model: model)
+    let elements = model.elementsSorted
+    
+    for element in elements {
+      switch element {
+      case let highlight as HighlightModel:
+        redrawHighlight(model: highlight, canvas: model)
+      case let arrow as ArrowModel:
+        redrawArrow(model: arrow, canvas: model)
+      case let pen as PenModel:
+        redrawPen(model: pen, canvas: model)
+      case let obfuscate as ObfuscateModel:
+        redrawObfuscate(model: obfuscate, canvas: model)
+      case let text as TextModel:
+        redrawTexts(model: text, canvas: model)
+      case let rect as RectModel:
+        redrawRect(model: rect, canvas: model)
+      default:
+        print("Unknown type")
+      }
+    }
     
     selectedItem = nil
     selectedTextAnnotation = nil
@@ -172,6 +183,7 @@ extension CanvasViewClass {
     case .rect: return createRectView(origin: dragFrom, to: to, color: color)
     case .obfuscate: return createObfuscateView(origin: dragFrom, to: to, color: color)
     case .pen: return createPenView(origin: dragFrom, to: to, color: color)
+    case .highlight: return createHighlightView(origin: dragFrom, to: to, color: color, size: frame.size)
     }
   }
   
@@ -183,6 +195,7 @@ extension CanvasViewClass {
     case let obfuscate as ObfuscateView: return delete(obfuscate: obfuscate)
     case let rect as RectView: return delete(rect: rect)
     case let pen as PenView: return delete(pen: pen)
+    case let highlight as HighlightView: return delete(highlight: highlight)
     default: return model
     }
   }

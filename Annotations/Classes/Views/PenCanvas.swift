@@ -14,25 +14,28 @@ protocol PenCanvas: class, PenViewDelegate {
 }
 
 extension PenCanvas {
-  func redrawPens(model: CanvasModel) {
-    for (index, model) in model.pens.enumerated() {
-      let state = PenViewState(model: model, isSelected: false)
-      let view = PenViewClass(state: state, modelIndex: index, color: model.color)
-      view.delegate = self
-      add(view)
-    }
+  func redrawPen(model: PenModel, canvas: CanvasModel) {
+    guard let modelIndex = canvas.pens.firstIndex(of: model) else { return }
+    let state = PenViewState(model: model, isSelected: false)
+    let view = PenViewClass(state: state,
+                            modelIndex: modelIndex,
+                            globalIndex: model.index,
+                            color: model.color)
+    view.delegate = self
+    add(view)
   }
   
   func createPenView(origin: PointModel, to: PointModel, color: ModelColor) -> (CanvasDrawable?, KnobView?) {
     if origin.distanceTo(to) < 5 { return (nil, nil) }
     
-    let newPen = PenModel(points: [to], color: color)
-    
+    let newPen = PenModel(index: model.elements.count + 1,
+                          points: [to], color: color)
     model.pens.append(newPen)
     
     let state = PenViewState(model: newPen, isSelected: false)
     let newView = PenViewClass(state: state,
                                modelIndex: model.pens.count - 1,
+                               globalIndex: newPen.index,
                                color: color)
     newView.delegate = self
     

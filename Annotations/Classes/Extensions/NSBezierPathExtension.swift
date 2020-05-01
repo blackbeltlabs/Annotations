@@ -49,8 +49,9 @@ extension NSBezierPath {
         
       case .closeSubpath:
         self.close()
+      @unknown default:
+       print("Unknown value")
       }
-//      pointsPtr.deinitialize()
     }
   }
     
@@ -166,9 +167,32 @@ extension NSBezierPath {
                 path.addCurve(to: points[2], control1: points[0], control2: points[1])
             case .closePath:
                 path.closeSubpath()
-            }
+            @unknown default:
+              print("Unknown value")
+          }
         }
         return path
+  }
+  
+  public static func concaveRectPath(rect: CGRect, radius: CGFloat) -> CGPath {
+    let cornerRadius = radius
+      
+    let path = NSBezierPath()
+      
+    let bottomLeft = CGPoint(x: rect.minX + cornerRadius, y: rect.minY + cornerRadius)
+    path.move(to: CGPoint(x: bottomLeft.x, y: bottomLeft.y))
+    
+    let bottomRight = CGPoint(x: rect.maxX - cornerRadius, y: rect.minY + cornerRadius)
+    path.line(to: CGPoint(x: bottomRight.x, y: bottomRight.y))
+      
+    let topRight = CGPoint(x: rect.maxX - cornerRadius, y: rect.maxY - cornerRadius)
+    path.line(to: CGPoint(x: topRight.x, y: topRight.y))
+      
+    let topLeft = CGPoint(x: rect.minX + cornerRadius, y: rect.maxY - cornerRadius)
+    path.line(to: CGPoint(x: topLeft.x, y: topLeft.y))
+      
+    path.close()
+    return path.cgPath
   }
 }
 
@@ -231,4 +255,3 @@ extension CGPath {
         return arrayPoints
     }
 }
-

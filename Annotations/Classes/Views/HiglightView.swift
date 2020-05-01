@@ -1,31 +1,30 @@
 import Foundation
-import Cocoa
 
-protocol ObfuscateViewDelegate {
-  func obfuscateView(_ view: ObfuscateView, didUpdate model: ObfuscateModel, atIndex index: Int)
+protocol HighlightViewDelegate {
+  func highlightView(_ highlightView: HighlightView, didUpdate model: HighlightModel, atIndex index: Int)
 }
 
-struct ObfuscateViewState {
-  var model: ObfuscateModel
+struct HighlightViewState {
+  var model: HighlightModel
   var isSelected: Bool
 }
 
-protocol ObfuscateView: CanvasDrawable {
-  var delegate: ObfuscateViewDelegate? { get set }
-  var state: ObfuscateViewState { get set }
+protocol HighlightView: CanvasDrawable {
+  var delegate: HighlightViewDelegate? { get set }
+  var state: HighlightViewState { get set }
   var modelIndex: Int { get set }
   var layer: CAShapeLayer { get }
   var knobDict: [RectPoint: KnobView] { get }
-  
+  var maskPath: CGPath? { get set }
 }
 
-extension ObfuscateView {
-  static var modelType: CanvasItemType { return .obfuscate }
+extension HighlightView {
+  static var modelType: CanvasItemType { .highlight }
   
-  var model: ObfuscateModel { return state.model }
+  var model: HighlightModel { state.model }
   
   var knobs: [KnobView] {
-    return RectPoint.allCases.map { knobAt(rectPoint: $0)}
+    RectPoint.allCases.map { knobAt(rectPoint: $0)}
   }
   
   var path: CGPath {
@@ -33,9 +32,22 @@ extension ObfuscateView {
       return layer.path!
     }
     set {
-      layer.path = newValue
-      layer.bounds = newValue.boundingBox
+      let frame = NSScreen.main?.frame ?? .zero
+      let path = CGPath(rect: frame, transform: nil)
+      layer.path = path
+      layer.bounds = path.boundingBox
       layer.frame = layer.bounds
+      
+      guard let mask = layer.mask as? CAShapeLayer else { return }
+
+      let maskPath = CGMutablePath()
+      let bezier = NSBezierPath.concaveRectPath(rect: newValue.boundingBoxOfPath,
+                                                radius: 4)
+      maskPath.addPath(bezier)
+      maskPath.addRect(frame)
+      mask.path = maskPath
+      
+      self.maskPath = bezier
     }
   }
   
@@ -48,11 +60,13 @@ extension ObfuscateView {
     return NSBezierPath(rect: NSRect(fromPoint: model.origin.cgPoint, toPoint: model.to.cgPoint)).cgPath
   }
   
-  static func createLayer() -> CAShapeLayer {
+  static func createLayer(color: CGColor, state: HighlightViewState) -> CAShapeLayer {
+    let maskLayer = CAShapeLayer()
+    maskLayer.fillRule = .evenOdd
+    
     let layer = CAShapeLayer()
-    layer.fillColor = NSColor.obfuscate.cgColor
-    layer.strokeColor = NSColor.obfuscate.cgColor
-    layer.lineWidth = 0
+    layer.fillColor = NSColor.color(from: .transparent).cgColor
+    layer.mask = maskLayer
     
     return layer
   }
@@ -68,7 +82,7 @@ extension ObfuscateView {
   }
   
   func contains(point: PointModel) -> Bool {
-    return layer.path!.contains(point.cgPoint)
+    return maskPath?.contains(point.cgPoint) ?? false
   }
   
   func addTo(canvas: CanvasView) {
@@ -94,15 +108,15 @@ extension ObfuscateView {
     }
   }
   
-  func render(state: ObfuscateViewState, oldState: ObfuscateViewState? = nil) {
+  func render(state: HighlightViewState, oldState: HighlightViewState? = nil) {
     if state.model != oldState?.model {
-      layer.shapePath = type(of: self).createPath(model: model)
+      path = type(of: self).createPath(model: model)
       
       for rectPoint in RectPoint.allCases {
         knobAt(rectPoint: rectPoint).state.model = state.model.valueFor(rectPoint: rectPoint)
       }
       
-      self.delegate?.obfuscateView(self, didUpdate: self.model, atIndex: self.modelIndex)
+      self.delegate?.highlightView(self, didUpdate: self.model, atIndex: self.modelIndex)
     }
     
     if state.isSelected != oldState?.isSelected {
@@ -121,23 +135,29 @@ extension ObfuscateView {
   }
   
   func updateColor(_ color: NSColor) {
-    
+    layer.strokeColor = color.cgColor
+    state.model = model.copyWithColor(color: color.annotationModelColor)
   }
 }
 
-class ObfuscateViewClass: ObfuscateView {
-  var state: ObfuscateViewState {
+class HighlightViewClass: HighlightView {
+  var state: HighlightViewState {
     didSet {
       self.render(state: self.state, oldState: oldValue)
     }
   }
   
-  var delegate: ObfuscateViewDelegate?
+  var delegate: HighlightViewDelegate?
   
   var layer: CAShapeLayer
+  var maskPath: CGPath?
   var globalIndex: Int
   var modelIndex: Int
-  let color: NSColor?
+  
+  var color: NSColor? {
+    guard let color = layer.strokeColor else { return nil }
+    return NSColor(cgColor: color)
+  }
   
   lazy var knobDict: [RectPoint: KnobView] = [
     .origin: KnobViewClass(model: model.origin),
@@ -146,22 +166,22 @@ class ObfuscateViewClass: ObfuscateView {
     .toX: KnobViewClass(model: model.to.returnPointModel(dx: model.to.x, dy: model.origin.y))
   ]
   
-  convenience init(state: ObfuscateViewState,
+  convenience init(state: HighlightViewState,
                    modelIndex: Int,
                    globalIndex: Int,
                    color: ModelColor) {
     
-    let layer = type(of: self).createLayer()
+    let layerColor = NSColor.color(from: color).cgColor
+    let layer = type(of: self).createLayer(color: layerColor, state: state)
     
-    self.init(state: state, modelIndex: modelIndex, globalIndex: globalIndex, layer: layer, color: color)
+    self.init(state: state, modelIndex: modelIndex, globalIndex: globalIndex, layer: layer)
   }
   
-  init(state: ObfuscateViewState, modelIndex: Int, globalIndex: Int, layer: CAShapeLayer, color: ModelColor) {
+  init(state: HighlightViewState, modelIndex: Int, globalIndex: Int, layer: CAShapeLayer) {
     self.state = state
     self.modelIndex = modelIndex
     self.globalIndex = globalIndex
     self.layer = layer
-    self.color = NSColor.color(from: color)
     self.render(state: state)
   }
 }

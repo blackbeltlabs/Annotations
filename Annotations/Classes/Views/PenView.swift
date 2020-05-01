@@ -133,15 +133,17 @@ class PenViewClass: PenView {
     }
   }
   
+  var globalIndex: Int
   var modelIndex: Int
   var color: NSColor? {
     guard let color = layer.strokeColor else { return nil }
     return NSColor(cgColor: color)
   }
   
-  init(state: PenViewState, modelIndex: Int, color: ModelColor) {
+  init(state: PenViewState, modelIndex: Int, globalIndex: Int, color: ModelColor) {
     self.state = state
     self.modelIndex = modelIndex
+    self.globalIndex = globalIndex
     layer = PenViewClass.createLayer(color: NSColor.color(from:color).cgColor)
     render(state: state)
   }

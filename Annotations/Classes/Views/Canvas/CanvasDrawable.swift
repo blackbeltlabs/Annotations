@@ -11,9 +11,11 @@ import Foundation
 public protocol CanvasDrawable: class {
   static var modelType: CanvasItemType { get }
 
+  var globalIndex: Int { get set }
   var modelIndex: Int { get set }
   var isSelected: Bool { get set }
   var color: NSColor? { get }
+  
   func updateColor(_ color: NSColor)
   func addTo(canvas: CanvasView)
   func removeFrom(canvas: CanvasView)
