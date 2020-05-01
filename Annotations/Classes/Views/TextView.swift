@@ -43,10 +43,6 @@ extension TextView {
     }
     
     view.addTo(canvas: textCanvas)
-    
-   // view.startEditing()
-    
-   // delegate?.textView(self, didUpdate: model, atIndex: modelIndex)
   }
   
   func removeFrom(canvas: CanvasView) {
@@ -86,7 +82,6 @@ extension TextView {
 }
 
 class TextViewClass: TextView {
-  
   var state: TextViewState {
     didSet {
       render(state: state, oldState: oldValue)
@@ -94,17 +89,17 @@ class TextViewClass: TextView {
   }
   
   var delegate: TextViewDelegate?
-  
   let view: TextAnnotation
-  
+  var globalIndex: Int
   var modelIndex: Int
   let color: NSColor?
   
-  init(state: TextViewState, modelIndex: Int, view: TextAnnotation, color: ModelColor) {
+  init(state: TextViewState, modelIndex: Int, globalIndex: Int, view: TextAnnotation, color: ModelColor) {
     self.state = state
     self.modelIndex = modelIndex
     self.view = view
     self.color = NSColor.color(from: color)
+    self.globalIndex = globalIndex
     view.textUpdateDelegate = self
   }
 }
@@ -113,13 +108,15 @@ extension TextViewClass: TextAnnotationUpdateDelegate {
   func textAnnotationUpdated(textAnnotation: TextAnnotation,
                              modelable: TextAnnotationModelable) {
     
-    let model = TextModel(origin: PointModel(x: Double(modelable.frame.origin.x),
+    let model = TextModel(origin: PointModel(index: globalIndex,
+                                             x: Double(modelable.frame.origin.x),
                                              y: Double(modelable.frame.origin.y)),
                           text: modelable.text,
                           frame: modelable.frame,
                           fontName: modelable.fontName,
                           fontSize: modelable.fontSize,
-                          color: modelable.color)
+                          color: modelable.color,
+                          index: globalIndex)
     
     delegate?.textView(self, didUpdate: model, atIndex: modelIndex)
   }

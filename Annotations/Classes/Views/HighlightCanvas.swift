@@ -6,13 +6,15 @@ protocol HighlightCanvas: class, HighlightViewDelegate {
 }
 
 extension HighlightCanvas {
-  func redrawHighlights(model: CanvasModel) {
-    for (index, model) in model.highlights.enumerated() {
-      let state = HighlightViewState(model: model, isSelected: false)
-      let view = HighlightViewClass(state: state, modelIndex: index, color: model.color)
-      view.delegate = self
-      add(view)
-    }
+  func redrawHighlight(model: HighlightModel, canvas: CanvasModel) {
+    guard let modelIndex = canvas.highlights.firstIndex(of: model) else { return }
+    let state = HighlightViewState(model: model, isSelected: false)
+    let view = HighlightViewClass(state: state,
+                                  modelIndex: modelIndex,
+                                  globalIndex: model.index,
+                                  color: model.color)
+    view.delegate = self
+    add(view)
   }
   
   func createHighlightView(origin: PointModel, to: PointModel, color: ModelColor, size: CGSize) -> (CanvasDrawable?, KnobView?) {
@@ -20,12 +22,14 @@ extension HighlightCanvas {
       return (nil, nil)
     }
     
-    let newRect = RectModel(origin: origin, to: to, color: color)
+    let newRect = HighlightModel(index: model.elements.count + 1,
+                            origin: origin, to: to, color: color)
     model.highlights.append(newRect)
     
     let state = HighlightViewState(model: newRect, isSelected: false)
     let newView = HighlightViewClass(state: state,
                                      modelIndex: model.highlights.count - 1,
+                                     globalIndex: newRect.index,
                                      color: color)
     newView.delegate = self
     
@@ -38,7 +42,10 @@ extension HighlightCanvas {
     return model.copyWithout(type: .highlight, index: highlight.modelIndex)
   }
   
-  func highlightView(_ highlightView: HighlightView, didUpdate model: RectModel, atIndex index: Int) {
+  func highlightView(_ highlightView: HighlightView,
+                     didUpdate model: HighlightModel,
+                     atIndex index: Int) {
+    
     self.model.highlights[index] = model
   }
 }

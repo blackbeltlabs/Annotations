@@ -22,10 +22,6 @@ class ViewController: NSViewController {
   @IBOutlet weak var pickerViewsStackView: NSStackView!
   var selectedPickerView: ColorPickerView?
   
-//  var canvasView: EditableCanvasView {
-//    return view as! EditableCanvasView
-//  }
-  
   var colorPickerViews: [ColorPickerView] {
     return pickerViewsStackView.arrangedSubviews.compactMap {
       $0 as? ColorPickerView

@@ -9,16 +9,12 @@
 import Foundation
 
 public struct PointModel: Model {
+  public var index: Int
   public let x: Double
   public let y: Double
   
-  
   var cgPoint: CGPoint {
     CGPoint(x: x, y: y)
-  }
-  
-  static var zero: PointModel {
-    PointModel(x: 0, y: 0)
   }
   
   func distanceTo(_ point: PointModel) -> Double {
@@ -27,41 +23,41 @@ public struct PointModel: Model {
   }
   
   func deltaTo(_ point: PointModel) -> PointModel {
-    return PointModel(x: point.x - x, y: point.y - y)
+    .init(index: index, x: point.x - x, y: point.y - y)
   }
   
   func copyMoving(delta: PointModel) -> PointModel {
-    return copyMoving(dx: delta.x, dy: delta.y)
+    copyMoving(dx: delta.x, dy: delta.y)
   }
   
   func copyMoving(dx: Double, dy: Double) -> PointModel {
-    return PointModel(x: x + dx, y: y + dy)
+    .init(index: index, x: x + dx, y: y + dy)
   }
   
   func returnPointModel(dx: Double, dy: Double) -> PointModel {
-    return PointModel(x: dx, y: dy)
+    .init(index: index, x: dx, y: dy)
   }
   
   func copyMovingEnd(delta: PointModel) -> PointModel {
-    return copyMovingEnd(dx: delta.x, dy: delta.y)
+    copyMovingEnd(dx: delta.x, dy: delta.y)
   }
   func copyMovingEnd(dx: Double, dy: Double) -> PointModel {
-    return PointModel(x:  dx - x, y: dy - y)
+    .init(index: index, x:  dx - x, y: dy - y)
   }
   
   func deltaToEnd(_ point: PointModel) -> PointModel {
-    return PointModel(x: point.x - x, y: point.y - y)
+    .init(index: index, x: point.x - x, y: point.y - y)
   }
   
 }
 
 extension CGPoint {
   var pointModel: PointModel {
-    return PointModel(x: Double(x), y: Double(y))
+    .init(index: 0, x: Double(x), y: Double(y))
   }
   
   func deltaTo(_ point: CGPoint) -> PointModel {
-    return pointModel.deltaTo(point.pointModel)
+    pointModel.deltaTo(point.pointModel)
   }
 }
 

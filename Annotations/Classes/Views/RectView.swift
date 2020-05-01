@@ -136,6 +136,7 @@ class RectViewClass: RectView {
   var delegate: RectViewDelegate?
   
   var layer: CAShapeLayer
+  var globalIndex: Int
   var modelIndex: Int
   
   var color: NSColor? {
@@ -150,16 +151,21 @@ class RectViewClass: RectView {
     .toX: KnobViewClass(model: model.to.returnPointModel(dx:model.to.x, dy:model.origin.y))
   ]
   
-  convenience init(state: RectViewState, modelIndex: Int, color: ModelColor) {
+  convenience init(state: RectViewState,
+                   modelIndex: Int,
+                   globalIndex: Int,
+                   color: ModelColor) {
+    
     let layerColor = NSColor.color(from: color).cgColor
     let layer = type(of: self).createLayer(color: layerColor)
     
-    self.init(state: state, modelIndex: modelIndex, layer: layer)
+    self.init(state: state, modelIndex: modelIndex, globalIndex: globalIndex, layer: layer)
   }
   
-  init(state: RectViewState, modelIndex: Int, layer: CAShapeLayer) {
+  init(state: RectViewState, modelIndex: Int, globalIndex: Int, layer: CAShapeLayer) {
     self.state = state
     self.modelIndex = modelIndex
+    self.globalIndex = globalIndex
     self.layer = layer
     self.render(state: state)
   }

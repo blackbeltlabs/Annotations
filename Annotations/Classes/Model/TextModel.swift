@@ -9,6 +9,7 @@ import Foundation
 import TextAnnotation
 
 public struct TextModel: Model, TextAnnotationModelable {
+  public var index: Int
   public let origin: PointModel
   public let text: String
   public let fontName: String?
@@ -17,13 +18,18 @@ public struct TextModel: Model, TextAnnotationModelable {
   
   private let _frame: CGRect?
   
-  init(origin: PointModel, text: String, color: TextColor) {
+  init(origin: PointModel,
+       text: String,
+       color: TextColor,
+       index: Int) {
+    
     self.origin = origin
     self.text = text
     self._frame = nil
     self.fontName = nil
     self.fontSize = nil
     self.color = color
+    self.index = index
   }
   
   init(origin: PointModel,
@@ -31,13 +37,16 @@ public struct TextModel: Model, TextAnnotationModelable {
        frame: CGRect?,
        fontName: String?,
        fontSize: CGFloat?,
-       color: TextColor) {
+       color: TextColor,
+       index: Int) {
+    
     self.origin = origin
     self.text = text
     self._frame = frame
     self.fontName = fontName
     self.fontSize = fontSize
     self.color = color
+    self.index = index
   }
   
   public var frame: CGRect {
@@ -54,6 +63,7 @@ public struct TextModel: Model, TextAnnotationModelable {
                      frame: frame,
                      fontName: fontName,
                      fontSize: fontSize,
-                     color: color.textColor)
+                     color: color.textColor,
+                     index: index)
   }
 }

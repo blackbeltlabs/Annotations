@@ -49,8 +49,9 @@ extension NSBezierPath {
         
       case .closeSubpath:
         self.close()
+      @unknown default:
+       print("Unknown value")
       }
-//      pointsPtr.deinitialize()
     }
   }
     

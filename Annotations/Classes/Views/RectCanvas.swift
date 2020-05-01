@@ -6,13 +6,13 @@ protocol RectCanvas: class, RectViewDelegate {
 }
 
 extension RectCanvas {
-  func redrawRects(model: CanvasModel) {
-    for (index, model) in model.rects.enumerated() {
-      let state = RectViewState(model: model, isSelected: false)
-      let view = RectViewClass(state: state, modelIndex: index, color: model.color)
-      view.delegate = self
-      add(view)
-    }
+  func redrawRect(model: RectModel, canvas: CanvasModel) {
+    guard let modelIndex = canvas.rects.firstIndex(of: model) else { return }
+    let state = RectViewState(model: model, isSelected: false)
+    let view = RectViewClass(state: state, modelIndex: modelIndex,
+                             globalIndex: model.index, color: model.color)
+    view.delegate = self
+    add(view)
   }
   
   func createRectView(origin: PointModel, to: PointModel, color: ModelColor) -> (CanvasDrawable?, KnobView?) {
@@ -20,12 +20,14 @@ extension RectCanvas {
       return (nil, nil)
     }
     
-    let newRect = RectModel(origin: origin, to: to, color: color)
+    let newRect = RectModel(index: model.elements.count + 1,
+                            origin: origin, to: to, color: color)
     model.rects.append(newRect)
     
     let state = RectViewState(model: newRect, isSelected: false)
     let newView = RectViewClass(state: state,
                                 modelIndex: model.rects.count - 1,
+                                globalIndex: model.index,
                                 color: color)
     newView.delegate = self
     

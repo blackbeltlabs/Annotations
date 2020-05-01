@@ -8,7 +8,7 @@
 import Foundation
 import TextAnnotation
 
-protocol TextCanvas: TextAnnotationCanvas, TextViewDelegate, TextAnnotationDelegate where Self: CanvasView {
+protocol TextCanvas: TextAnnotationCanvas, TextViewDelegate where Self: CanvasView {
   var selectedItem: CanvasDrawable? { get set }
   var model: CanvasModel { get set }
 }
@@ -22,15 +22,16 @@ extension TextCanvas {
     
     let textModel = TextModel(origin: origin,
                               text: text,
-                              color: color.textColor)
+                              color: color.textColor,
+                              index: model.elements.count + 1)
     model.texts.append(textModel)
     
     let state = TextViewState(model: textModel, isSelected: false)
-    
     let modelIndex = model.texts.count - 1
     
     let newView = TextViewClass(state: state,
                                 modelIndex: modelIndex,
+                                globalIndex: textModel.index,
                                 view: newTextView,
                                 color: color)
     newView.delegate = self
@@ -45,23 +46,26 @@ extension TextCanvas {
     
     let state = TextViewState(model: textModel, isSelected: false)
     
-    let newView = TextViewClass(state: state, modelIndex: index, view: newTextView, color: ModelColor.defaultColor())
+    let newView = TextViewClass(state: state,
+                                modelIndex: index,
+                                globalIndex: textModel.index,
+                                view: newTextView,
+                                color: ModelColor.defaultColor())
     newView.delegate = self
     
     return newView
   }
 	
 	
-  func redrawTexts(model: CanvasModel) {
-    for (index, model) in model.texts.enumerated() {
-      let view = createTextView(textModel: model, index: index)
-      view.delegate = self
-      add(view)
-      
-      view.updateFrame(with: model)
-      view.deselect()
-      view.isSelected = false
-    }
+  func redrawTexts(model: TextModel, canvas: CanvasModel) {
+    guard let index = canvas.texts.firstIndex(of: model) else { return }
+    
+    let view = createTextView(textModel: model, index: index)
+    view.delegate = self
+    add(view)
+    view.updateFrame(with: model)
+    view.deselect()
+    view.isSelected = false
   }
 }
 

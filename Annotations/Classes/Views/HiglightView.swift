@@ -1,11 +1,11 @@
 import Foundation
 
 protocol HighlightViewDelegate {
-  func highlightView(_ highlightView: HighlightView, didUpdate model: RectModel, atIndex index: Int)
+  func highlightView(_ highlightView: HighlightView, didUpdate model: HighlightModel, atIndex index: Int)
 }
 
 struct HighlightViewState {
-  var model: RectModel
+  var model: HighlightModel
   var isSelected: Bool
 }
 
@@ -19,12 +19,12 @@ protocol HighlightView: CanvasDrawable {
 }
 
 extension HighlightView {
-  static var modelType: CanvasItemType { return .highlight }
+  static var modelType: CanvasItemType { .highlight }
   
-  var model: RectModel { return state.model }
+  var model: HighlightModel { state.model }
   
   var knobs: [KnobView] {
-    return RectPoint.allCases.map { knobAt(rectPoint: $0)}
+    RectPoint.allCases.map { knobAt(rectPoint: $0)}
   }
   
   var path: CGPath {
@@ -151,6 +151,7 @@ class HighlightViewClass: HighlightView {
   
   var layer: CAShapeLayer
   var maskPath: CGPath?
+  var globalIndex: Int
   var modelIndex: Int
   
   var color: NSColor? {
@@ -165,16 +166,21 @@ class HighlightViewClass: HighlightView {
     .toX: KnobViewClass(model: model.to.returnPointModel(dx:model.to.x, dy:model.origin.y))
   ]
   
-  convenience init(state: HighlightViewState, modelIndex: Int, color: ModelColor) {
+  convenience init(state: HighlightViewState,
+                   modelIndex: Int,
+                   globalIndex: Int,
+                   color: ModelColor) {
+    
     let layerColor = NSColor.color(from: color).cgColor
     let layer = type(of: self).createLayer(color: layerColor, state: state)
     
-    self.init(state: state, modelIndex: modelIndex, layer: layer)
+    self.init(state: state, modelIndex: modelIndex, globalIndex: globalIndex, layer: layer)
   }
   
-  init(state: HighlightViewState, modelIndex: Int, layer: CAShapeLayer) {
+  init(state: HighlightViewState, modelIndex: Int, globalIndex: Int, layer: CAShapeLayer) {
     self.state = state
     self.modelIndex = modelIndex
+    self.globalIndex = globalIndex
     self.layer = layer
     self.render(state: state)
   }

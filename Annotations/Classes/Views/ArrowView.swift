@@ -152,6 +152,7 @@ class ArrowViewClass: ArrowView {
   var delegate: ArrowViewDelegate?
   
   var layer: CAShapeLayer
+  var globalIndex: Int
   var modelIndex: Int
   
   var color: NSColor? {
@@ -164,9 +165,10 @@ class ArrowViewClass: ArrowView {
     .to: KnobViewClass(model: model.to)
   ]
   
-  init(state: ArrowViewState, modelIndex: Int, color: ModelColor) {
+  init(state: ArrowViewState, modelIndex: Int, globalIndex: Int, color: ModelColor) {
     self.state = state
     self.modelIndex = modelIndex
+    self.globalIndex = globalIndex
     layer = ArrowViewClass.createLayer(color: NSColor.color(from: color).cgColor)
     render(state: state)
   }

@@ -9,10 +9,11 @@
 import Foundation
 
 public struct PenModel: Model {
+  public var index: Int
   public var points: [PointModel]
   public let color: ModelColor
   
   func copyWithColor(color: ModelColor) -> PenModel {
-    return PenModel(points: points, color: color)
+    .init(index: index, points: points, color: color)
   }
 }

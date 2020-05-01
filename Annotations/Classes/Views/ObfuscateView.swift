@@ -2,11 +2,11 @@ import Foundation
 import Cocoa
 
 protocol ObfuscateViewDelegate {
-  func obfuscateView(_ view: ObfuscateView, didUpdate model: RectModel, atIndex index: Int)
+  func obfuscateView(_ view: ObfuscateView, didUpdate model: ObfuscateModel, atIndex index: Int)
 }
 
 struct ObfuscateViewState {
-  var model: RectModel
+  var model: ObfuscateModel
   var isSelected: Bool
 }
 
@@ -22,7 +22,7 @@ protocol ObfuscateView: CanvasDrawable {
 extension ObfuscateView {
   static var modelType: CanvasItemType { return .obfuscate }
   
-  var model: RectModel { return state.model }
+  var model: ObfuscateModel { return state.model }
   
   var knobs: [KnobView] {
     return RectPoint.allCases.map { knobAt(rectPoint: $0)}
@@ -126,7 +126,6 @@ extension ObfuscateView {
 }
 
 class ObfuscateViewClass: ObfuscateView {
-  
   var state: ObfuscateViewState {
     didSet {
       self.render(state: self.state, oldState: oldValue)
@@ -136,6 +135,7 @@ class ObfuscateViewClass: ObfuscateView {
   var delegate: ObfuscateViewDelegate?
   
   var layer: CAShapeLayer
+  var globalIndex: Int
   var modelIndex: Int
   let color: NSColor?
   
@@ -146,15 +146,20 @@ class ObfuscateViewClass: ObfuscateView {
     .toX: KnobViewClass(model: model.to.returnPointModel(dx:model.to.x, dy:model.origin.y))
   ]
   
-  convenience init(state: ObfuscateViewState, modelIndex: Int, color: ModelColor) {
+  convenience init(state: ObfuscateViewState,
+                   modelIndex: Int,
+                   globalIndex: Int,
+                   color: ModelColor) {
+    
     let layer = type(of: self).createLayer()
     
-    self.init(state: state, modelIndex: modelIndex, layer: layer, color: color)
+    self.init(state: state, modelIndex: modelIndex, globalIndex: globalIndex, layer: layer, color: color)
   }
   
-  init(state: ObfuscateViewState, modelIndex: Int, layer: CAShapeLayer, color: ModelColor) {
+  init(state: ObfuscateViewState, modelIndex: Int, globalIndex: Int, layer: CAShapeLayer, color: ModelColor) {
     self.state = state
     self.modelIndex = modelIndex
+    self.globalIndex = globalIndex
     self.layer = layer
     self.color = NSColor.color(from: color)
     self.render(state: state)
