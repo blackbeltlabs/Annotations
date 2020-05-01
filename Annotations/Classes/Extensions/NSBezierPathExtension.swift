@@ -168,7 +168,7 @@ extension NSBezierPath {
             case .closePath:
                 path.closeSubpath()
             @unknown default:
-              print("Uknown value")
+              print("Unknown value")
           }
         }
         return path

@@ -50,7 +50,7 @@ extension TextCanvas {
                                 modelIndex: index,
                                 globalIndex: textModel.index,
                                 view: newTextView,
-                                color: ModelColor.defaultColor())
+                                color: .defaultColor())
     newView.delegate = self
     
     return newView

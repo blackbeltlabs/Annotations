@@ -154,7 +154,7 @@ extension CanvasViewClass {
       case let rect as RectModel:
         redrawRect(model: rect, canvas: model)
       default:
-        print("Uknown type")
+        print("Unknown type")
       }
     }
     

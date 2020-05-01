@@ -147,8 +147,8 @@ class RectViewClass: RectView {
   lazy var knobDict: [RectPoint: KnobView] = [
     .origin: KnobViewClass(model: model.origin),
     .to: KnobViewClass(model: model.to),
-    .originY: KnobViewClass(model: model.origin.returnPointModel(dx:model.origin.x, dy:model.to.y)),
-    .toX: KnobViewClass(model: model.to.returnPointModel(dx:model.to.x, dy:model.origin.y))
+    .originY: KnobViewClass(model: model.origin.returnPointModel(dx: model.origin.x, dy: model.to.y)),
+    .toX: KnobViewClass(model: model.to.returnPointModel(dx: model.to.x, dy: model.origin.y))
   ]
   
   convenience init(state: RectViewState,

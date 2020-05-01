@@ -17,8 +17,10 @@ extension ArrowCanvas {
   func redrawArrow(model: ArrowModel, canvas: CanvasModel) {
     guard let modelIndex = canvas.arrows.firstIndex(of: model) else { return }
     let state = ArrowViewState(model: model, isSelected: false)
-    let view = ArrowViewClass(state: state, modelIndex: modelIndex,
-                              globalIndex: model.index, color: model.color)
+    let view = ArrowViewClass(state: state,
+                              modelIndex: modelIndex,
+                              globalIndex: model.index,
+                              color: model.color)
     view.delegate = self
     add(view)
   }
@@ -29,12 +31,17 @@ extension ArrowCanvas {
     }
     
     let newArrow = ArrowModel(index: model.elements.count + 1,
-                              origin: origin, to: to, color: color)
+                              origin: origin,
+                              to: to,
+                              color: color)
+    
     model.arrows.append(newArrow)
     
     let state = ArrowViewState(model: newArrow, isSelected: false)
-    let newView = ArrowViewClass(state: state, modelIndex: model.arrows.count - 1,
-                                 globalIndex: newArrow.index, color: color)
+    let newView = ArrowViewClass(state: state,
+                                 modelIndex: model.arrows.count - 1,
+                                 globalIndex: newArrow.index,
+                                 color: color)
     newView.delegate = self
     
     let selectedKnob = newView.knobAt(arrowPoint: .to)

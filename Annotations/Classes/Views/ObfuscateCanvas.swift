@@ -21,7 +21,10 @@ extension ObfuscateCanvas {
     }
     
     let newRect = ObfuscateModel(index: model.elements.count + 1,
-                            origin: origin, to: to, color: color)
+                                 origin: origin,
+                                 to: to,
+                                 color: color)
+    
     model.obfuscates.append(newRect)
     
     let state = ObfuscateViewState(model: newRect, isSelected: false)

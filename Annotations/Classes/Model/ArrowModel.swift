@@ -31,7 +31,8 @@ public struct ArrowModel: Model {
     case .origin:
       return ArrowModel(index: index,
                         origin: origin.copyMoving(delta: delta),
-                        to: to, color: color)
+                        to: to,
+                        color: color)
     case .to:
       return ArrowModel(index: index,
                         origin: origin,
@@ -41,12 +42,10 @@ public struct ArrowModel: Model {
   }
   
   func copyMoving(delta: PointModel) -> ArrowModel {
-    return ArrowModel(
-      index: index,
-      origin: origin.copyMoving(delta: delta),
-      to: to.copyMoving(delta: delta),
-      color: color
-    )
+    return ArrowModel(index: index,
+                      origin: origin.copyMoving(delta: delta),
+                      to: to.copyMoving(delta: delta),
+                      color: color)
   }
   
   func copyWithColor(color: ModelColor) -> ArrowModel {

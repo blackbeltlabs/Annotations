@@ -32,13 +32,25 @@ public class RectModel: Model {
   func valueFor(rectPoint: RectPoint) -> PointModel {
     switch rectPoint {
     case .origin:
-      return origin.returnPointModel(dx:origin.x + (origin.x < to.x ? widthDot : (-widthDot)), dy:origin.y + (origin.y > to.y ? widthDot : (-widthDot)))
+      return origin.returnPointModel(
+        dx: origin.x + (origin.x < to.x ? widthDot : (-widthDot)),
+        dy: origin.y + (origin.y > to.y ? widthDot : (-widthDot))
+      )
     case .to:
-      return to.returnPointModel(dx:to.x + (origin.x > to.x ? widthDot : (-widthDot)), dy:to.y + (origin.y > to.y ? widthDot : (-widthDot)))
+      return to.returnPointModel(
+        dx: to.x + (origin.x > to.x ? widthDot : (-widthDot)),
+        dy: to.y + (origin.y > to.y ? widthDot : (-widthDot))
+      )
     case .originY:
-      return origin.returnPointModel(dx:origin.x + (origin.x < to.x ? widthDot : (-widthDot)), dy:to.y + (origin.y > to.y ? widthDot : (-widthDot)))
+      return origin.returnPointModel(
+        dx: origin.x + (origin.x < to.x ? widthDot : (-widthDot)),
+        dy: to.y + (origin.y > to.y ? widthDot : (-widthDot))
+      )
     case .toX:
-      return to.returnPointModel(dx:to.x + (origin.x > to.x ? widthDot : (-widthDot)), dy:origin.y + (origin.y > to.y ? widthDot : (-widthDot)))
+      return to.returnPointModel(
+        dx: to.x + (origin.x > to.x ? widthDot : (-widthDot)),
+        dy: origin.y + (origin.y > to.y ? widthDot : (-widthDot))
+      )
     }
   }
   
@@ -53,13 +65,13 @@ public class RectModel: Model {
                    to: to.copyMoving(delta: delta), color: color)
     case .originY:
       return .init(index: index,
-                   origin: origin.returnPointModel(dx:origin.x + delta.x, dy:origin.y),
-                   to: to.returnPointModel(dx:to.x, dy:to.y + delta.y),
-                   color:color)
+                   origin: origin.returnPointModel(dx: origin.x + delta.x, dy: origin.y),
+                   to: to.returnPointModel(dx: to.x, dy: to.y + delta.y),
+                   color: color)
     case .toX:
       return .init(index: index,
-                   origin: origin.returnPointModel(dx:origin.x, dy:origin.y + delta.y),
-                   to: to.returnPointModel(dx:to.x + delta.x, dy:to.y),
+                   origin: origin.returnPointModel(dx: origin.x, dy: origin.y + delta.y),
+                   to: to.returnPointModel(dx: to.x + delta.x, dy: to.y),
                    color: color)
     }
   }

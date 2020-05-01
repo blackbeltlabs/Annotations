@@ -17,8 +17,10 @@ extension PenCanvas {
   func redrawPen(model: PenModel, canvas: CanvasModel) {
     guard let modelIndex = canvas.pens.firstIndex(of: model) else { return }
     let state = PenViewState(model: model, isSelected: false)
-    let view = PenViewClass(state: state, modelIndex: modelIndex,
-                            globalIndex: model.index, color: model.color)
+    let view = PenViewClass(state: state,
+                            modelIndex: modelIndex,
+                            globalIndex: model.index,
+                            color: model.color)
     view.delegate = self
     add(view)
   }

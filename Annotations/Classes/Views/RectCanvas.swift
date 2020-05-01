@@ -9,8 +9,10 @@ extension RectCanvas {
   func redrawRect(model: RectModel, canvas: CanvasModel) {
     guard let modelIndex = canvas.rects.firstIndex(of: model) else { return }
     let state = RectViewState(model: model, isSelected: false)
-    let view = RectViewClass(state: state, modelIndex: modelIndex,
-                             globalIndex: model.index, color: model.color)
+    let view = RectViewClass(state: state,
+                             modelIndex: modelIndex,
+                             globalIndex: model.index,
+                             color: model.color)
     view.delegate = self
     add(view)
   }
@@ -21,7 +23,10 @@ extension RectCanvas {
     }
     
     let newRect = RectModel(index: model.elements.count + 1,
-                            origin: origin, to: to, color: color)
+                            origin: origin,
+                            to: to,
+                            color: color)
+    
     model.rects.append(newRect)
     
     let state = RectViewState(model: newRect, isSelected: false)
