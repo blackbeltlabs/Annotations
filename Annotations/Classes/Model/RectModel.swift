@@ -22,6 +22,10 @@ public class RectModel: Model {
   public let to: PointModel
   public let color: ModelColor
   
+  var rect: CGRect {
+    CGRect(fromPoint: origin.cgPoint, toPoint: to.cgPoint)
+  }
+  
   required init(index: Int, origin: PointModel, to: PointModel, color: ModelColor) {
     self.index = index
     self.origin = origin
