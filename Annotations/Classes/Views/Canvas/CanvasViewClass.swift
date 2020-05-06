@@ -10,6 +10,7 @@ import Cocoa
 import TextAnnotation
 
 public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, ObfuscateCanvas, TextAnnotationCanvas, HighlightCanvas, TextAnnotationDelegate {
+  
   public var delegate: CanvasViewDelegate?
   public var textCanvasDelegate: TextAnnotationDelegate?
   
@@ -233,8 +234,6 @@ extension CanvasViewClass {
       selectedItem.updateColor(NSColor.color(from: color))
       
       delegate?.canvasView(self, didUpdateModel: model)
-      
     }
-    
   }
 }
