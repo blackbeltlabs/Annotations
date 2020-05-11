@@ -31,6 +31,7 @@
 		63833AB53E8565AA8E97EF250CB0385C /* ObfuscateCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4E788F78419FDB873D2082CE67119D /* ObfuscateCanvas.swift */; };
 		644968E80C8095192C8518223B788117 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA077DEE5AD4079D60732B9807754F8 /* History.swift */; };
 		6496A87CD2E3959ACA3AF318407EE6EA /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A80A08ED3DC7DBF96C769150EDB89B1 /* TextView.swift */; };
+		6502C5FD246985A000FF93A9 /* CustomSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6502C5F5246412A700FF93A9 /* CustomSwitch.swift */; };
 		652A0FED2456F4B600F7225D /* HiglightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652A0FEC2456F4B500F7225D /* HiglightView.swift */; };
 		652A0FEF2456F6CD00F7225D /* HighlightCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652A0FEE2456F6CD00F7225D /* HighlightCanvas.swift */; };
 		687ECEFC434C478E6C1E5B7F00F9A093 /* ModelColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E1F0AFB3ECEE312EE900B049839A3A /* ModelColor.swift */; };
@@ -139,6 +140,7 @@
 		58CC7E0D3457FFF3C4BE1C17FBBF331F /* Pods-Annotations_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Annotations_Example.modulemap"; sourceTree = "<group>"; };
 		5A2B09616E4E93B668630729616485F5 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		63EC95D74BD4AAE0DDB003706594CA03 /* TextAnnotationCanvas.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TextAnnotationCanvas.swift; path = TextAnnotation/Classes/TextAnnotationCanvas.swift; sourceTree = "<group>"; };
+		6502C5F5246412A700FF93A9 /* CustomSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSwitch.swift; sourceTree = "<group>"; };
 		652A0FEC2456F4B500F7225D /* HiglightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiglightView.swift; sourceTree = "<group>"; };
 		652A0FEE2456F6CD00F7225D /* HighlightCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightCanvas.swift; sourceTree = "<group>"; };
 		69A5CE4135372B133889BC9281FA967F /* StringExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
@@ -319,6 +321,7 @@
 				02EB6894C6C1890497AAEE097C38BE4C /* TextColor.swift */,
 				B25FD276CC3FF1F426040D217C72BF42 /* TextContainerView.swift */,
 				3A80A08ED3DC7DBF96C769150EDB89B1 /* TextView.swift */,
+				6502C5F5246412A700FF93A9 /* CustomSwitch.swift */,
 				425EC3CEFB0DA558377B2B4D2F9614D0 /* Resources */,
 				2266D2698C4626FA1FE34BD501EDC4E4 /* Support Files */,
 			);
@@ -673,6 +676,7 @@
 			files = (
 				BF42F555F8D5ADAB50A96E78505F6FB3 /* Constants.swift in Sources */,
 				E77B334DB71675B19B7E0F550AF73612 /* CursorSet.swift in Sources */,
+				6502C5FD246985A000FF93A9 /* CustomSwitch.swift in Sources */,
 				75A6C23DABF8DC1B7B2A1A04333B20A0 /* KnobView.swift in Sources */,
 				2246932975196FAB07AC61F2043A5374 /* MouseTrackingView.swift in Sources */,
 				4D11881640A0139C15EA0C8EB76F1223 /* NSColorExtension.swift in Sources */,

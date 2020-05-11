@@ -78,6 +78,8 @@ open class TextContainerView: NSView {
         tally.isHidden = !isActive
         tally.display()
       }
+      
+      switchView.isHidden = state == .inactive
     }
   }
   
@@ -101,6 +103,7 @@ open class TextContainerView: NSView {
  
   // MARK: Private
   
+  private var switchView: CustomSwitch!
   private var backgroundView: SelectionView!
   private var textView: TextView!
   
@@ -184,6 +187,7 @@ open class TextContainerView: NSView {
     textView.isEditable = false
     textView.isVerticallyResizable = false
     textView.delegate = self
+    textView.typingAttributes = defaultAttributes()
     
     singleClickGestureRecognizer = NSClickGestureRecognizer(target: self, action: #selector(self.singleClickGestureHandle(_:)))
     self.addGestureRecognizer(singleClickGestureRecognizer)
@@ -211,6 +215,43 @@ open class TextContainerView: NSView {
     tally.isHidden = true
     addSubview(tally)
     scaleTally = tally
+    
+    switchView = CustomSwitch(frame: CGRect(x: 0, y: 0, width: 64, height: 20))
+    switchView.bounds = switchView.frame
+    switchView.target = self
+    switchView.action = #selector(switchViewValudChanged(sender:))
+    switchView.isHidden = true
+    addSubview(switchView)
+  }
+  
+  func defaultAttributes() -> [NSAttributedString.Key: Any] {
+    let textShadow = NSShadow()
+    textShadow.shadowColor = NSColor.black.withAlphaComponent(0.5)
+    textShadow.shadowOffset = NSMakeSize(1.0, -1.5)
+    return [
+      NSAttributedString.Key.font: textView.getFont(),
+      NSAttributedString.Key.foregroundColor: NSColor.color(from: textColor),
+      NSAttributedString.Key.shadow: textShadow,
+    ]
+  }
+  
+  func defaultOutlineAttributes() -> [NSAttributedString.Key: Any] {
+    return [
+      NSAttributedString.Key.font: textView.getFont(),
+      NSAttributedString.Key.strokeColor: NSColor.white,
+      NSAttributedString.Key.strokeWidth: -1.5,
+      NSAttributedString.Key.foregroundColor: NSColor.color(from: textColor),
+    ]
+  }
+  
+  @objc func switchViewValudChanged(sender: CustomSwitch) {
+    let attributes = sender.isOn ? defaultOutlineAttributes() : defaultAttributes()
+    textView.typingAttributes = attributes
+    textView.textStorage?.setAttributes(
+      attributes,
+      range: NSRange(location: 0, length: textView.textStorage?.string.count ?? 0)
+    )
+    textView.needsDisplay = true
   }
   
   // MARK: - Mouse actions
@@ -296,7 +337,7 @@ open class TextContainerView: NSView {
                        width: width + 2*(Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding),
                        height: height + 2*(Configuration.frameMargin + Configuration.horizontalTextPadding))
     
-    frame = textFrame
+    frame = textFrame.integral
   }
   
   private func updateSubviewsFrames(_ oldFrame: NSRect, frame: NSRect) {
@@ -307,7 +348,11 @@ open class TextContainerView: NSView {
     let size = frame.size
     
     backgroundView.frame = CGRect(origin: CGPoint.zero, size: size)
-    textView.frame = CGRect(x: Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding, y: Configuration.frameMargin + Configuration.horizontalTextPadding, width: size.width - 2*(Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding), height: size.height - 2 * (Configuration.frameMargin + Configuration.horizontalTextPadding))
+    textView.frame = CGRect(
+      x: Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding,
+      y: Configuration.frameMargin + Configuration.horizontalTextPadding,
+      width: size.width - 2 * (Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding),
+      height: size.height - 2 * (Configuration.frameMargin + Configuration.horizontalTextPadding))
     
     var tallyFrame = NSRect(origin: CGPoint.zero, size: CGSize(width: Configuration.frameMargin + 2*Configuration.dotRadius, height: size.height))
     if let tally = leftTally {
