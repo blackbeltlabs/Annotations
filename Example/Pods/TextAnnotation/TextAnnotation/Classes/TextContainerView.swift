@@ -78,6 +78,8 @@ open class TextContainerView: NSView {
         tally.isHidden = !isActive
         tally.display()
       }
+      
+      switchView.isHidden = state == .inactive
     }
   }
   
@@ -103,6 +105,7 @@ open class TextContainerView: NSView {
   
   private var backgroundView: SelectionView!
   private var textView: TextView!
+  private var switchView: CustomSwitch!
   
   private let kMinimalWidth: CGFloat = 25 + 2*Configuration.frameMargin + 2*Configuration.dotRadius
   private let kMinimalHeight: CGFloat = 25
@@ -211,6 +214,43 @@ open class TextContainerView: NSView {
     tally.isHidden = true
     addSubview(tally)
     scaleTally = tally
+    
+    switchView = CustomSwitch(frame: CGRect(x: 0, y: 0, width: 64, height: 20))
+    switchView.bounds = switchView.frame
+    switchView.target = self
+    switchView.action = #selector(switchViewValudChanged(sender:))
+    switchView.isHidden = true
+    addSubview(switchView)
+  }
+  
+  func defaultAttributes() -> [NSAttributedString.Key: Any] {
+    let textShadow = NSShadow()
+    textShadow.shadowColor = NSColor.black.withAlphaComponent(0.5)
+    textShadow.shadowOffset = NSMakeSize(1.0, -1.5)
+    return [
+      NSAttributedString.Key.font: textView.getFont(),
+      NSAttributedString.Key.foregroundColor: NSColor.color(from: textColor),
+      NSAttributedString.Key.shadow: textShadow,
+    ]
+  }
+  
+  func defaultOutlineAttributes() -> [NSAttributedString.Key: Any] {
+    return [
+      NSAttributedString.Key.font: textView.getFont(),
+      NSAttributedString.Key.strokeColor: NSColor.white,
+      NSAttributedString.Key.strokeWidth: -1.5,
+      NSAttributedString.Key.foregroundColor: NSColor.color(from: textColor),
+    ]
+  }
+  
+  @objc func switchViewValudChanged(sender: CustomSwitch) {
+    let attributes = sender.isOn ? defaultOutlineAttributes() : defaultAttributes()
+    textView.typingAttributes = attributes
+    textView.textStorage?.setAttributes(
+      attributes,
+      range: NSRange(location: 0, length: textView.textStorage?.string.count ?? 0)
+    )
+    textView.needsDisplay = true
   }
   
   // MARK: - Mouse actions

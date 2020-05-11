@@ -1,7 +1,7 @@
 PODS:
-  - Annotations (0.8.0):
-    - TextAnnotation (= 0.5.0)
-  - TextAnnotation (0.5.0)
+  - Annotations (0.8.1):
+    - TextAnnotation (= 0.6.0)
+  - TextAnnotation (0.6.0)
 
 DEPENDENCIES:
   - Annotations (from `../`)
@@ -15,12 +15,12 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   TextAnnotation:
-    :commit: d6accd0c0decb850262b66869eb0ba2903fef964
+    :commit: accaa46a536b37390a7a52d4733329fb2d8a13b0
     :git: https://github.com/blackbeltlabs/TextAnnotation.git
 
 SPEC CHECKSUMS:
-  Annotations: d65c01c27d1b91e23dbc3b29f26a4938478bf98f
-  TextAnnotation: bfdd0de6ce6475cc721148f7957b97ae392dd7d3
+  Annotations: 3e96c565234d8571826fbfb8145f2a563058c966
+  TextAnnotation: 0815c427e7a0fbd88d517be651f482ad0b8f406d
 
 PODFILE CHECKSUM: ca7c11ec9c1302f55db8f47f0389ea4adc5c5860
 
