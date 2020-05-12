@@ -3,27 +3,27 @@ import Foundation
 public class CustomSwitch: NSControl {
   public static let bundle = Bundle(for: CustomSwitch.self)
   
-  public var tintColor = NSColor(calibratedRed: 0.243, green: 0.235, blue: 0.243, alpha: 1.0) {
+  public var tintColor = NSColor(red: 0.243, green: 0.235, blue: 0.243, alpha: 1.0) {
     didSet {
       reloadLayer()
     }
   }
-  public var knobBackgroundColor = NSColor(calibratedWhite: 1.0, alpha: 1.0) {
+  public var knobBackgroundColor = NSColor(white: 1.0, alpha: 1.0) {
     didSet {
       reloadLayer()
     }
   }
-  public var disabledBorderColor = NSColor(calibratedWhite: 0.0, alpha: 0.2) {
+  public var disabledBorderColor = NSColor(white: 0.0, alpha: 0.2) {
     didSet {
       reloadLayer()
     }
   }
-  public var disabledBackgroundColor = NSColor(calibratedRed: 0.243, green: 0.235, blue: 0.243, alpha: 1.0)  {
+  public var disabledBackgroundColor = NSColor(red: 0.243, green: 0.235, blue: 0.243, alpha: 1.0)  {
     didSet {
       reloadLayer()
     }
   }
-  public var inactiveBackgroundColor = NSColor(calibratedWhite: 0.0, alpha: 0.3) {
+  public var inactiveBackgroundColor = NSColor(white: 0.0, alpha: 0.3) {
     didSet {
       reloadLayer()
     }
@@ -39,7 +39,7 @@ public class CustomSwitch: NSControl {
       reloadLayer()
     }
   }
-  public var secondIcon = bundle.image(forResource:"T_outline") {
+  public var secondIcon = bundle.image(forResource: "T_outline") {
     didSet {
       reloadLayer()
     }
@@ -68,7 +68,7 @@ public class CustomSwitch: NSControl {
   public let icon2Layer = CALayer()
   
   override public var acceptsFirstResponder: Bool {
-    get { true }
+    true
   }
   
   required public init?(coder:NSCoder) {
@@ -94,10 +94,12 @@ public class CustomSwitch: NSControl {
   }
   
   public func setOn(isOn: Bool, animated: Bool) {
-    if self.isOn != isOn {
-      self.isOn = isOn
-      reloadLayerAnimated(animated: animated)
+    guard self.isOn != isOn else {
+      return
     }
+    
+    self.isOn = isOn
+    reloadLayerAnimated(animated: animated)
   }
   
   internal func setupIcon() {
@@ -107,10 +109,16 @@ public class CustomSwitch: NSControl {
     
     let bounds = knobLayer.bounds
     let size = icon.size
-    icon1Layer.frame = NSMakeRect((bounds.width-size.width)/2, (bounds.height-size.height)/2, size.width, size.height)
+    icon1Layer.frame = NSMakeRect((bounds.width-size.width) / 2,
+                                  (bounds.height-size.height) / 2,
+                                  size.width,
+                                  size.height)
     icon1Layer.contents = icon
     
-    icon2Layer.frame = NSMakeRect((self.bounds.width - bounds.width/2 - size.width / 2), (bounds.height-size.height)/2, size.width, size.height)
+    icon2Layer.frame = NSMakeRect((self.bounds.width - bounds.width / 2 - size.width / 2),
+                                  (bounds.height-size.height) / 2,
+                                  size.width,
+                                  size.height)
     icon2Layer.contents = secondIcon
   }
   
@@ -166,8 +174,7 @@ public class CustomSwitch: NSControl {
     if (hasDragged && isDraggingTowardsOn) || (!hasDragged && isOn) {
       backgroundLayer.borderColor = tintColor.cgColor
       backgroundLayer.backgroundColor = tintColor.cgColor
-    }
-    else {
+    } else {
       backgroundLayer.borderColor = disabledBorderColor.cgColor
       backgroundLayer.backgroundColor = disabledBackgroundColor.cgColor
     }
@@ -203,8 +210,7 @@ public class CustomSwitch: NSControl {
     var x: CGFloat = 0
     if (!hasDragged && !isOn) || (hasDragged && !isDraggingTowardsOn) {
       x = kBorderLineWidth
-    }
-    else {
+    } else {
       x = bounds.width - CGFloat(width) - kBorderLineWidth
     }
     
@@ -256,8 +262,7 @@ public class CustomSwitch: NSControl {
     isActive = false
     if hasDragged {
       on = isDraggingTowardsOn
-    }
-    else {
+    } else {
       on = !isOn
     }
     

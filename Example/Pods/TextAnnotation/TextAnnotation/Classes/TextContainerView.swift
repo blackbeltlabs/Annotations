@@ -186,6 +186,7 @@ open class TextContainerView: NSView {
     textView.usesFontPanel = false
     textView.isEditable = false
     textView.isVerticallyResizable = false
+    textView.typingAttributes = defaultAttributes()
     textView.delegate = self
     
     singleClickGestureRecognizer = NSClickGestureRecognizer(target: self, action: #selector(self.singleClickGestureHandle(_:)))
