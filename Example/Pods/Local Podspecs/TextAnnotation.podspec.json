@@ -1,6 +1,6 @@
 {
   "name": "TextAnnotation",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "summary": "Swift text annotation component for macOS.",
   "description": "Text component that behaves like typical drawing or annotation apps require.",
   "homepage": "https://github.com/blackbeltlabs/TextAnnotation",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/blackbeltlabs/TextAnnotation.git",
-    "tag": "0.6.1"
+    "tag": "0.6.2"
   },
   "platforms": {
     "osx": "10.13"

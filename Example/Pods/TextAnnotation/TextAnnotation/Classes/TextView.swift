@@ -57,22 +57,12 @@ class TextView: NSTextView {
   
   func calculateScaleRatio() {
     let fontSize = getFont().pointSize
-    let temp = frame.height/CGFloat(numberOfLines())
+    let temp = frame.height / CGFloat(numberOfLines())
     fontSizeToSizeRatio = fontSize / temp
   }
   
   func resetFontSize() {
-    if fontSizeToSizeRatio == nil {
-      calculateScaleRatio()
-    }
-    
-    let temp = frame.height/CGFloat(numberOfLines())
-    let size = fontSizeToSizeRatio * temp
-    
-    let ratio = size/getFont().pointSize
-    if !(1.0...1.1 ~= ratio) {
-      font = NSFont(name: getFont().fontName, size: size)
-    }
+    fitTextToBounds()
   }
   
   public func getFont() -> NSFont {
@@ -114,3 +104,70 @@ class TextView: NSTextView {
   }
 }
 
+extension NSTextView {
+  func fitTextToBounds() {
+    guard let text = textStorage?.string else { return }
+
+    let font = self.font ?? NSFont.systemFont(ofSize: NSFont.systemFontSize)
+    self.font = NSFont.fontFittingText(text,
+                                       in: textBoundingBox.size,
+                                       fontDescriptor: font.fontDescriptor)
+  }
+
+  private var textBoundingBox: CGRect {
+    var textInsets = NSEdgeInsets(top: textContainerInset.height,
+                                  left: textContainerInset.width,
+                                  bottom: textContainerInset.height,
+                                  right: textContainerInset.width)
+
+    textInsets.left += textContainer?.lineFragmentPadding ?? 0
+    textInsets.right += textContainer?.lineFragmentPadding ?? 0
+
+    return bounds.insetBy(dx: textInsets.left + textInsets.right,
+                          dy: textInsets.bottom + textInsets.top)
+  }
+}
+
+extension NSFont {
+  static func smallestFont(with fontDescriptor: NSFontDescriptor) -> NSFont? {
+    NSFont(descriptor: fontDescriptor, size: CGFloat(1))
+  }
+  
+  var lineHeight: CGFloat {
+    CGFloat(ceilf(Float(ascender + abs(descender) + leading)))
+  }
+
+  static func fontFittingText(_ text: String,
+                              in bounds: CGSize,
+                              fontDescriptor: NSFontDescriptor) -> NSFont? {
+
+    let properBounds = CGRect(origin: .zero, size: bounds)
+    let largestFontSize = Int(bounds.height)
+    let constrainingBounds = CGSize(width: properBounds.width, height: CGFloat.infinity)
+    
+    guard largestFontSize > 0 else { return NSFont.smallestFont(with: fontDescriptor) }
+
+    let bestFittingFontSize: Int? = (1...largestFontSize).reversed().first(where: { fontSize in
+
+      let font = NSFont(descriptor: fontDescriptor, size: CGFloat(fontSize))
+      let currentFrame = text.boundingRect(
+        with: constrainingBounds,
+        options: [.usesLineFragmentOrigin, .usesFontLeading],
+        attributes: [.font: font as Any],
+        context: nil
+      )
+
+      if properBounds.contains(currentFrame) {
+        return true
+      }
+
+      return false
+    })
+
+    guard let fontSize = bestFittingFontSize else {
+      return NSFont.smallestFont(with: fontDescriptor)
+    }
+
+    return NSFont(descriptor: fontDescriptor, size: CGFloat(fontSize))
+  }
+}

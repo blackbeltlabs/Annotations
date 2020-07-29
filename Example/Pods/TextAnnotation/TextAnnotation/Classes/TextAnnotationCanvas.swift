@@ -94,7 +94,7 @@ extension TextAnnotationCanvas {
     switch area {
     case .resizeLeftArea:   cursorSet.resizeCursor.set()
     case .resizeRightArea:  cursorSet.resizeCursor.set()
-    case .scaleArea:        cursorSet.scaleCursor.set()
+    case .scaleArea:        cursorSet.defaultCursor.set()
     case .textArea:         cursorSet.defaultCursor.set()
     }
   }

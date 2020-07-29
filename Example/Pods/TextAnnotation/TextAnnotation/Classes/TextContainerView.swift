@@ -108,7 +108,7 @@ open class TextContainerView: NSView {
   private var switchView: CustomSwitch!
   
   private let kMinimalWidth: CGFloat = 25 + 2*Configuration.frameMargin + 2*Configuration.dotRadius
-  private let kMinimalHeight: CGFloat = 25
+  private let kMinimalHeight: CGFloat = 70
   
   private var singleClickGestureRecognizer: NSClickGestureRecognizer!
   private var doubleClickGestureRecognizer: NSClickGestureRecognizer!
@@ -284,7 +284,7 @@ open class TextContainerView: NSView {
       resize(distance: difference.width, state: state)
     case .scaling:
       scale(difference: difference, state: state)
-      cursorSet.scaleCursor.set()
+      cursorSet.defaultCursor.set()
     default: return
     }
   }
@@ -332,10 +332,12 @@ open class TextContainerView: NSView {
     let height = textFrame.height
     
     // Now we know text label frame. We should calculate new self.frame and redraw all the subviews
-    textFrame = CGRect(x: frame.minX,
-                       y: center.y - height/2.0 - (Configuration.frameMargin + Configuration.horizontalTextPadding),
-                       width: width + 2*(Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding),
-                       height: height + 2*(Configuration.frameMargin + Configuration.horizontalTextPadding))
+    textFrame = CGRect(
+      x: frame.minX,
+      y: center.y - height/2.0 - (Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding),
+      width: width + 2*(Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding),
+      height: height + 2*(Configuration.frameMargin + Configuration.horizontalTextPadding + Configuration.dotRadius)
+    )
     
     frame = textFrame
   }
@@ -348,7 +350,12 @@ open class TextContainerView: NSView {
     let size = frame.size
     
     backgroundView.frame = CGRect(origin: CGPoint.zero, size: size)
-    textView.frame = CGRect(x: Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding, y: Configuration.frameMargin + Configuration.horizontalTextPadding, width: size.width - 2*(Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding), height: size.height - 2 * (Configuration.frameMargin + Configuration.horizontalTextPadding))
+    textView.frame = CGRect(
+      x: Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding,
+      y: Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding,
+      width: size.width - 2*(Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding),
+      height: size.height - 2 * (Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding)
+    )
     
     var tallyFrame = NSRect(origin: CGPoint.zero, size: CGSize(width: Configuration.frameMargin + 2*Configuration.dotRadius, height: size.height))
     if let tally = leftTally {
@@ -362,8 +369,12 @@ open class TextContainerView: NSView {
     }
     
     if let tally = scaleTally {
-      tallyFrame.origin = CGPoint(x: size.width - (Configuration.frameMargin + 2*Configuration.dotRadius), y: Configuration.frameMargin)
-      tallyFrame.size = CGSize(width: 2*Configuration.dotRadius, height: 2*Configuration.dotRadius)
+      tallyFrame.origin = CGPoint(
+        x: size.width / 2 - Configuration.dotRadius,
+        y: Configuration.frameMargin)
+      tallyFrame.size = CGSize(
+        width: 2 * Configuration.dotRadius,
+        height: 2 * Configuration.dotRadius)
       tally.frame = tallyFrame
     }
   }
@@ -373,7 +384,7 @@ open class TextContainerView: NSView {
 
     self.text = action.text
     if action.frame.size.width != 0 && action.frame.size.height != 0 {
-      self.frame = action.frame
+      self.frame = action.frame.integral
     }
     
     
@@ -452,13 +463,13 @@ open class TextContainerView: NSView {
     
     // we should scale it proportionally, driver of the mpvement is height difference
     var height = frame.height - difference.height
-    var width = frame.width/frame.height * height
+    var width = frame.width
     
     width = width < kMinimalWidth ? kMinimalWidth : width
     height = height < kMinimalHeight ? kMinimalHeight : height
     
     frame = CGRect(origin: CGPoint(x: frame.origin.x, y: frame.origin.y + difference.height),
-                   size: CGSize(width: width, height: height))
+                   size: CGSize(width: width, height: height)).integral
     textView.resetFontSize()    
   }
   
