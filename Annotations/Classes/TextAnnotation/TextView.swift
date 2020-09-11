@@ -85,6 +85,16 @@ class TextView: NSTextView {
     lastFontSnapshot = nil
   }
   
+  // MARK: - Layout
+  
+  func updateTypingAttributes(_ attributes: [NSAttributedString.Key: Any]) {
+    textStorage?.setAttributes(
+      attributes,
+      range: NSRange(location: 0, length: textStorage?.string.count ?? 0)
+    )
+    typingAttributes = attributes
+  }
+  
   // MARK: - Private
   
   private func numberOfLines() -> Int {

@@ -1,6 +1,0 @@
-framework module TextAnnotation {
-  umbrella header "TextAnnotation-umbrella.h"
-
-  export *
-  module * { export * }
-}

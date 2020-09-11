@@ -19,11 +19,7 @@
     "osx": "10.13"
   },
   "swift_versions": "5.0",
-  "dependencies": {
-    "TextAnnotation": [
-      "0.6.2"
-    ]
-  },
   "source_files": "Annotations/Classes/**/*",
+  "resources": "Annotations/Assets/Assets.xcassets",
   "swift_version": "5.0"
 }

@@ -7,434 +7,278 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		010452D72B20EF38FF3F7BB730B84A99 /* PenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29A955E4F248AED9E6B31CD11166BCC /* PenView.swift */; };
-		03FAC5C873C93EFB4F62A3B3D70ECDEC /* ObfuscateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D36BC4A702979904D8A35CC4CB5DAF7 /* ObfuscateView.swift */; };
-		05968B794A9AA7DA9C18D68006B4C3BA /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4514036A2C96D51262EBFD5E07267014 /* StringExtension.swift */; };
-		08E2D52C2DB860FC6614D8F99F559848 /* HiglightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E87EF648526D2A27D59271B0E847D0 /* HiglightView.swift */; };
-		0A6CE9B757DA2FA011302FB7B5C63E12 /* KnobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA21B961AABEE3814CE15696E04337C0 /* KnobView.swift */; };
-		0A83088587EF7A5F415A0904A0B54DC7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4198E3B04FD48F560303612482B374A6 /* Cocoa.framework */; };
-		0BFC8CE57DC96F4B3482D966E2A1477F /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D5643C542F8B59040E98CEA210BE8F /* CanvasView.swift */; };
-		0FE516F1939CB8455C4FF511C6339028 /* TextParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23833820D2CAC1796219444D4D2BB768 /* TextParams.swift */; };
-		1083B6DC7418169D85BF320F9B01BD89 /* HighlightCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8309CBC3469FA421BBC975B4E567F0F7 /* HighlightCanvas.swift */; };
-		112091DF0D91050FAB418F309DD40DEB /* MouseTrackingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531DF4782973AA501165915EE581ADD1 /* MouseTrackingView.swift */; };
-		134ED7E12211D74D550237C01C3659D9 /* RectCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29193C22D25A607F4EAFDAA780CECF27 /* RectCanvas.swift */; };
-		13761CCB68990324493249984F13B9EA /* Annotations-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 454D361CF400704815291397F614641B /* Annotations-dummy.m */; };
-		1614708C1491FB9325FD1D66996A5B89 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73595E71AF47AAAAA17A5067163DB11E /* TextView.swift */; };
-		17232B2B242E0276F53354D45FA6B7EA /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7BBDE284A37A453C7968D45B44C7B9 /* History.swift */; };
-		18C38D620363AAAC7C2FD89814EA060A /* LayoutExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93027E1E851B745C41690741F325EF2A /* LayoutExtension.swift */; };
-		1A2E5EFEEED3763F86E916F46854DD48 /* TextViewDrawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B371481A8A548167485E9758F4739923 /* TextViewDrawable.swift */; };
-		1A47C72C7E94B8E4A87B2EFFAEABF2E6 /* CAShapeLayerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18FB59C4A35248D9F6A74ED7C87DF26 /* CAShapeLayerExtension.swift */; };
-		22C6D934703ADF45C42AAE090F2441C4 /* Annotations-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F1F5AB16FAE8CEEFB1BC87E25BEB63B /* Annotations-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		25EB0106C8F34FD6AEEB273208121486 /* NSColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16375E8431FC1174B47F9C2316299220 /* NSColorExtension.swift */; };
-		2B3AB2E50B29B8B9A833583BAA58A9A9 /* Pods-Annotations_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 18E56FC646B3B905E7303EB07861940B /* Pods-Annotations_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		309E0630785BDEECD82B7DAA6FDDEA58 /* PenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300781548E861EF993B8EE54A1E9A415 /* PenModel.swift */; };
-		3299878E511F4679036D1E1CE4773B3A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806C06EDC4767AECCA67CD34AD9CFBA3 /* Constants.swift */; };
-		37EB6DA32B370BDFD23F019BCFB91CF7 /* TextColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1C6B983ED843740D4D78A36ABC934 /* TextColor.swift */; };
-		3A3B8DE1726F21D3E1BB7D337F903032 /* CanvasViewClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE0CD4B4DB320447308C8D204329D1E /* CanvasViewClass.swift */; };
-		439C0F8E7FDBC7CDD44816010BC4B6F8 /* TextColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C5C15606DA8536195E29F394A8E275 /* TextColor.swift */; };
-		43A49A0DA75BDC144353CEFF092112D7 /* TextContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B5304FD826D79BDBF82A944AD99101 /* TextContainerView.swift */; };
-		45360711C1A5A2DF52A5EAA7B8B7D4A2 /* TextAnnotationModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FABF4C6A4EC1AD29FE308BF08D0881 /* TextAnnotationModelable.swift */; };
-		4754B117D40C88A1487DB407A95FE8B4 /* TextCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636635793AAF8359F81D173FDF5B6FD9 /* TextCanvas.swift */; };
-		4CF3E34E9694B26F3E24FD0CFFCFFA0F /* TextKnobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEF4C64140D914F4FC46DC1A6994DF1 /* TextKnobView.swift */; };
-		5128CB4603A8292BFA9FE012925495FA /* CustomSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBA05AAA85B037E573E1E87D4DACB9A /* CustomSwitch.swift */; };
-		5373BA53C9F70ECF0C52323EAA1FAA06 /* TextAnnotation-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F82A7610911FA9AAEC0736FD22991C3 /* TextAnnotation-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		57AB8DFA85C62B1F4A91A3D3A146EAA8 /* PenCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A81FBA0460B4BD3AF43A7934D58B6B7 /* PenCanvas.swift */; };
-		58AA8229D881464928ED56997032519E /* Pods-Annotations_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 74FEC23ED4A956EF7AA85CB934F78D72 /* Pods-Annotations_Example-dummy.m */; };
-		59FD59EBF27115FFAB9C5711DB8C96CF /* TextContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84673CDC209B58361A0973A59BE5D7B2 /* TextContainerView.swift */; };
-		5CECC848680791E08D905C8996D5A4BF /* PointModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D056F878D43219B86CB5FB15C5140D0 /* PointModel.swift */; };
-		65ADDF893A2993FCB2B227F67ECED18E /* CursorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86788A19E7809F5A7490F1013F2DE286 /* CursorSet.swift */; };
-		677522E44602BFE9B698B1E9B3F71CF2 /* TextAnnotationCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6709EC822CD4DD7C119F7E9C382CB60C /* TextAnnotationCanvas.swift */; };
-		6871C35036017959EDFF8FC37A1759ED /* CanvasDrawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F4D3E7909264DCE6BEE10DA6490AAD /* CanvasDrawable.swift */; };
-		68DBD81EA7A2CC11F30E97E258CDD0C2 /* TextAnnotationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D358C64B4216E7A7A06CA38121495E52 /* TextAnnotationDelegate.swift */; };
-		69036610684169E0EB2E9DC3A7EB4C22 /* KnobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62D655C433632F9867D604950C9F625 /* KnobView.swift */; };
-		6B3EFE7251FFDB9DF02DF95056E01929 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4198E3B04FD48F560303612482B374A6 /* Cocoa.framework */; };
-		6B44B9FFC3D7872ACA7F9C4B405CAA23 /* CATransactionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F9ABA2CB4775C0F1D6FD6F8E4DEE32 /* CATransactionExtension.swift */; };
-		7154B1C8FF2B8955B9EC1E495F64EC34 /* Pods-Annotations_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB4EF5BC8E3AC2302538CC760D56C5 /* Pods-Annotations_Tests-dummy.m */; };
-		758F5B569584CDDBF797569CE6D5091C /* Pods-Annotations_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A391360EBC4D8451A58B44F9EF061DE /* Pods-Annotations_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7B870593898AFB0E4B355670B7B1BBD5 /* TextAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092F4870CCDD452FA9A4DBD023EABA1 /* TextAnnotation.swift */; };
-		87D3627F64D4BAD93B9F97FDC36E7A68 /* TextAnnotationModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B946DB72106FFA91C65E9D392ED2693E /* TextAnnotationModelable.swift */; };
-		89FC04AB66B361917D801E2ECB8AC839 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5063E727A631B69FD4929EEBBA30AE6E /* TextView.swift */; };
-		962375E69365082D44027C2552C01F41 /* RectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399966694AAAC037CC83B6EBA03637D1 /* RectView.swift */; };
-		9797CA068FC709039091B83EF0B6C8D0 /* EditableCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1C4C09D0E3594F4C8458617F68414 /* EditableCanvasView.swift */; };
-		9D0C3BAD2EC8D3C5429589F774A2CCF1 /* ModelColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D226663DB728D49A7BAF6F978BD4D86 /* ModelColor.swift */; };
-		9E8F0D3194CAA6449B9606D1B12D2E28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7DB1E2F2954602F81D7A6F626AF517CF /* Assets.xcassets */; };
-		9EAA74EB389FEE20B5D1EEE60328598B /* ObfuscateCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = D994058448294B2BC8D30F311E9D04E1 /* ObfuscateCanvas.swift */; };
-		9FCC0319B629C5023924AE87C93D641D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4198E3B04FD48F560303612482B374A6 /* Cocoa.framework */; };
-		A5AEF3F6C8FB956AD12EE628B606B811 /* ModelColor+TextColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153CC45B082CCF715D9A2F183DFDAD96 /* ModelColor+TextColor.swift */; };
-		AC88E28C81DBC34E34C853C5E1BA6A6D /* TextAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FFCAFF82307C4C4AE2741C41E6CB09 /* TextAnnotation.swift */; };
-		AE93374742E50673D91C729EA85B5222 /* ArrowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664502DA51426DD3DFD9694F0939B769 /* ArrowModel.swift */; };
-		B24511BD73A120F0806208B4019660D2 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7BFE86A13B29F67F684FB607360533 /* Array.swift */; };
-		B5FFF3FF504720010D147DFA055862C2 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA945085FD101A112EEB5EA90544D43 /* SelectionView.swift */; };
-		B7449B1A464CF8BA4612A511497AA1FF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6908914D8EB71C10703A25DC971490 /* Constants.swift */; };
-		B9D15B6449BB406FA53B280F09DD1DDB /* NSBezierPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4A4B463FD8A87D7C4B5276B6D8F439 /* NSBezierPathExtension.swift */; };
-		BEF2CB8B07079CBF0E7CE0B904EF08AA /* CustomSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE70A846569F7E242C46C2B8FE90868 /* CustomSwitch.swift */; };
-		C0A5ABE3BFC7AB9DAC12ACF111B7B4E0 /* CursorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237AAAC4620AFAD3F10A9C62CF1E7933 /* CursorSet.swift */; };
-		C8E3EB8CC5C11AA269009E6952D1D922 /* ArrowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B2C00EA0F2165136D336790AAC1F89 /* ArrowView.swift */; };
-		CDF11BBD50BB592F3037769BAF43D48D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4198E3B04FD48F560303612482B374A6 /* Cocoa.framework */; };
-		CE2B90EF4C85E2B89C3E9D761338404E /* TextAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C4BC128F252BD8B14387EC03324B49 /* TextAttributes.swift */; };
-		D1947B77B97E893C6CEEEC35114CD771 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43FD0BB21D8491BC3B707547E18B877 /* SelectionView.swift */; };
-		D2EF5A4E565D0A1F8E568614B2AD1F57 /* TextAnnotation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F1B1127E5F620439A14E00B9F21D1B /* TextAnnotation.framework */; };
-		D699DE21B572D157EC2C813C23E1F1AE /* TextModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761537E8974CB5FDFC1A08BB9042E3B2 /* TextModel.swift */; };
-		D786DA30FF23BEA0D12B58218ED0EFDB /* TextAnnotation-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8217B6CC69464CC9575EE2F2E8356B /* TextAnnotation-dummy.m */; };
-		DFF867F4D6D9FFDD158669B2AD15EEA9 /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF150CA54C18E69FC7109DDFA7C2C8A5 /* CGPointExtension.swift */; };
-		E00BB04CC3F4AF6D65EFF87C4610E53F /* TextAnnotationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348AD5018587382762814A51D81DB9F5 /* TextAnnotationDelegate.swift */; };
-		E947B02021B835CA9C1128D6ED935373 /* TextAnnotationCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AB71D3F7AEA3151D9EAB3DD3DA4D35 /* TextAnnotationCanvas.swift */; };
-		F02BCD532821ED40E5ED88571AD4287B /* ArrowCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70B229B4736F3830078FAB09281B23B /* ArrowCanvas.swift */; };
-		F51ACB94CB58305866596FF27A43876E /* CanvasModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CD2A7C177ABC5807CE23EF1305DD7 /* CanvasModel.swift */; };
-		F51B861AADA7A9415DBD00D17AC02A47 /* RectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8153592BDCE51E69B0ABDE215264BAD1 /* RectModel.swift */; };
-		F7DF03B86E774F197F574A91A8B5C443 /* NSColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025D3DE2367541E27377A04D0C7DAAF8 /* NSColorExtension.swift */; };
-		FF49BB0C668E0070E9BFD9CB915AC66A /* MouseTrackingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1321284B9CECE9F8B6A726D4B6A8046 /* MouseTrackingView.swift */; };
+		01387EBA91E9BD9F418725484AD5BFA4 /* CAShapeLayerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69B84A1CBF314901AE417CC5C975A51 /* CAShapeLayerExtension.swift */; };
+		0A298346D21CD9ECF9DF166B5B9A7EE4 /* ObfuscateCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD06AAC8A711E81D21EFD0858707709 /* ObfuscateCanvas.swift */; };
+		0C610D6C5AD61E572CC95DEA46217AE3 /* ModelColor+TextColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5CB0868D0A92FC95330E6F221D7B3A /* ModelColor+TextColor.swift */; };
+		0CD57C3A12DB8ACFF9057B79134108E5 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED051D37EEABC9596D7AEBC8BFA6A42 /* History.swift */; };
+		0D66761DCD47A9C23BE1B17F3EDC23C3 /* CustomSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7241596E9A0B79939B09CD895B4355 /* CustomSwitch.swift */; };
+		0D6B1BC27AADDCDD0C688913D8A79058 /* TextModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07065E985613BF7447C71B95995F748D /* TextModel.swift */; };
+		0E0D2B45BE04BC6955531D5451DF8366 /* TextAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8573D7B4C87866B4E129DEC2D652FF /* TextAttributes.swift */; };
+		0E9976C7E229FE291E77EEF67365F5AA /* CanvasViewClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66913FED7B1327535D721CFE95982FE2 /* CanvasViewClass.swift */; };
+		12895E1EC7D7F84CD06292678F976CFC /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D21F8A9DC219C5A4435266634A0FC5 /* TextView.swift */; };
+		1A812C38E4DC0BF06B3330435BD489E9 /* HighlightCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = E893E61C4DB50134B709DF36BC90FD06 /* HighlightCanvas.swift */; };
+		1FCA38A93B1BF2CC34754F5AC5DF22FC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F940C819049CFF8741C0F5E3E075E607 /* Cocoa.framework */; };
+		24BA973FB9E1591857DD5D20D84BD82F /* TextAnnotationModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE18F1E42FD51B7146907A96AB2D02AF /* TextAnnotationModelable.swift */; };
+		2590D0BAF8517A8C597BE67D8879E3E4 /* NSColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C373E44F9F505FBC0D47FE67AC70E103 /* NSColorExtension.swift */; };
+		26FDAF9888D2DF13F426408FE73B8381 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F35BE0B91749D94E651B45C2BC7C69 /* SelectionView.swift */; };
+		2A24AB89212408F643CDE5C81197D368 /* ModelColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAF6BA0D86F2B9F77EDD369AFC52E4C /* ModelColor.swift */; };
+		2C43804B00FE14A0448D75A4583FFA02 /* TextCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAA5C6B20175C7819E001391E91347C /* TextCanvas.swift */; };
+		2EC94FF253CB003AFD7919803D734311 /* PenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C308CB71716367314F8731107733FBD7 /* PenView.swift */; };
+		334BFDE8880DBF496EBC73BC55A4D87E /* TextViewDrawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE363D8ECF1BF8024E3913743998CB9 /* TextViewDrawable.swift */; };
+		400A3E785AF483DBA513C637965F8219 /* ArrowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2DF21FE5EE6C66292B93CD10C49C93 /* ArrowView.swift */; };
+		428DD2D9CF3641B53C81F02900F39B9C /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D600A43F0E58A7AB311B5CED6A5310E /* CGPointExtension.swift */; };
+		4BA601ACAA64EC8E3AE66705AA97F4FA /* PenCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C9DFC82800A53434BE376AEF24D65EB /* PenCanvas.swift */; };
+		5058DED3250DB57BD1150D94686AD0C9 /* CursorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47432D7E12382F96432EFFF71C03E98 /* CursorSet.swift */; };
+		543B7DD08250E3B946BE2051C4B9B455 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4561A62FEB384A24174C978BC494B6E2 /* Assets.xcassets */; };
+		58F4B6EB833F7654C989ED64B159E5B5 /* MouseTrackingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA4F17016E062DF9D338798707B7BA7 /* MouseTrackingView.swift */; };
+		60B1AFE0FA063F6AD2357447BB08CCAA /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB1F45257B0CB1E2D7D83580DD8E2239 /* CanvasView.swift */; };
+		62F06D5047B629C0EC1D9B3CC3F9C053 /* Pods-Annotations_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB4EF5BC8E3AC2302538CC760D56C5 /* Pods-Annotations_Tests-dummy.m */; };
+		66BBBF58185EE6F4D4C405AC2E0C679B /* LayoutExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF32C8A97821CBB624B07D342BEECC1 /* LayoutExtension.swift */; };
+		67B35BD1AD0D721CB94D882ADEA65D2E /* TextAnnotationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF9495A097B31BC99A7C84DCE78697F /* TextAnnotationDelegate.swift */; };
+		6B4289470674F1B142784308C8AAA63E /* EditableCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02774E5AE6526B0255007897E6F7069 /* EditableCanvasView.swift */; };
+		703B74F20850ECB6571A94493E2ECAEA /* TextAnnotationCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = F773AA93746BB52E791C9DE8417827EA /* TextAnnotationCanvas.swift */; };
+		709243E9F0BBE56FA3AEACB21379AD39 /* PointModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F82AD82FD9AE342BB12FEE004BFB0E /* PointModel.swift */; };
+		71BB62EA6E41413749B435B68B4181D0 /* NSBezierPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6F7D46FB4074689A18B0A6A433D461 /* NSBezierPathExtension.swift */; };
+		721BBF78D5DFB8FE7AE1BEAF6206C1FE /* HiglightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037BAF114AA6564D169C1B815C58885D /* HiglightView.swift */; };
+		73F1EB2F9481B49701037B0DA11EBA26 /* CanvasDrawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D72F51CA38B43022E0BDBABF9F91BC /* CanvasDrawable.swift */; };
+		7497A18BD77D93E35AFC41C2149FFADD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F940C819049CFF8741C0F5E3E075E607 /* Cocoa.framework */; };
+		7A1BC07AA5AD8986E018CE40F845E1A5 /* TextParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E66564DB7732099B07D09D56FA8B82 /* TextParams.swift */; };
+		7D6EF4CC605C5C460EC6FE11BBF7CC97 /* CanvasModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57B2B7EF931FFF8102C0D9A71D9217F /* CanvasModel.swift */; };
+		811BE34080D27C0160FA90BDB28385F8 /* RectCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A0FE7F87132C27F6B2489170462897 /* RectCanvas.swift */; };
+		933A7D4A0E2582BCDED8703288C522BC /* TextColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0D2F3F9926D9BFC13897A1BC9496FF /* TextColor.swift */; };
+		950706129B0C6830CA80A6FE0ED24EA2 /* ObfuscateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF0E2AE58897D0131D35786ED2C34E3 /* ObfuscateView.swift */; };
+		9620ED51BBC051B2EEE539E30FC9458C /* Annotations-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E8C419D559100D368466DA3661704B /* Annotations-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A8714080D07D27B2571F07EE3D642FFE /* Annotations-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB0BF692495BCADF162FA91273341DB /* Annotations-dummy.m */; };
+		AD41E8C1DB2B07270E7A07096D4011A8 /* KnobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F47329F8D3B4486AB27454BB167BC1 /* KnobView.swift */; };
+		AE8FE3119273105B2D2C62C793DC0087 /* CATransactionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB1DB87A53EEC6BC24BBCD42DD628C1 /* CATransactionExtension.swift */; };
+		B04DBE3D7C8FA48701C7147708609B24 /* ArrowCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F802261F350CAB89D072A3E50A51178 /* ArrowCanvas.swift */; };
+		B9D4E19DE1CF86442836934617B46BC3 /* Pods-Annotations_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A391360EBC4D8451A58B44F9EF061DE /* Pods-Annotations_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BDBC6948EAD2356FDE6EBE6D99338053 /* PenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C26189A30F91CEBF18A44D3EB2B333 /* PenModel.swift */; };
+		C12F44302CF21CF0F5DFC78AA6369BAF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F940C819049CFF8741C0F5E3E075E607 /* Cocoa.framework */; };
+		C663BE95F626561FB21B2F991EC05ACC /* RectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE0494C1F880663DFE3F37197D2E192 /* RectModel.swift */; };
+		CB4AF6186086D5EE7C77A45909B4A9D3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B0BCF4AF8C49242CB7653FAC8909C4 /* Constants.swift */; };
+		CD0CC07B3C34BB09D61BFF1415153E21 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8186486A1AB53A60331671D1C2E6FAA1 /* Array.swift */; };
+		D0F008AB58B580347515A1B060781706 /* ArrowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14CBEA070D6009995DC4F6864B711EC /* ArrowModel.swift */; };
+		D3D5E2C412C35B017AC9FAAEF8F66CED /* TextAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31420C7CD6E0B9B56D855BF6FA1F600 /* TextAnnotation.swift */; };
+		F29444ED7515D93BE2AB3C1637EBE3C9 /* TextContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DEFE57F2B76F355A9866C8008CE319 /* TextContainerView.swift */; };
+		F2D3B082B5E8FC0888347F21BADF425A /* Pods-Annotations_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 18E56FC646B3B905E7303EB07861940B /* Pods-Annotations_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F6FF0018BF2AB170B01972119EED4172 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4D1442D849F32148045D67A22954BEA /* StringExtension.swift */; };
+		F7A1811AC3878BE5FBC30645860681A4 /* Pods-Annotations_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 74FEC23ED4A956EF7AA85CB934F78D72 /* Pods-Annotations_Example-dummy.m */; };
+		F9DB7133D4B763413B13871B0C574087 /* TextKnobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58CD945B74F8B6D4DC68A94D7BC9633 /* TextKnobView.swift */; };
+		FA38E560360C9E1DDB80CA3D92E4AAA2 /* RectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74922C389F09C0E9FD3DDF8ADC7D299 /* RectView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		22B97D7EDBBF398D4F1BA5094C8E476D /* PBXContainerItemProxy */ = {
+		4BEB04CB3A6CBDC6209AAF1828AE2BAF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 44E8958D36759D86804434716D4A39DF;
 			remoteInfo = Annotations;
 		};
-		36E58807D079BA46182C3BB9A87ED787 /* PBXContainerItemProxy */ = {
+		F8CDBC8C89B92E6ACB43300DDDA8EB5B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 44E8958D36759D86804434716D4A39DF;
 			remoteInfo = Annotations;
-		};
-		5D0008DF5BD2A56CC3A05A35F69F8752 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 948D1064C68C8099881C07922649E558;
-			remoteInfo = TextAnnotation;
-		};
-		708B80D32705113B29FD99936F6F3573 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 948D1064C68C8099881C07922649E558;
-			remoteInfo = TextAnnotation;
-		};
-		E53EE5C3C2EB9FB9DAED37A82975425C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 948D1064C68C8099881C07922649E558;
-			remoteInfo = TextAnnotation;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		012320D2057F45CB18516F5FC4D74FA4 /* Pods-Annotations_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Annotations_Example-frameworks.sh"; sourceTree = "<group>"; };
-		025D3DE2367541E27377A04D0C7DAAF8 /* NSColorExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NSColorExtension.swift; path = TextAnnotation/Classes/NSColorExtension.swift; sourceTree = "<group>"; };
-		0293BF1DB5A43922931DCFEA0B72F07E /* TextAnnotation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TextAnnotation.debug.xcconfig; sourceTree = "<group>"; };
-		0A81FBA0460B4BD3AF43A7934D58B6B7 /* PenCanvas.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PenCanvas.swift; sourceTree = "<group>"; };
-		0AE0CD4B4DB320447308C8D204329D1E /* CanvasViewClass.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CanvasViewClass.swift; sourceTree = "<group>"; };
+		037BAF114AA6564D169C1B815C58885D /* HiglightView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HiglightView.swift; sourceTree = "<group>"; };
+		07065E985613BF7447C71B95995F748D /* TextModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextModel.swift; sourceTree = "<group>"; };
 		0D3B28A13D4FC60790AF58FC730634BD /* Pods-Annotations_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Annotations_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		0D4C86A79739248CC959E6B5E1184067 /* Pods-Annotations_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Annotations_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		0E384EEA97BECDD212A39329AF1DA41F /* TextAnnotation-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "TextAnnotation-Info.plist"; sourceTree = "<group>"; };
+		0E2DF21FE5EE6C66292B93CD10C49C93 /* ArrowView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ArrowView.swift; sourceTree = "<group>"; };
+		0E6F7D46FB4074689A18B0A6A433D461 /* NSBezierPathExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NSBezierPathExtension.swift; sourceTree = "<group>"; };
+		10D72F51CA38B43022E0BDBABF9F91BC /* CanvasDrawable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CanvasDrawable.swift; sourceTree = "<group>"; };
 		124B373FAA62A2922F74816881DDBB59 /* Pods_Annotations_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Annotations_Example.framework; path = "Pods-Annotations_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		153CC45B082CCF715D9A2F183DFDAD96 /* ModelColor+TextColor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "ModelColor+TextColor.swift"; sourceTree = "<group>"; };
-		15AB71D3F7AEA3151D9EAB3DD3DA4D35 /* TextAnnotationCanvas.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TextAnnotationCanvas.swift; path = TextAnnotation/Classes/TextAnnotationCanvas.swift; sourceTree = "<group>"; };
-		16375E8431FC1174B47F9C2316299220 /* NSColorExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NSColorExtension.swift; sourceTree = "<group>"; };
-		16F1B1127E5F620439A14E00B9F21D1B /* TextAnnotation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TextAnnotation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		17F4D3E7909264DCE6BEE10DA6490AAD /* CanvasDrawable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CanvasDrawable.swift; sourceTree = "<group>"; };
 		18E56FC646B3B905E7303EB07861940B /* Pods-Annotations_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Annotations_Tests-umbrella.h"; sourceTree = "<group>"; };
-		18FABF4C6A4EC1AD29FE308BF08D0881 /* TextAnnotationModelable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TextAnnotationModelable.swift; path = TextAnnotation/Classes/TextAnnotationModelable.swift; sourceTree = "<group>"; };
-		1C8217B6CC69464CC9575EE2F2E8356B /* TextAnnotation-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "TextAnnotation-dummy.m"; sourceTree = "<group>"; };
-		1D84DCBA2128A0784BDB188A770DE187 /* Annotations-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Annotations-prefix.pch"; sourceTree = "<group>"; };
-		1DBA05AAA85B037E573E1E87D4DACB9A /* CustomSwitch.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CustomSwitch.swift; sourceTree = "<group>"; };
-		2039926FD491925DC3DCD8D1682E0511 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
-		227140268C123CC065B76974E0CA9B3A /* Annotations.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Annotations.debug.xcconfig; sourceTree = "<group>"; };
-		237AAAC4620AFAD3F10A9C62CF1E7933 /* CursorSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CursorSet.swift; sourceTree = "<group>"; };
-		23833820D2CAC1796219444D4D2BB768 /* TextParams.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextParams.swift; sourceTree = "<group>"; };
-		29193C22D25A607F4EAFDAA780CECF27 /* RectCanvas.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RectCanvas.swift; sourceTree = "<group>"; };
-		293D0B8E979495D7917707B12C7179B3 /* TextAnnotation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TextAnnotation.framework; path = TextAnnotation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C9DFC82800A53434BE376AEF24D65EB /* PenCanvas.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PenCanvas.swift; sourceTree = "<group>"; };
+		1E24A631146757CFE78F34B315C0D9E6 /* Annotations-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Annotations-prefix.pch"; sourceTree = "<group>"; };
+		22E66564DB7732099B07D09D56FA8B82 /* TextParams.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextParams.swift; sourceTree = "<group>"; };
+		24B0BCF4AF8C49242CB7653FAC8909C4 /* Constants.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		26F35BE0B91749D94E651B45C2BC7C69 /* SelectionView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
 		2A4559291426782D33472FCAF5247BE0 /* Annotations.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Annotations.framework; path = Annotations.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D056F878D43219B86CB5FB15C5140D0 /* PointModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PointModel.swift; sourceTree = "<group>"; };
-		2F1F5AB16FAE8CEEFB1BC87E25BEB63B /* Annotations-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Annotations-umbrella.h"; sourceTree = "<group>"; };
-		2F82A7610911FA9AAEC0736FD22991C3 /* TextAnnotation-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TextAnnotation-umbrella.h"; sourceTree = "<group>"; };
-		300781548E861EF993B8EE54A1E9A415 /* PenModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PenModel.swift; sourceTree = "<group>"; };
-		32199AE72134BA7EF1243FD936F35EB6 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
-		348AD5018587382762814A51D81DB9F5 /* TextAnnotationDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextAnnotationDelegate.swift; sourceTree = "<group>"; };
-		399966694AAAC037CC83B6EBA03637D1 /* RectView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RectView.swift; sourceTree = "<group>"; };
-		3D226663DB728D49A7BAF6F978BD4D86 /* ModelColor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ModelColor.swift; sourceTree = "<group>"; };
-		3F0CD2A7C177ABC5807CE23EF1305DD7 /* CanvasModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CanvasModel.swift; sourceTree = "<group>"; };
-		4198E3B04FD48F560303612482B374A6 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
-		4514036A2C96D51262EBFD5E07267014 /* StringExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
-		454D361CF400704815291397F614641B /* Annotations-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Annotations-dummy.m"; sourceTree = "<group>"; };
-		496AE7C89002D7ACC864127E285B792F /* Annotations.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Annotations.modulemap; sourceTree = "<group>"; };
+		2A4D3DE1349028D5AFA721FCC25E1AB1 /* Annotations-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Annotations-Info.plist"; sourceTree = "<group>"; };
+		3C5CB0868D0A92FC95330E6F221D7B3A /* ModelColor+TextColor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "ModelColor+TextColor.swift"; sourceTree = "<group>"; };
+		3E7241596E9A0B79939B09CD895B4355 /* CustomSwitch.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CustomSwitch.swift; sourceTree = "<group>"; };
+		4561A62FEB384A24174C978BC494B6E2 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Annotations/Assets/Assets.xcassets; sourceTree = "<group>"; };
+		4DD06AAC8A711E81D21EFD0858707709 /* ObfuscateCanvas.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ObfuscateCanvas.swift; sourceTree = "<group>"; };
 		4EAA530260A3B80ACBE05313F8C82D25 /* Pods-Annotations_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Annotations_Tests-frameworks.sh"; sourceTree = "<group>"; };
-		5063E727A631B69FD4929EEBBA30AE6E /* TextView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		509D9A94B22FE0447C4F02EFA8BC3C59 /* Pods-Annotations_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Annotations_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
 		51244329D7871610FAD6C1D6B10A43EE /* Pods_Annotations_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Annotations_Tests.framework; path = "Pods-Annotations_Tests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		531DF4782973AA501165915EE581ADD1 /* MouseTrackingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MouseTrackingView.swift; sourceTree = "<group>"; };
 		58CC7E0D3457FFF3C4BE1C17FBBF331F /* Pods-Annotations_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Annotations_Example.modulemap"; sourceTree = "<group>"; };
-		5FA1C4C09D0E3594F4C8458617F68414 /* EditableCanvasView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EditableCanvasView.swift; sourceTree = "<group>"; };
-		636635793AAF8359F81D173FDF5B6FD9 /* TextCanvas.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextCanvas.swift; sourceTree = "<group>"; };
-		63E87EF648526D2A27D59271B0E847D0 /* HiglightView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HiglightView.swift; sourceTree = "<group>"; };
-		664502DA51426DD3DFD9694F0939B769 /* ArrowModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ArrowModel.swift; sourceTree = "<group>"; };
-		6709EC822CD4DD7C119F7E9C382CB60C /* TextAnnotationCanvas.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextAnnotationCanvas.swift; sourceTree = "<group>"; };
+		5AF32C8A97821CBB624B07D342BEECC1 /* LayoutExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LayoutExtension.swift; sourceTree = "<group>"; };
+		5CF9495A097B31BC99A7C84DCE78697F /* TextAnnotationDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextAnnotationDelegate.swift; sourceTree = "<group>"; };
+		5D0D2F3F9926D9BFC13897A1BC9496FF /* TextColor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextColor.swift; sourceTree = "<group>"; };
+		6177DACFC085C335FDDA3D792F1DC8F1 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		66913FED7B1327535D721CFE95982FE2 /* CanvasViewClass.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CanvasViewClass.swift; sourceTree = "<group>"; };
 		6A391360EBC4D8451A58B44F9EF061DE /* Pods-Annotations_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Annotations_Example-umbrella.h"; sourceTree = "<group>"; };
-		6F4A4B463FD8A87D7C4B5276B6D8F439 /* NSBezierPathExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NSBezierPathExtension.swift; sourceTree = "<group>"; };
-		73595E71AF47AAAAA17A5067163DB11E /* TextView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TextView.swift; path = TextAnnotation/Classes/TextView.swift; sourceTree = "<group>"; };
 		74FEC23ED4A956EF7AA85CB934F78D72 /* Pods-Annotations_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Annotations_Example-dummy.m"; sourceTree = "<group>"; };
-		761537E8974CB5FDFC1A08BB9042E3B2 /* TextModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextModel.swift; sourceTree = "<group>"; };
-		76C5C15606DA8536195E29F394A8E275 /* TextColor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextColor.swift; sourceTree = "<group>"; };
 		777D0D36795ACF48D7C32762DE10A79A /* Pods-Annotations_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Annotations_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
-		7D36BC4A702979904D8A35CC4CB5DAF7 /* ObfuscateView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ObfuscateView.swift; sourceTree = "<group>"; };
-		7DB1E2F2954602F81D7A6F626AF517CF /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = TextAnnotation/Assets/Assets.xcassets; sourceTree = "<group>"; };
-		806C06EDC4767AECCA67CD34AD9CFBA3 /* Constants.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = TextAnnotation/Classes/Constants.swift; sourceTree = "<group>"; };
-		8153592BDCE51E69B0ABDE215264BAD1 /* RectModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RectModel.swift; sourceTree = "<group>"; };
-		8191577DE7B39960DD411E05EEFCAC66 /* TextAnnotation-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TextAnnotation-prefix.pch"; sourceTree = "<group>"; };
-		8309CBC3469FA421BBC975B4E567F0F7 /* HighlightCanvas.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HighlightCanvas.swift; sourceTree = "<group>"; };
-		84673CDC209B58361A0973A59BE5D7B2 /* TextContainerView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextContainerView.swift; sourceTree = "<group>"; };
-		85157B98621AAB67A5A42503A7BCD786 /* Annotations-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Annotations-Info.plist"; sourceTree = "<group>"; };
-		86788A19E7809F5A7490F1013F2DE286 /* CursorSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CursorSet.swift; path = TextAnnotation/Classes/CursorSet.swift; sourceTree = "<group>"; };
-		89B5304FD826D79BDBF82A944AD99101 /* TextContainerView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TextContainerView.swift; path = TextAnnotation/Classes/TextContainerView.swift; sourceTree = "<group>"; };
-		8A7BBDE284A37A453C7968D45B44C7B9 /* History.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = History.swift; path = Annotations/Classes/History.swift; sourceTree = "<group>"; };
-		93027E1E851B745C41690741F325EF2A /* LayoutExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LayoutExtension.swift; sourceTree = "<group>"; };
-		93C78362773D5AED2BF39DAA5BB8FE3F /* Annotations.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = Annotations.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		77F47329F8D3B4486AB27454BB167BC1 /* KnobView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KnobView.swift; sourceTree = "<group>"; };
+		7A8573D7B4C87866B4E129DEC2D652FF /* TextAttributes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextAttributes.swift; sourceTree = "<group>"; };
+		7D600A43F0E58A7AB311B5CED6A5310E /* CGPointExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
+		7EE0494C1F880663DFE3F37197D2E192 /* RectModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RectModel.swift; sourceTree = "<group>"; };
+		7F802261F350CAB89D072A3E50A51178 /* ArrowCanvas.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ArrowCanvas.swift; sourceTree = "<group>"; };
+		8186486A1AB53A60331671D1C2E6FAA1 /* Array.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
+		82DEFE57F2B76F355A9866C8008CE319 /* TextContainerView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextContainerView.swift; sourceTree = "<group>"; };
+		89E8C419D559100D368466DA3661704B /* Annotations-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Annotations-umbrella.h"; sourceTree = "<group>"; };
+		8B1CA2CE3664C82A48863FF338FC9407 /* Annotations.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = Annotations.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		8BAA5C6B20175C7819E001391E91347C /* TextCanvas.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextCanvas.swift; sourceTree = "<group>"; };
+		8ED051D37EEABC9596D7AEBC8BFA6A42 /* History.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = History.swift; path = Annotations/Classes/History.swift; sourceTree = "<group>"; };
 		94AFCC62F2DD85B75CABA86DAFE6C9B7 /* Pods-Annotations_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Annotations_Example-acknowledgements.plist"; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A575374ED128456A865AB49B4531D6C4 /* TextAnnotation.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = TextAnnotation.modulemap; sourceTree = "<group>"; };
+		A4A0FE7F87132C27F6B2489170462897 /* RectCanvas.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RectCanvas.swift; sourceTree = "<group>"; };
 		B085489C2DBDA5BA7C50335DD2801AA2 /* Pods-Annotations_Example-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Annotations_Example-Info.plist"; sourceTree = "<group>"; };
-		B1321284B9CECE9F8B6A726D4B6A8046 /* MouseTrackingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MouseTrackingView.swift; path = TextAnnotation/Classes/MouseTrackingView.swift; sourceTree = "<group>"; };
-		B371481A8A548167485E9758F4739923 /* TextViewDrawable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextViewDrawable.swift; sourceTree = "<group>"; };
-		B70B229B4736F3830078FAB09281B23B /* ArrowCanvas.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ArrowCanvas.swift; sourceTree = "<group>"; };
-		B946DB72106FFA91C65E9D392ED2693E /* TextAnnotationModelable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextAnnotationModelable.swift; sourceTree = "<group>"; };
+		B31420C7CD6E0B9B56D855BF6FA1F600 /* TextAnnotation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextAnnotation.swift; sourceTree = "<group>"; };
+		B4D68D3319810AE8E3800CA7017CD716 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		B58CD945B74F8B6D4DC68A94D7BC9633 /* TextKnobView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextKnobView.swift; sourceTree = "<group>"; };
+		B5AC780B56148F1048423D9BEDC7A636 /* Annotations.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Annotations.debug.xcconfig; sourceTree = "<group>"; };
+		B9D21F8A9DC219C5A4435266634A0FC5 /* TextView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		BA4524CC0E301AA0511C4BE1E63065AD /* Pods-Annotations_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Annotations_Tests.modulemap"; sourceTree = "<group>"; };
-		BA7BFE86A13B29F67F684FB607360533 /* Array.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
-		BE116B15A8B809F7E110796561D00776 /* Annotations.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Annotations.release.xcconfig; sourceTree = "<group>"; };
-		BFA945085FD101A112EEB5EA90544D43 /* SelectionView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SelectionView.swift; path = TextAnnotation/Classes/SelectionView.swift; sourceTree = "<group>"; };
-		C0A1C6B983ED843740D4D78A36ABC934 /* TextColor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TextColor.swift; path = TextAnnotation/Classes/TextColor.swift; sourceTree = "<group>"; };
-		C29A955E4F248AED9E6B31CD11166BCC /* PenView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PenView.swift; sourceTree = "<group>"; };
+		C02774E5AE6526B0255007897E6F7069 /* EditableCanvasView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EditableCanvasView.swift; sourceTree = "<group>"; };
+		C308CB71716367314F8731107733FBD7 /* PenView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PenView.swift; sourceTree = "<group>"; };
+		C373E44F9F505FBC0D47FE67AC70E103 /* NSColorExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NSColorExtension.swift; sourceTree = "<group>"; };
+		C47432D7E12382F96432EFFF71C03E98 /* CursorSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CursorSet.swift; sourceTree = "<group>"; };
+		C74922C389F09C0E9FD3DDF8ADC7D299 /* RectView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RectView.swift; sourceTree = "<group>"; };
+		CBB1DB87A53EEC6BC24BBCD42DD628C1 /* CATransactionExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CATransactionExtension.swift; sourceTree = "<group>"; };
+		CFAF6BA0D86F2B9F77EDD369AFC52E4C /* ModelColor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ModelColor.swift; sourceTree = "<group>"; };
 		CFEB4EF5BC8E3AC2302538CC760D56C5 /* Pods-Annotations_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Annotations_Tests-dummy.m"; sourceTree = "<group>"; };
-		D358C64B4216E7A7A06CA38121495E52 /* TextAnnotationDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TextAnnotationDelegate.swift; path = TextAnnotation/Classes/TextAnnotationDelegate.swift; sourceTree = "<group>"; };
-		D5FFCAFF82307C4C4AE2741C41E6CB09 /* TextAnnotation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TextAnnotation.swift; path = TextAnnotation/Classes/TextAnnotation.swift; sourceTree = "<group>"; };
+		D14CBEA070D6009995DC4F6864B711EC /* ArrowModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ArrowModel.swift; sourceTree = "<group>"; };
+		D69B84A1CBF314901AE417CC5C975A51 /* CAShapeLayerExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CAShapeLayerExtension.swift; sourceTree = "<group>"; };
 		D6C525DB532FDE376C979D559F1D03FF /* Pods-Annotations_Tests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Annotations_Tests-Info.plist"; sourceTree = "<group>"; };
 		D6D4C172D8094733D8C4E82FE23009CA /* Pods-Annotations_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Annotations_Example.release.xcconfig"; sourceTree = "<group>"; };
-		D6D5643C542F8B59040E98CEA210BE8F /* CanvasView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
-		D7B2C00EA0F2165136D336790AAC1F89 /* ArrowView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ArrowView.swift; sourceTree = "<group>"; };
-		D994058448294B2BC8D30F311E9D04E1 /* ObfuscateCanvas.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ObfuscateCanvas.swift; sourceTree = "<group>"; };
-		DC6908914D8EB71C10703A25DC971490 /* Constants.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		DF150CA54C18E69FC7109DDFA7C2C8A5 /* CGPointExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
-		E0C4BC128F252BD8B14387EC03324B49 /* TextAttributes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextAttributes.swift; sourceTree = "<group>"; };
-		E18FB59C4A35248D9F6A74ED7C87DF26 /* CAShapeLayerExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CAShapeLayerExtension.swift; sourceTree = "<group>"; };
-		E62D655C433632F9867D604950C9F625 /* KnobView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KnobView.swift; path = TextAnnotation/Classes/KnobView.swift; sourceTree = "<group>"; };
-		F092F4870CCDD452FA9A4DBD023EABA1 /* TextAnnotation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextAnnotation.swift; sourceTree = "<group>"; };
+		D72C6858ECD8FCC7807C8FCF2EE8CE5F /* Annotations.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Annotations.release.xcconfig; sourceTree = "<group>"; };
+		DAE363D8ECF1BF8024E3913743998CB9 /* TextViewDrawable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextViewDrawable.swift; sourceTree = "<group>"; };
+		DB1F45257B0CB1E2D7D83580DD8E2239 /* CanvasView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
+		DBB0BF692495BCADF162FA91273341DB /* Annotations-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Annotations-dummy.m"; sourceTree = "<group>"; };
+		DCF0E2AE58897D0131D35786ED2C34E3 /* ObfuscateView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ObfuscateView.swift; sourceTree = "<group>"; };
+		DE18F1E42FD51B7146907A96AB2D02AF /* TextAnnotationModelable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextAnnotationModelable.swift; sourceTree = "<group>"; };
+		E0C26189A30F91CEBF18A44D3EB2B333 /* PenModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PenModel.swift; sourceTree = "<group>"; };
+		E4D1442D849F32148045D67A22954BEA /* StringExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		E57B2B7EF931FFF8102C0D9A71D9217F /* CanvasModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CanvasModel.swift; sourceTree = "<group>"; };
+		E893E61C4DB50134B709DF36BC90FD06 /* HighlightCanvas.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HighlightCanvas.swift; sourceTree = "<group>"; };
+		E9F82AD82FD9AE342BB12FEE004BFB0E /* PointModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PointModel.swift; sourceTree = "<group>"; };
+		EAA4F17016E062DF9D338798707B7BA7 /* MouseTrackingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MouseTrackingView.swift; sourceTree = "<group>"; };
 		F0E5DC1473D102DE7AF1EE3E03DFF532 /* Pods-Annotations_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Annotations_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		F0F9ABA2CB4775C0F1D6FD6F8E4DEE32 /* CATransactionExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CATransactionExtension.swift; sourceTree = "<group>"; };
-		F2931A11F94B67FFEC57DF7691AA6F52 /* TextAnnotation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TextAnnotation.release.xcconfig; sourceTree = "<group>"; };
-		F43FD0BB21D8491BC3B707547E18B877 /* SelectionView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
 		F66174E04A1C152BB6DD5A2415F74643 /* Pods-Annotations_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Annotations_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		FA21B961AABEE3814CE15696E04337C0 /* KnobView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KnobView.swift; sourceTree = "<group>"; };
-		FCEF4C64140D914F4FC46DC1A6994DF1 /* TextKnobView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextKnobView.swift; sourceTree = "<group>"; };
-		FEE70A846569F7E242C46C2B8FE90868 /* CustomSwitch.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CustomSwitch.swift; path = TextAnnotation/Classes/CustomSwitch.swift; sourceTree = "<group>"; };
+		F773AA93746BB52E791C9DE8417827EA /* TextAnnotationCanvas.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextAnnotationCanvas.swift; sourceTree = "<group>"; };
+		F940C819049CFF8741C0F5E3E075E607 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		FC111EE430F41FA4564306873417F39B /* Annotations.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Annotations.modulemap; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		4EF90BE5005FCAE749789F984B015497 /* Frameworks */ = {
+		1FF5F310ECACCFAC598F75E604B1DB1F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CDF11BBD50BB592F3037769BAF43D48D /* Cocoa.framework in Frameworks */,
-				D2EF5A4E565D0A1F8E568614B2AD1F57 /* TextAnnotation.framework in Frameworks */,
+				1FCA38A93B1BF2CC34754F5AC5DF22FC /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8300992D60A907D69ED2748766EA7462 /* Frameworks */ = {
+		78D49259E0F9087E7C587A8AFF7053DF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B3EFE7251FFDB9DF02DF95056E01929 /* Cocoa.framework in Frameworks */,
+				C12F44302CF21CF0F5DFC78AA6369BAF /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D8407CE00BBD65A6F8E78BF4B783B239 /* Frameworks */ = {
+		B5943065D547D50E024F94B94FC50B2B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A83088587EF7A5F415A0904A0B54DC7 /* Cocoa.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E4E67AE7B4793882B3A280A2C8642706 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9FCC0319B629C5023924AE87C93D641D /* Cocoa.framework in Frameworks */,
+				7497A18BD77D93E35AFC41C2149FFADD /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0DA81E542858B602886FB6D53D8D164E /* Pod */ = {
+		0CAC4BC2F3C1476772EBDF49A84A85A7 /* Annotations */ = {
 			isa = PBXGroup;
 			children = (
-				93C78362773D5AED2BF39DAA5BB8FE3F /* Annotations.podspec */,
-				2039926FD491925DC3DCD8D1682E0511 /* LICENSE */,
-				32199AE72134BA7EF1243FD936F35EB6 /* README.md */,
+				8ED051D37EEABC9596D7AEBC8BFA6A42 /* History.swift */,
+				272752BDC8DB25799F8C82C8071DAB17 /* Extensions */,
+				C9F45EB433F10CA2C4670C69BEB1FF40 /* Model */,
+				974E94966621AF127398999D6A9BBBE6 /* Pod */,
+				6F555C17CA77B387594559AD092F958D /* Resources */,
+				CD9C4DDDAA8431924DCC26600DCA5D6D /* Support Files */,
+				5F9FF3A9DDFE9F9185D1642671F11CED /* TextAnnotation */,
+				C7D1301D6DEB8E08E2C8A47AC4DCBE13 /* Views */,
 			);
-			name = Pod;
+			name = Annotations;
+			path = ../..;
 			sourceTree = "<group>";
 		};
-		0E628DAF2AFE075D37C5F9228B3881A9 /* Products */ = {
+		2199027831310DEF69CDBAEA901BCC2E /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				2A4559291426782D33472FCAF5247BE0 /* Annotations.framework */,
 				124B373FAA62A2922F74816881DDBB59 /* Pods_Annotations_Example.framework */,
 				51244329D7871610FAD6C1D6B10A43EE /* Pods_Annotations_Tests.framework */,
-				293D0B8E979495D7917707B12C7179B3 /* TextAnnotation.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1BB36AA3269EF001A892D1FD4B58F2DA /* Frameworks */ = {
+		272752BDC8DB25799F8C82C8071DAB17 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				16F1B1127E5F620439A14E00B9F21D1B /* TextAnnotation.framework */,
-				46154F00539FE791C956CE72D17BBDB1 /* OS X */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		201D09162FF3C0CC5E6B541707318D34 /* TextAnnotation */ = {
-			isa = PBXGroup;
-			children = (
-				806C06EDC4767AECCA67CD34AD9CFBA3 /* Constants.swift */,
-				86788A19E7809F5A7490F1013F2DE286 /* CursorSet.swift */,
-				FEE70A846569F7E242C46C2B8FE90868 /* CustomSwitch.swift */,
-				E62D655C433632F9867D604950C9F625 /* KnobView.swift */,
-				B1321284B9CECE9F8B6A726D4B6A8046 /* MouseTrackingView.swift */,
-				025D3DE2367541E27377A04D0C7DAAF8 /* NSColorExtension.swift */,
-				BFA945085FD101A112EEB5EA90544D43 /* SelectionView.swift */,
-				D5FFCAFF82307C4C4AE2741C41E6CB09 /* TextAnnotation.swift */,
-				15AB71D3F7AEA3151D9EAB3DD3DA4D35 /* TextAnnotationCanvas.swift */,
-				D358C64B4216E7A7A06CA38121495E52 /* TextAnnotationDelegate.swift */,
-				18FABF4C6A4EC1AD29FE308BF08D0881 /* TextAnnotationModelable.swift */,
-				C0A1C6B983ED843740D4D78A36ABC934 /* TextColor.swift */,
-				89B5304FD826D79BDBF82A944AD99101 /* TextContainerView.swift */,
-				73595E71AF47AAAAA17A5067163DB11E /* TextView.swift */,
-				B09BFC5D77BB1976F7B861C5415ABE13 /* Resources */,
-				78935D728EA6A1BC9A97B90D6787892C /* Support Files */,
-			);
-			name = TextAnnotation;
-			path = TextAnnotation;
-			sourceTree = "<group>";
-		};
-		3DDE4E925B47AB859800668A8C57EE5D /* Development Pods */ = {
-			isa = PBXGroup;
-			children = (
-				F387AD7B520B8FA3669CCA643D87D568 /* Annotations */,
-			);
-			name = "Development Pods";
-			sourceTree = "<group>";
-		};
-		455D2770D9507E80E61126D1B224D12E /* TextAnnotation */ = {
-			isa = PBXGroup;
-			children = (
-				DC6908914D8EB71C10703A25DC971490 /* Constants.swift */,
-				237AAAC4620AFAD3F10A9C62CF1E7933 /* CursorSet.swift */,
-				1DBA05AAA85B037E573E1E87D4DACB9A /* CustomSwitch.swift */,
-				531DF4782973AA501165915EE581ADD1 /* MouseTrackingView.swift */,
-				F43FD0BB21D8491BC3B707547E18B877 /* SelectionView.swift */,
-				F092F4870CCDD452FA9A4DBD023EABA1 /* TextAnnotation.swift */,
-				6709EC822CD4DD7C119F7E9C382CB60C /* TextAnnotationCanvas.swift */,
-				348AD5018587382762814A51D81DB9F5 /* TextAnnotationDelegate.swift */,
-				B946DB72106FFA91C65E9D392ED2693E /* TextAnnotationModelable.swift */,
-				76C5C15606DA8536195E29F394A8E275 /* TextColor.swift */,
-				84673CDC209B58361A0973A59BE5D7B2 /* TextContainerView.swift */,
-				FCEF4C64140D914F4FC46DC1A6994DF1 /* TextKnobView.swift */,
-				5063E727A631B69FD4929EEBBA30AE6E /* TextView.swift */,
-				7CD70050A40BF29918CC52011586BBE2 /* Attributes */,
-			);
-			name = TextAnnotation;
-			path = Annotations/Classes/TextAnnotation;
-			sourceTree = "<group>";
-		};
-		46154F00539FE791C956CE72D17BBDB1 /* OS X */ = {
-			isa = PBXGroup;
-			children = (
-				4198E3B04FD48F560303612482B374A6 /* Cocoa.framework */,
-			);
-			name = "OS X";
-			sourceTree = "<group>";
-		};
-		46F461F8C8EB764B037A68F9A3BE77E1 /* Canvas */ = {
-			isa = PBXGroup;
-			children = (
-				17F4D3E7909264DCE6BEE10DA6490AAD /* CanvasDrawable.swift */,
-				D6D5643C542F8B59040E98CEA210BE8F /* CanvasView.swift */,
-				0AE0CD4B4DB320447308C8D204329D1E /* CanvasViewClass.swift */,
-				5FA1C4C09D0E3594F4C8458617F68414 /* EditableCanvasView.swift */,
-			);
-			name = Canvas;
-			path = Canvas;
-			sourceTree = "<group>";
-		};
-		4F883DA5ED5E70A1AB57F6177B3FF9D3 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				BA7BFE86A13B29F67F684FB607360533 /* Array.swift */,
-				E18FB59C4A35248D9F6A74ED7C87DF26 /* CAShapeLayerExtension.swift */,
-				F0F9ABA2CB4775C0F1D6FD6F8E4DEE32 /* CATransactionExtension.swift */,
-				DF150CA54C18E69FC7109DDFA7C2C8A5 /* CGPointExtension.swift */,
-				93027E1E851B745C41690741F325EF2A /* LayoutExtension.swift */,
-				6F4A4B463FD8A87D7C4B5276B6D8F439 /* NSBezierPathExtension.swift */,
-				16375E8431FC1174B47F9C2316299220 /* NSColorExtension.swift */,
-				4514036A2C96D51262EBFD5E07267014 /* StringExtension.swift */,
+				8186486A1AB53A60331671D1C2E6FAA1 /* Array.swift */,
+				D69B84A1CBF314901AE417CC5C975A51 /* CAShapeLayerExtension.swift */,
+				CBB1DB87A53EEC6BC24BBCD42DD628C1 /* CATransactionExtension.swift */,
+				7D600A43F0E58A7AB311B5CED6A5310E /* CGPointExtension.swift */,
+				5AF32C8A97821CBB624B07D342BEECC1 /* LayoutExtension.swift */,
+				0E6F7D46FB4074689A18B0A6A433D461 /* NSBezierPathExtension.swift */,
+				C373E44F9F505FBC0D47FE67AC70E103 /* NSColorExtension.swift */,
+				E4D1442D849F32148045D67A22954BEA /* StringExtension.swift */,
 			);
 			name = Extensions;
 			path = Annotations/Classes/Extensions;
 			sourceTree = "<group>";
 		};
-		78935D728EA6A1BC9A97B90D6787892C /* Support Files */ = {
+		2BB232FC09A1861B3C1DE158B6EA1FF4 /* Color */ = {
 			isa = PBXGroup;
 			children = (
-				A575374ED128456A865AB49B4531D6C4 /* TextAnnotation.modulemap */,
-				1C8217B6CC69464CC9575EE2F2E8356B /* TextAnnotation-dummy.m */,
-				0E384EEA97BECDD212A39329AF1DA41F /* TextAnnotation-Info.plist */,
-				8191577DE7B39960DD411E05EEFCAC66 /* TextAnnotation-prefix.pch */,
-				2F82A7610911FA9AAEC0736FD22991C3 /* TextAnnotation-umbrella.h */,
-				0293BF1DB5A43922931DCFEA0B72F07E /* TextAnnotation.debug.xcconfig */,
-				F2931A11F94B67FFEC57DF7691AA6F52 /* TextAnnotation.release.xcconfig */,
+				CFAF6BA0D86F2B9F77EDD369AFC52E4C /* ModelColor.swift */,
+				3C5CB0868D0A92FC95330E6F221D7B3A /* ModelColor+TextColor.swift */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/TextAnnotation";
+			name = Color;
+			path = Color;
 			sourceTree = "<group>";
 		};
-		7CD70050A40BF29918CC52011586BBE2 /* Attributes */ = {
+		5F9FF3A9DDFE9F9185D1642671F11CED /* TextAnnotation */ = {
 			isa = PBXGroup;
 			children = (
-				E0C4BC128F252BD8B14387EC03324B49 /* TextAttributes.swift */,
-				23833820D2CAC1796219444D4D2BB768 /* TextParams.swift */,
+				24B0BCF4AF8C49242CB7653FAC8909C4 /* Constants.swift */,
+				C47432D7E12382F96432EFFF71C03E98 /* CursorSet.swift */,
+				3E7241596E9A0B79939B09CD895B4355 /* CustomSwitch.swift */,
+				EAA4F17016E062DF9D338798707B7BA7 /* MouseTrackingView.swift */,
+				26F35BE0B91749D94E651B45C2BC7C69 /* SelectionView.swift */,
+				B31420C7CD6E0B9B56D855BF6FA1F600 /* TextAnnotation.swift */,
+				F773AA93746BB52E791C9DE8417827EA /* TextAnnotationCanvas.swift */,
+				5CF9495A097B31BC99A7C84DCE78697F /* TextAnnotationDelegate.swift */,
+				DE18F1E42FD51B7146907A96AB2D02AF /* TextAnnotationModelable.swift */,
+				5D0D2F3F9926D9BFC13897A1BC9496FF /* TextColor.swift */,
+				82DEFE57F2B76F355A9866C8008CE319 /* TextContainerView.swift */,
+				B58CD945B74F8B6D4DC68A94D7BC9633 /* TextKnobView.swift */,
+				B9D21F8A9DC219C5A4435266634A0FC5 /* TextView.swift */,
+				B5DE84FF4480B85CBE91E0A0F5274241 /* Attributes */,
 			);
-			name = Attributes;
-			path = Attributes;
+			name = TextAnnotation;
+			path = Annotations/Classes/TextAnnotation;
 			sourceTree = "<group>";
 		};
-		7D9CB3F36AB32EF9C77E9C3B90B5AF15 /* Views */ = {
+		6F555C17CA77B387594559AD092F958D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B70B229B4736F3830078FAB09281B23B /* ArrowCanvas.swift */,
-				D7B2C00EA0F2165136D336790AAC1F89 /* ArrowView.swift */,
-				8309CBC3469FA421BBC975B4E567F0F7 /* HighlightCanvas.swift */,
-				63E87EF648526D2A27D59271B0E847D0 /* HiglightView.swift */,
-				FA21B961AABEE3814CE15696E04337C0 /* KnobView.swift */,
-				D994058448294B2BC8D30F311E9D04E1 /* ObfuscateCanvas.swift */,
-				7D36BC4A702979904D8A35CC4CB5DAF7 /* ObfuscateView.swift */,
-				0A81FBA0460B4BD3AF43A7934D58B6B7 /* PenCanvas.swift */,
-				C29A955E4F248AED9E6B31CD11166BCC /* PenView.swift */,
-				29193C22D25A607F4EAFDAA780CECF27 /* RectCanvas.swift */,
-				399966694AAAC037CC83B6EBA03637D1 /* RectView.swift */,
-				636635793AAF8359F81D173FDF5B6FD9 /* TextCanvas.swift */,
-				B371481A8A548167485E9758F4739923 /* TextViewDrawable.swift */,
-				46F461F8C8EB764B037A68F9A3BE77E1 /* Canvas */,
+				4561A62FEB384A24174C978BC494B6E2 /* Assets.xcassets */,
 			);
-			name = Views;
-			path = Annotations/Classes/Views;
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		7FD0489886FEDD418E3449B60C9A2938 /* Pods-Annotations_Tests */ = {
@@ -463,72 +307,103 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		9D0BD7A14FD515AC8A9B6A6694FDC441 /* Pods */ = {
+		974E94966621AF127398999D6A9BBBE6 /* Pod */ = {
 			isa = PBXGroup;
 			children = (
-				201D09162FF3C0CC5E6B541707318D34 /* TextAnnotation */,
+				8B1CA2CE3664C82A48863FF338FC9407 /* Annotations.podspec */,
+				B4D68D3319810AE8E3800CA7017CD716 /* LICENSE */,
+				6177DACFC085C335FDDA3D792F1DC8F1 /* README.md */,
 			);
-			name = Pods;
+			name = Pod;
 			sourceTree = "<group>";
 		};
-		B09BFC5D77BB1976F7B861C5415ABE13 /* Resources */ = {
+		B5DE84FF4480B85CBE91E0A0F5274241 /* Attributes */ = {
 			isa = PBXGroup;
 			children = (
-				7DB1E2F2954602F81D7A6F626AF517CF /* Assets.xcassets */,
+				7A8573D7B4C87866B4E129DEC2D652FF /* TextAttributes.swift */,
+				22E66564DB7732099B07D09D56FA8B82 /* TextParams.swift */,
 			);
-			name = Resources;
+			name = Attributes;
+			path = Attributes;
 			sourceTree = "<group>";
 		};
-		B3E279F6630157960FD504496FC6FAAD /* Support Files */ = {
+		C7D1301D6DEB8E08E2C8A47AC4DCBE13 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				496AE7C89002D7ACC864127E285B792F /* Annotations.modulemap */,
-				454D361CF400704815291397F614641B /* Annotations-dummy.m */,
-				85157B98621AAB67A5A42503A7BCD786 /* Annotations-Info.plist */,
-				1D84DCBA2128A0784BDB188A770DE187 /* Annotations-prefix.pch */,
-				2F1F5AB16FAE8CEEFB1BC87E25BEB63B /* Annotations-umbrella.h */,
-				227140268C123CC065B76974E0CA9B3A /* Annotations.debug.xcconfig */,
-				BE116B15A8B809F7E110796561D00776 /* Annotations.release.xcconfig */,
+				7F802261F350CAB89D072A3E50A51178 /* ArrowCanvas.swift */,
+				0E2DF21FE5EE6C66292B93CD10C49C93 /* ArrowView.swift */,
+				E893E61C4DB50134B709DF36BC90FD06 /* HighlightCanvas.swift */,
+				037BAF114AA6564D169C1B815C58885D /* HiglightView.swift */,
+				77F47329F8D3B4486AB27454BB167BC1 /* KnobView.swift */,
+				4DD06AAC8A711E81D21EFD0858707709 /* ObfuscateCanvas.swift */,
+				DCF0E2AE58897D0131D35786ED2C34E3 /* ObfuscateView.swift */,
+				1C9DFC82800A53434BE376AEF24D65EB /* PenCanvas.swift */,
+				C308CB71716367314F8731107733FBD7 /* PenView.swift */,
+				A4A0FE7F87132C27F6B2489170462897 /* RectCanvas.swift */,
+				C74922C389F09C0E9FD3DDF8ADC7D299 /* RectView.swift */,
+				8BAA5C6B20175C7819E001391E91347C /* TextCanvas.swift */,
+				DAE363D8ECF1BF8024E3913743998CB9 /* TextViewDrawable.swift */,
+				FAF6D2126763AA2BEE807B5D49537B67 /* Canvas */,
 			);
-			name = "Support Files";
-			path = "Example/Pods/Target Support Files/Annotations";
+			name = Views;
+			path = Annotations/Classes/Views;
 			sourceTree = "<group>";
 		};
-		BEF41835253681674358486B541B4647 /* Model */ = {
+		C9F45EB433F10CA2C4670C69BEB1FF40 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				664502DA51426DD3DFD9694F0939B769 /* ArrowModel.swift */,
-				3F0CD2A7C177ABC5807CE23EF1305DD7 /* CanvasModel.swift */,
-				300781548E861EF993B8EE54A1E9A415 /* PenModel.swift */,
-				2D056F878D43219B86CB5FB15C5140D0 /* PointModel.swift */,
-				8153592BDCE51E69B0ABDE215264BAD1 /* RectModel.swift */,
-				761537E8974CB5FDFC1A08BB9042E3B2 /* TextModel.swift */,
-				C1B37EC0C9353FCC9E30803440FDA456 /* Color */,
+				D14CBEA070D6009995DC4F6864B711EC /* ArrowModel.swift */,
+				E57B2B7EF931FFF8102C0D9A71D9217F /* CanvasModel.swift */,
+				E0C26189A30F91CEBF18A44D3EB2B333 /* PenModel.swift */,
+				E9F82AD82FD9AE342BB12FEE004BFB0E /* PointModel.swift */,
+				7EE0494C1F880663DFE3F37197D2E192 /* RectModel.swift */,
+				07065E985613BF7447C71B95995F748D /* TextModel.swift */,
+				2BB232FC09A1861B3C1DE158B6EA1FF4 /* Color */,
 			);
 			name = Model;
 			path = Annotations/Classes/Model;
 			sourceTree = "<group>";
 		};
-		C1B37EC0C9353FCC9E30803440FDA456 /* Color */ = {
+		CBD43E0947D94E318A0ED1350CFF29ED /* OS X */ = {
 			isa = PBXGroup;
 			children = (
-				3D226663DB728D49A7BAF6F978BD4D86 /* ModelColor.swift */,
-				153CC45B082CCF715D9A2F183DFDAD96 /* ModelColor+TextColor.swift */,
+				F940C819049CFF8741C0F5E3E075E607 /* Cocoa.framework */,
 			);
-			name = Color;
-			path = Color;
+			name = "OS X";
+			sourceTree = "<group>";
+		};
+		CD9C4DDDAA8431924DCC26600DCA5D6D /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				FC111EE430F41FA4564306873417F39B /* Annotations.modulemap */,
+				DBB0BF692495BCADF162FA91273341DB /* Annotations-dummy.m */,
+				2A4D3DE1349028D5AFA721FCC25E1AB1 /* Annotations-Info.plist */,
+				1E24A631146757CFE78F34B315C0D9E6 /* Annotations-prefix.pch */,
+				89E8C419D559100D368466DA3661704B /* Annotations-umbrella.h */,
+				B5AC780B56148F1048423D9BEDC7A636 /* Annotations.debug.xcconfig */,
+				D72C6858ECD8FCC7807C8FCF2EE8CE5F /* Annotations.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "Example/Pods/Target Support Files/Annotations";
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
 			isa = PBXGroup;
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
-				3DDE4E925B47AB859800668A8C57EE5D /* Development Pods */,
-				1BB36AA3269EF001A892D1FD4B58F2DA /* Frameworks */,
-				9D0BD7A14FD515AC8A9B6A6694FDC441 /* Pods */,
-				0E628DAF2AFE075D37C5F9228B3881A9 /* Products */,
+				EE1AC9E9B11D34FC50C83CF02F12AC22 /* Development Pods */,
+				E0A1E60606E0BF6E2E10F1F01350DFE8 /* Frameworks */,
+				2199027831310DEF69CDBAEA901BCC2E /* Products */,
 				82CAB897AFE43F33A6B88A9D3499B9A6 /* Targets Support Files */,
 			);
+			sourceTree = "<group>";
+		};
+		E0A1E60606E0BF6E2E10F1F01350DFE8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CBD43E0947D94E318A0ED1350CFF29ED /* OS X */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		EB3934AB647B2206C93DF99B1C950F79 /* Pods-Annotations_Example */ = {
@@ -548,53 +423,50 @@
 			path = "Target Support Files/Pods-Annotations_Example";
 			sourceTree = "<group>";
 		};
-		F387AD7B520B8FA3669CCA643D87D568 /* Annotations */ = {
+		EE1AC9E9B11D34FC50C83CF02F12AC22 /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
-				8A7BBDE284A37A453C7968D45B44C7B9 /* History.swift */,
-				4F883DA5ED5E70A1AB57F6177B3FF9D3 /* Extensions */,
-				BEF41835253681674358486B541B4647 /* Model */,
-				0DA81E542858B602886FB6D53D8D164E /* Pod */,
-				B3E279F6630157960FD504496FC6FAAD /* Support Files */,
-				455D2770D9507E80E61126D1B224D12E /* TextAnnotation */,
-				7D9CB3F36AB32EF9C77E9C3B90B5AF15 /* Views */,
+				0CAC4BC2F3C1476772EBDF49A84A85A7 /* Annotations */,
 			);
-			name = Annotations;
-			path = ../..;
+			name = "Development Pods";
+			sourceTree = "<group>";
+		};
+		FAF6D2126763AA2BEE807B5D49537B67 /* Canvas */ = {
+			isa = PBXGroup;
+			children = (
+				10D72F51CA38B43022E0BDBABF9F91BC /* CanvasDrawable.swift */,
+				DB1F45257B0CB1E2D7D83580DD8E2239 /* CanvasView.swift */,
+				66913FED7B1327535D721CFE95982FE2 /* CanvasViewClass.swift */,
+				C02774E5AE6526B0255007897E6F7069 /* EditableCanvasView.swift */,
+			);
+			name = Canvas;
+			path = Canvas;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		00051DB8629B64F09994E732F4CD6BAB /* Headers */ = {
+		001D6E99E10A95FCAD70BBE5D95E6875 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5373BA53C9F70ECF0C52323EAA1FAA06 /* TextAnnotation-umbrella.h in Headers */,
+				9620ED51BBC051B2EEE539E30FC9458C /* Annotations-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		47A3AEA3623E53DA993EEDA82E50D27E /* Headers */ = {
+		665E4B06F2E807DC4F82B5EB73AC5E04 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B3AB2E50B29B8B9A833583BAA58A9A9 /* Pods-Annotations_Tests-umbrella.h in Headers */,
+				B9D4E19DE1CF86442836934617B46BC3 /* Pods-Annotations_Example-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8FEEC36D2A2A0B502AE785E72BA14454 /* Headers */ = {
+		CCC80C16C94BAC4A82E8FC932F3C4472 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				758F5B569584CDDBF797569CE6D5091C /* Pods-Annotations_Example-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9B54D64EFA6FA2ED15DD9F5CDB2E87AF /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				22C6D934703ADF45C42AAE090F2441C4 /* Annotations-umbrella.h in Headers */,
+				F2D3B082B5E8FC0888347F21BADF425A /* Pods-Annotations_Tests-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -603,18 +475,17 @@
 /* Begin PBXNativeTarget section */
 		3AB200F703025BFAE1FA9BDE891AA807 /* Pods-Annotations_Example */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B3285C440D89A59BE047BCECDFE3759E /* Build configuration list for PBXNativeTarget "Pods-Annotations_Example" */;
+			buildConfigurationList = C057947700CED63349EC0D182D35341B /* Build configuration list for PBXNativeTarget "Pods-Annotations_Example" */;
 			buildPhases = (
-				8FEEC36D2A2A0B502AE785E72BA14454 /* Headers */,
-				EF263D43F1A8B2421269FFAD28BD51DD /* Sources */,
-				D8407CE00BBD65A6F8E78BF4B783B239 /* Frameworks */,
-				24A59A8B16FC131F6DA0CDB22D112545 /* Resources */,
+				665E4B06F2E807DC4F82B5EB73AC5E04 /* Headers */,
+				4A180798E264C7B6488772B5C5519608 /* Sources */,
+				1FF5F310ECACCFAC598F75E604B1DB1F /* Frameworks */,
+				33E6441B49A125C09B425709BDD34429 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				CABDE290D4267085A3807B173E443289 /* PBXTargetDependency */,
-				D66A9A2ED9997AB5829EC4400E1686A0 /* PBXTargetDependency */,
+				3A9B3CFDA0BE099A6DAAE0E889D90BF5 /* PBXTargetDependency */,
 			);
 			name = "Pods-Annotations_Example";
 			productName = "Pods-Annotations_Example";
@@ -623,55 +494,35 @@
 		};
 		44E8958D36759D86804434716D4A39DF /* Annotations */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 986DB6221542806AF648EBD8934A68A2 /* Build configuration list for PBXNativeTarget "Annotations" */;
+			buildConfigurationList = E9EE083055231BDB610F5A8745B8F365 /* Build configuration list for PBXNativeTarget "Annotations" */;
 			buildPhases = (
-				9B54D64EFA6FA2ED15DD9F5CDB2E87AF /* Headers */,
-				86FDD011285ABB0C071F918685F5C657 /* Sources */,
-				4EF90BE5005FCAE749789F984B015497 /* Frameworks */,
-				ABA67C01B08CDFB488F7E24EA600E03A /* Resources */,
+				001D6E99E10A95FCAD70BBE5D95E6875 /* Headers */,
+				9CDBC699F6CBCEBB24750090284A0440 /* Sources */,
+				B5943065D547D50E024F94B94FC50B2B /* Frameworks */,
+				82640DE06471405EFF52A4045D8E1DD9 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				287B4720BAF89146A7C871973577D2FD /* PBXTargetDependency */,
 			);
 			name = Annotations;
 			productName = Annotations;
 			productReference = 2A4559291426782D33472FCAF5247BE0 /* Annotations.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		948D1064C68C8099881C07922649E558 /* TextAnnotation */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 945C3F495D2B174A3AC96B0944A164CC /* Build configuration list for PBXNativeTarget "TextAnnotation" */;
-			buildPhases = (
-				00051DB8629B64F09994E732F4CD6BAB /* Headers */,
-				667D69818BFD79496D5F3DA2E817D457 /* Sources */,
-				E4E67AE7B4793882B3A280A2C8642706 /* Frameworks */,
-				90D775B5A919224A97D6EA36970D28EF /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = TextAnnotation;
-			productName = TextAnnotation;
-			productReference = 293D0B8E979495D7917707B12C7179B3 /* TextAnnotation.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		AD832E86F90110D86350F4677AB641DF /* Pods-Annotations_Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D3FE1BD94D9A5CBE52156B285B6211A /* Build configuration list for PBXNativeTarget "Pods-Annotations_Tests" */;
+			buildConfigurationList = 35CAD429EFFDA2D76A1671CB53EDE891 /* Build configuration list for PBXNativeTarget "Pods-Annotations_Tests" */;
 			buildPhases = (
-				47A3AEA3623E53DA993EEDA82E50D27E /* Headers */,
-				C632C7CB26B76084FB95BDB70D151476 /* Sources */,
-				8300992D60A907D69ED2748766EA7462 /* Frameworks */,
-				12B4F88B056C9CB3BB892C4E54C1F530 /* Resources */,
+				CCC80C16C94BAC4A82E8FC932F3C4472 /* Headers */,
+				0F70EDA55B5346CD6C80220E26D15B26 /* Sources */,
+				78D49259E0F9087E7C587A8AFF7053DF /* Frameworks */,
+				9E84868F7A29FFC37F91ECCD3DE26B8C /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				53831F71EF5FB8C39620190A97CA71BB /* PBXTargetDependency */,
-				BFC4000E8EBD728F3D9B7E15FCEA8DBE /* PBXTargetDependency */,
+				9EE384F0C9E089231A345BA0957D41E1 /* PBXTargetDependency */,
 			);
 			name = "Pods-Annotations_Tests";
 			productName = "Pods-Annotations_Tests";
@@ -696,42 +547,34 @@
 				Base,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = 0E628DAF2AFE075D37C5F9228B3881A9 /* Products */;
+			productRefGroup = 2199027831310DEF69CDBAEA901BCC2E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				44E8958D36759D86804434716D4A39DF /* Annotations */,
 				3AB200F703025BFAE1FA9BDE891AA807 /* Pods-Annotations_Example */,
 				AD832E86F90110D86350F4677AB641DF /* Pods-Annotations_Tests */,
-				948D1064C68C8099881C07922649E558 /* TextAnnotation */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		12B4F88B056C9CB3BB892C4E54C1F530 /* Resources */ = {
+		33E6441B49A125C09B425709BDD34429 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		24A59A8B16FC131F6DA0CDB22D112545 /* Resources */ = {
+		82640DE06471405EFF52A4045D8E1DD9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				543B7DD08250E3B946BE2051C4B9B455 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		90D775B5A919224A97D6EA36970D28EF /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9E8F0D3194CAA6449B9606D1B12D2E28 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		ABA67C01B08CDFB488F7E24EA600E03A /* Resources */ = {
+		9E84868F7A29FFC37F91ECCD3DE26B8C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -741,141 +584,102 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		667D69818BFD79496D5F3DA2E817D457 /* Sources */ = {
+		0F70EDA55B5346CD6C80220E26D15B26 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3299878E511F4679036D1E1CE4773B3A /* Constants.swift in Sources */,
-				65ADDF893A2993FCB2B227F67ECED18E /* CursorSet.swift in Sources */,
-				BEF2CB8B07079CBF0E7CE0B904EF08AA /* CustomSwitch.swift in Sources */,
-				69036610684169E0EB2E9DC3A7EB4C22 /* KnobView.swift in Sources */,
-				FF49BB0C668E0070E9BFD9CB915AC66A /* MouseTrackingView.swift in Sources */,
-				F7DF03B86E774F197F574A91A8B5C443 /* NSColorExtension.swift in Sources */,
-				B5FFF3FF504720010D147DFA055862C2 /* SelectionView.swift in Sources */,
-				D786DA30FF23BEA0D12B58218ED0EFDB /* TextAnnotation-dummy.m in Sources */,
-				AC88E28C81DBC34E34C853C5E1BA6A6D /* TextAnnotation.swift in Sources */,
-				E947B02021B835CA9C1128D6ED935373 /* TextAnnotationCanvas.swift in Sources */,
-				68DBD81EA7A2CC11F30E97E258CDD0C2 /* TextAnnotationDelegate.swift in Sources */,
-				45360711C1A5A2DF52A5EAA7B8B7D4A2 /* TextAnnotationModelable.swift in Sources */,
-				37EB6DA32B370BDFD23F019BCFB91CF7 /* TextColor.swift in Sources */,
-				43A49A0DA75BDC144353CEFF092112D7 /* TextContainerView.swift in Sources */,
-				1614708C1491FB9325FD1D66996A5B89 /* TextView.swift in Sources */,
+				62F06D5047B629C0EC1D9B3CC3F9C053 /* Pods-Annotations_Tests-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		86FDD011285ABB0C071F918685F5C657 /* Sources */ = {
+		4A180798E264C7B6488772B5C5519608 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13761CCB68990324493249984F13B9EA /* Annotations-dummy.m in Sources */,
-				B24511BD73A120F0806208B4019660D2 /* Array.swift in Sources */,
-				F02BCD532821ED40E5ED88571AD4287B /* ArrowCanvas.swift in Sources */,
-				AE93374742E50673D91C729EA85B5222 /* ArrowModel.swift in Sources */,
-				C8E3EB8CC5C11AA269009E6952D1D922 /* ArrowView.swift in Sources */,
-				6871C35036017959EDFF8FC37A1759ED /* CanvasDrawable.swift in Sources */,
-				F51ACB94CB58305866596FF27A43876E /* CanvasModel.swift in Sources */,
-				0BFC8CE57DC96F4B3482D966E2A1477F /* CanvasView.swift in Sources */,
-				3A3B8DE1726F21D3E1BB7D337F903032 /* CanvasViewClass.swift in Sources */,
-				1A47C72C7E94B8E4A87B2EFFAEABF2E6 /* CAShapeLayerExtension.swift in Sources */,
-				6B44B9FFC3D7872ACA7F9C4B405CAA23 /* CATransactionExtension.swift in Sources */,
-				DFF867F4D6D9FFDD158669B2AD15EEA9 /* CGPointExtension.swift in Sources */,
-				B7449B1A464CF8BA4612A511497AA1FF /* Constants.swift in Sources */,
-				C0A5ABE3BFC7AB9DAC12ACF111B7B4E0 /* CursorSet.swift in Sources */,
-				5128CB4603A8292BFA9FE012925495FA /* CustomSwitch.swift in Sources */,
-				9797CA068FC709039091B83EF0B6C8D0 /* EditableCanvasView.swift in Sources */,
-				1083B6DC7418169D85BF320F9B01BD89 /* HighlightCanvas.swift in Sources */,
-				08E2D52C2DB860FC6614D8F99F559848 /* HiglightView.swift in Sources */,
-				17232B2B242E0276F53354D45FA6B7EA /* History.swift in Sources */,
-				0A6CE9B757DA2FA011302FB7B5C63E12 /* KnobView.swift in Sources */,
-				18C38D620363AAAC7C2FD89814EA060A /* LayoutExtension.swift in Sources */,
-				A5AEF3F6C8FB956AD12EE628B606B811 /* ModelColor+TextColor.swift in Sources */,
-				9D0C3BAD2EC8D3C5429589F774A2CCF1 /* ModelColor.swift in Sources */,
-				112091DF0D91050FAB418F309DD40DEB /* MouseTrackingView.swift in Sources */,
-				B9D15B6449BB406FA53B280F09DD1DDB /* NSBezierPathExtension.swift in Sources */,
-				25EB0106C8F34FD6AEEB273208121486 /* NSColorExtension.swift in Sources */,
-				9EAA74EB389FEE20B5D1EEE60328598B /* ObfuscateCanvas.swift in Sources */,
-				03FAC5C873C93EFB4F62A3B3D70ECDEC /* ObfuscateView.swift in Sources */,
-				57AB8DFA85C62B1F4A91A3D3A146EAA8 /* PenCanvas.swift in Sources */,
-				309E0630785BDEECD82B7DAA6FDDEA58 /* PenModel.swift in Sources */,
-				010452D72B20EF38FF3F7BB730B84A99 /* PenView.swift in Sources */,
-				5CECC848680791E08D905C8996D5A4BF /* PointModel.swift in Sources */,
-				134ED7E12211D74D550237C01C3659D9 /* RectCanvas.swift in Sources */,
-				F51B861AADA7A9415DBD00D17AC02A47 /* RectModel.swift in Sources */,
-				962375E69365082D44027C2552C01F41 /* RectView.swift in Sources */,
-				D1947B77B97E893C6CEEEC35114CD771 /* SelectionView.swift in Sources */,
-				05968B794A9AA7DA9C18D68006B4C3BA /* StringExtension.swift in Sources */,
-				7B870593898AFB0E4B355670B7B1BBD5 /* TextAnnotation.swift in Sources */,
-				677522E44602BFE9B698B1E9B3F71CF2 /* TextAnnotationCanvas.swift in Sources */,
-				E00BB04CC3F4AF6D65EFF87C4610E53F /* TextAnnotationDelegate.swift in Sources */,
-				87D3627F64D4BAD93B9F97FDC36E7A68 /* TextAnnotationModelable.swift in Sources */,
-				CE2B90EF4C85E2B89C3E9D761338404E /* TextAttributes.swift in Sources */,
-				4754B117D40C88A1487DB407A95FE8B4 /* TextCanvas.swift in Sources */,
-				439C0F8E7FDBC7CDD44816010BC4B6F8 /* TextColor.swift in Sources */,
-				59FD59EBF27115FFAB9C5711DB8C96CF /* TextContainerView.swift in Sources */,
-				4CF3E34E9694B26F3E24FD0CFFCFFA0F /* TextKnobView.swift in Sources */,
-				D699DE21B572D157EC2C813C23E1F1AE /* TextModel.swift in Sources */,
-				0FE516F1939CB8455C4FF511C6339028 /* TextParams.swift in Sources */,
-				89FC04AB66B361917D801E2ECB8AC839 /* TextView.swift in Sources */,
-				1A2E5EFEEED3763F86E916F46854DD48 /* TextViewDrawable.swift in Sources */,
+				F7A1811AC3878BE5FBC30645860681A4 /* Pods-Annotations_Example-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C632C7CB26B76084FB95BDB70D151476 /* Sources */ = {
+		9CDBC699F6CBCEBB24750090284A0440 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7154B1C8FF2B8955B9EC1E495F64EC34 /* Pods-Annotations_Tests-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EF263D43F1A8B2421269FFAD28BD51DD /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				58AA8229D881464928ED56997032519E /* Pods-Annotations_Example-dummy.m in Sources */,
+				A8714080D07D27B2571F07EE3D642FFE /* Annotations-dummy.m in Sources */,
+				CD0CC07B3C34BB09D61BFF1415153E21 /* Array.swift in Sources */,
+				B04DBE3D7C8FA48701C7147708609B24 /* ArrowCanvas.swift in Sources */,
+				D0F008AB58B580347515A1B060781706 /* ArrowModel.swift in Sources */,
+				400A3E785AF483DBA513C637965F8219 /* ArrowView.swift in Sources */,
+				73F1EB2F9481B49701037B0DA11EBA26 /* CanvasDrawable.swift in Sources */,
+				7D6EF4CC605C5C460EC6FE11BBF7CC97 /* CanvasModel.swift in Sources */,
+				60B1AFE0FA063F6AD2357447BB08CCAA /* CanvasView.swift in Sources */,
+				0E9976C7E229FE291E77EEF67365F5AA /* CanvasViewClass.swift in Sources */,
+				01387EBA91E9BD9F418725484AD5BFA4 /* CAShapeLayerExtension.swift in Sources */,
+				AE8FE3119273105B2D2C62C793DC0087 /* CATransactionExtension.swift in Sources */,
+				428DD2D9CF3641B53C81F02900F39B9C /* CGPointExtension.swift in Sources */,
+				CB4AF6186086D5EE7C77A45909B4A9D3 /* Constants.swift in Sources */,
+				5058DED3250DB57BD1150D94686AD0C9 /* CursorSet.swift in Sources */,
+				0D66761DCD47A9C23BE1B17F3EDC23C3 /* CustomSwitch.swift in Sources */,
+				6B4289470674F1B142784308C8AAA63E /* EditableCanvasView.swift in Sources */,
+				1A812C38E4DC0BF06B3330435BD489E9 /* HighlightCanvas.swift in Sources */,
+				721BBF78D5DFB8FE7AE1BEAF6206C1FE /* HiglightView.swift in Sources */,
+				0CD57C3A12DB8ACFF9057B79134108E5 /* History.swift in Sources */,
+				AD41E8C1DB2B07270E7A07096D4011A8 /* KnobView.swift in Sources */,
+				66BBBF58185EE6F4D4C405AC2E0C679B /* LayoutExtension.swift in Sources */,
+				0C610D6C5AD61E572CC95DEA46217AE3 /* ModelColor+TextColor.swift in Sources */,
+				2A24AB89212408F643CDE5C81197D368 /* ModelColor.swift in Sources */,
+				58F4B6EB833F7654C989ED64B159E5B5 /* MouseTrackingView.swift in Sources */,
+				71BB62EA6E41413749B435B68B4181D0 /* NSBezierPathExtension.swift in Sources */,
+				2590D0BAF8517A8C597BE67D8879E3E4 /* NSColorExtension.swift in Sources */,
+				0A298346D21CD9ECF9DF166B5B9A7EE4 /* ObfuscateCanvas.swift in Sources */,
+				950706129B0C6830CA80A6FE0ED24EA2 /* ObfuscateView.swift in Sources */,
+				4BA601ACAA64EC8E3AE66705AA97F4FA /* PenCanvas.swift in Sources */,
+				BDBC6948EAD2356FDE6EBE6D99338053 /* PenModel.swift in Sources */,
+				2EC94FF253CB003AFD7919803D734311 /* PenView.swift in Sources */,
+				709243E9F0BBE56FA3AEACB21379AD39 /* PointModel.swift in Sources */,
+				811BE34080D27C0160FA90BDB28385F8 /* RectCanvas.swift in Sources */,
+				C663BE95F626561FB21B2F991EC05ACC /* RectModel.swift in Sources */,
+				FA38E560360C9E1DDB80CA3D92E4AAA2 /* RectView.swift in Sources */,
+				26FDAF9888D2DF13F426408FE73B8381 /* SelectionView.swift in Sources */,
+				F6FF0018BF2AB170B01972119EED4172 /* StringExtension.swift in Sources */,
+				D3D5E2C412C35B017AC9FAAEF8F66CED /* TextAnnotation.swift in Sources */,
+				703B74F20850ECB6571A94493E2ECAEA /* TextAnnotationCanvas.swift in Sources */,
+				67B35BD1AD0D721CB94D882ADEA65D2E /* TextAnnotationDelegate.swift in Sources */,
+				24BA973FB9E1591857DD5D20D84BD82F /* TextAnnotationModelable.swift in Sources */,
+				0E0D2B45BE04BC6955531D5451DF8366 /* TextAttributes.swift in Sources */,
+				2C43804B00FE14A0448D75A4583FFA02 /* TextCanvas.swift in Sources */,
+				933A7D4A0E2582BCDED8703288C522BC /* TextColor.swift in Sources */,
+				F29444ED7515D93BE2AB3C1637EBE3C9 /* TextContainerView.swift in Sources */,
+				F9DB7133D4B763413B13871B0C574087 /* TextKnobView.swift in Sources */,
+				0D6B1BC27AADDCDD0C688913D8A79058 /* TextModel.swift in Sources */,
+				7A1BC07AA5AD8986E018CE40F845E1A5 /* TextParams.swift in Sources */,
+				12895E1EC7D7F84CD06292678F976CFC /* TextView.swift in Sources */,
+				334BFDE8880DBF496EBC73BC55A4D87E /* TextViewDrawable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		287B4720BAF89146A7C871973577D2FD /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = TextAnnotation;
-			target = 948D1064C68C8099881C07922649E558 /* TextAnnotation */;
-			targetProxy = 5D0008DF5BD2A56CC3A05A35F69F8752 /* PBXContainerItemProxy */;
-		};
-		53831F71EF5FB8C39620190A97CA71BB /* PBXTargetDependency */ = {
+		3A9B3CFDA0BE099A6DAAE0E889D90BF5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Annotations;
 			target = 44E8958D36759D86804434716D4A39DF /* Annotations */;
-			targetProxy = 22B97D7EDBBF398D4F1BA5094C8E476D /* PBXContainerItemProxy */;
+			targetProxy = 4BEB04CB3A6CBDC6209AAF1828AE2BAF /* PBXContainerItemProxy */;
 		};
-		BFC4000E8EBD728F3D9B7E15FCEA8DBE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = TextAnnotation;
-			target = 948D1064C68C8099881C07922649E558 /* TextAnnotation */;
-			targetProxy = 708B80D32705113B29FD99936F6F3573 /* PBXContainerItemProxy */;
-		};
-		CABDE290D4267085A3807B173E443289 /* PBXTargetDependency */ = {
+		9EE384F0C9E089231A345BA0957D41E1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Annotations;
 			target = 44E8958D36759D86804434716D4A39DF /* Annotations */;
-			targetProxy = 36E58807D079BA46182C3BB9A87ED787 /* PBXContainerItemProxy */;
-		};
-		D66A9A2ED9997AB5829EC4400E1686A0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = TextAnnotation;
-			target = 948D1064C68C8099881C07922649E558 /* TextAnnotation */;
-			targetProxy = E53EE5C3C2EB9FB9DAED37A82975425C /* PBXContainerItemProxy */;
+			targetProxy = F8CDBC8C89B92E6ACB43300DDDA8EB5B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		09DCCCF003FB60AF32D653CE39653FBB /* Debug */ = {
+		0BC956CBAD7E648271F4E2F881AE74EE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0293BF1DB5A43922931DCFEA0B72F07E /* TextAnnotation.debug.xcconfig */;
+			baseConfigurationReference = D6D4C172D8094733D8C4E82FE23009CA /* Pods-Annotations_Example.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -889,26 +693,27 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "Target Support Files/TextAnnotation/TextAnnotation-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/TextAnnotation/TextAnnotation-Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-Annotations_Example/Pods-Annotations_Example-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MODULEMAP_FILE = "Target Support Files/TextAnnotation/TextAnnotation.modulemap";
-				PRODUCT_MODULE_NAME = TextAnnotation;
-				PRODUCT_NAME = TextAnnotation;
+				MODULEMAP_FILE = "Target Support Files/Pods-Annotations_Example/Pods-Annotations_Example.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = Release;
 		};
-		120BAE667383FAC22E3973BEF87B0396 /* Debug */ = {
+		168989DB679039854280796440F0568C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 227140268C123CC065B76974E0CA9B3A /* Annotations.debug.xcconfig */;
+			baseConfigurationReference = B5AC780B56148F1048423D9BEDC7A636 /* Annotations.debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -940,9 +745,9 @@
 			};
 			name = Debug;
 		};
-		12AF9427BB0C70D614950FA0774EA706 /* Release */ = {
+		31A32067F099828A4F57C632FDF9331A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BE116B15A8B809F7E110796561D00776 /* Annotations.release.xcconfig */;
+			baseConfigurationReference = D72C6858ECD8FCC7807C8FCF2EE8CE5F /* Annotations.release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -974,10 +779,11 @@
 			};
 			name = Release;
 		};
-		7EBDD12E659E417B0F7BEE184E1B7BB9 /* Release */ = {
+		5C8819A3C4CA2A2420C213562E0EAF05 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F2931A11F94B67FFEC57DF7691AA6F52 /* TextAnnotation.release.xcconfig */;
+			baseConfigurationReference = 0D4C86A79739248CC959E6B5E1184067 /* Pods-Annotations_Tests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -991,22 +797,23 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "Target Support Files/TextAnnotation/TextAnnotation-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/TextAnnotation/TextAnnotation-Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-Annotations_Tests/Pods-Annotations_Tests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MODULEMAP_FILE = "Target Support Files/TextAnnotation/TextAnnotation.modulemap";
-				PRODUCT_MODULE_NAME = TextAnnotation;
-				PRODUCT_NAME = TextAnnotation;
+				MODULEMAP_FILE = "Target Support Files/Pods-Annotations_Tests/Pods-Annotations_Tests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = Debug;
 		};
 		9382317ED75CFC741F429FC224405042 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1072,7 +879,43 @@
 			};
 			name = Debug;
 		};
-		96E428B13BF948808BF3A7BF72DD306D /* Debug */ = {
+		9F1F859105E23E81DDF393E870ED3977 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F66174E04A1C152BB6DD5A2415F74643 /* Pods-Annotations_Tests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "Target Support Files/Pods-Annotations_Tests/Pods-Annotations_Tests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MODULEMAP_FILE = "Target Support Files/Pods-Annotations_Tests/Pods-Annotations_Tests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		A703587EDE9020E9E6CF8BAB1B30B6EB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F0E5DC1473D102DE7AF1EE3E03DFF532 /* Pods-Annotations_Example.debug.xcconfig */;
 			buildSettings = {
@@ -1107,78 +950,6 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
-		};
-		BBFFD0E4990CF892DB378D1E70AD544C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0D4C86A79739248CC959E6B5E1184067 /* Pods-Annotations_Tests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "Target Support Files/Pods-Annotations_Tests/Pods-Annotations_Tests-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MODULEMAP_FILE = "Target Support Files/Pods-Annotations_Tests/Pods-Annotations_Tests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		C77A9F97D807D75FF369B94D279411EC /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D6D4C172D8094733D8C4E82FE23009CA /* Pods-Annotations_Example.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "Target Support Files/Pods-Annotations_Example/Pods-Annotations_Example-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MODULEMAP_FILE = "Target Support Files/Pods-Annotations_Example/Pods-Annotations_Example.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
 		};
 		E4DEAC9B52796426D2A37E7074A1738D /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -1240,50 +1011,14 @@
 			};
 			name = Release;
 		};
-		FBB4CDA20D7F7FD1E68158373A908378 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F66174E04A1C152BB6DD5A2415F74643 /* Pods-Annotations_Tests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "Target Support Files/Pods-Annotations_Tests/Pods-Annotations_Tests-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MODULEMAP_FILE = "Target Support Files/Pods-Annotations_Tests/Pods-Annotations_Tests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2D3FE1BD94D9A5CBE52156B285B6211A /* Build configuration list for PBXNativeTarget "Pods-Annotations_Tests" */ = {
+		35CAD429EFFDA2D76A1671CB53EDE891 /* Build configuration list for PBXNativeTarget "Pods-Annotations_Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				BBFFD0E4990CF892DB378D1E70AD544C /* Debug */,
-				FBB4CDA20D7F7FD1E68158373A908378 /* Release */,
+				5C8819A3C4CA2A2420C213562E0EAF05 /* Debug */,
+				9F1F859105E23E81DDF393E870ED3977 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1297,29 +1032,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		945C3F495D2B174A3AC96B0944A164CC /* Build configuration list for PBXNativeTarget "TextAnnotation" */ = {
+		C057947700CED63349EC0D182D35341B /* Build configuration list for PBXNativeTarget "Pods-Annotations_Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				09DCCCF003FB60AF32D653CE39653FBB /* Debug */,
-				7EBDD12E659E417B0F7BEE184E1B7BB9 /* Release */,
+				A703587EDE9020E9E6CF8BAB1B30B6EB /* Debug */,
+				0BC956CBAD7E648271F4E2F881AE74EE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		986DB6221542806AF648EBD8934A68A2 /* Build configuration list for PBXNativeTarget "Annotations" */ = {
+		E9EE083055231BDB610F5A8745B8F365 /* Build configuration list for PBXNativeTarget "Annotations" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				120BAE667383FAC22E3973BEF87B0396 /* Debug */,
-				12AF9427BB0C70D614950FA0774EA706 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		B3285C440D89A59BE047BCECDFE3759E /* Build configuration list for PBXNativeTarget "Pods-Annotations_Example" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				96E428B13BF948808BF3A7BF72DD306D /* Debug */,
-				C77A9F97D807D75FF369B94D279411EC /* Release */,
+				168989DB679039854280796440F0568C /* Debug */,
+				31A32067F099828A4F57C632FDF9331A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -16,7 +16,7 @@ extension TextCanvas {
   func createTextView(text: String = "", origin: PointModel, params: TextParams) -> TextViewDrawable {
     let newTextView = createTextAnnotation(text: text,
                                            location: origin.cgPoint,
-                                           textParams: TextParams())
+                                           textParams: params)
     newTextView.delegate = self
     
     let textModel = TextModel(origin: origin,

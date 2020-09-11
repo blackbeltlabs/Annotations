@@ -136,8 +136,13 @@ open class TextContainerView: NSView {
   public var textColor: TextColor {
     set {
       let nsColor = NSColor.color(from: newValue)
-      textView.typingAttributes[.foregroundColor] = nsColor
+      var currentTypingAttributes = textView.typingAttributes
+      //textView.textColor = nsColor
+      currentTypingAttributes[.foregroundColor] = nsColor
+      textView.updateTypingAttributes(currentTypingAttributes)
       textView.insertionPointColor = nsColor
+      
+      textView.needsDisplay = true
 
       notifyAboutTextAnnotationUpdates()
     }
@@ -205,8 +210,8 @@ open class TextContainerView: NSView {
       textView.insertionPointColor = color
     }
         
-    textView.typingAttributes = textAttributes
-    
+    textView.updateTypingAttributes(textAttributes)
+        
     textView.delegate = self
     
     singleClickGestureRecognizer = NSClickGestureRecognizer(target: self, action: #selector(self.singleClickGestureHandle(_:)))
@@ -421,7 +426,7 @@ open class TextContainerView: NSView {
       self.frame = action.frame.integral
     }
     
-    textView.typingAttributes = action.textParams.attributes
+    textView.updateTypingAttributes(action.textParams.attributes)
   }
   
   // MARK: - Helpers
