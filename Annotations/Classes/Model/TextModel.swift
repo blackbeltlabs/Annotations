@@ -13,6 +13,10 @@ public struct TextModel: Model, TextAnnotationModelable {
   public let text: String
   public let textParams: TextParams
   
+  public var modelColor: ModelColor? {
+    return textParams.foregroundColor?.modelColor
+  }
+  
   private let _frame: CGRect?
   
   init(origin: PointModel,
