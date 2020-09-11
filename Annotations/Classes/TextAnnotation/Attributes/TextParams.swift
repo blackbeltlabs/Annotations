@@ -33,6 +33,19 @@ public struct TextParams: Codable, Equatable {
     self.shadowBlur = shadowBlur
   }
   
+  
+  enum CodingKeys: String, CodingKey {
+    case fontName = "font_name"
+    case fontSize = "font_size"
+    case foregroundColor = "foreground_color"
+    case outlineWidth = "outline_width"
+    case outlineColor = "outline_color"
+    case shadowColor = "shadow_color"
+    case shadowOffsetX = "shadow_offset_x"
+    case shadowOffsetY = "shadow_offset_y"
+    case shadowBlur = "shadow_blur"
+  }
+  
   public static func defaultFont() -> TextParams {
     TextParams(fontName: "HelveticaNeue-Bold",
                fontSize: 30.0,
