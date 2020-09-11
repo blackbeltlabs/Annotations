@@ -107,7 +107,7 @@ public struct TextParams: Codable, Equatable {
       params.foregroundColor = foregroundColor.annotationModelColor
     }
     
-    if let outlineWidth = attributes[.strokeColor] as? CGFloat {
+    if let outlineWidth = attributes[.strokeWidth] as? CGFloat {
       params.outlineWidth = Double(outlineWidth)
     }
     
