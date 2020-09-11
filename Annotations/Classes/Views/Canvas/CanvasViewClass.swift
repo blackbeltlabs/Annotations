@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import TextAnnotation
 
 public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, ObfuscateCanvas, TextAnnotationCanvas, HighlightCanvas, TextAnnotationDelegate {
   

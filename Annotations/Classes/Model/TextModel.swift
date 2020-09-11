@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import TextAnnotation
 
 public struct TextModel: Model, TextAnnotationModelable {
   public var index: Int

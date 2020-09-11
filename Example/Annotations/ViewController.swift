@@ -8,7 +8,6 @@
 
 import Cocoa
 import Annotations
-import TextAnnotation
 
 typealias CanvasHistory = HistoryClass<CanvasModel>
 

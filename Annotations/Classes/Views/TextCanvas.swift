@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import TextAnnotation
 
 protocol TextCanvas: TextAnnotationCanvas, TextViewDelegate where Self: CanvasView {
   var selectedItem: CanvasDrawable? { get set }
@@ -14,7 +13,7 @@ protocol TextCanvas: TextAnnotationCanvas, TextViewDelegate where Self: CanvasVi
 }
 
 extension TextCanvas {
-  func createTextView(text: String = "", origin: PointModel, params: TextParams) -> TextView {
+  func createTextView(text: String = "", origin: PointModel, params: TextParams) -> TextViewDrawable {
     let newTextView = createTextAnnotation(text: text,
                                            location: origin.cgPoint,
                                            textParams: TextParams())
@@ -41,7 +40,7 @@ extension TextCanvas {
     return newView
   }
   
-  func createTextView(textModel: TextModel, index: Int) -> TextView {
+  func createTextView(textModel: TextModel, index: Int) -> TextViewDrawable {
     let newTextView = createTextAnnotation(modelable: textModel)
     
     newTextView.delegate = self
@@ -73,7 +72,7 @@ extension TextCanvas {
 
 // TextViewDelegate
 extension TextCanvas {
-  func textView(_ arrowView: TextView, didUpdate model: TextModel, atIndex index: Int) {
+  func textView(_ arrowView: TextViewDrawable, didUpdate model: TextModel, atIndex index: Int) {
     guard !model.text.isEmpty else {
       return
     }

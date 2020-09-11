@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import TextAnnotation
 
 public protocol EditableCanvasView: CanvasView {
   var isUserInteractionEnabled: Bool { get set }

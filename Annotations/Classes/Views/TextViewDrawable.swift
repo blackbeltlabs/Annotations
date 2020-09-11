@@ -1,8 +1,7 @@
 import Cocoa
-import TextAnnotation
 
 protocol TextViewDelegate {
-  func textView(_ textView: TextView, didUpdate model: TextModel, atIndex index: Int)
+  func textView(_ textView: TextViewDrawable, didUpdate model: TextModel, atIndex index: Int)
 }
 
 struct TextViewState {
@@ -10,7 +9,7 @@ struct TextViewState {
   var isSelected: Bool
 }
 
-protocol TextView: CanvasDrawable {
+protocol TextViewDrawable: CanvasDrawable {
   var delegate: TextViewDelegate? { get set }
   var state: TextViewState { get set }
   var modelIndex: Int { get set }
@@ -19,7 +18,7 @@ protocol TextView: CanvasDrawable {
   func deselect()
 }
 
-extension TextView {
+extension TextViewDrawable {
   static var modelType: CanvasItemType { return .text }
 
   var model: TextModel { return state.model }
@@ -81,7 +80,7 @@ extension TextView {
   }
 }
 
-class TextViewClass: TextView {
+class TextViewClass: TextViewDrawable {
   var state: TextViewState {
     didSet {
       render(state: state, oldState: oldValue)

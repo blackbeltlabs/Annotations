@@ -1,5 +1,5 @@
 
-import TextAnnotation
+import Foundation
 
 // convert to TextColor for TextAnnotations
 extension ModelColor {

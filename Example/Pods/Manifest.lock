@@ -5,18 +5,19 @@ PODS:
 
 DEPENDENCIES:
   - Annotations (from `../`)
-  - TextAnnotation (from `../../TextAnnotation`)
+
+SPEC REPOS:
+  trunk:
+    - TextAnnotation
 
 EXTERNAL SOURCES:
   Annotations:
     :path: "../"
-  TextAnnotation:
-    :path: "../../TextAnnotation"
 
 SPEC CHECKSUMS:
   Annotations: 53f0fa7abadbbdafff773e3529176a702da53a1a
   TextAnnotation: 5cf7e9f5862e50c22bf0a4e8365226041fb18353
 
-PODFILE CHECKSUM: 9e31ffb5bc385e14cf5b8c447f034bc0a383c8c1
+PODFILE CHECKSUM: fe486dc29dc8a086e3a5e4f0862adf5be4ff59e1
 
 COCOAPODS: 1.9.3
