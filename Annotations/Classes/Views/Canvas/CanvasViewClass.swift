@@ -54,6 +54,7 @@ public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanva
   public var textAnnotations: [TextAnnotation] = []
   public var selectedTextAnnotation: TextAnnotation?
   public var lastMouseLocation: NSPoint?
+  public var textStyle: TextParams = TextParams.defaultFont()
   
   // MARK: - Initializers
   
@@ -170,7 +171,11 @@ extension CanvasViewClass {
   public func createItem(mouseDown: PointModel, color: ModelColor) -> CanvasDrawable? {
     switch createMode {
     case .text:
-      return createTextView(origin: mouseDown, params: TextParams(foregroundColor: color))
+      var params: TextParams = textStyle
+      if params.foregroundColor == nil {
+        params.foregroundColor = color
+      }
+      return createTextView(origin: mouseDown, params: params)
     default:
       return nil
     }

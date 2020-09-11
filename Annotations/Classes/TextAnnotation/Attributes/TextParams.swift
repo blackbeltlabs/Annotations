@@ -33,8 +33,11 @@ public struct TextParams: Codable, Equatable {
     self.shadowBlur = shadowBlur
   }
   
-  static func defaultFontAndColor() -> TextParams {
-    TextParams(fontName: "HelveticaNeue-Bold", fontSize: 30.0, foregroundColor: ModelColor.orange)
+  static func defaultFont() -> TextParams {
+    TextParams(fontName: "HelveticaNeue-Bold",
+               fontSize: 30.0,
+               outlineWidth: -1.5,
+               outlineColor: ModelColor(red: 0, green: 0, blue: 0, alpha: 0))
   }
   
   // get attributes from current params

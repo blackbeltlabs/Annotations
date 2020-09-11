@@ -44,6 +44,15 @@ class ViewController: NSViewController {
     canvasView.delegate = self
     canvasView.update(model: model)
     setupColorPickerViews()
+    canvasView.textStyle = TextParams(fontName: "Bradley Hand",
+                                      fontSize: 30,
+                                      foregroundColor: ModelColor.violet,
+                                      outlineWidth: -2.0,
+                                      outlineColor: ModelColor.colorFromRelative(red: 0, green: 0, blue: 0),
+                                      shadowColor: ModelColor.colorFromRelative(red: 1.0, green: 1.0, blue: 1.0),
+                                      shadowOffsetX: 0.0,
+                                      shadowOffsetY: 0.0,
+                                      shadowBlur: 4.0)
   }
   
   func setupColorPickerViews() {

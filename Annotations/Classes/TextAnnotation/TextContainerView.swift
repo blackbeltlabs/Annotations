@@ -165,7 +165,7 @@ open class TextContainerView: NSView {
   override init(frame frameRect: NSRect) {
     super.init(frame: frameRect)
     performSubfieldsInit(frameRect: frameRect,
-                         textParams: TextParams.defaultFontAndColor())
+                         textParams: TextParams.defaultFont())
     self.text = ""
   }
   
