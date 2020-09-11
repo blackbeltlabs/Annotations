@@ -57,4 +57,11 @@ public struct ModelColor: Codable, Equatable {
                       alpha: alpha)
   }
   
+  public static func random() -> ModelColor {
+    ModelColor(red: CGFloat.random(in: 0..<1.0),
+               green: CGFloat.random(in: 0..<1.0),
+               blue: CGFloat.random(in: 0..<1.0),
+               alpha: 1.0)
+  }
+  
 }

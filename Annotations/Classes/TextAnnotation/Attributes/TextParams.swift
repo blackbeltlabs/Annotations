@@ -33,12 +33,27 @@ public struct TextParams: Codable, Equatable {
     self.shadowBlur = shadowBlur
   }
   
-  static func defaultFont() -> TextParams {
+  public static func defaultFont() -> TextParams {
     TextParams(fontName: "HelveticaNeue-Bold",
                fontSize: 30.0,
                outlineWidth: -1.5,
                outlineColor: ModelColor(red: 0, green: 0, blue: 0, alpha: 0))
   }
+  
+  public static func randomFont() -> TextParams {
+    let fonts = NSFontManager.shared.availableFonts
+    let randomFont = fonts.randomElement()
+    return TextParams(fontName: randomFont,
+                      fontSize: Double.random(in: 20..<40.0),
+                      foregroundColor: ModelColor.random(),
+                      outlineWidth: Double.random(in: -4.0..<0),
+                      outlineColor: ModelColor.random(),
+                      shadowColor: ModelColor.random(),
+                      shadowOffsetX: Double.random(in: -3.0..<3.0),
+                      shadowOffsetY: Double.random(in: -3.0..<3.0),
+                      shadowBlur: Double.random(in: 0..<6.0))
+  }
+  
   
   // get attributes from current params
   var attributes: [NSAttributedString.Key: Any] {
