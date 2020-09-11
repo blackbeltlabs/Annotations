@@ -14,7 +14,7 @@ public struct TextModel: Model, TextAnnotationModelable {
   public let textParams: TextParams
   
   public var modelColor: ModelColor? {
-    return textParams.foregroundColor?.modelColor
+    return textParams.foregroundColor
   }
   
   private let _frame: CGRect?
@@ -57,7 +57,7 @@ public struct TextModel: Model, TextAnnotationModelable {
     return TextModel(origin: origin,
                      text: text,
                      frame: frame,
-                     textParams: TextParams(foregroundColor: color.textColor),
+                     textParams: TextParams(foregroundColor: color),
                      index: index)
     
   }

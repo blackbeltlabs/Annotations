@@ -133,11 +133,10 @@ open class TextContainerView: NSView {
   private var cursorSet = CursorSet.shared
   private var trackingArea: NSTrackingArea?
   
-  public var textColor: TextColor {
+  public var textColor: ModelColor {
     set {
       let nsColor = NSColor.color(from: newValue)
       var currentTypingAttributes = textView.typingAttributes
-      //textView.textColor = nsColor
       currentTypingAttributes[.foregroundColor] = nsColor
       textView.updateTypingAttributes(currentTypingAttributes)
       textView.insertionPointColor = nsColor
@@ -149,9 +148,9 @@ open class TextContainerView: NSView {
     
     get {
       guard let textViewNsColor = textView.textColor else {
-        return TextColor.defaultColor()
+        return ModelColor.defaultColor()
       }
-      return textViewNsColor.textColor
+      return textViewNsColor.annotationModelColor
     }
   }
   
@@ -531,7 +530,7 @@ open class TextContainerView: NSView {
   }
   
   public func updateColor(with color: NSColor) {
-    textColor = color.textColor
+    textColor = color.annotationModelColor
   }
 }
 

@@ -4,10 +4,10 @@ public struct TextParams: Codable, Equatable {
   // MARK: - Properties
   public var fontName: String?
   public var fontSize: Double?
-  public var foregroundColor: TextColor?
+  public var foregroundColor: ModelColor?
   public var outlineWidth: Double?
-  public var outlineColor: TextColor?
-  public var shadowColor: TextColor?
+  public var outlineColor: ModelColor?
+  public var shadowColor: ModelColor?
   public var shadowOffsetX: Double?
   public var shadowOffsetY: Double?
   public var shadowBlur: Double?
@@ -15,10 +15,10 @@ public struct TextParams: Codable, Equatable {
   // MARK: - Init
   public init(fontName: String? = nil,
               fontSize: Double? = nil,
-              foregroundColor: TextColor? = nil,
+              foregroundColor: ModelColor? = nil,
               outlineWidth: Double? = nil,
-              outlineColor: TextColor? = nil,
-              shadowColor: TextColor? = nil,
+              outlineColor: ModelColor? = nil,
+              shadowColor: ModelColor? = nil,
               shadowOffsetX: Double? = nil,
               shadowOffsetY: Double? = nil,
               shadowBlur: Double? = nil) {
@@ -34,7 +34,7 @@ public struct TextParams: Codable, Equatable {
   }
   
   static func defaultFontAndColor() -> TextParams {
-    TextParams(fontName: "HelveticaNeue-Bold", fontSize: 30.0, foregroundColor: TextColor.orange)
+    TextParams(fontName: "HelveticaNeue-Bold", fontSize: 30.0, foregroundColor: ModelColor.orange)
   }
   
   // get attributes from current params
@@ -104,7 +104,7 @@ public struct TextParams: Codable, Equatable {
     }
     
     if let foregroundColor = attributes[.foregroundColor] as? NSColor {
-      params.foregroundColor = foregroundColor.textColor
+      params.foregroundColor = foregroundColor.annotationModelColor
     }
     
     if let outlineWidth = attributes[.strokeColor] as? CGFloat {
@@ -112,12 +112,12 @@ public struct TextParams: Codable, Equatable {
     }
     
     if let outlineColor = attributes[.strokeColor] as? NSColor {
-      params.outlineColor = outlineColor.textColor
+      params.outlineColor = outlineColor.annotationModelColor
     }
     
     if let shadow = attributes[.shadow] as? NSShadow {
       if let color = shadow.shadowColor {
-        params.shadowColor = color.textColor
+        params.shadowColor = color.annotationModelColor
       }
       params.shadowOffsetX = Double(shadow.shadowOffset.width)
       params.shadowOffsetY = Double(shadow.shadowOffset.height)

@@ -170,7 +170,7 @@ extension CanvasViewClass {
   public func createItem(mouseDown: PointModel, color: ModelColor) -> CanvasDrawable? {
     switch createMode {
     case .text:
-      return createTextView(origin: mouseDown, params: TextParams(foregroundColor: color.textColor))
+      return createTextView(origin: mouseDown, params: TextParams(foregroundColor: color))
     default:
       return nil
     }
@@ -220,7 +220,7 @@ extension CanvasViewClass {
     if let selectedTextAnnotation = selectedTextAnnotation {
       
       let previousColor = selectedTextAnnotation.textColor
-      guard color.textColor != previousColor else { return }
+      guard color != previousColor else { return }
       
       selectedTextAnnotation.updateColor(with: NSColor.color(from: color))
       

@@ -28,7 +28,7 @@ extension TextCanvas {
     let state = TextViewState(model: textModel, isSelected: false)
     let modelIndex = model.texts.count - 1
     
-    let nsColor = (params.foregroundColor ?? TextColor.orange).modelColor
+    let nsColor = params.foregroundColor ?? ModelColor.orange
     
     let newView = TextViewClass(state: state,
                                 modelIndex: modelIndex,
