@@ -11,10 +11,10 @@ public struct TextModel: Model, TextAnnotationModelable {
   public var index: Int
   public let origin: PointModel
   public let text: String
-  public let textParams: TextParams
+  public let style: TextParams
   
   public var modelColor: ModelColor? {
-    return textParams.foregroundColor
+    return style.foregroundColor
   }
   
   private let _frame: CGRect?
@@ -27,7 +27,7 @@ public struct TextModel: Model, TextAnnotationModelable {
     self.origin = origin
     self.text = text
     self._frame = nil
-    self.textParams = textParams
+    self.style = textParams
     self.index = index
   }
   
@@ -40,7 +40,7 @@ public struct TextModel: Model, TextAnnotationModelable {
     self.origin = origin
     self.text = text
     self._frame = frame
-    self.textParams = textParams
+    self.style = textParams
     self.index = index
   }
   

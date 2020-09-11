@@ -182,7 +182,7 @@ open class TextContainerView: NSView {
 
   init(modelable: TextAnnotationModelable) {
     super.init(frame: modelable.frame)
-    performSubfieldsInit(frameRect: modelable.frame, textParams: modelable.textParams)
+    performSubfieldsInit(frameRect: modelable.frame, textParams: modelable.style)
     updateFrame(with: modelable)
   }
   
@@ -425,7 +425,7 @@ open class TextContainerView: NSView {
       self.frame = action.frame.integral
     }
     
-    textView.updateTypingAttributes(action.textParams.attributes)
+    textView.updateTypingAttributes(action.style.attributes)
   }
   
   // MARK: - Helpers
@@ -524,7 +524,7 @@ open class TextContainerView: NSView {
   private func notifyAboutTextAnnotationUpdates() {
     let action = TextAnnotationAction(text: text,
                                       frame: frame,
-                                      textParams: TextParams.textParams(from: textView.typingAttributes))
+                                      style: TextParams.textParams(from: textView.typingAttributes))
     textUpdateDelegate?.textAnnotationUpdated(textAnnotation: self,
                                               modelable: action)
   }

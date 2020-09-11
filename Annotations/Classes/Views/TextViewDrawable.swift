@@ -112,7 +112,7 @@ extension TextViewClass: TextAnnotationUpdateDelegate {
                                              y: Double(modelable.frame.origin.y)),
                           text: modelable.text,
                           frame: modelable.frame,
-                          textParams: modelable.textParams,
+                          textParams: modelable.style,
                           index: globalIndex)
     
     delegate?.textView(self, didUpdate: model, atIndex: modelIndex)

@@ -150,7 +150,7 @@ extension CanvasViewClass {
       case let obfuscate as ObfuscateModel:
         redrawObfuscate(model: obfuscate, canvas: model)
       case let text as TextModel:
-        redrawTexts(model: text, canvas: model)
+        redrawTexts(model: text, canvas: self.model)
       case let rect as RectModel:
         redrawRect(model: rect, canvas: model)
       default:
