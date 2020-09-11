@@ -171,7 +171,7 @@ extension CanvasViewClass {
   public func createItem(mouseDown: PointModel, color: ModelColor) -> CanvasDrawable? {
     switch createMode {
     case .text:
-      return createTextView(origin: mouseDown, color: color)
+      return createTextView(origin: mouseDown, params: TextParams(foregroundColor: color.textColor))
     default:
       return nil
     }

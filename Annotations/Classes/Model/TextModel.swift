@@ -12,40 +12,32 @@ public struct TextModel: Model, TextAnnotationModelable {
   public var index: Int
   public let origin: PointModel
   public let text: String
-  public let fontName: String?
-  public let fontSize: CGFloat?
-  public let color: TextColor
+  public let textParams: TextParams
   
   private let _frame: CGRect?
   
   init(origin: PointModel,
        text: String,
-       color: TextColor,
+       textParams: TextParams,
        index: Int) {
     
     self.origin = origin
     self.text = text
     self._frame = nil
-    self.fontName = nil
-    self.fontSize = nil
-    self.color = color
+    self.textParams = textParams
     self.index = index
   }
   
   init(origin: PointModel,
        text: String,
        frame: CGRect?,
-       fontName: String?,
-       fontSize: CGFloat?,
-       color: TextColor,
+       textParams: TextParams,
        index: Int) {
     
     self.origin = origin
     self.text = text
     self._frame = frame
-    self.fontName = fontName
-    self.fontSize = fontSize
-    self.color = color
+    self.textParams = textParams
     self.index = index
   }
   
@@ -58,12 +50,12 @@ public struct TextModel: Model, TextAnnotationModelable {
   }
   
   func copyWithColor(color: ModelColor) -> TextModel {
+    
     return TextModel(origin: origin,
                      text: text,
                      frame: frame,
-                     fontName: fontName,
-                     fontSize: fontSize,
-                     color: color.textColor,
+                     textParams: TextParams(foregroundColor: color.textColor),
                      index: index)
+    
   }
 }
