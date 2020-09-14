@@ -8,7 +8,6 @@
 
 import Cocoa
 import Annotations
-import TextAnnotation
 
 typealias CanvasHistory = HistoryClass<CanvasModel>
 
@@ -45,6 +44,7 @@ class ViewController: NSViewController {
     canvasView.delegate = self
     canvasView.update(model: model)
     setupColorPickerViews()
+    canvasView.textStyle = TextParams.randomFont()
   }
   
   func setupColorPickerViews() {
@@ -155,6 +155,7 @@ extension ViewController: CanvasViewDelegate {
   
   func canvasView(_ canvasView: CanvasView, didUpdateModel model: CanvasModel) {
     print("did update")
+    self.canvasView.textStyle = TextParams.randomFont()
     save(model: model)
   }
 }

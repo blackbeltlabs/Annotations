@@ -22,6 +22,22 @@ extension NSColor {
   }
   
   public var annotationModelColor: ModelColor {
-    return ModelColor(red: redComponent, green: greenComponent, blue: blueComponent, alpha: alphaComponent)
+    let rgbColor: NSColor
+        
+    if self.colorSpace == .sRGB {
+      rgbColor = self
+    } else {
+      if let convertedColor = usingColorSpace(.sRGB) {
+        rgbColor = convertedColor
+      } else { // fallback
+        return ModelColor(red: 0, green: 0, blue: 0, alpha: 0)
+      }
+    }
+        
+    return ModelColor(red: rgbColor.redComponent,
+                      green: rgbColor.greenComponent,
+                      blue: rgbColor.blueComponent,
+                      alpha: rgbColor.alphaComponent)
   }
+
 }

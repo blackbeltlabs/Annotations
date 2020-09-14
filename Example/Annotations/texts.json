@@ -1,0 +1,50 @@
+[
+    {
+      "index": 0,
+      "origin": { "index": 0, "x": 50, "y": 150 },
+      "text": "Julian Drapaylo",
+      "style": {
+        "font_name": "Apple Chancery",
+        "font_size": 40,
+        "foreground_color": {"red": 0.4, "green": 0.8, "blue": 0.2, "alpha": 1.0},
+        "outline_width": -2.0,
+        "outline_color": {"red": 1.0, "green": 1.0, "blue": 1.0, "alpha": 1.0},
+        "shadow_color": {"red": 0.0, "green": 0.0, "blue": 0.0, "alpha": 1.0},
+        "shadow_offset_x": 5.0,
+        "shadow_offset_y": 2.0,
+        "shadow_blur": 3.0
+      }
+    },
+    {
+      "index": 1,
+      "origin": { "index": 1, "x": 150, "y": 150 },
+      "text": "Just a good text here",
+      "style": {
+        "font_name": "Bradley Hand",
+        "font_size": 30,
+        "foreground_color": {"red": 1.0, "green": 1.0, "blue": 1.0, "alpha": 1.0},
+        "outline_width": -2.0,
+        "outline_color": {"red": 0.0, "green": 0.0, "blue": 0.0, "alpha": 1.0},
+        "shadow_color": {"red": 1.0, "green": 0.0, "blue": 0.0, "alpha": 1.0},
+        "shadow_offset_x": 1.0,
+        "shadow_offset_y": 1.0,
+        "shadow_blur": 3.0
+      }
+    },
+    {
+      "index": 2,
+      "origin": { "index": 2, "x": 300, "y": 150 },
+      "text": "One more example here",
+      "style": {
+        "font_name": "Chalkduster Regular",
+        "font_size": 30,
+        "foreground_color": {"red": 1.0, "green": 1.0, "blue": 0.5, "alpha": 1.0},
+        "outline_width": -2.0,
+        "outline_color": {"red": 0.0, "green": 0.0, "blue": 0.0, "alpha": 1.0},
+        "shadow_color": {"red": 1.0, "green": 0.0, "blue": 0.0, "alpha": 1.0},
+        "shadow_offsetX": 1.0,
+        "shadow_offsetY": 1.0,
+        "shadow_blur": 6.0
+      }
+    }
+]

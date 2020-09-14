@@ -8,7 +8,6 @@
 
 import Cocoa
 import CoreGraphics
-import TextAnnotation
 
 public protocol CanvasViewDelegate {
   func canvasView(_ canvasView: CanvasView, didUpdateModel model: CanvasModel)

@@ -3,21 +3,27 @@
   "texts": [
     {
       "index": 0,
-      "origin": { "index": 0, "x": 150, "y": 150 },
+      "origin": { "index": 0, "x": 50, "y": 150 },
       "text": "Some text",
-      "color": {"red": 0.3, "green": 0.7, "blue": 0.2, "alpha": 1.0}
+      "style": {
+        "foreground_color": {"red": 0.3, "green": 0.7, "blue": 0.2, "alpha": 1.0}
+      }
     },
     {
       "index": 1,
       "origin": { "index": 1, "x": 150, "y": 150 },
       "text": "Some text",
-      "color": {"red": 0.3, "green": 0.7, "blue": 0.2, "alpha": 1.0}
+      "style": {
+        "foreground_color": {"red": 0.3, "green": 0.7, "blue": 0.2, "alpha": 1.0}
+      }
     },
     {
       "index": 2,
-      "origin": { "index": 2, "x": 150, "y": 150 },
+      "origin": { "index": 2, "x": 300, "y": 150 },
       "text": "Some text",
-      "color": {"red": 0.3, "green": 0.7, "blue": 0.2, "alpha": 1.0}
+      "style": {
+        "foreground_color": {"red": 0.3, "green": 0.7, "blue": 0.2, "alpha": 1.0}
+      }
     }
   ],
   "arrows": [

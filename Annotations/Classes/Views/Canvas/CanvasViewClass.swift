@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import TextAnnotation
 
 public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, ObfuscateCanvas, TextAnnotationCanvas, HighlightCanvas, TextAnnotationDelegate {
   
@@ -55,6 +54,7 @@ public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanva
   public var textAnnotations: [TextAnnotation] = []
   public var selectedTextAnnotation: TextAnnotation?
   public var lastMouseLocation: NSPoint?
+  public var textStyle: TextParams = TextParams.defaultFont()
   
   // MARK: - Initializers
   
@@ -151,7 +151,7 @@ extension CanvasViewClass {
       case let obfuscate as ObfuscateModel:
         redrawObfuscate(model: obfuscate, canvas: model)
       case let text as TextModel:
-        redrawTexts(model: text, canvas: model)
+        redrawTexts(model: text, canvas: self.model)
       case let rect as RectModel:
         redrawRect(model: rect, canvas: model)
       default:
@@ -171,7 +171,11 @@ extension CanvasViewClass {
   public func createItem(mouseDown: PointModel, color: ModelColor) -> CanvasDrawable? {
     switch createMode {
     case .text:
-      return createTextView(origin: mouseDown, color: color)
+      var params: TextParams = textStyle
+      if params.foregroundColor == nil {
+        params.foregroundColor = color
+      }
+      return createTextView(origin: mouseDown, params: params)
     default:
       return nil
     }
@@ -221,7 +225,7 @@ extension CanvasViewClass {
     if let selectedTextAnnotation = selectedTextAnnotation {
       
       let previousColor = selectedTextAnnotation.textColor
-      guard color.textColor != previousColor else { return }
+      guard color != previousColor else { return }
       
       selectedTextAnnotation.updateColor(with: NSColor.color(from: color))
       
