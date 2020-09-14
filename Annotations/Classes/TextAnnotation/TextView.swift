@@ -52,7 +52,8 @@ class TextView: NSTextView {
   // MARK: - Public
   
   func frameForWidth(_ width: CGFloat, height: CGFloat) -> CGRect {
-    return string.boundingRect(with: CGSize(width: width, height: height),
+    let correctedWidth = width - 10.0 // magic numbers for better resizing. Need to fix with more correct solution
+    return string.boundingRect(with: CGSize(width: correctedWidth, height: height),
                                options: NSString.DrawingOptions.usesLineFragmentOrigin,
                                attributes: typingAttributes)
   }
