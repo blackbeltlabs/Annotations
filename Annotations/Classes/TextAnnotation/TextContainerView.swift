@@ -119,7 +119,7 @@ open class TextContainerView: NSView {
   private var textView: TextView!
   
   private let kMinimalWidth: CGFloat = 25 + 2*Configuration.frameMargin + 2*Configuration.dotRadius
-  private let kMinimalHeight: CGFloat = 70
+  private let kMinimalHeight: CGFloat = 30
   
   private var singleClickGestureRecognizer: NSClickGestureRecognizer!
   private var doubleClickGestureRecognizer: NSClickGestureRecognizer!
