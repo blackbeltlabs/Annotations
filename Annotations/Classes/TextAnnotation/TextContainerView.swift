@@ -425,13 +425,13 @@ open class TextContainerView: NSView {
   
   public func updateFrame(with action: TextAnnotationModelable) {
     self.textView.resetFontSize()
+    
+    textView.updateTypingAttributes(action.style.attributes)
 
     self.text = action.text
     if action.frame.size.width != 0 && action.frame.size.height != 0 {
       self.frame = action.frame.integral
     }
-    
-    textView.updateTypingAttributes(action.style.attributes)
   }
   
   // MARK: - Helpers
