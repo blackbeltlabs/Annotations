@@ -50,7 +50,7 @@ public struct TextParams: Codable, Equatable {
     TextParams(fontName: "HelveticaNeue-Bold",
                fontSize: 30.0,
                outlineWidth: -1.5,
-               outlineColor: ModelColor(red: 0, green: 0, blue: 0, alpha: 0))
+               outlineColor: ModelColor(red: 1, green: 1, blue: 1, alpha: 1))
   }
   
   public static func randomFont() -> TextParams {
@@ -157,6 +157,51 @@ public struct TextParams: Codable, Equatable {
     }
     
     return params
+  }
+  
+  // update with another model with the following rule:
+  // each text param will be updated if it is current value is nil
+  public func updatedModelWithTextParamsIfNil(_ textParams: TextParams) -> TextParams {
+    
+    var newModel = self
+    
+    if fontName == nil {
+      newModel.fontName = textParams.fontName
+    }
+    
+    if fontSize == nil {
+      newModel.fontSize = textParams.fontSize
+    }
+    
+    if foregroundColor == nil {
+      newModel.foregroundColor = textParams.foregroundColor
+    }
+    
+    if outlineWidth == nil {
+      newModel.outlineWidth = textParams.outlineWidth
+    }
+    
+    if outlineColor == nil {
+      newModel.outlineColor = textParams.outlineColor
+    }
+    
+    if shadowColor == nil {
+      newModel.shadowColor = textParams.shadowColor
+    }
+    
+    if shadowOffsetX == nil {
+      newModel.shadowOffsetX = textParams.shadowOffsetX
+    }
+    
+    if shadowOffsetY == nil {
+      newModel.shadowOffsetY = textParams.shadowOffsetY
+    }
+    
+    if shadowBlur == nil {
+      newModel.shadowBlur = textParams.shadowBlur
+    }
+    
+    return newModel
   }
 
 }

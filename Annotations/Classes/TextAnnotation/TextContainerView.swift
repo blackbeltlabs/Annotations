@@ -109,8 +109,8 @@ open class TextContainerView: NSView {
       textSnapshot = newValue
     }
   }
-  var leftTally: MouseTrackingView?
-  var rightTally: MouseTrackingView?
+  var leftTally: TextKnobView?
+  var rightTally: TextKnobView?
   var scaleTally: TextKnobView?
   
   // MARK: Private
@@ -119,7 +119,7 @@ open class TextContainerView: NSView {
   private var textView: TextView!
   
   private let kMinimalWidth: CGFloat = 25 + 2*Configuration.frameMargin + 2*Configuration.dotRadius
-  private let kMinimalHeight: CGFloat = 70
+  private let kMinimalHeight: CGFloat = 30
   
   private var singleClickGestureRecognizer: NSClickGestureRecognizer!
   private var doubleClickGestureRecognizer: NSClickGestureRecognizer!
@@ -225,12 +225,12 @@ open class TextContainerView: NSView {
     
     // all frames here is zero, later we set it in updateSubviewsFrames()
     let tallyFrame = NSRect.zero
-    var flipper = MouseTrackingView(type: .resizeLeftArea, responder: self, frameRect: tallyFrame)
+    var flipper = TextKnobView(type: .resizeLeftArea, responder: self, frameRect: tallyFrame)
     flipper.isHidden = true
     addSubview(flipper)
     leftTally = flipper
     
-    flipper = MouseTrackingView(type: .resizeRightArea, responder: self, frameRect: tallyFrame)
+    flipper = TextKnobView(type: .resizeRightArea, responder: self, frameRect: tallyFrame)
     flipper.isHidden = true
     addSubview(flipper)
     rightTally = flipper
@@ -241,6 +241,7 @@ open class TextContainerView: NSView {
     scaleTally = tally
         
     addTrackingAreas()
+    
   }
   
   private func addTrackingAreas() {
@@ -395,14 +396,19 @@ open class TextContainerView: NSView {
       height: size.height - 2 * (Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding)
     )
     
-    var tallyFrame = NSRect(origin: CGPoint.zero, size: CGSize(width: Configuration.frameMargin + 2*Configuration.dotRadius, height: size.height))
+    var tallyFrame = NSRect(origin: CGPoint(x: Configuration.padding - Configuration.knobSide / 2.0,
+                                            y: frame.height / 2.0 - Configuration.knobSide / 2.0),
+                            size: CGSize(width: Configuration.knobSide,
+                                         height: Configuration.knobSide))
     if let tally = leftTally {
       tally.frame = tallyFrame
     }
     
     if let tally = rightTally {
-      tallyFrame.origin = CGPoint(x: size.width - tallyFrame.width, y: tallyFrame.width)
-      tallyFrame.size = CGSize(width: tallyFrame.width, height: tallyFrame.height - (2*Configuration.dotRadius + Configuration.frameMargin))
+      tallyFrame.origin = CGPoint(x: frame.width - Configuration.padding - Configuration.knobSide / 2.0,
+                                  y: frame.height / 2.0 - Configuration.knobSide / 2.0)
+      tallyFrame.size = CGSize(width: Configuration.knobSide,
+                               height: Configuration.knobSide)
       tally.frame = tallyFrame
     }
     
@@ -419,13 +425,13 @@ open class TextContainerView: NSView {
   
   public func updateFrame(with action: TextAnnotationModelable) {
     self.textView.resetFontSize()
+    
+    textView.updateTypingAttributes(action.style.attributes)
 
     self.text = action.text
     if action.frame.size.width != 0 && action.frame.size.height != 0 {
       self.frame = action.frame.integral
     }
-    
-    textView.updateTypingAttributes(action.style.attributes)
   }
   
   // MARK: - Helpers

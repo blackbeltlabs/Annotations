@@ -61,4 +61,12 @@ public struct TextModel: Model, TextAnnotationModelable {
                      index: index)
     
   }
+  
+  public func copyWithTextParams(_ textParams: TextParams) -> TextModel {
+    TextModel(origin: origin,
+              text: text,
+              frame: frame,
+              textParams: textParams,
+              index: index)
+  }
 }

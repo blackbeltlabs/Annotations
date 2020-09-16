@@ -16,7 +16,7 @@ class MouseTrackingView: NSView {
   // MARK: - Variables
   
   weak private var activeAreaResponder: MouseTrackingResponder?
-  private var area: TextAnnotationArea?
+  private(set) var area: TextAnnotationArea?
   
   var isEnabled: Bool = true
   

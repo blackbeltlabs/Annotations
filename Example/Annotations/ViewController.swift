@@ -37,7 +37,17 @@ class ViewController: NSViewController {
     let url = Bundle.main.url(forResource: "test_drawing", withExtension: "json")!
     let data = try! Data(contentsOf: url)
     let decoder = JSONDecoder()
-    let model = try! decoder.decode(CanvasModel.self, from: data)
+    var model = try! decoder.decode(CanvasModel.self, from: data)
+        
+    if let globalStyle = model.style {
+      // apply global style params to each text and update each param if it is nil
+      let texts = model.texts.map { (textModel) -> TextModel in
+        let currentStyle = textModel.style
+        return textModel.copyWithTextParams(currentStyle.updatedModelWithTextParamsIfNil(globalStyle))
+      }
+      model.texts = texts
+    }
+
     canvasView.createMode = .text
     history = CanvasHistory(model: model)
     updateHistoryButtons()
