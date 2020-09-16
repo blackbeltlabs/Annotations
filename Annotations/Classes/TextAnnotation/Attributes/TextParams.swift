@@ -158,5 +158,50 @@ public struct TextParams: Codable, Equatable {
     
     return params
   }
+  
+  // update with another model with the following rule:
+  // each text param will be updated if it is current value is nil
+  public func updatedModelWithTextParamsIfNil(_ textParams: TextParams) -> TextParams {
+    
+    var newModel = self
+    
+    if fontName == nil {
+      newModel.fontName = textParams.fontName
+    }
+    
+    if fontSize == nil {
+      newModel.fontSize = textParams.fontSize
+    }
+    
+    if foregroundColor == nil {
+      newModel.foregroundColor = textParams.foregroundColor
+    }
+    
+    if outlineWidth == nil {
+      newModel.outlineWidth = textParams.outlineWidth
+    }
+    
+    if outlineColor == nil {
+      newModel.outlineColor = textParams.outlineColor
+    }
+    
+    if shadowColor == nil {
+      newModel.shadowColor = textParams.shadowColor
+    }
+    
+    if shadowOffsetX == nil {
+      newModel.shadowOffsetX = textParams.shadowOffsetX
+    }
+    
+    if shadowOffsetY == nil {
+      newModel.shadowOffsetY = textParams.shadowOffsetY
+    }
+    
+    if shadowBlur == nil {
+      newModel.shadowBlur = textParams.shadowBlur
+    }
+    
+    return newModel
+  }
 
 }

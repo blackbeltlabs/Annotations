@@ -1,5 +1,12 @@
 {
   "index": 0,
+  "style": {
+    "font_name": "Apple Chancery",
+    "font_size": 40,
+    "foreground_color": {"red": 0.1, "green": 0.2, "blue": 0.2, "alpha": 1.0},
+    "outline_width": -1.0,
+    "outline_color": {"red": 0.0, "green": 0.0, "blue": 0.0, "alpha": 1.0}
+  },
   "texts": [
     {
       "index": 0,
@@ -7,7 +14,6 @@
       "text": "Blackbelt Labs",
       "style": {
         "font_name": "Apple Chancery",
-        "font_size": 40,
         "foreground_color": {"red": 0.1, "green": 0.2, "blue": 0.2, "alpha": 1.0}
       }
     },
@@ -17,7 +23,6 @@
       "text": "Some text",
       "style": {
         "font_name": "Bradley Hand",
-        "font_size": 40,
         "foreground_color": {"red": 0.3, "green": 0.7, "blue": 0.2, "alpha": 1.0}
       }
     },
@@ -27,7 +32,6 @@
       "text": "Julian Drapaylo",
       "style": {
         "font_name": "Chalkduster Regular",
-        "font_size": 40,
         "foreground_color": {"red": 0.3, "green": 0.9, "blue": 0.9, "alpha": 1.0}
       }
     }

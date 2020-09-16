@@ -37,6 +37,7 @@ extension Model {
 
 public struct CanvasModel: Model {
   public var index: Int = 0
+  public var style: TextParams?
   public var texts: [TextModel] = []
   public var arrows: [ArrowModel] = []
   public var pens: [PenModel] = []
