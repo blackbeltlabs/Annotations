@@ -50,7 +50,7 @@ public struct TextParams: Codable, Equatable {
     TextParams(fontName: "HelveticaNeue-Bold",
                fontSize: 30.0,
                outlineWidth: -1.5,
-               outlineColor: ModelColor(red: 0, green: 0, blue: 0, alpha: 0))
+               outlineColor: ModelColor(red: 1, green: 1, blue: 1, alpha: 1))
   }
   
   public static func randomFont() -> TextParams {
