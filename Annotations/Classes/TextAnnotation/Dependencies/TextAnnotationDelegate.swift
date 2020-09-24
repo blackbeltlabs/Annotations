@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol TextAnnotationDelegate {
+public protocol TextAnnotationDelegate: class {
   func textAnnotationDidSelect(textAnnotation: TextAnnotation)
   func textAnnotationDidDeselect(textAnnotation: TextAnnotation)
   func textAnnotationDidStartEditing(textAnnotation: TextAnnotation)

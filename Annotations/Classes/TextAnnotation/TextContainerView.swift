@@ -31,64 +31,67 @@ public protocol ActivateResponder: class {
   func textViewDidActivate(_ activeItem: Any?)
 }
 
-public class TextContainerView: NSView {
-  
-  public override var isFlipped: Bool { true }
-  
-  // MARK: - Dependencies
-  
-  public var delegate: TextAnnotationDelegate?
-  public var textUpdateDelegate: TextAnnotationUpdateDelegate?
-  
-  weak var activateResponder: ActivateResponder?
+public class TextContainerView: NSView, TextAnnotation {
     
+  // MARK: - Dependencies
+  public weak var delegate: TextAnnotationDelegate?
+  public weak var textUpdateDelegate: TextAnnotationUpdateDelegate?
+  weak var activateResponder: ActivateResponder?
+ 
+  // MARK: - Helpers and handlers
+  private let stringSizeHelper = StringSizeHelper()
+  private let fontSizeHelper = FontSizeHelper()
+  private let mouseEventsHandler = MouseEventsHandler()
+  private let historyTrackingHelper = HistoryTrackingHelper()
+
+  // MARK: - Properties
   
-  var textAttributes: [NSAttributedString.Key: Any] = [.font: NSFont(name: "HelveticaNeue-Bold", size: 30)!]
+  // textView inset inside text container view
+  private let inset = CGVector(dx: 15.0, dy: 25.0)
   
-  
-  let inset = CGVector(dx: 15.0, dy: 25.0)
-  
-  let stringSizeHelper = StringSizeHelper()
-  let fontSizeHelper = FontSizeHelper()
-  
+  // Decorating params (for the active state when SelectionView and knobs are visible)
   let decParams = DecoratorStyleParams.defaultParams
   
-  var mouseEventsHandler: MouseEventsHandler!
-  
-  let historyTrackingHelper = HistoryTrackingHelper()
-  
+  // set flipped layout for subviews to simplify work with text view resizing
+  public override var isFlipped: Bool { true }
+
+  // layout all subviews on frame update
   public override var frame: NSRect {
     didSet {
-      print(self.frame)
       guard frame.height > 0 else { return }
+       
+      // layout text view
       textView.frame = bounds.insetBy(dx: inset.dx, dy: inset.dy)
+      
+      // layout selectionView frame
       selectionView.frame = bounds.insetBy(dx: inset.dx / 2.0,
                                            dy: inset.dy / 2.0)
 
       let knobSide: CGFloat = decParams.knobSide
       let lineWidth: CGFloat = decParams.selectionLineWidth
       
+      // layout left knob view
       let y = selectionView.frame.size.height / 2.0 + knobSide / 2.0
       let x = ceil(selectionView.frame.origin.x - knobSide / 2.0)
       leftKnobView.frame = CGRect(x: x, y: y, width: knobSide, height: knobSide)
       
-      
+      // layout right knob view
       let y1 = ceil(selectionView.frame.size.height / 2.0 + knobSide / 2.0)
       let x1 = ceil(selectionView.frame.size.width)
-      
       rightKnobView.frame = CGRect(x: x1, y: y1, width: knobSide, height: knobSide)
       
-      
-      let x2 = selectionView.frame.size.width / 2
+      // layout scale knob view
+      let x2 = selectionView.frame.size.width / 2.0
       let y2 = selectionView.frame.size.height + (knobSide + lineWidth) / 2.0
-      
       scaleKnobView.frame = CGRect(x: x2, y: y2, width: knobSide, height: knobSide)
     }
   }
 
+  // MARK: - Text view params
   public var text: String {
     set {
       textView.string = newValue
+      // calculate new frame on text updates and update text view and other views frames
       let size = stringSizeHelper.bestSizeWithAttributes(for: newValue,
                                                          attributes: textView.typingAttributes)
       updateTextViewSize(size: size)
@@ -116,8 +119,8 @@ public class TextContainerView: NSView {
     }
   }
   
-  var font: NSFont {
-    textView.font!
+  var font: NSFont? {
+    textView.font
   }
   
   // MARK: - Views
@@ -139,32 +142,23 @@ public class TextContainerView: NSView {
   let rightKnobView = TextKnobView(strokeColor: .white, fillColor: #colorLiteral(red: 1, green: 0.3803921569, blue: 0, alpha: 1))
   let scaleKnobView = TextKnobView(strokeColor: .white, fillColor: #colorLiteral(red: 1, green: 0.3803921569, blue: 0, alpha: 1))
   
-  
   private var decoratorViews: [NSView] = []
   
   // MARK: - Gesture recognizers
-  
   private var singleClickGestureRecognizer: NSClickGestureRecognizer!
   private var doubleClickGestureRecognizer: NSClickGestureRecognizer!
   
   // MARK: - States
-  
-  var editingState: TextAnnotationEditingState = .inactive {
+  public var state: TextAnnotationState = .inactive {
     didSet {
-      updateParts(with: self.editingState, oldValue: oldValue)
-    }
-  }
-  
-  public var state: TextAnnotationState {
-    get {
-      editingState
-    }
-    set {
-      self.editingState = newValue
+      updateParts(with: self.state, oldValue: oldValue)
     }
   }
   
   var transformState: TextAnnotationTransformState?
+  
+  // MARK: - Properties
+  var debugMode: Bool = false
   
   // MARK: - Init
   
@@ -193,16 +187,16 @@ public class TextContainerView: NSView {
   // MARK: - Initial setup
   func performSubfieldsInit(frameRect: CGRect, textParams: TextParams) {
     
-//    wantsLayer = true
-//    layer?.borderColor = NSColor.black.cgColor
-//    layer?.borderWidth = 1.0
+    if debugMode {
+      wantsLayer = true
+      layer?.borderColor = NSColor.black.cgColor
+      layer?.borderWidth = 1.0
+    }
     
     addSubview(textView)
     
     textView.translatesAutoresizingMaskIntoConstraints = false
-    
-    textView.typingAttributes = textAttributes
-                                     
+                                         
     textView.alignment = .natural
     textView.backgroundColor = NSColor.clear
     textView.isRichText = false
@@ -211,12 +205,13 @@ public class TextContainerView: NSView {
     textView.drawsBackground = false
     textView.isVerticallyResizable = true
  
+    if debugMode {
+      textView.wantsLayer = true
+      textView.layer?.borderColor = NSColor.green.cgColor
+      textView.layer?.borderWidth = 1.0
+    }
     
-//    textView.wantsLayer = true
-//    textView.layer?.borderColor = NSColor.green.cgColor
-//    textView.layer?.borderWidth = 1.0
-    
-    // attributesx
+    // attributes
     let textAttributes = textParams.attributes
     
     if let color = textAttributes[.foregroundColor] as? NSColor {
@@ -224,7 +219,6 @@ public class TextContainerView: NSView {
     }
         
     textView.updateTypingAttributes(textAttributes)
-    
     
     addSubview(selectionView)
     leftKnobView.translatesAutoresizingMaskIntoConstraints = false
@@ -236,7 +230,6 @@ public class TextContainerView: NSView {
     
     setupGestureRecognizers()
 
-    mouseEventsHandler = MouseEventsHandler()
     mouseEventsHandler.textContainerView = self
     
     decoratorViews = [selectionView, leftKnobView, rightKnobView, scaleKnobView]
@@ -245,7 +238,6 @@ public class TextContainerView: NSView {
     
     textView.delegate = self
   }
-  
   
   func setupGestureRecognizers() {
     singleClickGestureRecognizer = NSClickGestureRecognizer(target: self,
@@ -308,7 +300,6 @@ public class TextContainerView: NSView {
   }
     
   // MARK: - Transform
-  
   func resize(distance: CGFloat, type: ResizeType) {
     let offset: CGFloat = type == .rightToLeft ? distance * -1.0 : distance
     
@@ -354,9 +345,7 @@ public class TextContainerView: NSView {
     frame.origin.y -= difference.height
   }
   
-  
   // MARK: - Frame updates
-
   func reduceWidthIfNeeded() {
     var newWidth = stringSizeHelper.getWidthAttr(for: textView.attributedString(),
                                                  height: textView.frame.size.height)
@@ -394,15 +383,14 @@ public class TextContainerView: NSView {
   }
   
   // MARK: - Gestures handlers
-  
   @objc private func singleClickGestureHandle(_ gesture: NSClickGestureRecognizer) {
-    editingState = .active
+    state = .active
     
     delegate?.textAnnotationDidSelect(textAnnotation: self)
   }
   
   @objc private func doubleClickGestureHandle(_ gesture: NSClickGestureRecognizer) {
-    editingState = .editing
+    state = .editing
   }
   
   // MARK: - History
@@ -424,7 +412,7 @@ public class TextContainerView: NSView {
   }
   
   public func startEditing() {
-    editingState = .editing
+    state = .editing
   }
   
   public func updateFrame(with modelable: TextAnnotationModelable) {
@@ -439,6 +427,7 @@ public class TextContainerView: NSView {
   }
 }
 
+// MARK: - NSTextViewDelegate
 extension TextContainerView: NSTextViewDelegate {
   public func textDidChange(_ notification: Notification) {
     guard let textView = notification.object as? NSTextView else { return }
@@ -473,6 +462,7 @@ struct TextContainerViewPreview: NSViewRepresentable {
   }
 
   func updateNSView(_ view: NSViewType, context: Context) {
+    
   }
 }
 
@@ -484,8 +474,3 @@ struct TextContainerView_Previews: PreviewProvider {
     }
 }
 #endif
-
-
-extension TextContainerView: TextAnnotation {
-  
-}
