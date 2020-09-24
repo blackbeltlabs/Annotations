@@ -2,9 +2,11 @@ import Cocoa
 
 class SelectionView: NSView {
   
+  // MARK: - Properties
   let strokeColor: NSColor
   let lineWidth: CGFloat
   
+  // MARK: - Init
   init(strokeColor: NSColor, lineWidth: CGFloat) {
     self.strokeColor = strokeColor
     self.lineWidth = lineWidth
@@ -15,6 +17,7 @@ class SelectionView: NSView {
     fatalError("init(coder:) has not been implemented")
   }
   
+  // MARK: - Draw
   override func draw(_ dirtyRect: NSRect) {
     super.draw(dirtyRect)
     let framePath = NSBezierPath(rect: dirtyRect)
@@ -39,6 +42,7 @@ struct SelectionViewPreview: NSViewRepresentable {
   }
 
   func updateNSView(_ view: SelectionView, context: Context) {
+    
   }
 }
 

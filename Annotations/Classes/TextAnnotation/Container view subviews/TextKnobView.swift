@@ -1,24 +1,27 @@
 import Cocoa
 
 class TextKnobView: NSView {
-  
+  // MARK: - Properties
   let strokeColor: NSColor
   let fillColor: NSColor
   
+  // MARK: - Init
   init(strokeColor: NSColor, fillColor: NSColor) {
     self.strokeColor = strokeColor
     self.fillColor = fillColor
     super.init(frame: .zero)
   }
   
-  override var wantsDefaultClipping: Bool {
-      return false
-  }
-  
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
+  // MARK: - Overriden
+  override var wantsDefaultClipping: Bool {
+      false
+  }
+
+  // MARK: - Draw
   override func draw(_ dirtyRect: NSRect) {
     super.draw(dirtyRect)
     
@@ -32,7 +35,6 @@ class TextKnobView: NSView {
     path.lineWidth = 1
     strokeColor.setStroke()
     path.stroke()
-    
   }
 }
 
@@ -48,6 +50,7 @@ struct TextKnobViewPreview: NSViewRepresentable {
   }
 
   func updateNSView(_ view: TextKnobView, context: Context) {
+    
   }
 }
 

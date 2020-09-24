@@ -1,17 +1,11 @@
-//
-//  TextView.swift
-//  TextView1
-//
-//  Created by Julian Drapailo on 18.09.2020.
-//  Copyright © 2020 Julian Drapailo. All rights reserved.
-//
-
 import Cocoa
 
 class TextView: NSTextView {
   
-  var cursorWidth: CGFloat = 2.0
+  // MARK: - Properties
+  private var cursorWidth: CGFloat = 2.0
   
+  // MARK: - Overriden
   override var isEditable: Bool {
     didSet {
       if !self.isEditable {
@@ -19,17 +13,7 @@ class TextView: NSTextView {
       }
     }
   }
-  
-  // update typing attributes for both current text and new added text
-  func updateTypingAttributes(_ attributes: [NSAttributedString.Key: Any]) {
-    textStorage?.setAttributes(
-      attributes,
-      range: NSRange(location: 0, length: textStorage?.string.count ?? 0)
-    )
-    typingAttributes = attributes
-  }
-  
-  // redirect events to the top is !isEditable
+  // redirect events to the superview (TextContainewView) is !isEditable
   override func mouseDown(with event: NSEvent) {
     if !isEditable {
       superview?.mouseDown(with: event)
@@ -38,7 +22,17 @@ class TextView: NSTextView {
     
     super.mouseDown(with: event)
   }
-    
+  
+  // MARK: - Visual
+
+  // update typing attributes for both current text and new added text
+  func updateTypingAttributes(_ attributes: [NSAttributedString.Key: Any]) {
+    textStorage?.setAttributes(
+      attributes,
+      range: NSRange(location: 0, length: textStorage?.string.count ?? 0)
+    )
+    typingAttributes = attributes
+  }
   
   // remove the parts in the text that are selected
   func removeSelectionParts() {
@@ -64,6 +58,7 @@ class TextView: NSTextView {
 }
 
 
+// this method helps to scale text views in a correct way
 extension NSTextView {
   var textBoundingBox: CGRect {
     var textInsets = NSEdgeInsets(top: textContainerInset.height,
