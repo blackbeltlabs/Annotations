@@ -21,6 +21,8 @@ public class CanvasViewClass: NSView, CanvasView, EditableCanvasView, ArrowCanva
     }
   }
   
+  public override var isFlipped: Bool { true }
+  
   public var model = CanvasModel()
   public var isChanged: Bool = false
   
