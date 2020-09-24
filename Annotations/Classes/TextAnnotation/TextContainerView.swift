@@ -176,11 +176,7 @@ public class TextContainerView: NSView {
   public init(frame frameRect: NSRect, text: String, textParams: TextParams) {
     super.init(frame: frameRect)
     performSubfieldsInit(frameRect: frameRect, textParams: textParams)
-    
-    // FIXME: - Without it get infinity error here. Need to fix later
-//    DispatchQueue.main.async {
-      self.text = text
-   // }
+    self.text = text
   }
   
   convenience init(modelable: TextAnnotationModelable) {
@@ -197,9 +193,9 @@ public class TextContainerView: NSView {
   // MARK: - Initial setup
   func performSubfieldsInit(frameRect: CGRect, textParams: TextParams) {
     
-    wantsLayer = true
-    layer?.borderColor = NSColor.black.cgColor
-    layer?.borderWidth = 1.0
+//    wantsLayer = true
+//    layer?.borderColor = NSColor.black.cgColor
+//    layer?.borderWidth = 1.0
     
     addSubview(textView)
     
@@ -216,9 +212,9 @@ public class TextContainerView: NSView {
     textView.isVerticallyResizable = true
  
     
-    textView.wantsLayer = true
-    textView.layer?.borderColor = NSColor.green.cgColor
-    textView.layer?.borderWidth = 1.0
+//    textView.wantsLayer = true
+//    textView.layer?.borderColor = NSColor.green.cgColor
+//    textView.layer?.borderWidth = 1.0
     
     // attributesx
     let textAttributes = textParams.attributes
