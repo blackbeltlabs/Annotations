@@ -24,14 +24,16 @@ class MouseEventsHandler {
         textContainerView.state = .active
       }
     default:
+      // ignore other mouse down events if textContainerView state is inactive
+      if textContainerView.state == .inactive {
+        return
+      }
       break
     }
   
-    
     self.textContainerView.transformState = transformState
     
     lastMouseLocation = event.locationInWindow
-    print("mouse down = \(mouseLocation)")
   }
   
   func mouseDragged(with event: NSEvent) {
