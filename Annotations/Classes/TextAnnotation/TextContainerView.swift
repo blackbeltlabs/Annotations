@@ -432,9 +432,14 @@ public class TextContainerView: NSView {
   }
   
   public func updateFrame(with modelable: TextAnnotationModelable) {
-    textView.updateTypingAttributes(textAttributes)
+    textView.updateTypingAttributes(modelable.style.attributes)
     
     text = modelable.text
+    
+    if modelable.frame.size.width != 0 && modelable.frame.size.height != 0 {
+      self.frame = modelable.frame
+    }
+    
   }
 }
 
