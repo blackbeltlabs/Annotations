@@ -24,7 +24,7 @@ public struct DecoratorStyleParams {
   public let knobSide: CGFloat
   public let scaleKnobSide: CGFloat
   
-  static var defaultParams = DecoratorStyleParams(selectionLineWidth: 3.0,
+  static var defaultParams = DecoratorStyleParams(selectionLineWidth: 4.0,
                                                   knobSide: 11.0,
                                                   scaleKnobSide: 12.0)
 }
@@ -80,12 +80,12 @@ public class TextContainerView: NSView, TextAnnotation {
       
       // layout right knob view
       let y1 = ceil(selectionView.frame.size.height / 2.0 + knobSide / 2.0)
-      let x1 = ceil(selectionView.frame.size.width)
+      let x1 = ceil(selectionView.frame.size.width) + 0.5
       rightKnobView.frame = CGRect(x: x1, y: y1, width: knobSide, height: knobSide)
       
       // layout scale knob view
       let x2 = selectionView.frame.size.width / 2.0
-      let y2 = selectionView.frame.size.height + (scaleKnobSide + lineWidth) / 2.0  - 1.0
+      let y2 = selectionView.frame.size.height + (scaleKnobSide + lineWidth) / 2.0  - 2.0
       scaleKnobView.frame = CGRect(x: x2, y: y2, width: scaleKnobSide, height: scaleKnobSide)
     }
   }
