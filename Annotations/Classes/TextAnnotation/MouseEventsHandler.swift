@@ -20,6 +20,9 @@ class MouseEventsHandler {
   func mouseDown(with event: NSEvent) {
     guard let textContainerView = self.textContainerView else { return }
     
+    // do not allow to transform if text is empty
+    guard !textContainerView.text.isEmpty else { return }
+    
     let mouseLocation = textContainerView.convert(event.locationInWindow, from: nil)
     
     guard let transformState = mouseDownState(location: mouseLocation) else { return }
