@@ -288,6 +288,7 @@ public class TextContainerView: NSView, TextAnnotation {
     case .active:
       (textView.isEditable, textView.isSelectable) = (false, false)
       decoratorViews.forEach { $0.isHidden = false }
+      delegate?.textAnnotationDidSelect(textAnnotation: self)
     case .editing:
       (textView.isEditable, textView.isSelectable) = (true, true)
       textView.window?.makeFirstResponder(textView)
@@ -385,8 +386,6 @@ public class TextContainerView: NSView, TextAnnotation {
   // MARK: - Gestures handlers
   @objc private func singleClickGestureHandle(_ gesture: NSClickGestureRecognizer) {
     state = .active
-    
-    delegate?.textAnnotationDidSelect(textAnnotation: self)
   }
   
   @objc private func doubleClickGestureHandle(_ gesture: NSClickGestureRecognizer) {
