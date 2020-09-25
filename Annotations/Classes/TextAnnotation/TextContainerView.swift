@@ -86,6 +86,10 @@ public class TextContainerView: NSView, TextAnnotation {
       scaleKnobView.frame = CGRect(x: x2, y: y2, width: knobSide, height: knobSide)
     }
   }
+  
+  // MARK: - Tracking area
+  
+  var trackingArea: NSTrackingArea?
 
   // MARK: - Text view params
   public var text: String {
@@ -381,16 +385,53 @@ public class TextContainerView: NSView, TextAnnotation {
   }
   
   // MARK: - Mouse events
+  
+  // add tracking area to be able to update cursors depending on view
+  public override func updateTrackingAreas() {
+    super.updateTrackingAreas()
+    if let trackingArea = trackingArea {
+      removeTrackingArea(trackingArea)
+      self.trackingArea = nil
+    }
+    let options: NSTrackingArea.Options = [.activeAlways,
+                                           .mouseEnteredAndExited,
+                                           .mouseMoved]
+    
+    let trackingArea = NSTrackingArea(rect: bounds,
+                                      options: options,
+                                      owner: self,
+                                      userInfo: nil)
+    addTrackingArea(trackingArea)
+    
+    self.trackingArea = trackingArea
+  }
+  
+  // need override this method for correct cursor work
+  public override func resetCursorRects() {
+    super.resetCursorRects()
+    mouseEventsHandler.cursorRectsReseted()
+  }
+  
   open override func mouseDown(with event: NSEvent) {
     mouseEventsHandler.mouseDown(with: event)
   }
   
   open override func mouseDragged(with event: NSEvent) {
     mouseEventsHandler.mouseDragged(with: event)
+    self.window?.invalidateCursorRects(for: self)
   }
   
   public override func mouseUp(with event: NSEvent) {
     mouseEventsHandler.mouseUp(with: event)
+  }
+  
+  
+  public override func mouseMoved(with event: NSEvent) {
+    mouseEventsHandler.mouseMoved(with: event)
+  }
+  
+  public override func mouseExited(with event: NSEvent) {
+    mouseEventsHandler.mouseExited(with: event)
   }
   
   // MARK: - Gestures handlers
