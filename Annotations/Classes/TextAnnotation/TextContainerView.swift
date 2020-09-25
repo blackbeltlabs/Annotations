@@ -22,9 +22,11 @@ public typealias TextAnnotationState = TextAnnotationEditingState
 public struct DecoratorStyleParams {
   public let selectionLineWidth: CGFloat
   public let knobSide: CGFloat
+  public let scaleKnobSide: CGFloat
   
   static var defaultParams = DecoratorStyleParams(selectionLineWidth: 3.0,
-                                                  knobSide: 12.0)
+                                                  knobSide: 11.0,
+                                                  scaleKnobSide: 12.0)
 }
 
 public protocol ActivateResponder: class {
@@ -69,10 +71,11 @@ public class TextContainerView: NSView, TextAnnotation {
 
       let knobSide: CGFloat = decParams.knobSide
       let lineWidth: CGFloat = decParams.selectionLineWidth
+      let scaleKnobSide: CGFloat = decParams.scaleKnobSide
       
       // layout left knob view
       let y = selectionView.frame.size.height / 2.0 + knobSide / 2.0
-      let x = ceil(selectionView.frame.origin.x - knobSide / 2.0)
+      let x = ceil(selectionView.frame.origin.x - knobSide / 2.0) + 1.0
       leftKnobView.frame = CGRect(x: x, y: y, width: knobSide, height: knobSide)
       
       // layout right knob view
@@ -82,8 +85,8 @@ public class TextContainerView: NSView, TextAnnotation {
       
       // layout scale knob view
       let x2 = selectionView.frame.size.width / 2.0
-      let y2 = selectionView.frame.size.height + (knobSide + lineWidth) / 2.0
-      scaleKnobView.frame = CGRect(x: x2, y: y2, width: knobSide, height: knobSide)
+      let y2 = selectionView.frame.size.height + (scaleKnobSide + lineWidth) / 2.0  - 1.0
+      scaleKnobView.frame = CGRect(x: x2, y: y2, width: scaleKnobSide, height: scaleKnobSide)
     }
   }
   
@@ -142,8 +145,8 @@ public class TextContainerView: NSView, TextAnnotation {
     return selectionView
   }()
   
-  let leftKnobView = TextKnobView(strokeColor: .white, fillColor: #colorLiteral(red: 1, green: 0.3803921569, blue: 0, alpha: 1))
-  let rightKnobView = TextKnobView(strokeColor: .white, fillColor: #colorLiteral(red: 1, green: 0.3803921569, blue: 0, alpha: 1))
+  let leftKnobView = TextKnobView(strokeColor: #colorLiteral(red: 0.6941176471, green: 0.6941176471, blue: 0.6941176471, alpha: 1), fillColor: #colorLiteral(red: 1, green: 0.3803921569, blue: 0, alpha: 1))
+  let rightKnobView = TextKnobView(strokeColor: #colorLiteral(red: 0.6941176471, green: 0.6941176471, blue: 0.6941176471, alpha: 1), fillColor: #colorLiteral(red: 1, green: 0.3803921569, blue: 0, alpha: 1))
   let scaleKnobView = TextKnobView(strokeColor: .white, fillColor: #colorLiteral(red: 1, green: 0.3803921569, blue: 0, alpha: 1))
   
   private var decoratorViews: [NSView] = []
