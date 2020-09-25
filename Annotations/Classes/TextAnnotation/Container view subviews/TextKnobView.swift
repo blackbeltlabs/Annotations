@@ -15,24 +15,23 @@ class TextKnobView: NSView {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
-  // MARK: - Overriden
-  override var wantsDefaultClipping: Bool {
-      false
-  }
 
   // MARK: - Draw
   override func draw(_ dirtyRect: NSRect) {
     super.draw(dirtyRect)
     
-    wantsLayer = true
-    layer?.masksToBounds = false
+    let lineWidth: CGFloat = 1.0
+
+    // need add inset here to ensure that drawn oval will not be clipped
+    // as layer.masksToBounds didn't help to solve this problem
+    let ovalRect = dirtyRect.insetBy(dx: lineWidth / 2,
+                                     dy: lineWidth / 2)
     
-    let path = NSBezierPath(ovalIn: dirtyRect)
+    let path = NSBezierPath(ovalIn: ovalRect)
     fillColor.setFill()
     path.fill()
     
-    path.lineWidth = 1
+    path.lineWidth = lineWidth
     strokeColor.setStroke()
     path.stroke()
   }

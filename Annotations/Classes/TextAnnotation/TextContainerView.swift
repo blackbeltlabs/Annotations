@@ -24,7 +24,7 @@ public struct DecoratorStyleParams {
   public let knobSide: CGFloat
   
   static var defaultParams = DecoratorStyleParams(selectionLineWidth: 3.0,
-                                                  knobSide: 11.0)
+                                                  knobSide: 12.0)
 }
 
 public protocol ActivateResponder: class {
@@ -238,6 +238,14 @@ public class TextContainerView: NSView, TextAnnotation {
     
     decoratorViews = [selectionView, leftKnobView, rightKnobView, scaleKnobView]
     
+    if debugMode {
+      [leftKnobView, rightKnobView, scaleKnobView].forEach { (knobView) in
+        knobView.wantsLayer = true
+        knobView.layer?.borderWidth = 1.0
+        knobView.layer?.borderColor = NSColor.blue.cgColor
+      }
+    }
+    
     updateParts(with: .inactive, oldValue: nil)
     
     textView.delegate = self
@@ -424,7 +432,6 @@ public class TextContainerView: NSView, TextAnnotation {
   public override func mouseUp(with event: NSEvent) {
     mouseEventsHandler.mouseUp(with: event)
   }
-  
   
   public override func mouseMoved(with event: NSEvent) {
     mouseEventsHandler.mouseMoved(with: event)
