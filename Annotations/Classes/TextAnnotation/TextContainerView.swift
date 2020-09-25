@@ -239,6 +239,16 @@ public class TextContainerView: NSView, TextAnnotation {
     textView.delegate = self
   }
   
+  public override func hitTest(_ point: NSPoint) -> NSView? {
+    let convertedPoint = convert(point, from: superview)
+
+    if state == .inactive {
+      return textView.frame.contains(convertedPoint) ? super.hitTest(point) : nil
+    } else {
+      return super.hitTest(point)
+    }
+  }
+  
   func setupGestureRecognizers() {
     singleClickGestureRecognizer = NSClickGestureRecognizer(target: self,
                                                             action: #selector(self.singleClickGestureHandle(_:)))
