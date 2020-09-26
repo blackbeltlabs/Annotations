@@ -65,27 +65,30 @@ public class TextContainerView: NSView, TextAnnotation {
       // layout text view
       textView.frame = bounds.insetBy(dx: inset.dx, dy: inset.dy)
       
+      let selectionViewInset = CGVector(dx: inset.dx / 2.0,
+                                        dy: inset.dy / 2.0)
+      
       // layout selectionView frame
-      selectionView.frame = bounds.insetBy(dx: inset.dx / 2.0,
-                                           dy: inset.dy / 2.0)
+      selectionView.frame = bounds.insetBy(dx: selectionViewInset.dx,
+                                           dy: selectionViewInset.dy)
 
       let knobSide: CGFloat = decParams.knobSide
       let lineWidth: CGFloat = decParams.selectionLineWidth
       let scaleKnobSide: CGFloat = decParams.scaleKnobSide
       
       // layout left knob view
-      let y = selectionView.frame.size.height / 2.0 + knobSide / 2.0
-      let x = ceil(selectionView.frame.origin.x - knobSide / 2.0) + 1.0
+      let y = selectionViewInset.dy + selectionView.frame.size.height / 2.0 - knobSide / 2.0
+      let x = selectionView.frame.origin.x - knobSide / 2.0 + lineWidth / 4.0
       leftKnobView.frame = CGRect(x: x, y: y, width: knobSide, height: knobSide)
       
       // layout right knob view
-      let y1 = ceil(selectionView.frame.size.height / 2.0 + knobSide / 2.0)
-      let x1 = ceil(selectionView.frame.size.width) + 0.5
+      let y1 = y
+      let x1 = frame.width - selectionViewInset.dx - knobSide / 2.0 - lineWidth / 4.0
       rightKnobView.frame = CGRect(x: x1, y: y1, width: knobSide, height: knobSide)
       
       // layout scale knob view
       let x2 = selectionView.frame.size.width / 2.0
-      let y2 = selectionView.frame.size.height + (scaleKnobSide + lineWidth) / 2.0  - 2.0
+      let y2 = frame.height - selectionViewInset.dy - scaleKnobSide / 2.0  - lineWidth / 4.0
       scaleKnobView.frame = CGRect(x: x2, y: y2, width: scaleKnobSide, height: scaleKnobSide)
     }
   }
@@ -498,39 +501,3 @@ extension TextContainerView: NSTextViewDelegate {
     delegate?.textAnnotationDidEdit(textAnnotation: self)
   }
 }
-
-
-// MARK: - Previews
-#if canImport(SwiftUI)
-import SwiftUI
-
-@available(OSX 10.15.0, *)
-struct TextContainerViewPreview: NSViewRepresentable {
-  func makeNSView(context: Context) -> NSView {
-    
-    let view = NSView()
-    let textContainerView = TextContainerView(frame: NSRect(x: 0, y: 0, width: 300, height: 300))
-    textContainerView.translatesAutoresizingMaskIntoConstraints = false
-
-    view.addSubview(textContainerView)
-    textContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-    textContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-    textContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    textContainerView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-    
-    return view
-  }
-
-  func updateNSView(_ view: NSViewType, context: Context) {
-    
-  }
-}
-
-@available(OSX 10.15.0, *)
-struct TextContainerView_Previews: PreviewProvider {
-    static var previews: some View {
-      TextContainerViewPreview()
-        .previewLayout(.fixed(width: 300, height: 300))
-    }
-}
-#endif
