@@ -63,6 +63,7 @@ public class TextContainerView: NSView, TextAnnotation {
        
       // layout text view
       textView.frame = bounds.insetBy(dx: inset.dx, dy: inset.dy)
+      legibilityTextView.frame = textView.frame
       
       let selectionViewInset = CGVector(dx: inset.dx / 2.0,
                                         dy: inset.dy / 2.0)
@@ -100,6 +101,7 @@ public class TextContainerView: NSView, TextAnnotation {
   public var text: String {
     set {
       textView.string = newValue
+      legibilityTextView.string = newValue
       // calculate new frame on text updates and update text view and other views frames
       textFrameTransformer.updateSize(for: newValue)
     }
@@ -134,6 +136,12 @@ public class TextContainerView: NSView, TextAnnotation {
   
   lazy var textView: TextView = {
     let textView = TextView(frame: .zero)
+    textView.translatesAutoresizingMaskIntoConstraints = false
+    return textView
+  }()
+  
+  lazy var legibilityTextView: LegibilityTextView = {
+    let textView = LegibilityTextView(frame: .zero)
     textView.translatesAutoresizingMaskIntoConstraints = false
     return textView
   }()
@@ -198,18 +206,12 @@ public class TextContainerView: NSView, TextAnnotation {
       layer?.borderWidth = 1.0
     }
     
+    addSubview(legibilityTextView)
     addSubview(textView)
     
-    textView.translatesAutoresizingMaskIntoConstraints = false
-                                         
-    textView.alignment = .natural
-    textView.backgroundColor = NSColor.clear
-    textView.isRichText = false
-    textView.usesRuler = false
-    textView.usesFontPanel = false
-    textView.drawsBackground = false
-    textView.isVerticallyResizable = true
- 
+    setupTextView(textView)
+    setupTextView(legibilityTextView)
+    
     if debugMode {
       textView.wantsLayer = true
       textView.layer?.borderColor = NSColor.green.cgColor
@@ -224,6 +226,21 @@ public class TextContainerView: NSView, TextAnnotation {
     }
         
     textView.updateTypingAttributes(textAttributes)
+  
+    legibilityTextView.updateTypingAttributes(textAttributes)
+    
+    if let font = textAttributes[.font] as? NSFont {
+      legibilityTextView.font = font
+    }
+    
+    if debugMode {
+      legibilityTextView.wantsLayer = true
+      legibilityTextView.layer?.borderColor = NSColor.orange.cgColor
+      legibilityTextView.layer?.borderWidth = 1.0
+    }
+      
+    legibilityTextView.isEditable = false
+    legibilityTextView.isSelectable = false
     
     addSubview(selectionView)
     leftKnobView.translatesAutoresizingMaskIntoConstraints = false
@@ -251,6 +268,18 @@ public class TextContainerView: NSView, TextAnnotation {
     updateParts(with: .inactive, oldValue: nil)
     
     textView.delegate = self
+  }
+  
+  func setupTextView(_ textView: NSTextView) {
+    textView.translatesAutoresizingMaskIntoConstraints = false
+                                         
+    textView.alignment = .natural
+    textView.backgroundColor = NSColor.clear
+    textView.isRichText = false
+    textView.usesRuler = false
+    textView.usesFontPanel = false
+    textView.drawsBackground = false
+    textView.isVerticallyResizable = true
   }
 
   func setupGestureRecognizers() {
@@ -443,5 +472,7 @@ extension TextContainerView: NSTextViewDelegate {
     textFrameTransformer.updateSize(for: textView.string)
     
     delegate?.textAnnotationDidEdit(textAnnotation: self)
+    
+    legibilityTextView.string = textView.string
   }
 }

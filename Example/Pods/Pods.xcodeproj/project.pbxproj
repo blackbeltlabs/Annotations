@@ -27,6 +27,7 @@
 		62F06D5047B629C0EC1D9B3CC3F9C053 /* Pods-Annotations_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB4EF5BC8E3AC2302538CC760D56C5 /* Pods-Annotations_Tests-dummy.m */; };
 		6F7AF10F6484FB760F3FA2D7A50476FA /* TextAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FA9673FA95430D25351FC442B3A496 /* TextAnnotation.swift */; };
 		6FB34F0E251F4207000DE9A6 /* TextFrameTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB34F0D251F4207000DE9A6 /* TextFrameTransformer.swift */; };
+		6FB34F26251F5DBE000DE9A6 /* LegibilityTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB34F25251F5DBE000DE9A6 /* LegibilityTextView.swift */; };
 		77368A27BCA1230FE1AD23E2536DA3FD /* TextAnnotationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA9B835C97EA133473871AD7B214509 /* TextAnnotationDelegate.swift */; };
 		8108C78A11DE61B993435C80A5749450 /* TextParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B3C4A2362396EB514A1FC61F33E629 /* TextParams.swift */; };
 		8D3E2BE361F2405D8D3943D45E11CB38 /* ArrowCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A336C433A00B081E3D1B02F30CB5AC /* ArrowCanvas.swift */; };
@@ -118,6 +119,7 @@
 		61A336C433A00B081E3D1B02F30CB5AC /* ArrowCanvas.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ArrowCanvas.swift; sourceTree = "<group>"; };
 		6A391360EBC4D8451A58B44F9EF061DE /* Pods-Annotations_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Annotations_Example-umbrella.h"; sourceTree = "<group>"; };
 		6FB34F0D251F4207000DE9A6 /* TextFrameTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFrameTransformer.swift; sourceTree = "<group>"; };
+		6FB34F25251F5DBE000DE9A6 /* LegibilityTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegibilityTextView.swift; sourceTree = "<group>"; };
 		7405D0D5297CF12530A84BBD8093012D /* CanvasViewClass.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CanvasViewClass.swift; sourceTree = "<group>"; };
 		74FEC23ED4A956EF7AA85CB934F78D72 /* Pods-Annotations_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Annotations_Example-dummy.m"; sourceTree = "<group>"; };
 		752ECCAB8DDDE9E1D2FCF2CDF60D507A /* Annotations.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = Annotations.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -235,6 +237,7 @@
 				EC89E67935431D3A0EC35EF66150F710 /* Container view subviews */,
 				77163797934995ACEF58C38867535E18 /* Dependencies */,
 				9C942B199B78C39C9786DE7A627922D0 /* Helpers */,
+				6FB34F25251F5DBE000DE9A6 /* LegibilityTextView.swift */,
 			);
 			name = TextAnnotation;
 			path = Annotations/Classes/TextAnnotation;
@@ -638,6 +641,7 @@
 				95CB45119F2E589269E65D582A719ECA /* ObfuscateView.swift in Sources */,
 				A1BA570B37936D32EE6EE0615E08BFB9 /* PenCanvas.swift in Sources */,
 				980A7200D6C8EF8CF8A591F57564F586 /* PenModel.swift in Sources */,
+				6FB34F26251F5DBE000DE9A6 /* LegibilityTextView.swift in Sources */,
 				D977EB1637741AF5D14031428CF26F20 /* PenView.swift in Sources */,
 				E671C64B8F04B8A0D087D4912946AEB7 /* PointModel.swift in Sources */,
 				2CBAFE754152ADCDE2F3F8F6C8F39BB0 /* RectCanvas.swift in Sources */,
