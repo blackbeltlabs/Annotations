@@ -9,7 +9,7 @@ class LegibilityTextView: NSTextView {
     let baseLineWidthSize: CGFloat = 8.0
     let baseFontSize: CGFloat = 30.0
           
-    let c = NSGraphicsContext.current?.cgContext
+    guard let ctx = NSGraphicsContext.current?.cgContext else { return }
     
     let lineWidth: CGFloat
     if let font = font {
@@ -18,9 +18,9 @@ class LegibilityTextView: NSTextView {
       lineWidth = baseLineWidthSize
     }
 
-    c!.setLineWidth(lineWidth)
-    c!.setLineJoin(.round)
-    c!.setTextDrawingMode(.stroke)
+    ctx.setLineWidth(lineWidth)
+    ctx.setLineJoin(.round)
+    ctx.setTextDrawingMode(.stroke)
     textColor = .white
     
     super.draw(dirtyRect)
