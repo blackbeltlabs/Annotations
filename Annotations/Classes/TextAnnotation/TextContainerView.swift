@@ -129,7 +129,13 @@ public class TextContainerView: NSView, TextAnnotation {
   }
   
   var font: NSFont? {
-    textView.font
+    set {
+      textView.font = newValue
+      legibilityTextView.font = newValue
+    }
+    get {
+      textView.font
+    }
   }
   
   // MARK: - Views
@@ -140,9 +146,11 @@ public class TextContainerView: NSView, TextAnnotation {
     return textView
   }()
   
-  lazy var legibilityTextView: LegibilityTextView = {
+  private lazy var legibilityTextView: LegibilityTextView = {
     let textView = LegibilityTextView(frame: .zero)
     textView.translatesAutoresizingMaskIntoConstraints = false
+    textView.isEditable = false
+    textView.isSelectable = false
     return textView
   }()
   
@@ -212,12 +220,6 @@ public class TextContainerView: NSView, TextAnnotation {
     setupTextView(textView)
     setupTextView(legibilityTextView)
     
-    if debugMode {
-      textView.wantsLayer = true
-      textView.layer?.borderColor = NSColor.green.cgColor
-      textView.layer?.borderWidth = 1.0
-    }
-    
     // attributes
     let textAttributes = textParams.attributes
     
@@ -226,21 +228,11 @@ public class TextContainerView: NSView, TextAnnotation {
     }
         
     textView.updateTypingAttributes(textAttributes)
-  
-    legibilityTextView.updateTypingAttributes(textAttributes)
     
+    // only font needs to be set for legibility view
     if let font = textAttributes[.font] as? NSFont {
       legibilityTextView.font = font
     }
-    
-    if debugMode {
-      legibilityTextView.wantsLayer = true
-      legibilityTextView.layer?.borderColor = NSColor.orange.cgColor
-      legibilityTextView.layer?.borderWidth = 1.0
-    }
-      
-    legibilityTextView.isEditable = false
-    legibilityTextView.isSelectable = false
     
     addSubview(selectionView)
     leftKnobView.translatesAutoresizingMaskIntoConstraints = false
@@ -280,6 +272,12 @@ public class TextContainerView: NSView, TextAnnotation {
     textView.usesFontPanel = false
     textView.drawsBackground = false
     textView.isVerticallyResizable = true
+    
+    if debugMode {
+      textView.wantsLayer = true
+      textView.layer?.borderColor = NSColor.green.cgColor
+      textView.layer?.borderWidth = 1.0
+    }
   }
 
   func setupGestureRecognizers() {

@@ -65,8 +65,7 @@ class TextFrameTransformer {
     let font = fontSizeHelper.fontFittingText(textView.string,
                                               in: textView.textBoundingBox.size,
                                               fontDescriptor: textView.font!.fontDescriptor)
-    textView.font = font
-    textContainerView?.legibilityTextView.font = font
+    textContainerView?.font = font
   }
   
   
