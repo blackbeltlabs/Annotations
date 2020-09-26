@@ -41,15 +41,14 @@ public class TextContainerView: NSView, TextAnnotation {
   weak var activateResponder: ActivateResponder?
  
   // MARK: - Helpers and handlers
-  private let stringSizeHelper = StringSizeHelper()
-  private let fontSizeHelper = FontSizeHelper()
   private let mouseEventsHandler = MouseEventsHandler()
+  private let textFrameTransformer = TextFrameTransformer()
   private let historyTrackingHelper = HistoryTrackingHelper()
 
   // MARK: - Properties
   
   // textView inset inside text container view
-  private let inset = CGVector(dx: 15.0, dy: 25.0)
+  let inset = CGVector(dx: 15.0, dy: 25.0)
   
   // Decorating params (for the active state when SelectionView and knobs are visible)
   let decParams = DecoratorStyleParams.defaultParams
@@ -102,9 +101,7 @@ public class TextContainerView: NSView, TextAnnotation {
     set {
       textView.string = newValue
       // calculate new frame on text updates and update text view and other views frames
-      let size = stringSizeHelper.bestSizeWithAttributes(for: newValue,
-                                                         attributes: textView.typingAttributes)
-      updateTextViewSize(size: size)
+      textFrameTransformer.updateSize(for: newValue)
     }
     get {
       textView.string
@@ -171,7 +168,6 @@ public class TextContainerView: NSView, TextAnnotation {
   var debugMode: Bool = false
   
   // MARK: - Init
-  
   override init(frame frameRect: NSRect) {
     super.init(frame: frameRect)
     performSubfieldsInit(frameRect: frameRect, textParams: TextParams.defaultFont())
@@ -192,7 +188,6 @@ public class TextContainerView: NSView, TextAnnotation {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
   
   // MARK: - Initial setup
   func performSubfieldsInit(frameRect: CGRect, textParams: TextParams) {
@@ -241,6 +236,7 @@ public class TextContainerView: NSView, TextAnnotation {
     setupGestureRecognizers()
 
     mouseEventsHandler.textContainerView = self
+    textFrameTransformer.textContainerView = self
     
     decoratorViews = [selectionView, leftKnobView, rightKnobView, scaleKnobView]
     
@@ -256,17 +252,7 @@ public class TextContainerView: NSView, TextAnnotation {
     
     textView.delegate = self
   }
-  
-  public override func hitTest(_ point: NSPoint) -> NSView? {
-    let convertedPoint = convert(point, from: superview)
 
-    if state == .inactive {
-      return textView.frame.contains(convertedPoint) ? super.hitTest(point) : nil
-    } else {
-      return super.hitTest(point)
-    }
-  }
-  
   func setupGestureRecognizers() {
     singleClickGestureRecognizer = NSClickGestureRecognizer(target: self,
                                                             action: #selector(self.singleClickGestureHandle(_:)))
@@ -279,15 +265,19 @@ public class TextContainerView: NSView, TextAnnotation {
     self.addGestureRecognizer(doubleClickGestureRecognizer)
   }
   
-  
-  // all updates of text view size should be done through this method
-  
-  // MARK: UI updates
-  func updateTextViewSize(size: CGSize) {
-    self.frame.size.width = size.width + inset.dx * 2
-    self.frame.size.height = size.height + inset.dy * 2
+  // MARK: - Hit test
+  public override func hitTest(_ point: NSPoint) -> NSView? {
+    let convertedPoint = convert(point, from: superview)
+
+    if state == .inactive {
+      return textView.frame.contains(convertedPoint) ? super.hitTest(point) : nil
+    } else {
+      return super.hitTest(point)
+    }
   }
   
+  // MARK: - State changes
+
   func updateParts(with editingState: TextAnnotationEditingState,
                    oldValue: TextAnnotationEditingState?) {
     guard editingState != oldValue else { return }
@@ -329,73 +319,28 @@ public class TextContainerView: NSView, TextAnnotation {
   }
     
   // MARK: - Transform
+  
+  // just redirect events to text frame transformer here
   func resize(distance: CGFloat, type: ResizeType) {
-    let offset: CGFloat = type == .rightToLeft ? distance * -1.0 : distance
-    
-    let width = textView.frame.size.width - offset
-
-    if width < 50.0 {
-      return
-    }
-
-    if type == .leftToRight {
-      self.frame.origin.x += offset
-    }
-    
-    let height = stringSizeHelper.getHeightAttr(for: textView.attributedString(),
-                                                width: width - textView.textContainer!.lineFragmentPadding * 2.0)
-    updateTextViewSize(size: CGSize(width: width,
-                                    height: height))
+    textFrameTransformer.resize(distance: distance, type: type)
   }
   
   func scale(distance: CGFloat) {
-    let height = textView.frame.size.height - distance
-    
-    if height < 10.0 {
-      return
-    }
-    
-    let width = textView.frame.size.width
-    
-    updateTextViewSize(size: CGSize(width: width,
-                                    height: height))
-    
-    let font = fontSizeHelper.fontFittingText(textView.string,
-                                              in: textView.textBoundingBox.size,
-                                              fontDescriptor: textView.font!.fontDescriptor)
-    textView.font = font
+    textFrameTransformer.scale(distance: distance)
   }
   
   
   func move(difference: CGSize) {
-    frame.origin.x += difference.width
-    
-    // need minus here because the current view is flipped whereas the position from window is Mac OS native
-    frame.origin.y -= difference.height
+    textFrameTransformer.move(difference: difference)
   }
   
   // MARK: - Frame updates
   func reduceWidthIfNeeded() {
-    var newWidth = stringSizeHelper.getWidthAttr(for: textView.attributedString(),
-                                                 height: textView.frame.size.height)
-    
-    newWidth += textView.textContainer!.lineFragmentPadding * 2.0
-    
-    // text view width need to be reduced only if a new width is less than the current one
-    if newWidth < textView.frame.size.width {
-      updateTextViewSize(size: CGSize(width: newWidth,
-                                      height: textView.frame.size.height))
-    }
+    textFrameTransformer.reduceWidthIfNeeded()
   }
   
   func reduceHeightIfNeeded() {
-    let newHeight = stringSizeHelper.getHeightAttr(for: textView.attributedString(),
-                                                   width: textView.frame.size.width)
-    
-    if newHeight < textView.frame.size.height {
-      updateTextViewSize(size: CGSize(width:  textView.frame.size.width + textView.textContainer!.lineFragmentPadding * 2.0,
-                                      height: newHeight))
-    }
+    textFrameTransformer.reduceHeightIfNeeded()
   }
   
   // MARK: - Mouse events
@@ -486,17 +431,16 @@ public class TextContainerView: NSView, TextAnnotation {
     if modelable.frame.size.width != 0 && modelable.frame.size.height != 0 {
       self.frame = modelable.frame
     }
-    
   }
+  
 }
 
 // MARK: - NSTextViewDelegate
 extension TextContainerView: NSTextViewDelegate {
   public func textDidChange(_ notification: Notification) {
     guard let textView = notification.object as? NSTextView else { return }
-    let size = stringSizeHelper.bestSizeWithAttributes(for: textView.string,
-                                                       attributes: textView.typingAttributes)
-    updateTextViewSize(size: size)
+   
+    textFrameTransformer.updateSize(for: textView.string)
     
     delegate?.textAnnotationDidEdit(textAnnotation: self)
   }
