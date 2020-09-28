@@ -48,9 +48,7 @@ public struct TextParams: Codable, Equatable {
   
   public static func defaultFont() -> TextParams {
     TextParams(fontName: "HelveticaNeue-Bold",
-               fontSize: 30.0,
-               outlineWidth: -1.5,
-               outlineColor: ModelColor(red: 1, green: 1, blue: 1, alpha: 1))
+               fontSize: 30.0)
   }
   
   public static func randomFont() -> TextParams {
