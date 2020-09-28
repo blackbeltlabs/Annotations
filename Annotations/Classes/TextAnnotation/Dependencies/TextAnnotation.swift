@@ -1,6 +1,6 @@
 import Cocoa
 
-public protocol TextAnnotationUpdateDelegate {
+public protocol TextAnnotationUpdateDelegate: class {
   func textAnnotationUpdated(textAnnotation: TextAnnotation,
                              modelable: TextAnnotationModelable)
 }

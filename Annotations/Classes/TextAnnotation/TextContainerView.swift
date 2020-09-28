@@ -1,137 +1,112 @@
 import Cocoa
 
-public enum TextAnnotationState {
+enum ResizeType {
+  case rightToLeft
+  case leftToRight
+}
+
+enum TextAnnotationTransformState {
+  case move
+  case resize(type: ResizeType)
+  case scale
+}
+
+public enum TextAnnotationEditingState {
   case inactive
   case active
   case editing
-  case resizeRight
-  case resizeLeft
-  case dragging
-  case scaling
+}
+
+public typealias TextAnnotationState = TextAnnotationEditingState
+
+public struct DecoratorStyleParams {
+  public let selectionLineWidth: CGFloat
+  public let knobSide: CGFloat
+  public let scaleKnobSide: CGFloat
+  
+  static var defaultParams = DecoratorStyleParams(selectionLineWidth: 4.0,
+                                                  knobSide: 11.0,
+                                                  scaleKnobSide: 12.0)
 }
 
 public protocol ActivateResponder: class {
   func textViewDidActivate(_ activeItem: Any?)
 }
 
-open class TextContainerView: NSView {
-  public var delegate: TextAnnotationDelegate?
-  public var textUpdateDelegate: TextAnnotationUpdateDelegate?
-  
-  public var state: TextAnnotationState = .inactive {
-    didSet {
-      guard state != oldValue, let theTextView = textView else { return }
-      
-      var isActive: Bool = false
-      
-      if state == .editing {
-        textSnapshot = text
-        delegate?.textAnnotationDidStartEditing(textAnnotation: self)
-      }
-      
-      if oldValue == .editing {
-				if textSnapshot != text, text != "" {
-          notifyAboutTextAnnotationUpdates()
-				}
-				
-        delegate?.textAnnotationDidEndEditing(textAnnotation: self)
-      }
-      
-      if state == .inactive {
-        let selected = theTextView.selectedRange().upperBound
-        let range = NSRange(location: selected == 0 ? theTextView.string.count : selected, length: 0)
-        
-        theTextView.setSelectedRange(range)
-        theTextView.isEditable = false
-        doubleClickGestureRecognizer.isEnabled = !theTextView.isEditable
-        
-        delegate?.textAnnotationDidDeselect(textAnnotation: self)
-        theTextView.window?.resignFirstResponder()
-      } else {
-        if state == .scaling {
-          theTextView.calculateScaleRatio()
-        }
-        
-        isActive = true
-        
-        if let responder = activateResponder {
-          responder.textViewDidActivate(self)
-        }
-      }
-      
-      singleClickGestureRecognizer.isEnabled = state == .inactive
-      
-      theTextView.isSelectable = isActive
-      
-      backgroundView.isHidden = !isActive
-      backgroundView.display()
-      
-      if let tally = leftTally {
-        tally.isHidden = !isActive
-      }
-
-      if let tally = rightTally {
-        tally.isHidden = !isActive
-      }
-
-      if let tally = scaleTally {
-        tally.isHidden = !isActive
-        tally.display()
-      }
-            
-      // should disable is active state to ensure that correct cursor is shown
-      if state == .active {
-        textView.isEditable = false
-        textView.isSelectable = false
-      }
-    }
-  }
-  
-  var isMoving: Bool = false {
-    didSet {
-      leftTally?.isEnabled = !isMoving
-      rightTally?.isEnabled = !isMoving
-      scaleTally?.isEnabled = !isMoving
-    }
-  }
-  
+public class TextContainerView: NSView, TextAnnotation {
+    
+  // MARK: - Dependencies
+  public weak var delegate: TextAnnotationDelegate?
+  public weak var textUpdateDelegate: TextAnnotationUpdateDelegate?
   weak var activateResponder: ActivateResponder?
-  weak var activeAreaResponder: MouseTrackingResponder?
+ 
+  // MARK: - Helpers and handlers
+  private let mouseEventsHandler = MouseEventsHandler()
+  private let textFrameTransformer = TextFrameTransformer()
+  private let historyTrackingHelper = HistoryTrackingHelper()
+
+  // MARK: - Properties
   
-  public var text: String {
-    get {
-      return textView.string
-    }
-    set {
-      guard let theTextView = textView else { return }
-      theTextView.string = newValue
-      updateFrameWithText(theTextView.string)
-      textSnapshot = newValue
+  // textView inset inside text container view
+  let inset = CGVector(dx: 15.0, dy: 25.0)
+  
+  // Decorating params (for the active state when SelectionView and knobs are visible)
+  let decParams = DecoratorStyleParams.defaultParams
+  
+  // set flipped layout for subviews to simplify work with text view resizing
+  public override var isFlipped: Bool { true }
+
+  // layout all subviews on frame update
+  public override var frame: NSRect {
+    didSet {
+      guard frame.height > 0 else { return }
+       
+      // layout text view
+      textView.frame = bounds.insetBy(dx: inset.dx, dy: inset.dy)
+      
+      let selectionViewInset = CGVector(dx: inset.dx / 2.0,
+                                        dy: inset.dy / 2.0)
+      
+      // layout selectionView frame
+      selectionView.frame = bounds.insetBy(dx: selectionViewInset.dx,
+                                           dy: selectionViewInset.dy)
+
+      let knobSide: CGFloat = decParams.knobSide
+      let lineWidth: CGFloat = decParams.selectionLineWidth
+      let scaleKnobSide: CGFloat = decParams.scaleKnobSide
+      
+      // layout left knob view
+      let y = selectionViewInset.dy + selectionView.frame.size.height / 2.0 - knobSide / 2.0
+      let x = selectionView.frame.origin.x - knobSide / 2.0 + lineWidth / 4.0
+      leftKnobView.frame = CGRect(x: x, y: y, width: knobSide, height: knobSide)
+      
+      // layout right knob view
+      let y1 = y
+      let x1 = frame.width - selectionViewInset.dx - knobSide / 2.0 - lineWidth / 4.0
+      rightKnobView.frame = CGRect(x: x1, y: y1, width: knobSide, height: knobSide)
+      
+      // layout scale knob view
+      let x2 = selectionView.frame.size.width / 2.0
+      let y2 = frame.height - selectionViewInset.dy - scaleKnobSide / 2.0  - lineWidth / 4.0
+      scaleKnobView.frame = CGRect(x: x2, y: y2, width: scaleKnobSide, height: scaleKnobSide)
     }
   }
-  var leftTally: TextKnobView?
-  var rightTally: TextKnobView?
-  var scaleTally: TextKnobView?
   
-  // MARK: Private
+  // MARK: - Tracking area
   
-  private var backgroundView: SelectionView!
-  private var textView: TextView!
-  
-  private let kMinimalWidth: CGFloat = 25 + 2*Configuration.frameMargin + 2*Configuration.dotRadius
-  private let kMinimalHeight: CGFloat = 30
-  
-  private var singleClickGestureRecognizer: NSClickGestureRecognizer!
-  private var doubleClickGestureRecognizer: NSClickGestureRecognizer!
-  
-  private var lastMouseLocation: NSPoint?
-  private var lastMouseDownLocation: NSPoint?
-  private var textSnapshot: String = ""
-  
-  private var didMove = false
-  
-  private var cursorSet = CursorSet.shared
-  private var trackingArea: NSTrackingArea?
+  var trackingArea: NSTrackingArea?
+
+  // MARK: - Text view params
+  public var text: String {
+    set {
+      textView.string = newValue
+      // calculate new frame on text updates and update text view and other views frames
+      textFrameTransformer.updateSize(for: newValue)
+    }
+    get {
+      textView.string
+    }
+  }
   
   public var textColor: ModelColor {
     set {
@@ -140,12 +115,9 @@ open class TextContainerView: NSView {
       currentTypingAttributes[.foregroundColor] = nsColor
       textView.updateTypingAttributes(currentTypingAttributes)
       textView.insertionPointColor = nsColor
-      
       textView.needsDisplay = true
-
       notifyAboutTextAnnotationUpdates()
     }
-    
     get {
       guard let textViewNsColor = textView.textColor else {
         return ModelColor.defaultColor()
@@ -154,55 +126,97 @@ open class TextContainerView: NSView {
     }
   }
   
-  override open var frame: NSRect {
+  var font: NSFont? {
+    textView.font
+  }
+  
+  // MARK: - Views
+  
+  lazy var textView: TextView = {
+    let textView = TextView(frame: .zero)
+    textView.translatesAutoresizingMaskIntoConstraints = false
+    return textView
+  }()
+  
+  lazy var selectionView: SelectionView = {
+    let selectionView = SelectionView(strokeColor: #colorLiteral(red: 0.6941176471, green: 0.6941176471, blue: 0.6941176471, alpha: 1),
+                                      lineWidth: decParams.selectionLineWidth)
+    selectionView.translatesAutoresizingMaskIntoConstraints = false
+    return selectionView
+  }()
+  
+  let leftKnobView = TextKnobView(strokeColor: #colorLiteral(red: 0.6941176471, green: 0.6941176471, blue: 0.6941176471, alpha: 1), fillColor: #colorLiteral(red: 1, green: 0.3803921569, blue: 0, alpha: 1))
+  let rightKnobView = TextKnobView(strokeColor: #colorLiteral(red: 0.6941176471, green: 0.6941176471, blue: 0.6941176471, alpha: 1), fillColor: #colorLiteral(red: 1, green: 0.3803921569, blue: 0, alpha: 1))
+  let scaleKnobView = TextKnobView(strokeColor: .white, fillColor: #colorLiteral(red: 1, green: 0.3803921569, blue: 0, alpha: 1))
+  
+  private var decoratorViews: [NSView] = []
+  
+  // MARK: - Gesture recognizers
+  private var singleClickGestureRecognizer: NSClickGestureRecognizer!
+  private var doubleClickGestureRecognizer: NSClickGestureRecognizer!
+  
+  // MARK: - States
+  public var state: TextAnnotationState = .inactive {
     didSet {
-      updateSubviewsFrames(oldValue, frame: frame)
+      updateParts(with: self.state, oldValue: oldValue)
     }
   }
-    
-  // MARK: - Init
   
+  var transformState: TextAnnotationTransformState?
+  
+  // MARK: - Properties
+  var debugMode: Bool = false
+  
+  // MARK: - Init
   override init(frame frameRect: NSRect) {
     super.init(frame: frameRect)
-    performSubfieldsInit(frameRect: frameRect,
-                         textParams: TextParams.defaultFont())
-    self.text = ""
-  }
-  
-  required public init?(coder decoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+    performSubfieldsInit(frameRect: frameRect, textParams: TextParams.defaultFont())
   }
   
   public init(frame frameRect: NSRect, text: String, textParams: TextParams) {
     super.init(frame: frameRect)
-    performSubfieldsInit(frameRect: frameRect,
-                         textParams: textParams)
+    performSubfieldsInit(frameRect: frameRect, textParams: textParams)
     self.text = text
   }
-
-  init(modelable: TextAnnotationModelable) {
-    super.init(frame: modelable.frame)
-    performSubfieldsInit(frameRect: modelable.frame, textParams: modelable.style)
-    updateFrame(with: modelable)
+  
+  convenience init(modelable: TextAnnotationModelable) {
+    self.init(frame: modelable.frame,
+              text: modelable.text,
+              textParams: modelable.style)
   }
   
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  // MARK: - Initial setup
   func performSubfieldsInit(frameRect: CGRect, textParams: TextParams) {
-    let size = frameRect.size
     
-    backgroundView = SelectionView(frame: NSRect(origin: CGPoint.zero, size: size))
-    backgroundView.isHidden = true
-    self.addSubview(backgroundView)
+    if debugMode {
+      wantsLayer = true
+      layer?.borderColor = NSColor.black.cgColor
+      layer?.borderWidth = 1.0
+    }
     
-    textView = TextView(frame: NSRect.zero, responder: self)
+    addSubview(textView)
+    
+    textView.translatesAutoresizingMaskIntoConstraints = false
+                                         
     textView.alignment = .natural
     textView.backgroundColor = NSColor.clear
-    textView.isSelectable = false
     textView.isRichText = false
     textView.usesRuler = false
     textView.usesFontPanel = false
-    textView.isEditable = false
-    textView.isVerticallyResizable = false
+    textView.drawsBackground = false
+    textView.isVerticallyResizable = true
+ 
+    if debugMode {
+      textView.wantsLayer = true
+      textView.layer?.borderColor = NSColor.green.cgColor
+      textView.layer?.borderWidth = 1.0
+    }
     
+    // attributes
     let textAttributes = textParams.attributes
     
     if let color = textAttributes[.foregroundColor] as? NSColor {
@@ -210,369 +224,224 @@ open class TextContainerView: NSView {
     }
         
     textView.updateTypingAttributes(textAttributes)
-        
-    textView.delegate = self
     
-    singleClickGestureRecognizer = NSClickGestureRecognizer(target: self, action: #selector(self.singleClickGestureHandle(_:)))
+    addSubview(selectionView)
+    leftKnobView.translatesAutoresizingMaskIntoConstraints = false
+    rightKnobView.translatesAutoresizingMaskIntoConstraints = false
+    
+    addSubview(leftKnobView)
+    addSubview(rightKnobView)
+    addSubview(scaleKnobView)
+    
+    setupGestureRecognizers()
+
+    mouseEventsHandler.textContainerView = self
+    textFrameTransformer.textContainerView = self
+    
+    decoratorViews = [selectionView, leftKnobView, rightKnobView, scaleKnobView]
+    
+    if debugMode {
+      [leftKnobView, rightKnobView, scaleKnobView].forEach { (knobView) in
+        knobView.wantsLayer = true
+        knobView.layer?.borderWidth = 1.0
+        knobView.layer?.borderColor = NSColor.blue.cgColor
+      }
+    }
+    
+    updateParts(with: .inactive, oldValue: nil)
+    
+    textView.delegate = self
+  }
+
+  func setupGestureRecognizers() {
+    singleClickGestureRecognizer = NSClickGestureRecognizer(target: self,
+                                                            action: #selector(self.singleClickGestureHandle(_:)))
     self.addGestureRecognizer(singleClickGestureRecognizer)
     
-    doubleClickGestureRecognizer = NSClickGestureRecognizer(target: self, action: #selector(self.doubleClickGestureHandle(_:)))
+    doubleClickGestureRecognizer = NSClickGestureRecognizer(target: self,
+                                                            action: #selector(self.doubleClickGestureHandle(_:)))
     doubleClickGestureRecognizer.numberOfClicksRequired = 2
     doubleClickGestureRecognizer.numberOfTouchesRequired = 2
     self.addGestureRecognizer(doubleClickGestureRecognizer)
-    
-    addSubview(textView)
-    
-    // all frames here is zero, later we set it in updateSubviewsFrames()
-    let tallyFrame = NSRect.zero
-    var flipper = TextKnobView(type: .resizeLeftArea, responder: self, frameRect: tallyFrame)
-    flipper.isHidden = true
-    addSubview(flipper)
-    leftTally = flipper
-    
-    flipper = TextKnobView(type: .resizeRightArea, responder: self, frameRect: tallyFrame)
-    flipper.isHidden = true
-    addSubview(flipper)
-    rightTally = flipper
-    
-    let tally = TextKnobView(type: .scaleArea, responder: self, frameRect: tallyFrame)
-    tally.isHidden = true
-    addSubview(tally)
-    scaleTally = tally
-        
-    addTrackingAreas()
-    
   }
   
-  private func addTrackingAreas() {
-    let options: NSTrackingArea.Options = [.mouseEnteredAndExited, .activeAlways, .mouseMoved]
-    let trackingArea = NSTrackingArea(rect: self.bounds, options: options, owner: self, userInfo: nil)
-    self.addTrackingArea(trackingArea)
-  }
+  // MARK: - Hit test
+  public override func hitTest(_ point: NSPoint) -> NSView? {
+    let convertedPoint = convert(point, from: superview)
 
-
-  // MARK: - Mouse events
-  
-  open override func mouseEntered(with event: NSEvent) {
-    guard state == .active else {
-      super.mouseEntered(with: event)
-      return
+    if state == .inactive {
+      return textView.frame.contains(convertedPoint) ? super.hitTest(point) : nil
+    } else {
+      return super.hitTest(point)
     }
-  
-    updateMouseCursorForMovement(with: event)
-  }
-  
-  open override func mouseMoved(with event: NSEvent) {
-    guard state == .active else {
-      super.mouseMoved(with: event)
-      return
-    }
-    
-    updateMouseCursorForMovement(with: event)
-  }
-  
-  private func updateMouseCursorForMovement(with event: NSEvent) {
-    let mouseLocation = self.convert(event.locationInWindow, from: nil)
-    if backgroundView.currentSelectionFrame.contains(mouseLocation) {
-      cursorSet.moveCursor.set()
-    } else if !isMoving {
-      cursorSet.defaultCursor.set()
-    }
-  }
-  
-  open override func mouseDown(with event: NSEvent) {
-    let mouseLocation = self.convert(event.locationInWindow, from: nil)
-    let tmpState = mouseDownState(location: mouseLocation)
-    
-    // ignore if mouse pressed not inside the selection view
-    if tmpState == .active, !backgroundView.currentSelectionFrame.contains(mouseLocation) {
-      return
-    }
-    
-    state = tmpState
-    
-    if state == .active {
-      isMoving = true
-    }
-    
-    lastMouseLocation = event.locationInWindow
-    lastMouseDownLocation = event.locationInWindow
-    textView.makeFontSnapshot()
-  }
-  
-  open override func mouseDragged(with event: NSEvent) {
-    guard let difference = getDifference(with: event,
-                                         lastMouseLocation: lastMouseLocation) else {
-                                          return
-    }
-    
-    if difference.width > 0 || difference.height > 0 {
-      didMove = true
-    }
-    
-    self.lastMouseLocation = event.locationInWindow
-    
-    updateMouseCursorForMovement(with: event)
-    
-    switch state {
-    case .active:
-      move(difference: difference)
-    case .resizeLeft, .resizeRight:
-      resize(distance: difference.width, state: state)
-    case .scaling:
-      scale(difference: difference, state: state)
-      cursorSet.defaultCursor.set()
-    default: return
-    }
-  }
-  
-  open override func mouseUp(with event: NSEvent) {
-    addMouseUpEventToHistory(event: event,
-                             state: state)
-    state = .active
-    
-    if didMove {
-      delegate?.textAnnotationDidMove(textAnnotation: self)
-      didMove = false
-    }
-    
-    lastMouseLocation = nil
-    lastMouseDownLocation = nil
-    textView.deleteFontSnapshot()
-    
-    isMoving = false
-  }
-  
-  // MARK: - Gestures handlers
-  
-  @objc private func singleClickGestureHandle(_ gesture: NSClickGestureRecognizer) {
-    guard let theTextView = textView, !theTextView.isEditable else { return }
-    state = .active
-    
-    delegate?.textAnnotationDidSelect(textAnnotation: self)
-  }
-  
-  @objc private func doubleClickGestureHandle(_ gesture: NSClickGestureRecognizer) {
-    startEditing()
-  }
-  
-  // MARK: - Frame updating
-  
-  private func updateFrameWithText(_ string: String) {
-    guard let theTextView = textView else { return }
-    let center = CGPoint(x: NSMidX(frame), y: NSMidY(frame))
-    
-    var textFrame = theTextView.frameForWidth(CGFloat.greatestFiniteMagnitude, height: theTextView.bounds.height)
-    let width = max(textFrame.width + theTextView.twoSymbolsWidth, theTextView.bounds.width)
-    
-    // We should use minimal value to get height. Because of multiline.
-    let minWidth = min(textFrame.width + theTextView.twoSymbolsWidth, textView.bounds.width)
-    textFrame = theTextView.frameForWidth(minWidth, height: CGFloat.greatestFiniteMagnitude)
-    let height = textFrame.height
-    
-    // Now we know text label frame. We should calculate new self.frame and redraw all the subviews
-    textFrame = CGRect(
-      x: frame.minX,
-      y: center.y - height/2.0 - (Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding),
-      width: width + 2*(Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding),
-      height: height + 2*(Configuration.frameMargin + Configuration.horizontalTextPadding + Configuration.dotRadius)
-    )
-    
-    frame = textFrame
-  }
-  
-  private func updateSubviewsFrames(_ oldFrame: NSRect, frame: NSRect) {
-    if oldFrame.width == frame.width && oldFrame.height == frame.height {
-      return
-    }
-    
-    let size = frame.size
-    
-    backgroundView.frame = CGRect(origin: CGPoint.zero, size: size)
-    textView.frame = CGRect(
-      x: Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding,
-      y: Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding,
-      width: size.width - 2*(Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding),
-      height: size.height - 2 * (Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding)
-    )
-    
-    var tallyFrame = NSRect(origin: CGPoint(x: Configuration.padding - Configuration.knobSide / 2.0,
-                                            y: frame.height / 2.0 - Configuration.knobSide / 2.0),
-                            size: CGSize(width: Configuration.knobSide,
-                                         height: Configuration.knobSide))
-    if let tally = leftTally {
-      tally.frame = tallyFrame
-    }
-    
-    if let tally = rightTally {
-      tallyFrame.origin = CGPoint(x: frame.width - Configuration.padding - Configuration.knobSide / 2.0,
-                                  y: frame.height / 2.0 - Configuration.knobSide / 2.0)
-      tallyFrame.size = CGSize(width: Configuration.knobSide,
-                               height: Configuration.knobSide)
-      tally.frame = tallyFrame
-    }
-    
-    if let tally = scaleTally {
-      tallyFrame.origin = CGPoint(
-        x: size.width / 2 - Configuration.dotRadius,
-        y: Configuration.frameMargin)
-      tallyFrame.size = CGSize(
-        width: 2 * Configuration.dotRadius,
-        height: 2 * Configuration.dotRadius)
-      tally.frame = tallyFrame
-    }
-  }
-  
-  public func updateFrame(with action: TextAnnotationModelable) {
-    self.textView.resetFontSize()
-    
-    textView.updateTypingAttributes(action.style.attributes)
-
-    self.text = action.text
-    if action.frame.size.width != 0 && action.frame.size.height != 0 {
-      self.frame = action.frame.integral
-    }
-  }
-  
-  // MARK: - Helpers
-  
-  private func addMouseUpEventToHistory(event: NSEvent, state: TextAnnotationState) {
-    switch state {
-    case .active, .resizeLeft, .resizeRight, .dragging, .scaling:
-      notifyAboutTextAnnotationUpdates()
-    default:
-      break
-    }
-  }
-	
-	// MARK: - Undo / Redo helpers
-
-  private func getDifference(with event: NSEvent,
-                             lastMouseLocation: NSPoint?) -> CGSize? {
-    guard let lastMouseLocation = lastMouseLocation else {
-      return nil
-    }
-
-    let locationInWindow = event.locationInWindow
-    return CGSize(width: locationInWindow.x - lastMouseLocation.x,
-                  height: locationInWindow.y - lastMouseLocation.y)
   }
   
   // MARK: - State changes
+
+  func updateParts(with editingState: TextAnnotationEditingState,
+                   oldValue: TextAnnotationEditingState?) {
+    guard editingState != oldValue else { return }
+    
+    if oldValue == .editing {
+      
+      if historyTrackingHelper.textSnapshot != text, text != "" {
+        notifyAboutTextAnnotationUpdates()
+      }
+      
+      delegate?.textAnnotationDidEndEditing(textAnnotation: self)
+    }
+    
+    if editingState != .inactive {
+      activateResponder?.textViewDidActivate(self)
+    }
+    
+    doubleClickGestureRecognizer.isEnabled = editingState != .editing
+    
+    switch editingState {
+    case .inactive:
+      (textView.isEditable, textView.isSelectable) = (false, false)
+      decoratorViews.forEach { $0.isHidden = true  }
+      
+      delegate?.textAnnotationDidDeselect(textAnnotation: self)
+    case .active:
+      (textView.isEditable, textView.isSelectable) = (false, false)
+      decoratorViews.forEach { $0.isHidden = false }
+      delegate?.textAnnotationDidSelect(textAnnotation: self)
+    case .editing:
+      (textView.isEditable, textView.isSelectable) = (true, true)
+      textView.window?.makeFirstResponder(textView)
+      
+      historyTrackingHelper.makeTextSnapshot(text: text)
+      delegate?.textAnnotationDidStartEditing(textAnnotation: self)
+    }
+    
+    singleClickGestureRecognizer.isEnabled = editingState == .inactive
+  }
+    
+  // MARK: - Transform
+  
+  // just redirect events to text frame transformer here
+  func resize(distance: CGFloat, type: ResizeType) {
+    textFrameTransformer.resize(distance: distance, type: type)
+  }
+  
+  func scale(distance: CGFloat) {
+    textFrameTransformer.scale(distance: distance)
+  }
+  
   
   func move(difference: CGSize) {
-    var newFrame = frame
-    newFrame.origin = CGPoint(
-      x: frame.origin.x + difference.width,
-      y: frame.origin.y + difference.height
-    )
-    
-    frame = newFrame
+    textFrameTransformer.move(difference: difference)
   }
   
-  public func resize(distance: CGFloat, state: TextAnnotationState) {
-    guard state == .resizeRight || state == .resizeLeft else { return }
-    
-    var theFrame = frame
-    let delta = (state == .resizeRight ? 1 : -1) * distance
-    var width = theFrame.width + delta
-    width = width < kMinimalWidth ? kMinimalWidth : width
-    theFrame.size = CGSize(width: width, height: theFrame.height)
-    
-    if state == .resizeLeft {
-      // should move origin as well
-      theFrame.origin = CGPoint(x: theFrame.origin.x + distance, y: theFrame.origin.y)
+  // MARK: - Frame updates
+  func reduceWidthIfNeeded() {
+    textFrameTransformer.reduceWidthIfNeeded()
+  }
+  
+  func reduceHeightIfNeeded() {
+    textFrameTransformer.reduceHeightIfNeeded()
+  }
+  
+  // MARK: - Mouse events
+  
+  // add tracking area to be able to update cursors depending on view
+  public override func updateTrackingAreas() {
+    super.updateTrackingAreas()
+    if let trackingArea = trackingArea {
+      removeTrackingArea(trackingArea)
+      self.trackingArea = nil
     }
+    let options: NSTrackingArea.Options = [.activeAlways,
+                                           .mouseEnteredAndExited,
+                                           .mouseMoved]
     
-    // Here we have to check if text view frame has good size for such container size
-    let textFrame = textView.frameForWidth(theFrame.width - 2 * (Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding),
-                                           height: CGFloat.greatestFiniteMagnitude)
-    let diff_width = theFrame.width - (textFrame.width + 2 * (Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding) + textView.twoSymbolsWidth)
-    if diff_width < 0 {
-      let height = textFrame.height + 2 * (Configuration.frameMargin + Configuration.dotRadius + Configuration.horizontalTextPadding)
-      let centerY = theFrame.origin.y + theFrame.height/2
-      
-      theFrame.size = CGSize(width: theFrame.width, height: height)
-      theFrame.origin = CGPoint(x: theFrame.origin.x, y: centerY - height/2)
-    }
+    let trackingArea = NSTrackingArea(rect: bounds,
+                                      options: options,
+                                      owner: self,
+                                      userInfo: nil)
+    addTrackingArea(trackingArea)
     
-    frame = theFrame
+    self.trackingArea = trackingArea
   }
   
-  public func scale(difference: CGSize, state: TextAnnotationState) {
-    guard state == .scaling else { return }
-    
-    // we should scale it proportionally, driver of the mpvement is height difference
-    var height = frame.height - difference.height
-    var width = frame.width
-    
-    width = width < kMinimalWidth ? kMinimalWidth : width
-    height = height < kMinimalHeight ? kMinimalHeight : height
-    
-    frame = CGRect(origin: CGPoint(x: frame.origin.x, y: frame.origin.y + difference.height),
-                   size: CGSize(width: width, height: height)).integral
-    textView.resetFontSize()    
+  // need override this method for correct cursor work
+  public override func resetCursorRects() {
+    super.resetCursorRects()
+    mouseEventsHandler.cursorRectsReseted()
   }
   
-  public func mouseDownState(location: NSPoint) -> TextAnnotationState {
-    var state = TextAnnotationState.active // default state
-    if let tally = leftTally, tally.frame.contains(location) {
-      state = .resizeLeft
-    } else if let tally = rightTally, tally.frame.contains(location) {
-      state = .resizeRight
-    } else if let tally = scaleTally, tally.frame.contains(location) {
-      state = .scaling
-    }
-    
-    return state
+  open override func mouseDown(with event: NSEvent) {
+    mouseEventsHandler.mouseDown(with: event)
   }
   
-  private func notifyAboutTextAnnotationUpdates() {
+  open override func mouseDragged(with event: NSEvent) {
+    mouseEventsHandler.mouseDragged(with: event)
+    self.window?.invalidateCursorRects(for: self)
+  }
+  
+  public override func mouseUp(with event: NSEvent) {
+    mouseEventsHandler.mouseUp(with: event)
+  }
+  
+  public override func mouseMoved(with event: NSEvent) {
+    mouseEventsHandler.mouseMoved(with: event)
+  }
+  
+  public override func mouseExited(with event: NSEvent) {
+    mouseEventsHandler.mouseExited(with: event)
+  }
+  
+  // MARK: - Gestures handlers
+  @objc private func singleClickGestureHandle(_ gesture: NSClickGestureRecognizer) {
+    state = .active
+  }
+  
+  @objc private func doubleClickGestureHandle(_ gesture: NSClickGestureRecognizer) {
+    state = .editing
+  }
+  
+  // MARK: - History
+  
+  // by calling this method the current state of text annotation
+  // will be added to history in the delegate
+  func notifyAboutTextAnnotationUpdates() {
     let action = TextAnnotationAction(text: text,
                                       frame: frame,
                                       style: TextParams.textParams(from: textView.typingAttributes))
+    
     textUpdateDelegate?.textAnnotationUpdated(textAnnotation: self,
                                               modelable: action)
   }
   
+  // MARK: - Other
   public func updateColor(with color: NSColor) {
     textColor = color.annotationModelColor
   }
-}
-
-extension TextContainerView: NSTextViewDelegate {
-  open func textDidChange(_ notification: Notification) {
-    updateFrameWithText(textView.string)
-    delegate?.textAnnotationDidEdit(textAnnotation: self)
-  }
-}
-
-extension TextContainerView: ActivateResponder {
-  public func textViewDidActivate(_ activeItem: Any?) {
-    // After we reach the .editing state - we should not switch it back to .active, only on .inactive on complete edit
-    state = textView.isEditable ? .editing : .active
-  }
-}
-
-extension TextContainerView: MouseTrackingResponder {
-  public func areaDidActivated(_ area: TextAnnotationArea) {
-    guard let areaResponder = activeAreaResponder, state == .active, !isMoving else { return }
-    areaResponder.areaDidActivated(area)
-  }
-}
-
-// Extension should be here bacause `var textView: TextView` is private property
-extension TextContainerView: TextAnnotation {
+  
   public func startEditing() {
     state = .editing
+  }
+  
+  public func updateFrame(with modelable: TextAnnotationModelable) {
+    textView.updateTypingAttributes(modelable.style.attributes)
     
-    doubleClickGestureRecognizer.isEnabled = !textView.isEditable
+    text = modelable.text
     
-    guard let responder = activateResponder else { return }
-    responder.textViewDidActivate(self)
+    if modelable.frame.size.width != 0 && modelable.frame.size.height != 0 {
+      self.frame = modelable.frame
+    }
+  }
+  
+}
+
+// MARK: - NSTextViewDelegate
+extension TextContainerView: NSTextViewDelegate {
+  public func textDidChange(_ notification: Notification) {
+    guard let textView = notification.object as? NSTextView else { return }
+   
+    textFrameTransformer.updateSize(for: textView.string)
     
-    textView.isEditable = true
-    textView.isSelectable = true
-    textView.window?.makeFirstResponder(textView)
+    delegate?.textAnnotationDidEdit(textAnnotation: self)
   }
 }

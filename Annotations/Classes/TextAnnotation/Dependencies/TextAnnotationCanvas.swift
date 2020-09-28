@@ -1,6 +1,6 @@
 import Cocoa
 
-public protocol TextAnnotationCanvas: ActivateResponder, MouseTrackingResponder where Self: TextAnnotationDelegate {
+public protocol TextAnnotationCanvas: ActivateResponder where Self: TextAnnotationDelegate {
   var view: NSView { get }
   var textAnnotations: [TextAnnotation] { get set }
   var selectedTextAnnotation: TextAnnotation? { get set }
@@ -8,10 +8,6 @@ public protocol TextAnnotationCanvas: ActivateResponder, MouseTrackingResponder 
 }
 
 extension TextAnnotationCanvas {
-  var cursorSet: CursorSet {
-    return CursorSet.shared
-  }
-  
   func set(selectedTextAnnotation: TextAnnotation?) {
     if self.selectedTextAnnotation === selectedTextAnnotation {
       return
@@ -28,10 +24,14 @@ extension TextAnnotationCanvas {
     let annotation = TextContainerView(frame: NSRect(origin: location, size: CGSize.zero),
                                        text: text,
                                        textParams: textParams)
+    
+    // some offset for new created annotations
+    if text.isEmpty {
+      annotation.frame.origin.y -= annotation.frame.size.height / 2
+      annotation.frame.origin.x -= annotation.decParams.knobSide / 2
+    }
 
     annotation.activateResponder = self
-    annotation.activeAreaResponder = self
-    
     annotation.state = .active
     
     return annotation
@@ -41,7 +41,6 @@ extension TextAnnotationCanvas {
     let annotation = TextContainerView(modelable: modelable)
     
     annotation.activateResponder = self
-    annotation.activeAreaResponder = self
     
     annotation.state = .inactive
     
@@ -87,16 +86,3 @@ extension TextAnnotationCanvas {
     set(selectedTextAnnotation: anActiveItem)
   }
 }
-
-// MouseTrackingResponder
-extension TextAnnotationCanvas {
-  public func areaDidActivated(_ area: TextAnnotationArea) {
-    switch area {
-    case .resizeLeftArea:   cursorSet.resizeCursor.set()
-    case .resizeRightArea:  cursorSet.resizeCursor.set()
-    case .scaleArea:        cursorSet.defaultCursor.set()
-    case .textArea:         cursorSet.defaultCursor.set()
-    }
-  }
-}
-
