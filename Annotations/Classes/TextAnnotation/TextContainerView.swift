@@ -64,6 +64,8 @@ public class TextContainerView: NSView, TextAnnotation {
       // layout text view
       textView.frame = bounds.insetBy(dx: inset.dx, dy: inset.dy)
       legibilityTextView.frame = textView.frame
+      legibilityTextView.frame.size.height += legibilityTextView.additionalHeight
+      
       
       let selectionViewInset = CGVector(dx: inset.dx / 2.0,
                                         dy: inset.dy / 2.0)
@@ -275,7 +277,11 @@ public class TextContainerView: NSView, TextAnnotation {
     
     if debugMode {
       textView.wantsLayer = true
-      textView.layer?.borderColor = NSColor.green.cgColor
+      if textView == self.textView {
+        textView.layer?.borderColor = NSColor.green.cgColor
+      } else {
+        textView.layer?.borderColor = NSColor.orange.cgColor
+      }
       textView.layer?.borderWidth = 1.0
     }
   }
