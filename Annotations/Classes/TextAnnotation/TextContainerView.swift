@@ -220,6 +220,14 @@ public class TextContainerView: NSView, TextAnnotation {
     setupTextView(textView)
     setupTextView(legibilityTextView)
     
+    // add shadow to legibility text view for better contrast
+    legibilityTextView.wantsLayer = true
+    legibilityTextView.layer?.applySketchShadow(color: NSColor.black.withAlphaComponent(0.5),
+                                                alpha: 1.0,
+                                                xOffset: 0,
+                                                yOffset: 2.0,
+                                                blur: 4.0,
+                                                spread: 0)
     // attributes
     let textAttributes = textParams.attributes
     
