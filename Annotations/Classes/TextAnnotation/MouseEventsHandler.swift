@@ -102,7 +102,7 @@ class MouseEventsHandler {
     } else if let transfState = mouseDownState(location: mouseLocation) {
       transformState = transfState
     } else {
-      cursorHelper.defaultCursor.set()
+      setDefaultCursorWithRect()
       return
     }
     
@@ -113,8 +113,9 @@ class MouseEventsHandler {
   
   
   func mouseExited(with event: NSEvent) {
-    if textContainerView?.transformState == nil {
-      cursorHelper.defaultCursor.set()
+    guard let textContainerView = textContainerView else { return }
+    if textContainerView.transformState == nil {
+      setDefaultCursorWithRect()
     }
   }
   
@@ -122,7 +123,7 @@ class MouseEventsHandler {
     guard let textContainerView = self.textContainerView else { return }
     
     guard let transformState = textContainerView.transformState else {
-      cursorHelper.defaultCursor.set()
+      setDefaultCursorWithRect()
       return
     }
     
@@ -131,6 +132,13 @@ class MouseEventsHandler {
     textContainerView.addCursorRect(textContainerView.bounds, cursor: cursor)
     
     cursor.set()
+  }
+  
+  private func setDefaultCursorWithRect() {
+    if let textContainerView = self.textContainerView {
+    textContainerView.addCursorRect(textContainerView.bounds, cursor:  cursorHelper.defaultCursor)
+    }
+    cursorHelper.defaultCursor.set()
   }
   
   public func mouseDownState(location: NSPoint) -> TextAnnotationTransformState? {
