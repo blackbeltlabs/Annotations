@@ -13,7 +13,8 @@ struct TextContainerViewPreview: NSViewRepresentable {
   func makeNSView(context: Context) -> TextContainerView {
     TextContainerView(frame: .zero,
                       text: text,
-                      textParams: style)
+                      textParams: style,
+                      legibilityEffectEnabled: false)
   }
 
   func updateNSView(_ view: TextContainerView, context: Context) {

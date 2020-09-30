@@ -210,16 +210,24 @@ public class TextContainerView: NSView, TextAnnotation {
     performSubfieldsInit(frameRect: frameRect, textParams: TextParams.defaultFont())
   }
   
-  public init(frame frameRect: NSRect, text: String, textParams: TextParams) {
+  public init(frame frameRect: NSRect,
+              text: String,
+              textParams: TextParams,
+              legibilityEffectEnabled: Bool) {
     super.init(frame: frameRect)
     performSubfieldsInit(frameRect: frameRect, textParams: textParams)
     self.text = text
+    
+    self.legibilityEffectEnabled = legibilityEffectEnabled
+    // didSet is called in initializer so need to call this method directly
+    self.updateLegibilityButton(with: legibilityEffectEnabled)
   }
   
   convenience init(modelable: TextAnnotationModelable) {
     self.init(frame: modelable.frame,
               text: modelable.text,
-              textParams: modelable.style)
+              textParams: modelable.style,
+              legibilityEffectEnabled: modelable.legibilityEffectEnabled)
   }
   
   required init?(coder: NSCoder) {
@@ -476,7 +484,8 @@ public class TextContainerView: NSView, TextAnnotation {
   func notifyAboutTextAnnotationUpdates() {
     let action = TextAnnotationAction(text: text,
                                       frame: frame,
-                                      style: TextParams.textParams(from: textView.typingAttributes))
+                                      style: TextParams.textParams(from: textView.typingAttributes),
+                                      legibilityEffectEnabled: legibilityEffectEnabled)
     
     textUpdateDelegate?.textAnnotationUpdated(textAnnotation: self,
                                               modelable: action)
@@ -491,6 +500,7 @@ public class TextContainerView: NSView, TextAnnotation {
   func updateLegibilityButton(with legibilityEffectEnabled: Bool) {
     legibilityButton.updateImage(with: legibilityEffectEnabled ? .enabled : .disabled)
     legibilityTextView.isHidden = !legibilityEffectEnabled
+    notifyAboutTextAnnotationUpdates()
   }
   
   // hides or shows legibility button depending if test is empty or not

@@ -12,6 +12,7 @@ public struct TextModel: Model, TextAnnotationModelable {
   public let origin: PointModel
   public let text: String
   public let style: TextParams
+  public let legibilityEffectEnabled: Bool
   
   public var modelColor: ModelColor? {
     return style.foregroundColor
@@ -29,19 +30,22 @@ public struct TextModel: Model, TextAnnotationModelable {
     self._frame = nil
     self.style = textParams
     self.index = index
+    self.legibilityEffectEnabled = false
   }
   
   init(origin: PointModel,
        text: String,
        frame: CGRect?,
        textParams: TextParams,
-       index: Int) {
+       index: Int,
+       legibilityEffectEnabled: Bool) {
     
     self.origin = origin
     self.text = text
     self._frame = frame
     self.style = textParams
     self.index = index
+    self.legibilityEffectEnabled = legibilityEffectEnabled
   }
   
   public var frame: CGRect {
@@ -58,7 +62,8 @@ public struct TextModel: Model, TextAnnotationModelable {
                      text: text,
                      frame: frame,
                      textParams: TextParams(foregroundColor: color),
-                     index: index)
+                     index: index,
+                     legibilityEffectEnabled: legibilityEffectEnabled)
     
   }
   
@@ -67,6 +72,7 @@ public struct TextModel: Model, TextAnnotationModelable {
               text: text,
               frame: frame,
               textParams: textParams,
-              index: index)
+              index: index,
+              legibilityEffectEnabled: legibilityEffectEnabled)
   }
 }

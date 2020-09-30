@@ -15,7 +15,8 @@
       "style": {
         "font_name": "Apple Chancery",
         "foreground_color": {"red": 0.1, "green": 0.2, "blue": 0.2, "alpha": 1.0}
-      }
+      },
+      "legibilityEffectEnabled": true
     },
     {
       "index": 1,
@@ -24,7 +25,8 @@
       "style": {
         "font_name": "Bradley Hand",
         "foreground_color": {"red": 0.3, "green": 0.7, "blue": 0.2, "alpha": 1.0}
-      }
+      },
+      "legibilityEffectEnabled": false
     },
     {
       "index": 2,
@@ -33,7 +35,8 @@
       "style": {
         "font_name": "Chalkduster Regular",
         "foreground_color": {"red": 0.3, "green": 0.9, "blue": 0.9, "alpha": 1.0}
-      }
+      },
+      "legibilityEffectEnabled": true
     }
   ],
   "arrows": [
