@@ -26,6 +26,10 @@ class LegibilityTextView: NSTextView {
     }
   }
   
+  override func hitTest(_ point: NSPoint) -> NSView? {
+    return nil
+  }
+  
   // an additional height that should be added to the height
   // of text view frame to ensure that content isn't clipped
   var additionalHeight: CGFloat {

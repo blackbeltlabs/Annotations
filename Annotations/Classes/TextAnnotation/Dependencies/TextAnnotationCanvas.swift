@@ -23,7 +23,8 @@ extension TextAnnotationCanvas {
   public func createTextAnnotation(text: String, location: CGPoint, textParams: TextParams) -> TextAnnotation {
     let annotation = TextContainerView(frame: NSRect(origin: location, size: CGSize.zero),
                                        text: text,
-                                       textParams: textParams)
+                                       textParams: textParams,
+                                       legibilityEffectEnabled: false)
     
     // some offset for new created annotations
     if text.isEmpty {

@@ -48,7 +48,10 @@ public class TextContainerView: NSView, TextAnnotation {
   // MARK: - Properties
   
   // textView inset inside text container view
-  let inset = CGVector(dx: 15.0, dy: 25.0)
+  let inset = CGVector(dx: 15.0, dy: 50.0)
+  
+  // selection view inset to textView
+  let selectionViewInset = CGVector(dx: -10.0, dy: -10.0)
   
   // Decorating params (for the active state when SelectionView and knobs are visible)
   let decParams = DecoratorStyleParams.defaultParams
@@ -66,32 +69,34 @@ public class TextContainerView: NSView, TextAnnotation {
       legibilityTextView.frame = textView.frame
       legibilityTextView.frame.size.height += legibilityTextView.additionalHeight
       
-      
-      let selectionViewInset = CGVector(dx: inset.dx / 2.0,
-                                        dy: inset.dy / 2.0)
-      
       // layout selectionView frame
-      selectionView.frame = bounds.insetBy(dx: selectionViewInset.dx,
-                                           dy: selectionViewInset.dy)
-
+      selectionView.frame = textView.frame.insetBy(dx: selectionViewInset.dx,
+                                                   dy: selectionViewInset.dy)
+      
       let knobSide: CGFloat = decParams.knobSide
       let lineWidth: CGFloat = decParams.selectionLineWidth
       let scaleKnobSide: CGFloat = decParams.scaleKnobSide
       
       // layout left knob view
-      let y = selectionViewInset.dy + selectionView.frame.size.height / 2.0 - knobSide / 2.0
+      let y = selectionView.frame.origin.y + selectionView.frame.size.height / 2.0 - knobSide / 2.0
       let x = selectionView.frame.origin.x - knobSide / 2.0 + lineWidth / 4.0
       leftKnobView.frame = CGRect(x: x, y: y, width: knobSide, height: knobSide)
       
       // layout right knob view
       let y1 = y
-      let x1 = frame.width - selectionViewInset.dx - knobSide / 2.0 - lineWidth / 4.0
+      let x1 = frame.width - selectionView.frame.origin.x - knobSide / 2.0 - lineWidth / 4.0
       rightKnobView.frame = CGRect(x: x1, y: y1, width: knobSide, height: knobSide)
       
       // layout scale knob view
       let x2 = selectionView.frame.size.width / 2.0
-      let y2 = frame.height - selectionViewInset.dy - scaleKnobSide / 2.0  - lineWidth / 4.0
+      let y2 = frame.height - selectionView.frame.origin.y - scaleKnobSide / 2.0  - lineWidth / 4.0
       scaleKnobView.frame = CGRect(x: x2, y: y2, width: scaleKnobSide, height: scaleKnobSide)
+      
+      // layout legibility button view
+      legibilityButton.frame = CGRect(x: selectionView.frame.origin.x,
+                                      y: selectionView.frame.origin.y + selectionView.frame.size.height + 4.0,
+                                      width: 23.0,
+                                      height: 23.0)
     }
   }
   
@@ -156,6 +161,14 @@ public class TextContainerView: NSView, TextAnnotation {
     return textView
   }()
   
+  private lazy var legibilityButton: LegibilityButton = {
+    let button = LegibilityButton(frame: .zero)
+    button.translatesAutoresizingMaskIntoConstraints = false
+    button.target = self
+    button.action = #selector(legibilityButtonPressed)
+    return button
+  }()
+  
   lazy var selectionView: SelectionView = {
     let selectionView = SelectionView(strokeColor: #colorLiteral(red: 0.6941176471, green: 0.6941176471, blue: 0.6941176471, alpha: 1),
                                       lineWidth: decParams.selectionLineWidth)
@@ -182,6 +195,12 @@ public class TextContainerView: NSView, TextAnnotation {
   
   var transformState: TextAnnotationTransformState?
   
+  var legibilityEffectEnabled: Bool = false {
+    didSet {
+      self.updateLegibilityButton(with: self.legibilityEffectEnabled)
+    }
+  }
+  
   // MARK: - Properties
   var debugMode: Bool = false
   
@@ -191,16 +210,24 @@ public class TextContainerView: NSView, TextAnnotation {
     performSubfieldsInit(frameRect: frameRect, textParams: TextParams.defaultFont())
   }
   
-  public init(frame frameRect: NSRect, text: String, textParams: TextParams) {
+  public init(frame frameRect: NSRect,
+              text: String,
+              textParams: TextParams,
+              legibilityEffectEnabled: Bool) {
     super.init(frame: frameRect)
     performSubfieldsInit(frameRect: frameRect, textParams: textParams)
     self.text = text
+    
+    self.legibilityEffectEnabled = legibilityEffectEnabled
+    // didSet is called in initializer so need to call this method directly
+    self.updateLegibilityButton(with: legibilityEffectEnabled)
   }
   
   convenience init(modelable: TextAnnotationModelable) {
     self.init(frame: modelable.frame,
               text: modelable.text,
-              textParams: modelable.style)
+              textParams: modelable.style,
+              legibilityEffectEnabled: modelable.legibilityEffectEnabled)
   }
   
   required init?(coder: NSCoder) {
@@ -252,12 +279,16 @@ public class TextContainerView: NSView, TextAnnotation {
     addSubview(rightKnobView)
     addSubview(scaleKnobView)
     
+    addSubview(legibilityButton)
+
+    self.updateLegibilityButton(with: self.legibilityEffectEnabled)
+
     setupGestureRecognizers()
 
     mouseEventsHandler.textContainerView = self
     textFrameTransformer.textContainerView = self
     
-    decoratorViews = [selectionView, leftKnobView, rightKnobView, scaleKnobView]
+    decoratorViews = [selectionView, leftKnobView, rightKnobView, scaleKnobView, legibilityButton]
     
     if debugMode {
       [leftKnobView, rightKnobView, scaleKnobView].forEach { (knobView) in
@@ -304,6 +335,9 @@ public class TextContainerView: NSView, TextAnnotation {
     doubleClickGestureRecognizer.numberOfClicksRequired = 2
     doubleClickGestureRecognizer.numberOfTouchesRequired = 2
     self.addGestureRecognizer(doubleClickGestureRecognizer)
+    
+    singleClickGestureRecognizer.delegate = self
+    doubleClickGestureRecognizer.delegate = self
   }
   
   // MARK: - Hit test
@@ -347,6 +381,7 @@ public class TextContainerView: NSView, TextAnnotation {
     case .active:
       (textView.isEditable, textView.isSelectable) = (false, false)
       decoratorViews.forEach { $0.isHidden = false }
+      updateLegibilityButton(for: textView.string)
       delegate?.textAnnotationDidSelect(textAnnotation: self)
     case .editing:
       (textView.isEditable, textView.isSelectable) = (true, true)
@@ -449,10 +484,29 @@ public class TextContainerView: NSView, TextAnnotation {
   func notifyAboutTextAnnotationUpdates() {
     let action = TextAnnotationAction(text: text,
                                       frame: frame,
-                                      style: TextParams.textParams(from: textView.typingAttributes))
+                                      style: TextParams.textParams(from: textView.typingAttributes),
+                                      legibilityEffectEnabled: legibilityEffectEnabled)
     
     textUpdateDelegate?.textAnnotationUpdated(textAnnotation: self,
                                               modelable: action)
+  }
+  
+  // MARK: - Actions
+  @objc
+  func legibilityButtonPressed() {
+    legibilityEffectEnabled.toggle()
+  }
+  
+  func updateLegibilityButton(with legibilityEffectEnabled: Bool) {
+    legibilityButton.updateImage(with: legibilityEffectEnabled ? .enabled : .disabled)
+    legibilityTextView.isHidden = !legibilityEffectEnabled
+    notifyAboutTextAnnotationUpdates()
+  }
+  
+  // hides or shows legibility button depending if test is empty or not
+  func updateLegibilityButton(for text: String) {
+    let isEmpty = text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    legibilityButton.isHidden = isEmpty
   }
   
   // MARK: - Other
@@ -486,5 +540,23 @@ extension TextContainerView: NSTextViewDelegate {
     delegate?.textAnnotationDidEdit(textAnnotation: self)
     
     legibilityTextView.string = textView.string
+    
+    updateLegibilityButton(for: textView.string)
+  }
+}
+
+// MARK: - NSGestureRecognizerDelegate {
+extension TextContainerView: NSGestureRecognizerDelegate {
+  public func gestureRecognizer(_ gestureRecognizer: NSGestureRecognizer, shouldAttemptToRecognizeWith event: NSEvent) -> Bool {
+    
+    // need to allow to recognize only if mouse location is inside text view
+    // otherwise gesture recognizer has a conflict with legibilityButton and other controls
+    let location = convert(event.locationInWindow, from: nil)
+    
+    if textView.frame.contains(location) {
+      return true
+    } else {
+      return false
+    }
   }
 }
