@@ -145,14 +145,14 @@ class MouseEventsHandler {
     guard let textContainerView = self.textContainerView,
           let textView = self.textView else { return nil }
 
-    if textView.frame.contains(location) {
-      return .move
-    } else if textContainerView.leftKnobView.frame.contains(location) {
+    if textContainerView.leftKnobView.frame.contains(location) {
       return .resize(type: .leftToRight)
     } else if textContainerView.rightKnobView.frame.contains(location) {
       return .resize(type: .rightToLeft)
     } else if textContainerView.scaleKnobView.frame.contains(location) {
       return .scale
+    } else if textView.frame.contains(location) {
+      return .move
     }
     
     return nil
