@@ -51,7 +51,7 @@ public class TextContainerView: NSView, TextAnnotation {
   let inset = CGVector(dx: 15.0, dy: 50.0)
   
   // selection view inset to textView
-  let selectionViewInset = CGVector(dx: -10.0, dy: -10.0)
+  let selectionViewInset = CGVector(dx: -5.0, dy: -10.0)
   
   // Decorating params (for the active state when SelectionView and knobs are visible)
   let decParams = DecoratorStyleParams.defaultParams
@@ -88,7 +88,7 @@ public class TextContainerView: NSView, TextAnnotation {
       rightKnobView.frame = CGRect(x: x1, y: y1, width: knobSide, height: knobSide)
       
       // layout scale knob view
-      let x2 = selectionView.frame.size.width / 2.0
+      let x2 = selectionView.frame.origin.x + selectionView.frame.size.width / 2.0 - scaleKnobSide / 2.0
       let y2 = frame.height - selectionView.frame.origin.y - scaleKnobSide / 2.0  - lineWidth / 4.0
       scaleKnobView.frame = CGRect(x: x2, y: y2, width: scaleKnobSide, height: scaleKnobSide)
       
@@ -145,6 +145,7 @@ public class TextContainerView: NSView, TextAnnotation {
     }
   }
   
+  
   // MARK: - Views
   
   lazy var textView: TextView = {
@@ -200,6 +201,8 @@ public class TextContainerView: NSView, TextAnnotation {
       self.updateLegibilityButton(with: self.legibilityEffectEnabled)
     }
   }
+  
+  static let textViewsLineFragmentPadding: CGFloat = 10.0
   
   // MARK: - Properties
   var debugMode: Bool = false
@@ -301,6 +304,11 @@ public class TextContainerView: NSView, TextAnnotation {
     updateParts(with: .inactive, oldValue: nil)
     
     textView.delegate = self
+    
+   
+    textView.textContainer?.lineFragmentPadding = Self.textViewsLineFragmentPadding
+    legibilityTextView.textContainer?.lineFragmentPadding = Self.textViewsLineFragmentPadding
+  
   }
   
   func setupTextView(_ textView: NSTextView) {
