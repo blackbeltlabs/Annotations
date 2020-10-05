@@ -16,8 +16,12 @@ class TextFrameTransformer {
   
   // must use this in width calculation otherwise the width will be incorrect
   var containerLinePadding: CGFloat {
+    singleContainerLinePadding * 2.0
+  }
+  
+  var singleContainerLinePadding: CGFloat {
     guard let textContainer = textView?.textContainer else { return 0 }
-    return textContainer.lineFragmentPadding * 2.0
+    return textContainer.lineFragmentPadding
   }
   
   // MARK: - Transform
@@ -80,8 +84,10 @@ class TextFrameTransformer {
   
   func updateSize(for text: String) {
     guard let textView = textView else { return }
-    let size = stringSizeHelper.bestSizeWithAttributes(for: text,
+    var size = stringSizeHelper.bestSizeWithAttributes(for: text,
                                                        attributes: textView.typingAttributes)
+    
+    size.width += containerLinePadding
     updateTextViewSize(size: size)
   }
   
@@ -92,7 +98,7 @@ class TextFrameTransformer {
     var newWidth = stringSizeHelper.getWidthAttr(for: textView.attributedString(),
                                                  height: textView.frame.size.height)
     
-    newWidth += containerLinePadding
+    newWidth += singleContainerLinePadding // need padding from the left side only here
     
     // text view width need to be reduced only if a new width is less than the current one
     if newWidth < textView.frame.size.width {
