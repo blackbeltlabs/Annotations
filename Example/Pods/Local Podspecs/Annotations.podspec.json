@@ -1,6 +1,6 @@
 {
   "name": "Annotations",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "summary": "Swift shape and text annotation component for macOS.",
   "description": "A component that can be used for apps providing visual annotation support of screenshots or other images.\nThe component supports free-hand drawing, text boxes as well as shape annotations via arrows or rectangles.",
   "homepage": "https://github.com/blackbeltlabs/Annotations",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/blackbeltlabs/Annotations.git",
-    "tag": "0.9.2"
+    "tag": "0.9.3"
   },
   "platforms": {
     "osx": "10.13"
