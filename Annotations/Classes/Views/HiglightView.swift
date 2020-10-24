@@ -62,7 +62,6 @@ class HighlightView: CanvasDrawable {
     self.render(state: state)
   }
   
-  
   static var modelType: CanvasItemType { .highlight }
   
   var model: HighlightModel { state.model }

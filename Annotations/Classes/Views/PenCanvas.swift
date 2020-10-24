@@ -1,11 +1,3 @@
-//
-//  ArrowCanvasView.swift
-//  Zappy Arrow Annotation
-//
-//  Created by Mirko on 1/6/19.
-//  Copyright © 2019 Blackbelt Labs. All rights reserved.
-//
-
 import Foundation
 
 protocol PenCanvas: class, PenViewDelegate {

@@ -1,10 +1,3 @@
-//
-//  TextCanvas.swift
-//  Annotations
-//
-//  Created by Mirko on 5/22/19.
-//
-
 import Foundation
 
 protocol TextCanvas: TextAnnotationCanvas, TextViewDelegate where Self: CanvasView {
