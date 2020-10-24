@@ -1,11 +1,3 @@
-//
-//  ArrowView.swift
-//  Annotate
-//
-//  Created by Mirko on 12/30/18.
-//  Copyright © 2018 Blackbelt Labs. All rights reserved.
-//
-
 import Cocoa
 
 protocol ArrowViewDelegate {
@@ -17,16 +9,37 @@ struct ArrowViewState {
   var isSelected: Bool
 }
 
-protocol ArrowView: CanvasDrawable {
-  var delegate: ArrowViewDelegate? { get set }
-  var state: ArrowViewState { get set }
-  var modelIndex: Int { get set }
-  var color: NSColor? { get }
-  var layer: CAShapeLayer { get }
-  var knobDict: [ArrowPoint: KnobView] { get }
-}
-
-extension ArrowView {
+class ArrowView: CanvasDrawable {
+  var state: ArrowViewState {
+    didSet {
+      render(state: state, oldState: oldValue)
+    }
+  }
+  
+  var delegate: ArrowViewDelegate?
+  
+  var layer: CAShapeLayer
+  var globalIndex: Int
+  var modelIndex: Int
+  
+  var color: NSColor? {
+    guard let fillColor = layer.fillColor else { return nil }
+    return NSColor(cgColor: fillColor)
+  }
+  
+  lazy var knobDict: [ArrowPoint: KnobView] = [
+    .origin: KnobView(model: model.origin),
+    .to: KnobView(model: model.to)
+  ]
+  
+  init(state: ArrowViewState, modelIndex: Int, globalIndex: Int, color: ModelColor) {
+    self.state = state
+    self.modelIndex = modelIndex
+    self.globalIndex = globalIndex
+    layer = Self.createLayer(color: NSColor.color(from: color).cgColor)
+    render(state: state)
+  }
+  
   static var modelType: CanvasItemType { return .arrow }
 
   var model: ArrowModel { return state.model }
@@ -111,7 +124,7 @@ extension ArrowView {
   
   func render(state: ArrowViewState, oldState: ArrowViewState? = nil) {
     if state.model != oldState?.model {
-      layer.shapePath = ArrowViewClass.createPath(model: state.model)
+      layer.shapePath = Self.createPath(model: state.model)
       
       for arrowPoint in ArrowPoint.allCases {
         knobAt(arrowPoint: arrowPoint).state.model = state.model.valueFor(arrowPoint: arrowPoint)
@@ -139,37 +152,5 @@ extension ArrowView {
     layer.fillColor = color.cgColor
     layer.strokeColor = color.cgColor
     state.model = model.copyWithColor(color: color.annotationModelColor)
-  }
-}
-
-class ArrowViewClass: ArrowView {
-  var state: ArrowViewState {
-    didSet {
-      render(state: state, oldState: oldValue)
-    }
-  }
-  
-  var delegate: ArrowViewDelegate?
-  
-  var layer: CAShapeLayer
-  var globalIndex: Int
-  var modelIndex: Int
-  
-  var color: NSColor? {
-    guard let fillColor = layer.fillColor else { return nil }
-    return NSColor(cgColor: fillColor)
-  }
-  
-  lazy var knobDict: [ArrowPoint: KnobView] = [
-    .origin: KnobViewClass(model: model.origin),
-    .to: KnobViewClass(model: model.to)
-  ]
-  
-  init(state: ArrowViewState, modelIndex: Int, globalIndex: Int, color: ModelColor) {
-    self.state = state
-    self.modelIndex = modelIndex
-    self.globalIndex = globalIndex
-    layer = ArrowViewClass.createLayer(color: NSColor.color(from: color).cgColor)
-    render(state: state)
   }
 }

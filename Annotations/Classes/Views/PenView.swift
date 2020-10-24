@@ -1,11 +1,3 @@
-//
-//  PenView.swift
-//  Zappy Arrow Annotation
-//
-//  Created by Mirko on 1/6/19.
-//  Copyright © 2019 Blackbelt Labs. All rights reserved.
-//
-
 import Cocoa
 
 protocol PenViewDelegate {
@@ -17,13 +9,31 @@ struct PenViewState {
   var isSelected: Bool
 }
 
-protocol PenView: CanvasDrawable {
-  var delegate: PenViewDelegate? { get set }
-  var state: PenViewState { get set }
-  var layer: CAShapeLayer { get }
-}
-
-extension PenView {
+class PenView: CanvasDrawable {
+  var delegate: PenViewDelegate?
+  var layer: CAShapeLayer
+  
+  var state: PenViewState {
+    didSet {
+      render(state: state, oldState: oldValue)
+    }
+  }
+  
+  var globalIndex: Int
+  var modelIndex: Int
+  var color: NSColor? {
+    guard let color = layer.strokeColor else { return nil }
+    return NSColor(cgColor: color)
+  }
+  
+  init(state: PenViewState, modelIndex: Int, globalIndex: Int, color: ModelColor) {
+    self.state = state
+    self.modelIndex = modelIndex
+    self.globalIndex = globalIndex
+    layer = PenView.createLayer(color: NSColor.color(from:color).cgColor)
+    render(state: state)
+  }
+  
   static var modelType: CanvasItemType { return .pen }
   
   var model: PenModel { return state.model }
@@ -120,31 +130,5 @@ extension PenView {
   func updateColor(_ color: NSColor) {
     layer.strokeColor = color.cgColor
     state.model = model.copyWithColor(color: color.annotationModelColor)
-  }
-}
-
-class PenViewClass: PenView {
-  var delegate: PenViewDelegate?
-  var layer: CAShapeLayer
-  
-  var state: PenViewState {
-    didSet {
-      render(state: state, oldState: oldValue)
-    }
-  }
-  
-  var globalIndex: Int
-  var modelIndex: Int
-  var color: NSColor? {
-    guard let color = layer.strokeColor else { return nil }
-    return NSColor(cgColor: color)
-  }
-  
-  init(state: PenViewState, modelIndex: Int, globalIndex: Int, color: ModelColor) {
-    self.state = state
-    self.modelIndex = modelIndex
-    self.globalIndex = globalIndex
-    layer = PenViewClass.createLayer(color: NSColor.color(from:color).cgColor)
-    render(state: state)
   }
 }

@@ -10,16 +10,47 @@ struct ObfuscateViewState {
   var isSelected: Bool
 }
 
-protocol ObfuscateView: CanvasDrawable {
-  var delegate: ObfuscateViewDelegate? { get set }
-  var state: ObfuscateViewState { get set }
-  var modelIndex: Int { get set }
-  var layer: CAShapeLayer { get }
-  var knobDict: [RectPoint: KnobView] { get }
-  
-}
 
-extension ObfuscateView {
+class ObfuscateView: CanvasDrawable {
+  var state: ObfuscateViewState {
+    didSet {
+      self.render(state: self.state, oldState: oldValue)
+    }
+  }
+  
+  var delegate: ObfuscateViewDelegate?
+  
+  var layer: CAShapeLayer
+  var globalIndex: Int
+  var modelIndex: Int
+  let color: NSColor?
+  
+  lazy var knobDict: [RectPoint: KnobView] = [
+    .origin: KnobView(model: model.origin),
+    .to: KnobView(model: model.to),
+    .originY: KnobView(model: model.origin.returnPointModel(dx: model.origin.x, dy: model.to.y)),
+    .toX: KnobView(model: model.to.returnPointModel(dx: model.to.x, dy: model.origin.y))
+  ]
+  
+  convenience init(state: ObfuscateViewState,
+                   modelIndex: Int,
+                   globalIndex: Int,
+                   color: ModelColor) {
+    
+    let layer = type(of: self).createLayer()
+    
+    self.init(state: state, modelIndex: modelIndex, globalIndex: globalIndex, layer: layer, color: color)
+  }
+  
+  init(state: ObfuscateViewState, modelIndex: Int, globalIndex: Int, layer: CAShapeLayer, color: ModelColor) {
+    self.state = state
+    self.modelIndex = modelIndex
+    self.globalIndex = globalIndex
+    self.layer = layer
+    self.color = NSColor.color(from: color)
+    self.render(state: state)
+  }
+  
   static var modelType: CanvasItemType { return .obfuscate }
   
   var model: ObfuscateModel { return state.model }
@@ -122,46 +153,5 @@ extension ObfuscateView {
   
   func updateColor(_ color: NSColor) {
     
-  }
-}
-
-class ObfuscateViewClass: ObfuscateView {
-  var state: ObfuscateViewState {
-    didSet {
-      self.render(state: self.state, oldState: oldValue)
-    }
-  }
-  
-  var delegate: ObfuscateViewDelegate?
-  
-  var layer: CAShapeLayer
-  var globalIndex: Int
-  var modelIndex: Int
-  let color: NSColor?
-  
-  lazy var knobDict: [RectPoint: KnobView] = [
-    .origin: KnobViewClass(model: model.origin),
-    .to: KnobViewClass(model: model.to),
-    .originY: KnobViewClass(model: model.origin.returnPointModel(dx: model.origin.x, dy: model.to.y)),
-    .toX: KnobViewClass(model: model.to.returnPointModel(dx: model.to.x, dy: model.origin.y))
-  ]
-  
-  convenience init(state: ObfuscateViewState,
-                   modelIndex: Int,
-                   globalIndex: Int,
-                   color: ModelColor) {
-    
-    let layer = type(of: self).createLayer()
-    
-    self.init(state: state, modelIndex: modelIndex, globalIndex: globalIndex, layer: layer, color: color)
-  }
-  
-  init(state: ObfuscateViewState, modelIndex: Int, globalIndex: Int, layer: CAShapeLayer, color: ModelColor) {
-    self.state = state
-    self.modelIndex = modelIndex
-    self.globalIndex = globalIndex
-    self.layer = layer
-    self.color = NSColor.color(from: color)
-    self.render(state: state)
   }
 }

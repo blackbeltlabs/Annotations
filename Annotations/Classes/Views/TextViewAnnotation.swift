@@ -1,7 +1,7 @@
 import Cocoa
 
 protocol TextViewDelegate {
-  func textView(_ textView: TextViewDrawable, didUpdate model: TextModel, atIndex index: Int)
+  func textView(_ textView: TextViewAnnotation, didUpdate model: TextModel, atIndex index: Int)
 }
 
 struct TextViewState {
@@ -9,78 +9,7 @@ struct TextViewState {
   var isSelected: Bool
 }
 
-protocol TextViewDrawable: CanvasDrawable {
-  var delegate: TextViewDelegate? { get set }
-  var state: TextViewState { get set }
-  var modelIndex: Int { get set }
-  var view: TextAnnotation { get }
-  func updateFrame(with action: TextAnnotationModelable)
-  func deselect()
-}
-
-extension TextViewDrawable {
-  static var modelType: CanvasItemType { return .text }
-
-  var model: TextModel { return state.model }
-  
-  var isSelected: Bool {
-    get { return state.isSelected }
-    set { state.isSelected = newValue }
-  }
-  
-  func knobAt(point: PointModel) -> KnobView? {
-    return nil
-  }
-  
-  func contains(point: PointModel) -> Bool {
-    return false
-  }
-  
-  func addTo(canvas: CanvasView) {
-    guard let textCanvas = canvas as? TextCanvas else {
-      return
-    }
-    
-    view.addTo(canvas: textCanvas)
-  }
-  
-  func removeFrom(canvas: CanvasView) {
-    view.delete()
-  }
-  
-  func dragged(from: PointModel, to: PointModel) {
-    
-  }
-  
-  func draggedKnob(_ knob: KnobView, from: PointModel, to: PointModel) {
-    
-  }
-  
-  func render(state: TextViewState, oldState: TextViewState? = nil) {
-    
-  }
-	
-  func updateFrame(with action: TextAnnotationModelable) {
-    view.updateFrame(with: action)
-  }
-	
-  func deselect() {
-    isSelected = false
-    view.deselect()
-  }
-  
-  func doInitialSetupOnCanvas() {
-    view.startEditing()
-  }
-  
-  func updateColor(_ color: NSColor) {
-    let model = self.model.copyWithColor(color: color.annotationModelColor)
-    view.updateColor(with: color)
-    delegate?.textView(self, didUpdate: model, atIndex: modelIndex)
-  }
-}
-
-class TextViewClass: TextViewDrawable {
+class TextViewAnnotation: CanvasDrawable {
   var state: TextViewState {
     didSet {
       render(state: state, oldState: oldValue)
@@ -101,9 +30,65 @@ class TextViewClass: TextViewDrawable {
     self.globalIndex = globalIndex
     view.textUpdateDelegate = self
   }
+  
+  static var modelType: CanvasItemType { return .text }
+
+  var model: TextModel { return state.model }
+  
+  var isSelected: Bool {
+    get { return state.isSelected }
+    set { state.isSelected = newValue }
+  }
+  
+  func knobAt(point: PointModel) -> KnobView? {
+    return nil
+  }
+  
+  func contains(point: PointModel) -> Bool {
+    return false
+  }
+  
+  func addTo(canvas: CanvasView) {
+    view.addTo(canvas: canvas)
+  }
+  
+  func removeFrom(canvas: CanvasView) {
+    view.delete()
+  }
+  
+  func dragged(from: PointModel, to: PointModel) {
+    
+  }
+  
+  func draggedKnob(_ knob: KnobView, from: PointModel, to: PointModel) {
+    
+  }
+  
+  func render(state: TextViewState, oldState: TextViewState? = nil) {
+    
+  }
+  
+  func updateFrame(with action: TextAnnotationModelable) {
+    view.updateFrame(with: action)
+  }
+  
+  func deselect() {
+    isSelected = false
+    view.deselect()
+  }
+  
+  func doInitialSetupOnCanvas() {
+    view.startEditing()
+  }
+  
+  func updateColor(_ color: NSColor) {
+    let model = self.model.copyWithColor(color: color.annotationModelColor)
+    view.updateColor(with: color)
+    delegate?.textView(self, didUpdate: model, atIndex: modelIndex)
+  }
 }
 
-extension TextViewClass: TextAnnotationUpdateDelegate {
+extension TextViewAnnotation: TextAnnotationUpdateDelegate {
   func textAnnotationUpdated(textAnnotation: TextAnnotation,
                              modelable: TextAnnotationModelable) {
     

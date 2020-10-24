@@ -9,8 +9,10 @@ extension ObfuscateCanvas {
   func redrawObfuscate(model: ObfuscateModel, canvas: CanvasModel) {
     guard let modelIndex = canvas.obfuscates.firstIndex(of: model) else { return }
     let state = ObfuscateViewState(model: model, isSelected: false)
-    let view = ObfuscateViewClass(state: state, modelIndex: modelIndex,
-                                  globalIndex: model.index, color: model.color)
+    let view = ObfuscateView(state: state,
+                             modelIndex: modelIndex,
+                             globalIndex: model.index,
+                             color: model.color)
     view.delegate = self
     add(view)
   }
@@ -28,10 +30,10 @@ extension ObfuscateCanvas {
     model.obfuscates.append(newRect)
     
     let state = ObfuscateViewState(model: newRect, isSelected: false)
-    let newView = ObfuscateViewClass(state: state,
-                                     modelIndex: model.obfuscates.count - 1,
-                                     globalIndex: newRect.index,
-                                     color: color)
+    let newView = ObfuscateView(state: state,
+                                modelIndex: model.obfuscates.count - 1,
+                                globalIndex: newRect.index,
+                                color: color)
     newView.delegate = self
     
     let selectedKnob = newView.knobAt(rectPoint: .to)
