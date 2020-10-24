@@ -37,7 +37,7 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   var arrowLayers: [CAShapeLayer] = []
   public var selectedItem: CanvasDrawable? {
     didSet {
-      didUpdate(selectedItem: selectedItem, oldValue: oldValue)
+      oldValue?.isSelected = false
       
       if selectedItem != nil {
         selectedTextAnnotation?.deselect()
@@ -118,11 +118,96 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
     }
     return super.hitTest(point)
   }
-}
-
-extension CanvasView {
+  
+  // MARK: - Create item
+  // create with mouse down event if possible (texts only)
+  public func createItem(mouseDown: PointModel, color: ModelColor) -> CanvasDrawable? {
+    switch createMode {
+    case .text:
+      var params: TextParams = textStyle
+      if params.foregroundColor == nil {
+        params.foregroundColor = color
+      }
+      return createTextView(origin: mouseDown, params: params)
+    default:
+      return nil
+    }
+  }
+  
+  // create with mouse dragged event if possible (all except texts)
+  public func createItem(dragFrom: PointModel,
+                         to: PointModel,
+                         color: ModelColor) -> (CanvasDrawable?, KnobView?) {
+    switch createMode {
+    case .text: return (nil, nil)
+    case .arrow: return createArrowView(origin: dragFrom, to: to, color: color)
+    case .rect: return createRectView(origin: dragFrom, to: to, color: color)
+    case .obfuscate: return createObfuscateView(origin: dragFrom, to: to, color: color)
+    case .pen: return createPenView(origin: dragFrom, to: to, color: color)
+    case .highlight: return createHighlightView(origin: dragFrom, to: to, color: color, size: frame.size)
+    }
+  }
+  
+  // MARK: - Delete item
+  public func delete(item: CanvasDrawable) -> CanvasModel {
+    switch item {
+    case let arrow as ArrowView:
+      return delete(arrow: arrow)
+    case let obfuscate as ObfuscateView:
+      return delete(obfuscate: obfuscate)
+    case let rect as RectView:
+      return delete(rect: rect)
+    case let pen as PenView:
+      return delete(pen: pen)
+    case let highlight as HighlightView:
+      return delete(highlight: highlight)
+    default:
+      return model
+    }
+  }
+  
+  public func deleteSelectedItem() {
+    if let selectedItem = selectedItem {
+      let newModel = delete(item: selectedItem)
+      update(model: newModel)
+      delegate?.canvasView(self, didUpdateModel: newModel)
+    } else if let selectedTextAnnotation = selectedTextAnnotation {
+      selectedTextAnnotation.delete()
+      self.selectedTextAnnotation = nil
+    }
+  }
+  
+  // MARK: - Select / deselect
+  public func deselectSelectedItem() {
+    selectedItem = nil
+    selectedTextAnnotation?.deselect()
+    selectedTextAnnotation = nil
+  }
+  
+  // MARK: - Updates
+  public func updateSelectedItemColor(_ color: ModelColor) {
+    if let selectedTextAnnotation = selectedTextAnnotation {
+      
+      let previousColor = selectedTextAnnotation.textColor
+      guard color != previousColor else { return }
+      
+      selectedTextAnnotation.updateColor(with: NSColor.color(from: color))
+      
+    } else if let selectedItem = selectedItem {
+      guard let selectedItemColor = selectedItem.color else { return }
+      
+      let previousColor = selectedItemColor.annotationModelColor
+      guard previousColor != color else { return }
+            
+      selectedItem.updateColor(NSColor.color(from: color))
+      
+      delegate?.canvasView(self, didUpdateModel: model)
+    }
+  }
+  
+  // MARK: - Render
   public func redraw() {
-		
+    
     items.forEach { $0.removeFrom(canvas: self) }
     items = []
     
@@ -150,51 +235,10 @@ extension CanvasView {
     selectedItem = nil
     selectedTextAnnotation = nil
   }
-  
-  func markState(model: CanvasModel) {
-    delegate?.canvasView(self, didUpdateModel: model)
-  }
-  
-  // MARK: - Create item
-  public func createItem(mouseDown: PointModel, color: ModelColor) -> CanvasDrawable? {
-    switch createMode {
-    case .text:
-      var params: TextParams = textStyle
-      if params.foregroundColor == nil {
-        params.foregroundColor = color
-      }
-      return createTextView(origin: mouseDown, params: params)
-    default:
-      return nil
-    }
-  }
-  
-  public func createItem(dragFrom: PointModel, to: PointModel, color: ModelColor) -> (CanvasDrawable?, KnobView?) {
-    switch createMode {
-    case .text: return (nil, nil)
-    case .arrow: return createArrowView(origin: dragFrom, to: to, color: color)
-    case .rect: return createRectView(origin: dragFrom, to: to, color: color)
-    case .obfuscate: return createObfuscateView(origin: dragFrom, to: to, color: color)
-    case .pen: return createPenView(origin: dragFrom, to: to, color: color)
-    case .highlight: return createHighlightView(origin: dragFrom, to: to, color: color, size: frame.size)
-    }
-  }
-  
-  // MARK: - Delete item
-  
-  public func delete(item: CanvasDrawable) -> CanvasModel {
-    switch item {
-    case let arrow as ArrowView: return delete(arrow: arrow)
-    case let obfuscate as ObfuscateView: return delete(obfuscate: obfuscate)
-    case let rect as RectView: return delete(rect: rect)
-    case let pen as PenView: return delete(pen: pen)
-    case let highlight as HighlightView: return delete(highlight: highlight)
-    default: return model
-    }
-  }
-  
-  // MARK: - Text annotation
-  
+}
+
+// MARK: - Text annotations
+extension CanvasView {
   public var isSelectedTextAnnotation: Bool {
     return selectedTextAnnotation != nil
   }
@@ -205,28 +249,6 @@ extension CanvasView {
     self.selectedTextAnnotation = nil
     
     delegate?.canvasView(self, didDeselect: selectedTextAnnotation)
-  }
-  
-  // MARK: - Update items color
-  
-  public func updateSelectedItemColor(_ color: ModelColor) {
-    if let selectedTextAnnotation = selectedTextAnnotation {
-      
-      let previousColor = selectedTextAnnotation.textColor
-      guard color != previousColor else { return }
-      
-      selectedTextAnnotation.updateColor(with: NSColor.color(from: color))
-      
-    } else if let selectedItem = selectedItem {
-      guard let selectedItemColor = selectedItem.color else { return }
-      
-      let previousColor = selectedItemColor.annotationModelColor
-      guard previousColor != color else { return }
-            
-      selectedItem.updateColor(NSColor.color(from: color))
-      
-      delegate?.canvasView(self, didUpdateModel: model)
-    }
   }
 }
 
@@ -247,38 +269,4 @@ extension CanvasView {
       self.model = model
       redraw()
     }
-}
-
-
-// MARK: - Editable
-extension CanvasView {
-  func didUpdate(selectedItem: CanvasDrawable?, oldValue: CanvasDrawable?) {
-    oldValue?.isSelected = false
-  }
-  
-  public func deleteSelectedItem() {
-    if let selectedItem = selectedItem {
-      let newModel = delete(item: selectedItem)
-      update(model: newModel)
-      delegate?.canvasView(self, didUpdateModel: newModel)
-      return
-    }
-    
-    if let selectedTextAnnotation = selectedTextAnnotation {
-      selectedTextAnnotation.delete()
-      self.selectedTextAnnotation = nil
-    }
-  }
-  
-  public func deselectSelectedItem() {
-    selectedItem = nil
-    selectedTextAnnotation?.deselect()
-    selectedTextAnnotation = nil
-  }
-  
-  func itemAt(point: PointModel) -> CanvasDrawable? {
-    return items.first(where: { (item) -> Bool in
-      return item.contains(point: point)
-    })
-  }
 }

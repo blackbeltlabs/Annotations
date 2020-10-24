@@ -34,7 +34,7 @@ class CanvasViewEventsHandler {
         canvasView.selectedKnob = knob
         return
         // select an item if any at the point
-      } else if let item = canvasView.itemAt(point: point) {
+      } else if let item = itemAt(point: point) {
         canvasView.selectedItem = item
         item.isSelected = true
         return
@@ -114,6 +114,13 @@ class CanvasViewEventsHandler {
   private var canvasItemSelected: Bool {
     guard let canvasView = self.canvasView else { return false }
     return canvasView.selectedItem != nil || canvasView.selectedTextAnnotation != nil
+  }
+  
+  private func itemAt(point: PointModel) -> CanvasDrawable? {
+    guard let canvasView = self.canvasView else { return nil }
+    return canvasView.items.first(where: { (item) -> Bool in
+      return item.contains(point: point)
+    })
   }
   
 }
