@@ -48,12 +48,10 @@ class CanvasViewEventsHandler {
     }
   }
   
-  
   func mouseDragged(with event: NSEvent) {
     guard let canvasView = self.canvasView else { return }
     guard canvasView.isUserInteractionEnabled else { return }
     let point = canvasView.convert(event.locationInWindow, from: nil).pointModel
-    
     
     guard let lastDraggedPoint = canvasView.lastDraggedPoint else {
       return
@@ -85,47 +83,34 @@ class CanvasViewEventsHandler {
       canvasView.selectedKnob = newKnob
       canvasView.isChanged = true
       canvasView.lastDraggedPoint = point
-      
     }
-    
-    
-    /*
-    // create new item
-    if canvasView.selectedItem == nil {
-      let (newItem, newKnob) = canvasView.createItem(dragFrom: lastDraggedPoint,
-                                                     to: point,
-                                                     color: canvasView.createColor)
-      
-      if let item = newItem {
-        canvasView.add(item)
-        canvasView.selectedItem = item
-        canvasView.selectedKnob = newKnob
-        canvasView.isChanged = true
-        canvasView.lastDraggedPoint = point
-      }
-      
-      return
-    }
-    
-    guard let selectedItem = selectedItem else {
-      return
-    }
-    
-    if let selectedKnob = self.selectedKnob {
-      selectedItem.draggedKnob(selectedKnob, from: lastDraggedPoint, to: location)
-    } else {
-      selectedItem.dragged(from: lastDraggedPoint, to: location)
-    }
-    
-    isChanged = true
-    self.lastDraggedPoint = location
- */
   }
   
+  func mouseUp(with event: NSEvent) {
+    guard let canvasView = self.canvasView else { return }
+    guard canvasView.isUserInteractionEnabled else { return }
+    
+    canvasView.selectedKnob = nil
+    
+    if let selectedItem = canvasView.selectedItem {
+      selectedItem.isSelected = true
+    }
+    
+    // if is changed need to send delegate callback
+    if canvasView.isChanged {
+      canvasView.delegate?.canvasView(canvasView,
+                                      didUpdateModel: canvasView.model)
+      canvasView.isChanged = false
+    }
+    
+    // clear last dragged point here
+    canvasView.lastDraggedPoint = nil
+  }
   
+  // MARK: - Private
   private var canvasItemSelected: Bool {
     guard let canvasView = self.canvasView else { return false }
     return canvasView.selectedItem != nil || canvasView.selectedTextAnnotation != nil
   }
-
+  
 }

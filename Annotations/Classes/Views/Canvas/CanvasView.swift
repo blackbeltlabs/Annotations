@@ -92,7 +92,7 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
     self.trackingArea = newTrackingArea
   }
   
-  // MARK: - Actions
+  // MARK: - Mouse events
   
   override public func mouseDown(with event: NSEvent) {
     super.mouseDown(with: event)
@@ -109,12 +109,7 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   override public func mouseUp(with event: NSEvent) {
     super.mouseUp(with: event)
     
-    let location = eventLocation(event)
-    mouseUp(location.pointModel)
-  }
-  
-  func eventLocation(_ event: NSEvent) -> CGPoint {
-    return convert(event.locationInWindow, from: nil)
+    canvasViewEventsHandler.mouseUp(with: event)
   }
   
   public override func hitTest(_ point: NSPoint) -> NSView? {
@@ -285,26 +280,5 @@ extension CanvasView {
     return items.first(where: { (item) -> Bool in
       return item.contains(point: point)
     })
-  }
-  
-
-  func mouseUp(_ location: PointModel) {
-
-    guard isUserInteractionEnabled else {
-      return
-    }
-    
-    selectedKnob = nil
-    
-    if let selectedItem = selectedItem {
-      selectedItem.isSelected = true
-    }
-    
-    if isChanged {
-      delegate?.canvasView(self, didUpdateModel: model)
-      isChanged = false
-    }
-    
-    lastDraggedPoint = nil
   }
 }
