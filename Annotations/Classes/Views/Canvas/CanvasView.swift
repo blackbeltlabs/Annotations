@@ -139,13 +139,26 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
                          to: PointModel,
                          color: ModelColor) -> (CanvasDrawable?, KnobView?) {
     switch createMode {
-    case .text: return (nil, nil)
-    case .arrow: return createArrowView(origin: dragFrom, to: to, color: color)
-    case .rect: return createRectView(origin: dragFrom, to: to, color: color)
-    case .obfuscate: return createObfuscateView(origin: dragFrom, to: to, color: color)
-    case .pen: return createPenView(origin: dragFrom, to: to, color: color)
-    case .highlight: return createHighlightView(origin: dragFrom, to: to, color: color, size: frame.size)
+    case .text:
+      return (nil, nil)
+    case .arrow:
+      return createArrowView(origin: dragFrom, to: to, color: color)
+    case .rect:
+      return createRectView(origin: dragFrom, to: to, color: color)
+    case .obfuscate:
+      return createObfuscateView(origin: dragFrom, to: to, color: color)
+    case .pen:
+      return createPenView(origin: dragFrom, to: to, color: color)
+    case .highlight:
+      return createHighlightView(origin: dragFrom, to: to, color: color, size: frame.size)
     }
+  }
+  
+  public func add(_ item: CanvasDrawable) {
+    item.addTo(canvas: self)
+    items.append(item)
+    
+    delegate?.canvasView(self, didCreateAnnotation: item)
   }
   
   // MARK: - Delete item
@@ -184,7 +197,7 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
     selectedTextAnnotation = nil
   }
   
-  // MARK: - Updates
+  // MARK: - Part Updates
   public func updateSelectedItemColor(_ color: ModelColor) {
     if let selectedTextAnnotation = selectedTextAnnotation {
       
@@ -206,6 +219,12 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   }
   
   // MARK: - Render
+  
+  public func update(model: CanvasModel) {
+    self.model = model
+    redraw()
+  }
+  
   public func redraw() {
     
     items.forEach { $0.removeFrom(canvas: self) }
@@ -235,6 +254,10 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
     selectedItem = nil
     selectedTextAnnotation = nil
   }
+  
+  var canvasLayer: CALayer {
+    return layer!
+  }
 }
 
 // MARK: - Text annotations
@@ -250,23 +273,4 @@ extension CanvasView {
     
     delegate?.canvasView(self, didDeselect: selectedTextAnnotation)
   }
-}
-
-
-extension CanvasView {
-    var canvasLayer: CALayer {
-      return layer!
-    }
-    
-    public func add(_ item: CanvasDrawable) {
-      item.addTo(canvas: self)
-      items.append(item)
-      
-      delegate?.canvasView(self, didCreateAnnotation: item)
-    }
-    
-    public func update(model: CanvasModel) {
-      self.model = model
-      redraw()
-    }
 }
