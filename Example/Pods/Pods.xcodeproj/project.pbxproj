@@ -36,6 +36,7 @@
 		6A3B3D07214505F809AE910008085469 /* ObfuscateCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AAD02B247B0B2278AD7303BA347706 /* ObfuscateCanvas.swift */; };
 		6DA7EEE7F6C561BEC63B7B1C3150473A /* ObfuscateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF15C0D07FBC4DB0761B9BBF410A96D /* ObfuscateView.swift */; };
 		6EFA04CBD73CBE623A8D45F98BD51967 /* CATransactionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40887E1C6BAA77E526317FCCB9E09B4 /* CATransactionExtension.swift */; };
+		6FF8EEBA254423B20055B900 /* CanvasViewEventsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF8EEB9254423B20055B900 /* CanvasViewEventsHandler.swift */; };
 		704553C422F68B720FB61DC2B43A6231 /* LegibilityTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57BE01B179F290CA92E5ABD72A01A05 /* LegibilityTextView.swift */; };
 		712C254D7318EDA81CDA25A1E69A037A /* HistoryTrackingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590005F183B9EAF5FE47BA67D98546FE /* HistoryTrackingHelper.swift */; };
 		7AC2E6EA1B4604B2B66203DCB58C9627 /* NSBezierPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258660521542116E399985EB6D87BC4C /* NSBezierPathExtension.swift */; };
@@ -128,6 +129,7 @@
 		5F67E8B082C9970D34EAAA8FA80396B5 /* CursorsHelper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CursorsHelper.swift; sourceTree = "<group>"; };
 		5F880CDD86B77BD778031A024B2845F5 /* Annotations-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Annotations-umbrella.h"; sourceTree = "<group>"; };
 		6A391360EBC4D8451A58B44F9EF061DE /* Pods-Annotations_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Annotations_Example-umbrella.h"; sourceTree = "<group>"; };
+		6FF8EEB9254423B20055B900 /* CanvasViewEventsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasViewEventsHandler.swift; sourceTree = "<group>"; };
 		71D9E946418D8936C73F4E5B11CFAC15 /* RectCanvas.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RectCanvas.swift; sourceTree = "<group>"; };
 		7262F86FCAE6C611DF8917F59D3AF34F /* TextAnnotation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextAnnotation.swift; sourceTree = "<group>"; };
 		74FEC23ED4A956EF7AA85CB934F78D72 /* Pods-Annotations_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Annotations_Example-dummy.m"; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 			children = (
 				05F57A63A268B4ABF3B9224949E0143E /* CanvasDrawable.swift */,
 				9B29F7577962EAD4BF5F5A910FDE95B5 /* CanvasView.swift */,
+				6FF8EEB9254423B20055B900 /* CanvasViewEventsHandler.swift */,
 			);
 			path = Canvas;
 			sourceTree = "<group>";
@@ -659,6 +662,7 @@
 				3B9CA2989F49743FB8DC6E144F7AAD9C /* History.swift in Sources */,
 				712C254D7318EDA81CDA25A1E69A037A /* HistoryTrackingHelper.swift in Sources */,
 				B9FED0C9689986D05485B3997245B137 /* ImageHelper.swift in Sources */,
+				6FF8EEBA254423B20055B900 /* CanvasViewEventsHandler.swift in Sources */,
 				5474D954CF49ECCA5497FCB577824303 /* KnobView.swift in Sources */,
 				CABC497563CD22BB79E078AC3FC6999F /* LayoutExtension.swift in Sources */,
 				4D64F8865D27DDD71E368ED77A983D09 /* LegibilityButton.swift in Sources */,

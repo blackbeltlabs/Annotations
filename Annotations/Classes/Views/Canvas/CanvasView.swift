@@ -58,6 +58,9 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   public var lastMouseLocation: NSPoint?
   public var textStyle: TextParams = TextParams.defaultFont()
   
+  // MARK: - Helpers and handlers
+  private let canvasViewEventsHandler = CanvasViewEventsHandler()
+  
   // MARK: - Initializers
   
   override init(frame frameRect: NSRect) {
@@ -74,6 +77,7 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   
   func setup() {
     wantsLayer = true
+    canvasViewEventsHandler.canvasView = self
   }
   
   override public func updateTrackingAreas() {
@@ -93,19 +97,7 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   override public func mouseDown(with event: NSEvent) {
     super.mouseDown(with: event)
     
-    let location = eventLocation(event)
-    
-    if mouseDown(location.pointModel) {
-      return
-    }
-    
-    if selectedTextAnnotation == nil && createMode == .text {
-//      let textAnnotation = addTextAnnotation(text: "", location: location)
-//      textAnnotation.delegate = self  
-//      textAnnotation.startEditing()
-    } else {
-      deselectTextAnnotation()
-    }
+    canvasViewEventsHandler.mouseDown(with: event)
   }
   
   override public func mouseDragged(with event: NSEvent) {
