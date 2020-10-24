@@ -37,6 +37,7 @@
 		6DA7EEE7F6C561BEC63B7B1C3150473A /* ObfuscateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF15C0D07FBC4DB0761B9BBF410A96D /* ObfuscateView.swift */; };
 		6EFA04CBD73CBE623A8D45F98BD51967 /* CATransactionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40887E1C6BAA77E526317FCCB9E09B4 /* CATransactionExtension.swift */; };
 		6FF8EEBA254423B20055B900 /* CanvasViewEventsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF8EEB9254423B20055B900 /* CanvasViewEventsHandler.swift */; };
+		6FF8EEDA25443EE70055B900 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF8EED925443EE70055B900 /* Logger.swift */; };
 		704553C422F68B720FB61DC2B43A6231 /* LegibilityTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57BE01B179F290CA92E5ABD72A01A05 /* LegibilityTextView.swift */; };
 		712C254D7318EDA81CDA25A1E69A037A /* HistoryTrackingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590005F183B9EAF5FE47BA67D98546FE /* HistoryTrackingHelper.swift */; };
 		7AC2E6EA1B4604B2B66203DCB58C9627 /* NSBezierPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258660521542116E399985EB6D87BC4C /* NSBezierPathExtension.swift */; };
@@ -130,6 +131,7 @@
 		5F880CDD86B77BD778031A024B2845F5 /* Annotations-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Annotations-umbrella.h"; sourceTree = "<group>"; };
 		6A391360EBC4D8451A58B44F9EF061DE /* Pods-Annotations_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Annotations_Example-umbrella.h"; sourceTree = "<group>"; };
 		6FF8EEB9254423B20055B900 /* CanvasViewEventsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasViewEventsHandler.swift; sourceTree = "<group>"; };
+		6FF8EED925443EE70055B900 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		71D9E946418D8936C73F4E5B11CFAC15 /* RectCanvas.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RectCanvas.swift; sourceTree = "<group>"; };
 		7262F86FCAE6C611DF8917F59D3AF34F /* TextAnnotation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextAnnotation.swift; sourceTree = "<group>"; };
 		74FEC23ED4A956EF7AA85CB934F78D72 /* Pods-Annotations_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Annotations_Example-dummy.m"; sourceTree = "<group>"; };
@@ -429,6 +431,7 @@
 			isa = PBXGroup;
 			children = (
 				11AE4EB5089FEFD9F78ACC28C7E51A70 /* ImageHelper.swift */,
+				6FF8EED925443EE70055B900 /* Logger.swift */,
 			);
 			name = Helpers;
 			path = Annotations/Classes/Helpers;
@@ -674,6 +677,7 @@
 				6A3B3D07214505F809AE910008085469 /* ObfuscateCanvas.swift in Sources */,
 				6DA7EEE7F6C561BEC63B7B1C3150473A /* ObfuscateView.swift in Sources */,
 				EA481EE6238B40C5925B2A531B693DD3 /* PenCanvas.swift in Sources */,
+				6FF8EEDA25443EE70055B900 /* Logger.swift in Sources */,
 				B5C2CB6FA32619CE77CB2BB1BB144908 /* PenModel.swift in Sources */,
 				B51B4BB16129DD4579A55659D3EB3CA6 /* PenView.swift in Sources */,
 				3E7C116EFD9C702C8EC05CF8B7F9C565 /* PointModel.swift in Sources */,

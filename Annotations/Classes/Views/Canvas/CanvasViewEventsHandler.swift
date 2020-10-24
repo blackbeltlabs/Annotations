@@ -2,6 +2,8 @@ import Foundation
 
 class CanvasViewEventsHandler {
   weak var canvasView: CanvasView?
+  
+  private let logger = Logger(isDebug: false)
     
   func mouseDown(with event: NSEvent) {
     guard let canvasView = self.canvasView else { return }
@@ -12,7 +14,6 @@ class CanvasViewEventsHandler {
             
     canvasView.lastDraggedPoint = point
       
-
     switch canvasView.createMode {
     case .text:
       // specific case for text
@@ -54,6 +55,7 @@ class CanvasViewEventsHandler {
     let point = canvasView.convert(event.locationInWindow, from: nil).pointModel
     
     guard let lastDraggedPoint = canvasView.lastDraggedPoint else {
+      logger.warning("Last dragged point is nil. Can't continue...")
       return
     }
     
