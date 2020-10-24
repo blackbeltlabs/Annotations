@@ -4,6 +4,7 @@ class CanvasViewEventsHandler {
   weak var canvasView: CanvasView?
   
   private let logger = Logger(isDebug: false)
+  private var isChanged: Bool = false
     
   func mouseDown(with event: NSEvent) {
     guard let canvasView = self.canvasView else { return }
@@ -68,7 +69,7 @@ class CanvasViewEventsHandler {
         selectedItem.dragged(from: lastDraggedPoint, to: point)
       }
       
-      canvasView.isChanged = true
+      isChanged = true
       canvasView.lastDraggedPoint = point
     } else {
       // if an item has not been selected before need to try to create a new one
@@ -83,7 +84,7 @@ class CanvasViewEventsHandler {
       canvasView.add(item)
       canvasView.selectedItem = item
       canvasView.selectedKnob = newKnob
-      canvasView.isChanged = true
+      isChanged = true
       canvasView.lastDraggedPoint = point
     }
   }
@@ -99,10 +100,10 @@ class CanvasViewEventsHandler {
     }
     
     // if is changed need to send delegate callback
-    if canvasView.isChanged {
+    if isChanged {
       canvasView.delegate?.canvasView(canvasView,
                                       didUpdateModel: canvasView.model)
-      canvasView.isChanged = false
+      isChanged = false
     }
     
     // clear last dragged point here

@@ -24,7 +24,6 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   public override var isFlipped: Bool { true }
   
   public var model = CanvasModel()
-  public var isChanged: Bool = false
   
   public var createMode: CanvasItemType = .arrow
   public var createColor: ModelColor = ModelColor.defaultColor() {
@@ -75,11 +74,12 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
     setup()
   }
   
-  func setup() {
+  private func setup() {
     wantsLayer = true
     canvasViewEventsHandler.canvasView = self
   }
   
+  // MARK: - Tracking areas
   override public func updateTrackingAreas() {
     if let trackingArea = trackingArea {
       removeTrackingArea(trackingArea)
