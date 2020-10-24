@@ -103,8 +103,7 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   override public func mouseDragged(with event: NSEvent) {
     super.mouseDragged(with: event)
     
-    let location = eventLocation(event)
-    mouseDragged(location.pointModel)
+    canvasViewEventsHandler.mouseDragged(with: event)
   }
   
   override public func mouseUp(with event: NSEvent) {
@@ -288,80 +287,7 @@ extension CanvasView {
     })
   }
   
-  func mouseDown(_ location: PointModel) -> Bool {
-    guard isUserInteractionEnabled else {
-      return false
-    }
-    
-    lastDraggedPoint = location
-    
-    if createMode != .text {
-      if let knob = selectedItem?.knobAt(point: location) {
-        selectedKnob = knob
-        return true
-      }
-      
-      if let item = itemAt(point: location) {
-        selectedItem = item
-        item.isSelected = true
-        
-        return true
-      }
-    }
-    
-    if selectedItem == nil, selectedTextAnnotation == nil, let newItem = createItem(mouseDown: location, color: createColor) {
-      
-      add(newItem)
-      newItem.doInitialSetupOnCanvas()
-      
-      return true
-    }
-    
-    selectedItem = nil
 
-    return false
-  }
-  
-  func mouseDragged(_ location: PointModel) {
-
-    guard isUserInteractionEnabled else {
-      return
-    }
-    
-    // should check if not nil here otherwise crash can occur
-    guard let lastDragPoint = self.lastDraggedPoint else { return }
-    
-    let lastDraggedPoint = lastDragPoint
-    
-    // create new item
-    if selectedItem == nil {
-      let (newItem, newKnob) = createItem(dragFrom: lastDraggedPoint, to: location, color: createColor)
-      
-      if let item = newItem {
-        add(item)
-        selectedItem = item
-        selectedKnob = newKnob
-        isChanged = true
-        self.lastDraggedPoint = location
-      }
-      
-      return
-    }
-    
-    guard let selectedItem = selectedItem else {
-      return
-    }
-    
-    if let selectedKnob = self.selectedKnob {
-      selectedItem.draggedKnob(selectedKnob, from: lastDraggedPoint, to: location)
-    } else {
-      selectedItem.dragged(from: lastDraggedPoint, to: location)
-    }
-    
-    isChanged = true
-    self.lastDraggedPoint = location
-  }
-  
   func mouseUp(_ location: PointModel) {
 
     guard isUserInteractionEnabled else {
