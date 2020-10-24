@@ -14,7 +14,7 @@ typealias CanvasHistory = HistoryClass<CanvasModel>
 class ViewController: NSViewController {
   var history: CanvasHistory!
   
-  @IBOutlet weak var canvasView: CanvasViewClass!
+  @IBOutlet weak var canvasView: CanvasView!
   @IBOutlet var undoButton: NSButton!
   @IBOutlet var redoButton: NSButton!
   
