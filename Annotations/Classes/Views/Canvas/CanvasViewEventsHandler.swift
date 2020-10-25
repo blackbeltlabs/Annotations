@@ -64,9 +64,17 @@ class CanvasViewEventsHandler {
     // then need to move it or its knob (resize or scale)
     if let selectedItem = canvasView.selectedItem {
       if let selectedKnob = canvasView.selectedKnob {
+        print("Dragged knob")
         selectedItem.draggedKnob(selectedKnob, from: lastDraggedPoint, to: point)
+        canvasView.delegate?.canvasView(canvasView,
+                                        didTransform: selectedItem,
+                                        action: .resize)
       } else {
+        print("Dragged item")
         selectedItem.dragged(from: lastDraggedPoint, to: point)
+        canvasView.delegate?.canvasView(canvasView,
+                                        didTransform: selectedItem,
+                                        action: .move)
       }
       
       isChanged = true

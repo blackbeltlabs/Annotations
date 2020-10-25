@@ -147,6 +147,10 @@ class ViewController: NSViewController {
 }
 
 extension ViewController: CanvasViewDelegate {
+  func canvasView(_ canvasView: CanvasView, didTransform annotation: CanvasDrawable, action: CanvasViewTransformAction) {
+    
+  }
+  
   func canvasView(_ canvasView: CanvasView, didCreateAnnotation annotation: CanvasDrawable) {
     print("did create annotation \(annotation.modelType)")
   }

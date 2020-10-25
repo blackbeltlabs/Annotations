@@ -710,14 +710,22 @@ CA
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="Annotations_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="511" height="309"/>
+                        <rect key="frame" x="0.0" y="0.0" width="700" height="565"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KaE-1o-SX7">
+                                <rect key="frame" x="0.0" y="0.0" width="700" height="500"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="catalina" id="NpD-ln-SsL"/>
+                            </imageView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="ebu-rf-uXG" customClass="CanvasView" customModule="Annotations">
-                                <rect key="frame" x="0.0" y="0.0" width="511" height="244"/>
+                                <rect key="frame" x="0.0" y="0.0" width="700" height="500"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="700" id="Vbc-5T-tUf"/>
+                                    <constraint firstAttribute="height" constant="500" id="w6g-hL-66T"/>
+                                </constraints>
                             </customView>
                             <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JrP-53-D0T">
-                                <rect key="frame" x="108" y="8" width="395" height="24"/>
+                                <rect key="frame" x="297" y="8" width="395" height="24"/>
                                 <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="Y11-io-MbH">
                                     <font key="font" metaFont="system"/>
                                     <segments>
@@ -734,7 +742,7 @@ CA
                                 </connections>
                             </segmentedControl>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="V4e-VP-LAe">
-                                <rect key="frame" x="457" y="285" width="22" height="19"/>
+                                <rect key="frame" x="646" y="541" width="22" height="19"/>
                                 <buttonCell key="cell" type="roundRect" title="&lt;" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="La9-VN-j6m">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="cellTitle"/>
@@ -744,7 +752,7 @@ CA
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Gha-MZ-5cr">
-                                <rect key="frame" x="479" y="285" width="22" height="19"/>
+                                <rect key="frame" x="668" y="541" width="22" height="19"/>
                                 <buttonCell key="cell" type="roundRect" title="&gt;" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="82C-NF-qpk">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="cellTitle"/>
@@ -754,7 +762,7 @@ CA
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wKk-SA-T8e">
-                                <rect key="frame" x="371" y="44" width="132" height="18"/>
+                                <rect key="frame" x="560" y="44" width="132" height="18"/>
                                 <buttonCell key="cell" type="check" title="Enable interaction" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="SQr-uD-lQv">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -764,7 +772,7 @@ CA
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vi4-iR-pfq">
-                                <rect key="frame" x="432" y="65" width="75" height="32"/>
+                                <rect key="frame" x="621" y="65" width="75" height="32"/>
                                 <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="inD-Yx-Mhg">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -774,7 +782,7 @@ CA
                                 </connections>
                             </button>
                             <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="9" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0T1-Hw-OI2">
-                                <rect key="frame" x="20" y="252" width="221" height="37"/>
+                                <rect key="frame" x="20" y="508" width="221" height="37"/>
                                 <subviews>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="m48-Gs-ibc" customClass="ColorPickerView" customModule="Annotations_Example" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="37" height="37"/>
@@ -836,14 +844,18 @@ CA
                             <constraint firstItem="ebu-rf-uXG" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="65" id="9yF-ZF-Oo2"/>
                             <constraint firstItem="Gha-MZ-5cr" firstAttribute="centerY" secondItem="V4e-VP-LAe" secondAttribute="centerY" id="A8I-Lh-4yN"/>
                             <constraint firstAttribute="trailing" secondItem="JrP-53-D0T" secondAttribute="trailing" constant="10" id="LEl-ts-QHM"/>
+                            <constraint firstItem="KaE-1o-SX7" firstAttribute="centerY" secondItem="ebu-rf-uXG" secondAttribute="centerY" id="MWt-v1-8Fe"/>
                             <constraint firstItem="Gha-MZ-5cr" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="5" id="RFI-sf-0Sa"/>
                             <constraint firstAttribute="trailing" secondItem="Gha-MZ-5cr" secondAttribute="trailing" constant="10" id="SiN-dI-imO"/>
                             <constraint firstItem="wKk-SA-T8e" firstAttribute="top" secondItem="Vi4-iR-pfq" secondAttribute="bottom" constant="12" id="UDd-Um-k5v"/>
                             <constraint firstItem="Vi4-iR-pfq" firstAttribute="trailing" secondItem="wKk-SA-T8e" secondAttribute="trailing" id="XVG-Of-osC"/>
                             <constraint firstItem="ebu-rf-uXG" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="ZkZ-Eg-Raq"/>
                             <constraint firstItem="0T1-Hw-OI2" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="fNE-cR-XUa"/>
+                            <constraint firstItem="KaE-1o-SX7" firstAttribute="height" secondItem="ebu-rf-uXG" secondAttribute="height" id="heG-Gv-vyR"/>
                             <constraint firstItem="Gha-MZ-5cr" firstAttribute="leading" secondItem="V4e-VP-LAe" secondAttribute="trailing" id="ixG-lm-rmy"/>
                             <constraint firstItem="0T1-Hw-OI2" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="lsn-7y-g4y"/>
+                            <constraint firstItem="KaE-1o-SX7" firstAttribute="centerX" secondItem="ebu-rf-uXG" secondAttribute="centerX" id="nLC-yV-E9g"/>
+                            <constraint firstItem="KaE-1o-SX7" firstAttribute="width" secondItem="ebu-rf-uXG" secondAttribute="width" id="pW4-D5-Qxg"/>
                             <constraint firstAttribute="trailing" secondItem="ebu-rf-uXG" secondAttribute="trailing" id="zg7-aV-g1P"/>
                         </constraints>
                     </view>
@@ -859,4 +871,7 @@ CA
             <point key="canvasLocation" x="90.5" y="674.5"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="catalina" width="1400" height="1000"/>
+    </resources>
 </document>
