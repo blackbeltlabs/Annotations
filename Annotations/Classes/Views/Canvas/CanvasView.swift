@@ -5,7 +5,7 @@ public enum CanvasViewTransformAction {
   case move
 }
 
-public protocol CanvasViewDelegate {
+public protocol CanvasViewDelegate: class {
   func canvasView(_ canvasView: CanvasView, didUpdateModel model: CanvasModel)
   func canvasView(_ canvasView: CanvasView, didCreateAnnotation annotation: CanvasDrawable)
   func canvasView(_ canvasView: CanvasView, didStartEditing annotation: TextAnnotation)
@@ -16,9 +16,15 @@ public protocol CanvasViewDelegate {
                   action: CanvasViewTransformAction)
 }
 
+public protocol CanvasViewDataSource: class {
+  // need it for obfuscate tool
+  func cropImage(for rect: CGRect) -> NSImage?
+}
+
 public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, ObfuscateCanvas, TextAnnotationCanvas, HighlightCanvas, TextAnnotationDelegate {
   
-  public var delegate: CanvasViewDelegate?
+  public weak var delegate: CanvasViewDelegate?
+  public weak var dataSource: CanvasViewDataSource?
   public var textCanvasDelegate: TextAnnotationDelegate?
   
   public var isUserInteractionEnabled: Bool = true {

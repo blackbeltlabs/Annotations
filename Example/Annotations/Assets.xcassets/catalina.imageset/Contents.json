@@ -1,11 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "catalina.png",
+      "filename" : "catalina-1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "catalina.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

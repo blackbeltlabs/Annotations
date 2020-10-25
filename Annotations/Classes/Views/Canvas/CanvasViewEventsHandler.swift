@@ -63,6 +63,19 @@ class CanvasViewEventsHandler {
     // if item has been selected before
     // then need to move it or its knob (resize or scale)
     if let selectedItem = canvasView.selectedItem {
+        if let rect = selectedItem as? RectView {
+          let cgRect = rect.state.model.rect
+          print(rect.state.model.rect)
+          
+          
+          let updatedRect = CGRect(x: cgRect.origin.x,
+                                   y: canvasView.frame.height - (cgRect.origin.y + cgRect.height),
+                                   width: cgRect.width,
+                                   height: cgRect.height)
+                  
+          let image = canvasView.dataSource?.cropImage(for: updatedRect)
+        }
+        
       if let selectedKnob = canvasView.selectedKnob {
         print("Dragged knob")
         selectedItem.draggedKnob(selectedKnob, from: lastDraggedPoint, to: point)
