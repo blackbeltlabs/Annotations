@@ -21,7 +21,7 @@ class ImageHelper {
     return outputImage.nsImage
   }
 
-  func applyPixelateFilter(_ image: NSImage) -> NSImage? {
+  func applyPixellateFilter(_ image: NSImage) -> NSImage? {
     guard let ciImage = image.ciImage else { return nil }
   
     guard let blurFilter = CIFilter(name: "CIPixellate") else {
@@ -29,7 +29,7 @@ class ImageHelper {
     }
     blurFilter.setValue(ciImage, forKey: kCIInputImageKey)
     
-    blurFilter.setValue(NSNumber(integerLiteral: 100), forKey: "inputScale")
+    blurFilter.setValue(NSNumber(integerLiteral: 20), forKey: "inputScale")
     
     guard let outputImage = blurFilter.outputImage else {
       return nil

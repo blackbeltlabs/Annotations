@@ -88,7 +88,7 @@ class ObfuscateView: CanvasDrawable {
     let layer = CAShapeLayer()
     layer.fillColor = NSColor.clear.cgColor
     layer.strokeColor = NSColor.red.cgColor
-    layer.lineWidth = 1
+    layer.lineWidth = 2
     
     return layer
   }

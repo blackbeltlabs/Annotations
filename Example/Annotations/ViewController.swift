@@ -191,12 +191,8 @@ extension ViewController: CanvasViewDataSource {
     }
     
     let trimmed = trim(image: image, rect: rect)
-  
-    let pixellated = applyPixelateFilter(trimmed)
-    
-    littleImageView.image = pixellated
-    
-    return pixellated
+          
+    return trimmed
     
   }
   
@@ -222,7 +218,7 @@ extension ViewController: CanvasViewDataSource {
                from: updatedRect,
                operation: .copy,
                fraction: 1.0,
-               respectFlipped: true,
+               respectFlipped: false,
                hints: nil)
 
     result.unlockFocus()
@@ -231,46 +227,10 @@ extension ViewController: CanvasViewDataSource {
   
   
   
-  func transformRectToQuartz(rect: CGRect, screenHeight: CGFloat) -> CGRect {
-    var transform = CGAffineTransform(scaleX: 1, y: -1)
-    transform = transform.translatedBy(x: 0, y: -screenHeight)
-    return rect.applying(transform)
-  }
+//  func transformRectToQuartz(rect: CGRect, screenHeight: CGFloat) -> CGRect {
+//    var transform = CGAffineTransform(scaleX: 1, y: -1)
+//    transform = transform.translatedBy(x: 0, y: -screenHeight)
+//    return rect.applying(transform)
+//  }
   
-  func applyPixelateFilter(_ image: NSImage) -> NSImage? {
-    guard let ciImage = image.ciImage else { return nil }
-  
-    guard let blurFilter = CIFilter(name: "CIPixellate") else {
-      return nil
-    }
-    blurFilter.setValue(ciImage, forKey: kCIInputImageKey)
-    
-    blurFilter.setValue(NSNumber(integerLiteral: 10), forKey: "inputScale")
-    
-    guard let outputImage = blurFilter.outputImage else {
-      return nil
-    }
-  
-    return outputImage.nsImage
-  }
-}
-
-
-// MARK: - Extensions
-private extension NSImage {
-  var ciImage: CIImage? {
-    guard let tiffImage = tiffRepresentation else {
-      return nil
-    }
-    return CIImage(data: tiffImage)
-  }
-}
-
-private extension CIImage {
-  var nsImage: NSImage {
-    let rep = NSCIImageRep(ciImage: self)
-    let nsImage = NSImage(size: rep.size)
-    nsImage.addRepresentation(rep)
-    return nsImage
-  }
 }

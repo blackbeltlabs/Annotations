@@ -3,6 +3,8 @@ import Foundation
 class CanvasViewEventsHandler {
   weak var canvasView: CanvasView?
   
+  private let imageHelper = ImageHelper()
+  
   private let logger = Logger(isDebug: false)
   private var isChanged: Bool = false
     
@@ -68,14 +70,21 @@ class CanvasViewEventsHandler {
           print(rect.state.model.rect)
           
           
+          // transform from flipped to default Mac OS here
           let updatedRect = CGRect(x: cgRect.origin.x,
                                    y: canvasView.frame.height - (cgRect.origin.y + cgRect.height),
                                    width: cgRect.width,
                                    height: cgRect.height)
                   
-          let image = canvasView.dataSource?.cropImage(for: updatedRect)
+          guard let image = canvasView.dataSource?.cropImage(for: updatedRect) else {
+            return
+          }
           
-          rect.state.image = image
+          
+          
+          let pixellated = imageHelper.applyPixellateFilter(image)
+          
+          rect.state.image = pixellated
           rect.render(state: rect.state, oldState: nil)
         }
         
