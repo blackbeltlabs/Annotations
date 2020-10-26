@@ -192,10 +192,11 @@ extension ViewController: CanvasViewDataSource {
     
     let trimmed = trim(image: image, rect: rect)
   
+    let pixellated = applyPixelateFilter(trimmed)
     
-    littleImageView.image = applyPixelateFilter(trimmed)
+    littleImageView.image = pixellated
     
-    return trimmed
+    return pixellated
     
   }
   
@@ -244,7 +245,7 @@ extension ViewController: CanvasViewDataSource {
     }
     blurFilter.setValue(ciImage, forKey: kCIInputImageKey)
     
-    blurFilter.setValue(NSNumber(integerLiteral: 50), forKey: "inputScale")
+    blurFilter.setValue(NSNumber(integerLiteral: 10), forKey: "inputScale")
     
     guard let outputImage = blurFilter.outputImage else {
       return nil

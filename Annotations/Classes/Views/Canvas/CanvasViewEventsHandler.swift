@@ -63,7 +63,7 @@ class CanvasViewEventsHandler {
     // if item has been selected before
     // then need to move it or its knob (resize or scale)
     if let selectedItem = canvasView.selectedItem {
-        if let rect = selectedItem as? RectView {
+        if let rect = selectedItem as? ObfuscateView {
           let cgRect = rect.state.model.rect
           print(rect.state.model.rect)
           
@@ -74,6 +74,9 @@ class CanvasViewEventsHandler {
                                    height: cgRect.height)
                   
           let image = canvasView.dataSource?.cropImage(for: updatedRect)
+          
+          rect.state.image = image
+          rect.render(state: rect.state, oldState: nil)
         }
         
       if let selectedKnob = canvasView.selectedKnob {

@@ -8,6 +8,7 @@ protocol ObfuscateViewDelegate {
 struct ObfuscateViewState {
   var model: ObfuscateModel
   var isSelected: Bool
+  var image: NSImage?
 }
 
 
@@ -21,6 +22,7 @@ class ObfuscateView: CanvasDrawable {
   var delegate: ObfuscateViewDelegate?
   
   var layer: CAShapeLayer
+  var imageLayer: CALayer!
   var globalIndex: Int
   var modelIndex: Int
   let color: NSColor?
@@ -40,6 +42,9 @@ class ObfuscateView: CanvasDrawable {
     let layer = type(of: self).createLayer()
     
     self.init(state: state, modelIndex: modelIndex, globalIndex: globalIndex, layer: layer, color: color)
+    
+    imageLayer = CALayer()
+    layer.addSublayer(imageLayer!)
   }
   
   init(state: ObfuscateViewState, modelIndex: Int, globalIndex: Int, layer: CAShapeLayer, color: ModelColor) {
@@ -81,9 +86,9 @@ class ObfuscateView: CanvasDrawable {
   
   static func createLayer() -> CAShapeLayer {
     let layer = CAShapeLayer()
-    layer.fillColor = NSColor.obfuscate.cgColor
-    layer.strokeColor = NSColor.obfuscate.cgColor
-    layer.lineWidth = 0
+    layer.fillColor = NSColor.clear.cgColor
+    layer.strokeColor = NSColor.red.cgColor
+    layer.lineWidth = 1
     
     return layer
   }
@@ -128,6 +133,12 @@ class ObfuscateView: CanvasDrawable {
   func render(state: ObfuscateViewState, oldState: ObfuscateViewState? = nil) {
     if state.model != oldState?.model {
       layer.shapePath = type(of: self).createPath(model: model)
+      
+      if let image = state.image {
+        imageLayer.contents = image
+        imageLayer.frame = CGRect(fromPoint: model.origin.cgPoint,
+                                  toPoint: model.to.cgPoint)
+      }
       
       for rectPoint in RectPoint.allCases {
         knobAt(rectPoint: rectPoint).state.model = state.model.valueFor(rectPoint: rectPoint)
