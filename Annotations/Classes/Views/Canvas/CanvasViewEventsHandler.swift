@@ -80,6 +80,7 @@ class CanvasViewEventsHandler {
             let pixellated = imageHelper.applyPixellateFilter(image,
                                                               strength: canvasView.obfuscateStrength)
             rect.state.image = pixellated
+            rect.state.isSelected = true
             rect.render(state: rect.state, oldState: nil)
           }
         }

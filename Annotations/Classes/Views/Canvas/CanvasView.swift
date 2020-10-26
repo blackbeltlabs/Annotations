@@ -75,7 +75,7 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   private let canvasViewEventsHandler = CanvasViewEventsHandler()
   private let imageHelper = ImageHelper()
   
-  var obfuscateStrength: Int = 10
+  var obfuscateStrength: Int = 7
   
   // MARK: - Initializers
   
@@ -291,3 +291,6 @@ extension CanvasView {
     delegate?.canvasView(self, didDeselect: selectedTextAnnotation)
   }
 }
+
+// MARK: - Obfuscate views
+

@@ -108,7 +108,7 @@ class ObfuscateView: CanvasDrawable {
   }
   
   func addTo(canvas: CanvasView) {
-    canvas.canvasLayer.addSublayer(layer)
+    canvas.canvasLayer.insertSublayer(layer, at: 0)    
   }
   
   func removeFrom(canvas: CanvasView) {
@@ -155,11 +155,13 @@ class ObfuscateView: CanvasDrawable {
         knobs.forEach { (knob) in
           layer.addSublayer(knob.layer)
         }
+        layer.lineWidth = 2.0
       } else {
         CATransaction.withoutAnimation {
           knobs.forEach { (knob) in
             knob.layer.removeFromSuperlayer()
           }
+          layer.lineWidth = 0.0
         }
       }
     }
