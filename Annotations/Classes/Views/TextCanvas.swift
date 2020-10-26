@@ -1,10 +1,3 @@
-//
-//  TextCanvas.swift
-//  Annotations
-//
-//  Created by Mirko on 5/22/19.
-//
-
 import Foundation
 
 protocol TextCanvas: TextAnnotationCanvas, TextViewDelegate where Self: CanvasView {
@@ -13,7 +6,7 @@ protocol TextCanvas: TextAnnotationCanvas, TextViewDelegate where Self: CanvasVi
 }
 
 extension TextCanvas {
-  public func createTextView(text: String = "", origin: PointModel, params: TextParams) -> TextViewDrawable {
+  public func createTextView(text: String = "", origin: PointModel, params: TextParams) -> TextViewAnnotation {
     let newTextView = createTextAnnotation(text: text,
                                            location: origin.cgPoint,
                                            textParams: params)
@@ -30,7 +23,7 @@ extension TextCanvas {
     
     let nsColor = params.foregroundColor ?? ModelColor.orange
     
-    let newView = TextViewClass(state: state,
+    let newView = TextViewAnnotation(state: state,
                                 modelIndex: modelIndex,
                                 globalIndex: textModel.index,
                                 view: newTextView,
@@ -40,7 +33,7 @@ extension TextCanvas {
     return newView
   }
   
-  func createTextView(textModel: TextModel, index: Int) -> TextViewDrawable {
+  func createTextView(textModel: TextModel, index: Int) -> TextViewAnnotation {
     let newTextView = createTextAnnotation(modelable: textModel)
     
     
@@ -50,7 +43,7 @@ extension TextCanvas {
     
     let nsColor = textModel.style.foregroundColor ?? .orange
     
-    let newView = TextViewClass(state: state,
+    let newView = TextViewAnnotation(state: state,
                                 modelIndex: index,
                                 globalIndex: textModel.index,
                                 view: newTextView,
@@ -76,7 +69,7 @@ extension TextCanvas {
 
 // TextViewDelegate
 extension TextCanvas {
-  func textView(_ arrowView: TextViewDrawable, didUpdate model: TextModel, atIndex index: Int) {
+  func textView(_ arrowView: TextViewAnnotation, didUpdate model: TextModel, atIndex index: Int) {
     guard !model.text.isEmpty else {
       return
     }

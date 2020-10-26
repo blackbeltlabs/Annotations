@@ -10,16 +10,51 @@ struct RectViewState {
   var isSelected: Bool
 }
 
-protocol RectView: CanvasDrawable {
-  var delegate: RectViewDelegate? { get set }
-  var state: RectViewState { get set }
-  var modelIndex: Int { get set }
-  var layer: CAShapeLayer { get }
-  var knobDict: [RectPoint: KnobView] { get }
+class RectView: CanvasDrawable {
+  var state: RectViewState {
+    didSet {
+      self.render(state: self.state, oldState: oldValue)
+    }
+  }
   
-}
-
-extension RectView {
+  var delegate: RectViewDelegate?
+  
+  var layer: CAShapeLayer
+  var globalIndex: Int
+  var modelIndex: Int
+  
+  var color: NSColor? {
+    guard let color = layer.strokeColor else { return nil }
+    return NSColor(cgColor: color)
+  }
+  
+  lazy var knobDict: [RectPoint: KnobView] = [
+    .origin: KnobView(model: model.origin),
+    .to: KnobView(model: model.to),
+    .originY: KnobView(model: model.origin.returnPointModel(dx: model.origin.x, dy: model.to.y)),
+    .toX: KnobView(model: model.to.returnPointModel(dx: model.to.x, dy: model.origin.y))
+  ]
+  
+  convenience init(state: RectViewState,
+                   modelIndex: Int,
+                   globalIndex: Int,
+                   color: ModelColor) {
+    
+    let layerColor = NSColor.color(from: color).cgColor
+    let layer = type(of: self).createLayer(color: layerColor)
+    
+    self.init(state: state, modelIndex: modelIndex, globalIndex: globalIndex, layer: layer)
+  }
+  
+  init(state: RectViewState, modelIndex: Int, globalIndex: Int, layer: CAShapeLayer) {
+    self.state = state
+    self.modelIndex = modelIndex
+    self.globalIndex = globalIndex
+    self.layer = layer
+    self.render(state: state)
+  }
+  
+  
   static var modelType: CanvasItemType { return .rect }
   
   var model: RectModel { return state.model }
@@ -123,51 +158,6 @@ extension RectView {
   func updateColor(_ color: NSColor) {
     layer.strokeColor = color.cgColor
     state.model = model.copyWithColor(color: color.annotationModelColor)
-  }
-}
-
-class RectViewClass: RectView {
-  var state: RectViewState {
-    didSet {
-      self.render(state: self.state, oldState: oldValue)
-    }
-  }
-  
-  var delegate: RectViewDelegate?
-  
-  var layer: CAShapeLayer
-  var globalIndex: Int
-  var modelIndex: Int
-  
-  var color: NSColor? {
-    guard let color = layer.strokeColor else { return nil }
-    return NSColor(cgColor: color)
-  }
-  
-  lazy var knobDict: [RectPoint: KnobView] = [
-    .origin: KnobViewClass(model: model.origin),
-    .to: KnobViewClass(model: model.to),
-    .originY: KnobViewClass(model: model.origin.returnPointModel(dx: model.origin.x, dy: model.to.y)),
-    .toX: KnobViewClass(model: model.to.returnPointModel(dx: model.to.x, dy: model.origin.y))
-  ]
-  
-  convenience init(state: RectViewState,
-                   modelIndex: Int,
-                   globalIndex: Int,
-                   color: ModelColor) {
-    
-    let layerColor = NSColor.color(from: color).cgColor
-    let layer = type(of: self).createLayer(color: layerColor)
-    
-    self.init(state: state, modelIndex: modelIndex, globalIndex: globalIndex, layer: layer)
-  }
-  
-  init(state: RectViewState, modelIndex: Int, globalIndex: Int, layer: CAShapeLayer) {
-    self.state = state
-    self.modelIndex = modelIndex
-    self.globalIndex = globalIndex
-    self.layer = layer
-    self.render(state: state)
   }
 }
 

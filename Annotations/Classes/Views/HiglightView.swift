@@ -14,17 +14,54 @@ class HiglightParentLayer: CALayer {}
 class HighlightLayerMask: CAShapeLayer {}
 class HighlightLayer: CAShapeLayer {}
 
-protocol HighlightView: CanvasDrawable {
-  var delegate: HighlightViewDelegate? { get set }
-  var state: HighlightViewState { get set }
-  var modelIndex: Int { get set }
-  var layer: HighlightLayer { get }
-  var knobDict: [RectPoint: KnobView] { get }
-  var maskPath: CGPath? { get set }
-  var maskRects: [CGRect] { get set }
-}
-
-extension HighlightView {
+class HighlightView: CanvasDrawable {
+  var state: HighlightViewState {
+    didSet {
+      self.render(state: self.state, oldState: oldValue)
+    }
+  }
+  
+  var delegate: HighlightViewDelegate?
+  
+  var layer: HighlightLayer
+  var maskRects: [CGRect]
+  var maskPath: CGPath?
+  var globalIndex: Int
+  var modelIndex: Int
+  
+  var color: NSColor? {
+    guard let color = layer.strokeColor else { return nil }
+    return NSColor(cgColor: color)
+  }
+  
+  lazy var knobDict: [RectPoint: KnobView] = [
+    .origin: KnobView(model: model.origin),
+    .to: KnobView(model: model.to),
+    .originY: KnobView(model: model.origin.returnPointModel(dx: model.origin.x, dy: model.to.y)),
+    .toX: KnobView(model: model.to.returnPointModel(dx: model.to.x, dy: model.origin.y))
+  ]
+  
+  convenience init(state: HighlightViewState,
+                   modelIndex: Int,
+                   globalIndex: Int,
+                   maskRects: [CGRect],
+                   color: ModelColor) {
+    
+    let layerColor = NSColor.color(from: color).cgColor
+    let layer = type(of: self).createLayer(color: layerColor, state: state)
+    
+    self.init(state: state, modelIndex: modelIndex, globalIndex: globalIndex, layer: layer, maskRects: maskRects)
+  }
+  
+  init(state: HighlightViewState, modelIndex: Int, globalIndex: Int, layer: HighlightLayer, maskRects: [CGRect]) {
+    self.state = state
+    self.modelIndex = modelIndex
+    self.globalIndex = globalIndex
+    self.layer = layer
+    self.maskRects = maskRects
+    self.render(state: state)
+  }
+  
   static var modelType: CanvasItemType { .highlight }
   
   var model: HighlightModel { state.model }
@@ -190,54 +227,5 @@ extension HighlightView {
   func updateColor(_ color: NSColor) {
     layer.strokeColor = color.cgColor
     state.model = model.copyWithColor(color: color.annotationModelColor)
-  }
-}
-
-class HighlightViewClass: HighlightView {
-  var state: HighlightViewState {
-    didSet {
-      self.render(state: self.state, oldState: oldValue)
-    }
-  }
-  
-  var delegate: HighlightViewDelegate?
-  
-  var layer: HighlightLayer
-  var maskRects: [CGRect]
-  var maskPath: CGPath?
-  var globalIndex: Int
-  var modelIndex: Int
-  
-  var color: NSColor? {
-    guard let color = layer.strokeColor else { return nil }
-    return NSColor(cgColor: color)
-  }
-  
-  lazy var knobDict: [RectPoint: KnobView] = [
-    .origin: KnobViewClass(model: model.origin),
-    .to: KnobViewClass(model: model.to),
-    .originY: KnobViewClass(model: model.origin.returnPointModel(dx: model.origin.x, dy: model.to.y)),
-    .toX: KnobViewClass(model: model.to.returnPointModel(dx: model.to.x, dy: model.origin.y))
-  ]
-  
-  convenience init(state: HighlightViewState,
-                   modelIndex: Int,
-                   globalIndex: Int,
-                   maskRects: [CGRect],
-                   color: ModelColor) {
-    
-    let layerColor = NSColor.color(from: color).cgColor
-    let layer = type(of: self).createLayer(color: layerColor, state: state)
-    
-    self.init(state: state, modelIndex: modelIndex, globalIndex: globalIndex, layer: layer, maskRects: maskRects)
-  }
-  
-  init(state: HighlightViewState, modelIndex: Int, globalIndex: Int, layer: HighlightLayer, maskRects: [CGRect]) {
-    self.state = state
-    self.modelIndex = modelIndex
-    self.globalIndex = globalIndex
-    self.layer = layer
-    self.maskRects = maskRects
-    self.render(state: state)
   }
 }

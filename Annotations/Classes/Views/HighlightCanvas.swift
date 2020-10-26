@@ -10,11 +10,11 @@ extension HighlightCanvas {
     guard let modelIndex = canvas.highlights.firstIndex(of: model) else { return }
     let state = HighlightViewState(model: model, isSelected: false)
     let rects = canvas.highlights.map { $0.rect }
-    let view = HighlightViewClass(state: state,
-                                  modelIndex: modelIndex,
-                                  globalIndex: model.index,
-                                  maskRects: rects,
-                                  color: model.color)
+    let view = HighlightView(state: state,
+                             modelIndex: modelIndex,
+                             globalIndex: model.index,
+                             maskRects: rects,
+                             color: model.color)
     view.delegate = self
     add(view)
   }
@@ -30,11 +30,11 @@ extension HighlightCanvas {
     model.highlights.append(newRect)
     
     let state = HighlightViewState(model: newRect, isSelected: false)
-    let newView = HighlightViewClass(state: state,
-                                     modelIndex: model.highlights.count - 1,
-                                     globalIndex: newRect.index,
-                                     maskRects: rects,
-                                     color: color)
+    let newView = HighlightView(state: state,
+                                modelIndex: model.highlights.count - 1,
+                                globalIndex: newRect.index,
+                                maskRects: rects,
+                                color: color)
     newView.delegate = self
     
     let selectedKnob = newView.knobAt(rectPoint: .to)

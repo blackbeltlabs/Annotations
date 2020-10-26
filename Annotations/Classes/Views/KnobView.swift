@@ -1,25 +1,29 @@
-//
-//  KnobView.swift
-//  Annotate
-//
-//  Created by Mirko on 12/30/18.
-//  Copyright © 2018 Blackbelt Labs. All rights reserved.
-//
-
 import Cocoa
 
 public struct KnobViewState {
   var model: PointModel
 }
 
-public protocol KnobView: class {
-  static var width: CGFloat { get }
+public class KnobView {
+  var state: KnobViewState {
+    didSet {
+      render(state: state, oldState: oldValue)
+    }
+  }
   
-  var state: KnobViewState { get set }
-  var layer: CAShapeLayer { get set }
-}
-
-extension KnobView {
+  static let width: CGFloat = 9
+  
+  var layer: CAShapeLayer
+  
+  init(model: PointModel) {
+    state = KnobViewState(model: model)
+    layer = CAShapeLayer()
+    layer.fillColor = NSColor.annotations.cgColor
+    layer.strokeColor = NSColor.knob.cgColor
+    layer.lineWidth = 1
+    render(state: state)
+  }
+  
   var model: PointModel { return state.model }
   
   var path: CGPath {
@@ -62,26 +66,5 @@ extension KnobView {
   
   func render(state: KnobViewState, oldState: KnobViewState? = nil) {
     layer.shapePath = Self.createPath(model: model)
-  }
-}
-
-class KnobViewClass: KnobView {
-  var state: KnobViewState {
-    didSet {
-      render(state: state, oldState: oldValue)
-    }
-  }
-  
-  static let width: CGFloat = 9
-  
-  var layer: CAShapeLayer
-  
-  init(model: PointModel) {
-    state = KnobViewState(model: model)
-    layer = CAShapeLayer()
-    layer.fillColor = NSColor.annotations.cgColor
-    layer.strokeColor = NSColor.knob.cgColor
-    layer.lineWidth = 1
-    render(state: state)
   }
 }
