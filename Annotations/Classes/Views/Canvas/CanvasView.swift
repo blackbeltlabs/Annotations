@@ -21,7 +21,7 @@ public protocol CanvasViewDataSource: class {
   func cropImage(for rect: CGRect) -> NSImage?
 }
 
-public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, ObfuscateCanvas, TextAnnotationCanvas, HighlightCanvas, TextAnnotationDelegate {
+public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, ObfuscateCanvas, TextAnnotationCanvas, HighlightCanvas, TextAnnotationDelegate, ObfuscateViewDelegate {
   
   public weak var delegate: CanvasViewDelegate?
   public weak var dataSource: CanvasViewDataSource?
@@ -73,6 +73,9 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   
   // MARK: - Helpers and handlers
   private let canvasViewEventsHandler = CanvasViewEventsHandler()
+  private let imageHelper = ImageHelper()
+  
+  var obfuscateStrength: Int = 10
   
   // MARK: - Initializers
   

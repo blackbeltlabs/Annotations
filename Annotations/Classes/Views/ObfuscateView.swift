@@ -42,9 +42,6 @@ class ObfuscateView: CanvasDrawable {
     let layer = type(of: self).createLayer()
     
     self.init(state: state, modelIndex: modelIndex, globalIndex: globalIndex, layer: layer, color: color)
-    
-    imageLayer = CALayer()
-    layer.addSublayer(imageLayer!)
   }
   
   init(state: ObfuscateViewState, modelIndex: Int, globalIndex: Int, layer: CAShapeLayer, color: ModelColor) {
@@ -53,6 +50,9 @@ class ObfuscateView: CanvasDrawable {
     self.globalIndex = globalIndex
     self.layer = layer
     self.color = NSColor.color(from: color)
+    imageLayer = CALayer()
+    layer.addSublayer(imageLayer!)
+    
     self.render(state: state)
   }
   
@@ -135,9 +135,12 @@ class ObfuscateView: CanvasDrawable {
       layer.shapePath = type(of: self).createPath(model: model)
       
       if let image = state.image {
-        imageLayer.contents = image
         imageLayer.frame = CGRect(fromPoint: model.origin.cgPoint,
                                   toPoint: model.to.cgPoint)
+        imageLayer.contents = image
+        imageLayer.removeAllAnimations()
+      } else {
+        imageLayer.contents = nil
       }
       
       for rectPoint in RectPoint.allCases {
