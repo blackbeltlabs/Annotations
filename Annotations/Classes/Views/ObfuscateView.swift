@@ -22,7 +22,6 @@ class ObfuscateView: CanvasDrawable {
   var delegate: ObfuscateViewDelegate?
   
   var layer: CAShapeLayer
-  var imageLayer: CALayer!
   var globalIndex: Int
   var modelIndex: Int
   let color: NSColor?
@@ -52,8 +51,6 @@ class ObfuscateView: CanvasDrawable {
     self.globalIndex = globalIndex
     self.layer = layer
     self.color = NSColor.color(from: color)
-    imageLayer = CALayer()
-    layer.addSublayer(imageLayer!)
     
     self.render(state: state)
   }
@@ -159,37 +156,6 @@ class ObfuscateView: CanvasDrawable {
         }
       }
     }
-  }
-    
-  func layerWithObfuscatePalette(with colorSet: [NSColor], bounds: CGRect, layer: CALayer) {
-    let widthPart: CGFloat = 20.0
-    
-    var initialPoint: CGFloat = bounds.origin.x
-    var initialYPoint: CGFloat = bounds.origin.y
-    
-    while initialYPoint <= bounds.height {
-        
-        while initialPoint <= bounds.width {
-          let frame = CGRect(x: initialPoint,
-                             y: initialYPoint,
-                             width: widthPart,
-                             height: widthPart)
-          
-          let shapeLayer = CAShapeLayer()
-                      
-          shapeLayer.path = CGPath(rect: frame, transform: nil)
-          guard let cgColor = colorSet.randomElement()?.cgColor else { return }
-          shapeLayer.fillColor = cgColor
-          shapeLayer.strokeColor = nil
-          
-          layer.addSublayer(shapeLayer)
-          
-          initialPoint += widthPart
-        }
-        
-        initialYPoint += widthPart
-        initialPoint = 0
-    }  
   }
   
   func updateColor(_ color: NSColor) {

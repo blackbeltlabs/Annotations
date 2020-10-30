@@ -65,26 +65,6 @@ class CanvasViewEventsHandler {
     // if item has been selected before
     // then need to move it or its knob (resize or scale)
     if let selectedItem = canvasView.selectedItem {
-      
-        if let rect = selectedItem as? ObfuscateView {
-          let cgRect = rect.state.model.rect
-
-          // transform from flipped to default Mac OS here
-          let updatedRect = CGRect(x: cgRect.origin.x,
-                                   y: canvasView.frame.height - (cgRect.origin.y + cgRect.height),
-                                   width: cgRect.width,
-                                   height: cgRect.height)
-
-//          if let image = canvasView.dataSource?.cropImage(for: updatedRect) {
-//
-////            let pixellated = imageHelper.applyPixellateFilter(image,
-////                                                              strength: canvasView.obfuscateStrength)
-//          //  rect.state.image = image
-//            rect.state.isSelected = true
-//            rect.render(state: rect.state, oldState: nil)
-//          }
-        }
-        
       if let selectedKnob = canvasView.selectedKnob {
         selectedItem.draggedKnob(selectedKnob, from: lastDraggedPoint, to: point)
         canvasView.delegate?.canvasView(canvasView,
