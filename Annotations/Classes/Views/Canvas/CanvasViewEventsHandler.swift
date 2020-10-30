@@ -75,14 +75,14 @@ class CanvasViewEventsHandler {
                                    width: cgRect.width,
                                    height: cgRect.height)
 
-          if let image = canvasView.dataSource?.cropImage(for: updatedRect) {
-
-            let pixellated = imageHelper.applyPixellateFilter(image,
-                                                              strength: canvasView.obfuscateStrength)
-            rect.state.image = pixellated
-            rect.state.isSelected = true
-            rect.render(state: rect.state, oldState: nil)
-          }
+//          if let image = canvasView.dataSource?.cropImage(for: updatedRect) {
+//
+////            let pixellated = imageHelper.applyPixellateFilter(image,
+////                                                              strength: canvasView.obfuscateStrength)
+//          //  rect.state.image = image
+//            rect.state.isSelected = true
+//            rect.render(state: rect.state, oldState: nil)
+//          }
         }
         
       if let selectedKnob = canvasView.selectedKnob {

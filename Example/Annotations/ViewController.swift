@@ -202,10 +202,12 @@ extension ViewController: CanvasViewDataSource {
   
     let screenScale = NSScreen.main!.backingScaleFactor
   
-    updatedRect.origin.x *= screenScale
-    updatedRect.origin.y *= screenScale
-    updatedRect.size.width *= screenScale
-    updatedRect.size.height *= screenScale
+    if screenScale > 1.0 {
+        updatedRect.origin.x *= screenScale
+        updatedRect.origin.y *= screenScale
+        updatedRect.size.width *= screenScale
+        updatedRect.size.height *= screenScale
+    }
     
     let result = NSImage(size: updatedRect.size)
     print(image.size)

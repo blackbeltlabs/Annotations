@@ -134,14 +134,21 @@ class ObfuscateView: CanvasDrawable {
     if state.model != oldState?.model {
       layer.shapePath = type(of: self).createPath(model: model)
       
-      if let image = state.image {
-        imageLayer.frame = CGRect(fromPoint: model.origin.cgPoint,
-                                  toPoint: model.to.cgPoint)
-        imageLayer.contents = image
-        imageLayer.removeAllAnimations()
-      } else {
-        imageLayer.contents = nil
-      }
+      
+      imageLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
+      imageLayer.sublayers?.removeAll()
+      
+      let rect =  CGRect(fromPoint: model.origin.cgPoint,
+                         toPoint: model.to.cgPoint)
+      
+      imageLayer.frame = rect
+      
+      layerWithObfuscatePalette(with: [.red, .black, .brown, .blue, .orange],
+                                bounds: CGRect(origin: CGPoint(x: 0, y: 0),
+                                               size: rect.size),
+                                layer: imageLayer)
+      imageLayer.masksToBounds = true
+      imageLayer.removeAllAnimations()
       
       for rectPoint in RectPoint.allCases {
         knobAt(rectPoint: rectPoint).state.model = state.model.valueFor(rectPoint: rectPoint)
@@ -161,10 +168,41 @@ class ObfuscateView: CanvasDrawable {
           knobs.forEach { (knob) in
             knob.layer.removeFromSuperlayer()
           }
-          layer.lineWidth = 0.0
+          layer.lineWidth = 2.0
         }
       }
     }
+  }
+    
+  func layerWithObfuscatePalette(with colorSet: [NSColor], bounds: CGRect, layer: CALayer) {
+    let widthPart: CGFloat = 20.0
+    
+    var initialPoint: CGFloat = bounds.origin.x
+    var initialYPoint: CGFloat = bounds.origin.y
+    
+    while initialYPoint <= bounds.height {
+        
+        while initialPoint <= bounds.width {
+          let frame = CGRect(x: initialPoint,
+                             y: initialYPoint,
+                             width: widthPart,
+                             height: widthPart)
+          
+          let shapeLayer = CAShapeLayer()
+                      
+          shapeLayer.path = CGPath(rect: frame, transform: nil)
+          guard let cgColor = colorSet.randomElement()?.cgColor else { return }
+          shapeLayer.fillColor = cgColor
+          shapeLayer.strokeColor = nil
+          
+          layer.addSublayer(shapeLayer)
+          
+          initialPoint += widthPart
+        }
+        
+        initialYPoint += widthPart
+        initialPoint = 0
+    }  
   }
   
   func updateColor(_ color: NSColor) {
