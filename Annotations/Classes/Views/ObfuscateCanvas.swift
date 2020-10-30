@@ -49,35 +49,51 @@ extension ObfuscateCanvas {
     self.model.obfuscates[index] = model
   }
   
-  func fulfillLayerWithObfuscatePalette(layer: CALayer, colorsPalette: [NSColor]) {
+  
+  func generateObfuscatePaletteImage(size: NSSize,
+                                     colorPalette: [NSColor]) -> NSImage? {
+    let im = NSImage(size: size)
+
+    guard let rep = NSBitmapImageRep(bitmapDataPlanes: nil,
+                                     pixelsWide: Int(size.width),
+                                     pixelsHigh: Int(size.height),
+                                     bitsPerSample: 8,
+                                     samplesPerPixel: 4,
+                                     hasAlpha: true,
+                                     isPlanar: false,
+                                     colorSpaceName: NSColorSpaceName.calibratedRGB,
+                                     bytesPerRow: 0,
+                                     bitsPerPixel: 0) else {
+      return nil
+    }
+
+    im.addRepresentation(rep)
+    im.lockFocus()
+
+    let ctx = NSGraphicsContext.current?.cgContext
+
     let widthPart: CGFloat = 10.0
-    let bounds = layer.bounds
+    var initialPoint: CGFloat = 0
+    var initialYPoint: CGFloat = 0
     
-    var initialPoint: CGFloat = bounds.origin.x
-    var initialYPoint: CGFloat = bounds.origin.y
-    
-    while initialYPoint <= bounds.height {
-        
-        while initialPoint <= bounds.width {
-          let frame = CGRect(x: initialPoint,
-                             y: initialYPoint,
-                             width: widthPart,
-                             height: widthPart)
-          
-          let shapeLayer = CAShapeLayer()
-                      
-          shapeLayer.path = CGPath(rect: frame, transform: nil)
-          guard let cgColor = colorsPalette.randomElement()?.cgColor else { return }
-          shapeLayer.fillColor = cgColor
-          shapeLayer.strokeColor = nil
-          
-          layer.addSublayer(shapeLayer)
-          
+    while initialYPoint <= size.height {
+  
+        while initialPoint <= size.width {
+            let frame = CGRect(x: initialPoint,
+                               y: initialYPoint,
+                               width: widthPart,
+                               height: widthPart)
+                    
+          ctx?.setFillColor(colorPalette.randomElement()?.cgColor ?? NSColor.black.cgColor)
+          ctx?.fill(frame)
           initialPoint += widthPart
         }
         
         initialYPoint += widthPart
         initialPoint = 0
     }
+
+    im.unlockFocus()
+    return im
   }
 }

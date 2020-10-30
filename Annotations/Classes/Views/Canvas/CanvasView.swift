@@ -316,7 +316,9 @@ extension CanvasView {
   }
   
   public func updateObfuscateCanvas(with colors: [NSColor]) {
-    fulfillLayerWithObfuscatePalette(layer: obfuscateCanvasLayer,
-                                     colorsPalette: colors)
+    let image = generateObfuscatePaletteImage(size: obfuscateCanvasLayer.bounds.size,
+                                              colorPalette: colors)
+    
+    obfuscateCanvasLayer.contents = image
   }
 }
