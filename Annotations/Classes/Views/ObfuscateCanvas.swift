@@ -50,7 +50,7 @@ extension ObfuscateCanvas {
   }
   
   func fulfillLayerWithObfuscatePalette(layer: CALayer, colorsPalette: [NSColor]) {
-    let widthPart: CGFloat = 20.0
+    let widthPart: CGFloat = 10.0
     let bounds = layer.bounds
     
     var initialPoint: CGFloat = bounds.origin.x

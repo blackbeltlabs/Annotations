@@ -74,6 +74,7 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   // MARK: - Helpers and handlers
   private let canvasViewEventsHandler = CanvasViewEventsHandler()
   private let imageHelper = ImageHelper()
+  private let imageColorsCalculator = ImageColorsCalculator()
     
   var obfuscateLayer: CALayer = CALayer()
   var obfuscateCanvasLayer: CALayer = CALayer() // palette layer
@@ -97,6 +98,7 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
     wantsLayer = true
     canvasViewEventsHandler.canvasView = self
     
+    obfuscateCanvasLayer.shouldRasterize = true
     layer?.addSublayer(obfuscateLayer)
     obfuscateLayer.addSublayer(obfuscateCanvasLayer)
     // obfuscate views are mask of obfuscateCanvasLayer
@@ -308,6 +310,18 @@ extension CanvasView {
 // MARK: - Obfuscate views
 
 extension CanvasView {
+  
+  // pass image that is under annotations
+  public func setAnnotationsImage(_ image: NSImage) {
+    DispatchQueue.global().async {
+      let colors = self.imageColorsCalculator.mostUsedColors(from: image,
+                                                             count: 5)
+      DispatchQueue.main.async {
+        self.updateObfuscateCanvas(with: colors)
+      }
+    }
+  }
+  
   public func updateObfuscateCanvas(with colors: [NSColor]) {
     fulfillLayerWithObfuscatePalette(layer: obfuscateCanvasLayer,
                                      colorsPalette: colors)
