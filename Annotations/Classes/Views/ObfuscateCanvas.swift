@@ -48,4 +48,36 @@ extension ObfuscateCanvas {
   func obfuscateView(_ view: ObfuscateView, didUpdate model: ObfuscateModel, atIndex index: Int) {
     self.model.obfuscates[index] = model
   }
+  
+  func fulfillLayerWithObfuscatePalette(layer: CALayer, colorsPalette: [NSColor]) {
+    let widthPart: CGFloat = 20.0
+    let bounds = layer.bounds
+    
+    var initialPoint: CGFloat = bounds.origin.x
+    var initialYPoint: CGFloat = bounds.origin.y
+    
+    while initialYPoint <= bounds.height {
+        
+        while initialPoint <= bounds.width {
+          let frame = CGRect(x: initialPoint,
+                             y: initialYPoint,
+                             width: widthPart,
+                             height: widthPart)
+          
+          let shapeLayer = CAShapeLayer()
+                      
+          shapeLayer.path = CGPath(rect: frame, transform: nil)
+          guard let cgColor = colorsPalette.randomElement()?.cgColor else { return }
+          shapeLayer.fillColor = cgColor
+          shapeLayer.strokeColor = nil
+          
+          layer.addSublayer(shapeLayer)
+          
+          initialPoint += widthPart
+        }
+        
+        initialYPoint += widthPart
+        initialPoint = 0
+    }
+  }
 }

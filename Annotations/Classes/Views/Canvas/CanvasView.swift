@@ -74,8 +74,10 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   // MARK: - Helpers and handlers
   private let canvasViewEventsHandler = CanvasViewEventsHandler()
   private let imageHelper = ImageHelper()
-  
-  var obfuscateStrength: Int = 7
+    
+  var obfuscateLayer: CALayer = CALayer()
+  var obfuscateCanvasLayer: CALayer = CALayer() // palette layer
+  var obfuscateMaskLayers: CALayer = CALayer() // obfuscate views are added here to be a mask of canvas layer
   
   // MARK: - Initializers
   
@@ -94,6 +96,11 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   private func setup() {
     wantsLayer = true
     canvasViewEventsHandler.canvasView = self
+    
+    layer?.addSublayer(obfuscateLayer)
+    obfuscateLayer.addSublayer(obfuscateCanvasLayer)
+    // obfuscate views are mask of obfuscateCanvasLayer
+    obfuscateCanvasLayer.mask = obfuscateMaskLayers
   }
   
   // MARK: - Tracking areas
@@ -109,6 +116,12 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
     self.trackingArea = newTrackingArea
   }
   
+  public override func layout() {
+    super.layout()
+    obfuscateLayer.frame = self.frame
+    obfuscateCanvasLayer.frame = self.frame
+  }
+
   // MARK: - Mouse events
   
   override public func mouseDown(with event: NSEvent) {
@@ -294,3 +307,9 @@ extension CanvasView {
 
 // MARK: - Obfuscate views
 
+extension CanvasView {
+  public func updateObfuscateCanvas(with colors: [NSColor]) {
+    fulfillLayerWithObfuscatePalette(layer: obfuscateCanvasLayer,
+                                     colorsPalette: colors)
+  }
+}

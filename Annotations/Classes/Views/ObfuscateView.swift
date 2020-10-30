@@ -27,6 +27,8 @@ class ObfuscateView: CanvasDrawable {
   var modelIndex: Int
   let color: NSColor?
   
+  weak var canvasView: CanvasView?
+  
   lazy var knobDict: [RectPoint: KnobView] = [
     .origin: KnobView(model: model.origin),
     .to: KnobView(model: model.to),
@@ -86,7 +88,7 @@ class ObfuscateView: CanvasDrawable {
   
   static func createLayer() -> CAShapeLayer {
     let layer = CAShapeLayer()
-    layer.fillColor = NSColor.clear.cgColor
+    layer.fillColor = NSColor.black.cgColor
     layer.strokeColor = NSColor.red.cgColor
     layer.lineWidth = 2
     
@@ -108,7 +110,8 @@ class ObfuscateView: CanvasDrawable {
   }
   
   func addTo(canvas: CanvasView) {
-    canvas.canvasLayer.insertSublayer(layer, at: 0)    
+    self.canvasView = canvas
+    canvas.obfuscateMaskLayers.addSublayer(layer)
   }
   
   func removeFrom(canvas: CanvasView) {
@@ -134,22 +137,6 @@ class ObfuscateView: CanvasDrawable {
     if state.model != oldState?.model {
       layer.shapePath = type(of: self).createPath(model: model)
       
-      
-      imageLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
-      imageLayer.sublayers?.removeAll()
-      
-      let rect =  CGRect(fromPoint: model.origin.cgPoint,
-                         toPoint: model.to.cgPoint)
-      
-      imageLayer.frame = rect
-      
-      layerWithObfuscatePalette(with: [.red, .black, .brown, .blue, .orange],
-                                bounds: CGRect(origin: CGPoint(x: 0, y: 0),
-                                               size: rect.size),
-                                layer: imageLayer)
-      imageLayer.masksToBounds = true
-      imageLayer.removeAllAnimations()
-      
       for rectPoint in RectPoint.allCases {
         knobAt(rectPoint: rectPoint).state.model = state.model.valueFor(rectPoint: rectPoint)
       }
@@ -160,7 +147,7 @@ class ObfuscateView: CanvasDrawable {
     if state.isSelected != oldState?.isSelected {
       if state.isSelected {
         knobs.forEach { (knob) in
-          layer.addSublayer(knob.layer)
+          canvasView?.obfuscateLayer.addSublayer(knob.layer)
         }
         layer.lineWidth = 2.0
       } else {
