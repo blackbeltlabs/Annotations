@@ -16,15 +16,9 @@ public protocol CanvasViewDelegate: class {
                   action: CanvasViewTransformAction)
 }
 
-public protocol CanvasViewDataSource: class {
-  // need it for obfuscate tool
-  func cropImage(for rect: CGRect) -> NSImage?
-}
-
 public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, ObfuscateCanvas, TextAnnotationCanvas, HighlightCanvas, TextAnnotationDelegate, ObfuscateViewDelegate {
   
   public weak var delegate: CanvasViewDelegate?
-  public weak var dataSource: CanvasViewDataSource?
   public var textCanvasDelegate: TextAnnotationDelegate?
   
   public var isUserInteractionEnabled: Bool = true {
