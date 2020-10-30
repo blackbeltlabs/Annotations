@@ -92,7 +92,6 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
     wantsLayer = true
     canvasViewEventsHandler.canvasView = self
     
-    obfuscateCanvasLayer.shouldRasterize = true
     layer?.addSublayer(obfuscateLayer)
     obfuscateLayer.addSublayer(obfuscateCanvasLayer)
     // obfuscate views are mask of obfuscateCanvasLayer
