@@ -33,6 +33,8 @@ class ViewController: NSViewController {
     return ModelColor.defaultColors().map { NSColor.color(from: $0) }
   }()
   
+  let colorsCalculator = ImageColorsCalculator()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -62,6 +64,17 @@ class ViewController: NSViewController {
     littleImageView.wantsLayer = true
     littleImageView.layer?.borderColor = NSColor.green.cgColor
     littleImageView.layer?.borderWidth = 1.0
+    
+    let image = backgroundImageView.image!
+    
+    DispatchQueue.global().async {
+      print(Date().timeIntervalSinceReferenceDate)
+      let colors = self.colorsCalculator.mostUsedColors(from: image,
+                                                        count: 5)
+      print("Colors = \(colors)")
+      print(Date().timeIntervalSinceReferenceDate)
+    }
+
   }
   
   func setupColorPickerViews() {
