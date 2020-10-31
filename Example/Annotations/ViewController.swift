@@ -66,18 +66,7 @@ class ViewController: NSViewController {
     
     let image = backgroundImageView.image!
     
-    DispatchQueue.global().async {
-      print(Date().timeIntervalSinceReferenceDate)
-      let colors = self.colorsCalculator.mostUsedColors(from: image,
-                                                        count: 5)
-      
-      DispatchQueue.main.async {
-        self.canvasView.updateObfuscateCanvas(with: colors)
-      }
-      print("Colors = \(colors)")
-      print(Date().timeIntervalSinceReferenceDate)
-    }
-
+    canvasView.setAnnotationsImage(image)
   }
   
   func setupColorPickerViews() {

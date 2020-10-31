@@ -72,7 +72,7 @@ extension ObfuscateCanvas {
 
     let ctx = NSGraphicsContext.current?.cgContext
 
-    let widthPart: CGFloat = 10.0
+    let widthPart: CGFloat = 5.0
     var initialPoint: CGFloat = 0
     var initialYPoint: CGFloat = 0
     
@@ -95,5 +95,13 @@ extension ObfuscateCanvas {
 
     im.unlockFocus()
     return im
+  }
+  
+  func obfuscateFallbackImage(size: NSSize, _ color: NSColor) -> NSImage {
+    let image = NSImage(size: size)
+    image.lockFocus()
+    color.drawSwatch(in: NSRect(origin: .zero, size: size))
+    image.unlockFocus()
+    return image
   }
 }

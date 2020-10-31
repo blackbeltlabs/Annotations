@@ -115,6 +115,12 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
     super.layout()
     obfuscateLayer.frame = self.frame
     obfuscateCanvasLayer.frame = self.frame
+    
+    // fallback in case if obfuscate palette image will not be generated later for some reason
+    if obfuscateCanvasLayer.contents == nil {
+      obfuscateCanvasLayer.contents = obfuscateFallbackImage(size: frame.size,
+                                                             .black)
+    }
   }
 
   // MARK: - Mouse events
@@ -315,10 +321,15 @@ extension CanvasView {
     }
   }
   
-  public func updateObfuscateCanvas(with colors: [NSColor]) {
+  func updateObfuscateCanvas(with colors: [NSColor]) {
     let image = generateObfuscatePaletteImage(size: obfuscateCanvasLayer.bounds.size,
                                               colorPalette: colors)
-    
-    obfuscateCanvasLayer.contents = image
+    if let image = image {
+      obfuscateCanvasLayer.contents = image
+    } else {
+      // fallback with black color in case if image generation failed
+      obfuscateCanvasLayer.contents = obfuscateFallbackImage(size: obfuscateCanvasLayer.bounds.size,
+                                                             .black)
+    }
   }
 }
