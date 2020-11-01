@@ -14,11 +14,13 @@ typealias CanvasHistory = HistoryClass<CanvasModel>
 class ViewController: NSViewController {
   var history: CanvasHistory!
   
+  @IBOutlet weak var backgroundImageView: NSImageView!
   @IBOutlet weak var canvasView: CanvasView!
   @IBOutlet var undoButton: NSButton!
   @IBOutlet var redoButton: NSButton!
-  
   @IBOutlet weak var pickerViewsStackView: NSStackView!
+  @IBOutlet weak var littleImageView: NSImageView!
+  
   var selectedPickerView: ColorPickerView?
   
   var colorPickerViews: [ColorPickerView] {
@@ -30,6 +32,8 @@ class ViewController: NSViewController {
   lazy var colorPickerColors: [NSColor] = {
     return ModelColor.defaultColors().map { NSColor.color(from: $0) }
   }()
+  
+  let colorsCalculator = ImageColorsCalculator()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -55,6 +59,14 @@ class ViewController: NSViewController {
     canvasView.update(model: model)
     setupColorPickerViews()
     canvasView.textStyle = TextParams.randomFont()
+    
+    littleImageView.wantsLayer = true
+    littleImageView.layer?.borderColor = NSColor.green.cgColor
+    littleImageView.layer?.borderWidth = 1.0
+    
+    let image = backgroundImageView.image!
+    
+    canvasView.setAnnotationsImage(image)
   }
   
   func setupColorPickerViews() {
@@ -147,6 +159,10 @@ class ViewController: NSViewController {
 }
 
 extension ViewController: CanvasViewDelegate {
+  func canvasView(_ canvasView: CanvasView, didTransform annotation: CanvasDrawable, action: CanvasViewTransformAction) {
+    
+  }
+  
   func canvasView(_ canvasView: CanvasView, didCreateAnnotation annotation: CanvasDrawable) {
     print("did create annotation \(annotation.modelType)")
   }

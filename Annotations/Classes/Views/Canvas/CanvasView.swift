@@ -1,16 +1,24 @@
 import Cocoa
 
-public protocol CanvasViewDelegate {
+public enum CanvasViewTransformAction {
+  case resize
+  case move
+}
+
+public protocol CanvasViewDelegate: class {
   func canvasView(_ canvasView: CanvasView, didUpdateModel model: CanvasModel)
   func canvasView(_ canvasView: CanvasView, didCreateAnnotation annotation: CanvasDrawable)
   func canvasView(_ canvasView: CanvasView, didStartEditing annotation: TextAnnotation)
   func canvasView(_ canvasView: CanvasView, didEndEditing annotation: TextAnnotation)
   func canvasView(_ canvasView: CanvasView, didDeselect annotation: TextAnnotation)
+  func canvasView(_ canvasView: CanvasView,
+                  didTransform annotation: CanvasDrawable,
+                  action: CanvasViewTransformAction)
 }
 
-public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, ObfuscateCanvas, TextAnnotationCanvas, HighlightCanvas, TextAnnotationDelegate {
+public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, ObfuscateCanvas, TextAnnotationCanvas, HighlightCanvas, TextAnnotationDelegate, ObfuscateViewDelegate {
   
-  public var delegate: CanvasViewDelegate?
+  public weak var delegate: CanvasViewDelegate?
   public var textCanvasDelegate: TextAnnotationDelegate?
   
   public var isUserInteractionEnabled: Bool = true {
@@ -59,6 +67,12 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   
   // MARK: - Helpers and handlers
   private let canvasViewEventsHandler = CanvasViewEventsHandler()
+  private let imageHelper = ImageHelper()
+  private let imageColorsCalculator = ImageColorsCalculator()
+    
+  var obfuscateLayer: CALayer = CALayer()
+  var obfuscateCanvasLayer: CALayer = CALayer() // palette layer
+  var obfuscateMaskLayers: CALayer = CALayer() // obfuscate views are added here to be a mask of canvas layer
   
   // MARK: - Initializers
   
@@ -77,6 +91,11 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   private func setup() {
     wantsLayer = true
     canvasViewEventsHandler.canvasView = self
+    
+    layer?.addSublayer(obfuscateLayer)
+    obfuscateLayer.addSublayer(obfuscateCanvasLayer)
+    // obfuscate views are mask of obfuscateCanvasLayer
+    obfuscateCanvasLayer.mask = obfuscateMaskLayers
   }
   
   // MARK: - Tracking areas
@@ -92,6 +111,18 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
     self.trackingArea = newTrackingArea
   }
   
+  public override func layout() {
+    super.layout()
+    obfuscateLayer.frame = self.frame
+    obfuscateCanvasLayer.frame = self.frame
+    
+    // fallback in case if obfuscate palette image will not be generated later for some reason
+    if obfuscateCanvasLayer.contents == nil {
+      obfuscateCanvasLayer.contents = obfuscateFallbackImage(size: frame.size,
+                                                             .black)
+    }
+  }
+
   // MARK: - Mouse events
   
   override public func mouseDown(with event: NSEvent) {
@@ -272,5 +303,33 @@ extension CanvasView {
     self.selectedTextAnnotation = nil
     
     delegate?.canvasView(self, didDeselect: selectedTextAnnotation)
+  }
+}
+
+// MARK: - Obfuscate views
+
+extension CanvasView {
+  
+  // pass image that is under annotations
+  public func setAnnotationsImage(_ image: NSImage) {
+    DispatchQueue.global().async {
+      let colors = self.imageColorsCalculator.mostUsedColors(from: image,
+                                                             count: 5)
+      DispatchQueue.main.async {
+        self.updateObfuscateCanvas(with: colors)
+      }
+    }
+  }
+  
+  func updateObfuscateCanvas(with colors: [NSColor]) {
+    let image = generateObfuscatePaletteImage(size: obfuscateCanvasLayer.bounds.size,
+                                              colorPalette: colors)
+    if let image = image {
+      obfuscateCanvasLayer.contents = image
+    } else {
+      // fallback with black color in case if image generation failed
+      obfuscateCanvasLayer.contents = obfuscateFallbackImage(size: obfuscateCanvasLayer.bounds.size,
+                                                             .black)
+    }
   }
 }

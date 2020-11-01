@@ -3,6 +3,8 @@ import Foundation
 class CanvasViewEventsHandler {
   weak var canvasView: CanvasView?
   
+  private let imageHelper = ImageHelper()
+  
   private let logger = Logger(isDebug: false)
   private var isChanged: Bool = false
     
@@ -65,8 +67,14 @@ class CanvasViewEventsHandler {
     if let selectedItem = canvasView.selectedItem {
       if let selectedKnob = canvasView.selectedKnob {
         selectedItem.draggedKnob(selectedKnob, from: lastDraggedPoint, to: point)
+        canvasView.delegate?.canvasView(canvasView,
+                                        didTransform: selectedItem,
+                                        action: .resize)
       } else {
         selectedItem.dragged(from: lastDraggedPoint, to: point)
+        canvasView.delegate?.canvasView(canvasView,
+                                        didTransform: selectedItem,
+                                        action: .move)
       }
       
       isChanged = true
@@ -122,5 +130,4 @@ class CanvasViewEventsHandler {
       return item.contains(point: point)
     })
   }
-  
 }

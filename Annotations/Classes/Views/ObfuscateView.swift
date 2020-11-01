@@ -8,6 +8,7 @@ protocol ObfuscateViewDelegate {
 struct ObfuscateViewState {
   var model: ObfuscateModel
   var isSelected: Bool
+  var image: NSImage?
 }
 
 
@@ -24,6 +25,8 @@ class ObfuscateView: CanvasDrawable {
   var globalIndex: Int
   var modelIndex: Int
   let color: NSColor?
+  
+  weak var canvasView: CanvasView?
   
   lazy var knobDict: [RectPoint: KnobView] = [
     .origin: KnobView(model: model.origin),
@@ -48,6 +51,7 @@ class ObfuscateView: CanvasDrawable {
     self.globalIndex = globalIndex
     self.layer = layer
     self.color = NSColor.color(from: color)
+    
     self.render(state: state)
   }
   
@@ -81,9 +85,9 @@ class ObfuscateView: CanvasDrawable {
   
   static func createLayer() -> CAShapeLayer {
     let layer = CAShapeLayer()
-    layer.fillColor = NSColor.obfuscate.cgColor
-    layer.strokeColor = NSColor.obfuscate.cgColor
-    layer.lineWidth = 0
+    layer.fillColor = NSColor.black.cgColor
+    layer.strokeColor = NSColor.red.cgColor
+    layer.lineWidth = 2
     
     return layer
   }
@@ -103,7 +107,8 @@ class ObfuscateView: CanvasDrawable {
   }
   
   func addTo(canvas: CanvasView) {
-    canvas.canvasLayer.addSublayer(layer)
+    self.canvasView = canvas
+    canvas.obfuscateMaskLayers.addSublayer(layer)
   }
   
   func removeFrom(canvas: CanvasView) {
@@ -139,13 +144,15 @@ class ObfuscateView: CanvasDrawable {
     if state.isSelected != oldState?.isSelected {
       if state.isSelected {
         knobs.forEach { (knob) in
-          layer.addSublayer(knob.layer)
+          canvasView?.obfuscateLayer.addSublayer(knob.layer)
         }
+        layer.lineWidth = 2.0
       } else {
         CATransaction.withoutAnimation {
           knobs.forEach { (knob) in
             knob.layer.removeFromSuperlayer()
           }
+          layer.lineWidth = 2.0
         }
       }
     }
