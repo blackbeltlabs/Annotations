@@ -97,6 +97,13 @@ public class TextContainerView: NSView, TextAnnotation {
                                       y: selectionView.frame.origin.y + selectionView.frame.size.height + 4.0,
                                       width: 23.0,
                                       height: 23.0)
+      
+      
+      let emojiButtonOriginX = legibilityButton.frame.origin.x + legibilityButton.frame.size.width + 5.0
+      emojiButton.frame = CGRect(x: emojiButtonOriginX,
+                                 y: legibilityButton.frame.origin.y,
+                                 width: 23.0,
+                                 height: 23.0)
     }
   }
   
@@ -167,6 +174,15 @@ public class TextContainerView: NSView, TextAnnotation {
     button.translatesAutoresizingMaskIntoConstraints = false
     button.target = self
     button.action = #selector(legibilityButtonPressed)
+    return button
+  }()
+  
+  private lazy var emojiButton: EmojiButton = {
+    let button = EmojiButton(frame: .zero)
+    button.translatesAutoresizingMaskIntoConstraints = false
+    button.target = self
+    button.action = #selector(emojiButtonPressed)
+    button.isHidden = true
     return button
   }()
   
@@ -283,6 +299,7 @@ public class TextContainerView: NSView, TextAnnotation {
     addSubview(scaleKnobView)
     
     addSubview(legibilityButton)
+    addSubview(emojiButton)
 
     self.updateLegibilityButton(with: self.legibilityEffectEnabled)
 
@@ -305,10 +322,8 @@ public class TextContainerView: NSView, TextAnnotation {
     
     textView.delegate = self
     
-   
     textView.textContainer?.lineFragmentPadding = Self.textViewsLineFragmentPadding
     legibilityTextView.textContainer?.lineFragmentPadding = Self.textViewsLineFragmentPadding
-  
   }
   
   func setupTextView(_ textView: NSTextView) {
@@ -386,17 +401,20 @@ public class TextContainerView: NSView, TextAnnotation {
       decoratorViews.forEach { $0.isHidden = true  }
       
       delegate?.textAnnotationDidDeselect(textAnnotation: self)
+      emojiButton.isHidden = true
     case .active:
       (textView.isEditable, textView.isSelectable) = (false, false)
       decoratorViews.forEach { $0.isHidden = false }
       updateLegibilityButton(for: textView.string)
       delegate?.textAnnotationDidSelect(textAnnotation: self)
+      emojiButton.isHidden = true
     case .editing:
       (textView.isEditable, textView.isSelectable) = (true, true)
       textView.window?.makeFirstResponder(textView)
       
       historyTrackingHelper.makeTextSnapshot(text: text)
       delegate?.textAnnotationDidStartEditing(textAnnotation: self)
+      emojiButton.isHidden = false
     }
     
     singleClickGestureRecognizer.isEnabled = editingState == .inactive
@@ -515,6 +533,10 @@ public class TextContainerView: NSView, TextAnnotation {
   func updateLegibilityButton(for text: String) {
     let isEmpty = text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     legibilityButton.isHidden = isEmpty
+  }
+  
+  @objc func emojiButtonPressed() {
+    NSApp.orderFrontCharacterPalette(textView)
   }
   
   // MARK: - Other
