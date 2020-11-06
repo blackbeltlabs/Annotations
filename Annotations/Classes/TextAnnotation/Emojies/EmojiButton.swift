@@ -25,6 +25,6 @@ class EmojiButton: NSButton {
                                      blue: 237.0 / 255.0,
                                      alpha: 1.0).cgColor
     
-    cell?.image = ImageHelper.imageFromBundle(named: "Emoji")?.tint(color: .white)
+    cell?.image = ImageHelper.imageFromBundle(named: "emoji")?.tint(color: .white)
   }
 }
