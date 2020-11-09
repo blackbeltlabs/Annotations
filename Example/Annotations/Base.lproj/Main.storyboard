@@ -723,6 +723,18 @@ CA
                             </imageView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="ebu-rf-uXG" customClass="CanvasView" customModule="Annotations">
                                 <rect key="frame" x="0.0" y="0.0" width="700" height="500"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y55-QD-jhT">
+                                        <rect key="frame" x="560" y="71" width="101" height="18"/>
+                                        <buttonCell key="cell" type="check" title="Experimental" bezelStyle="regularSquare" imagePosition="left" inset="2" id="cPh-6S-zjU">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="didToggleExperimental:" target="XfG-lQ-9wD" id="JcR-M2-QxC"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="700" id="Vbc-5T-tUf"/>
                                     <constraint firstAttribute="height" constant="500" id="w6g-hL-66T"/>
@@ -776,7 +788,7 @@ CA
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vi4-iR-pfq">
-                                <rect key="frame" x="621" y="65" width="75" height="32"/>
+                                <rect key="frame" x="621" y="93" width="75" height="32"/>
                                 <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="inD-Yx-Mhg">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -839,29 +851,20 @@ CA
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nxn-LG-oJs">
-                                <rect key="frame" x="540" y="41" width="150" height="150"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="ZXf-7C-40K"/>
-                                    <constraint firstAttribute="width" constant="150" id="oct-2C-FM3"/>
-                                </constraints>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="mpg-kf-Nw5"/>
-                            </imageView>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="ebu-rf-uXG" secondAttribute="bottom" id="0NO-rk-rSq"/>
                             <constraint firstItem="wKk-SA-T8e" firstAttribute="trailing" secondItem="JrP-53-D0T" secondAttribute="trailing" id="5vx-4G-YUZ"/>
                             <constraint firstAttribute="bottom" secondItem="JrP-53-D0T" secondAttribute="bottom" constant="10" id="7BM-JD-5g1"/>
-                            <constraint firstItem="JrP-53-D0T" firstAttribute="top" secondItem="Nxn-LG-oJs" secondAttribute="bottom" constant="10" id="8QI-Jl-KaL"/>
                             <constraint firstItem="JrP-53-D0T" firstAttribute="top" secondItem="wKk-SA-T8e" secondAttribute="bottom" constant="15" id="9k0-xn-U21"/>
                             <constraint firstItem="ebu-rf-uXG" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="65" id="9yF-ZF-Oo2"/>
                             <constraint firstItem="Gha-MZ-5cr" firstAttribute="centerY" secondItem="V4e-VP-LAe" secondAttribute="centerY" id="A8I-Lh-4yN"/>
+                            <constraint firstItem="wKk-SA-T8e" firstAttribute="top" secondItem="Y55-QD-jhT" secondAttribute="bottom" constant="13" id="DD7-ev-rUf"/>
                             <constraint firstAttribute="trailing" secondItem="JrP-53-D0T" secondAttribute="trailing" constant="10" id="LEl-ts-QHM"/>
                             <constraint firstItem="KaE-1o-SX7" firstAttribute="centerY" secondItem="ebu-rf-uXG" secondAttribute="centerY" id="MWt-v1-8Fe"/>
-                            <constraint firstAttribute="trailing" secondItem="Nxn-LG-oJs" secondAttribute="trailing" constant="10" id="Plk-9i-S0f"/>
                             <constraint firstItem="Gha-MZ-5cr" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="5" id="RFI-sf-0Sa"/>
                             <constraint firstAttribute="trailing" secondItem="Gha-MZ-5cr" secondAttribute="trailing" constant="10" id="SiN-dI-imO"/>
-                            <constraint firstItem="wKk-SA-T8e" firstAttribute="top" secondItem="Vi4-iR-pfq" secondAttribute="bottom" constant="12" id="UDd-Um-k5v"/>
+                            <constraint firstItem="wKk-SA-T8e" firstAttribute="top" secondItem="Vi4-iR-pfq" secondAttribute="bottom" constant="40" id="UDd-Um-k5v"/>
                             <constraint firstItem="Vi4-iR-pfq" firstAttribute="trailing" secondItem="wKk-SA-T8e" secondAttribute="trailing" id="XVG-Of-osC"/>
                             <constraint firstItem="ebu-rf-uXG" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="ZkZ-Eg-Raq"/>
                             <constraint firstItem="0T1-Hw-OI2" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="fNE-cR-XUa"/>
@@ -870,13 +873,14 @@ CA
                             <constraint firstItem="0T1-Hw-OI2" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="lsn-7y-g4y"/>
                             <constraint firstItem="KaE-1o-SX7" firstAttribute="centerX" secondItem="ebu-rf-uXG" secondAttribute="centerX" id="nLC-yV-E9g"/>
                             <constraint firstItem="KaE-1o-SX7" firstAttribute="width" secondItem="ebu-rf-uXG" secondAttribute="width" id="pW4-D5-Qxg"/>
+                            <constraint firstItem="Y55-QD-jhT" firstAttribute="leading" secondItem="wKk-SA-T8e" secondAttribute="leading" id="wtS-lV-hJY"/>
                             <constraint firstAttribute="trailing" secondItem="ebu-rf-uXG" secondAttribute="trailing" id="zg7-aV-g1P"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="backgroundImageView" destination="KaE-1o-SX7" id="2jc-UB-82I"/>
                         <outlet property="canvasView" destination="ebu-rf-uXG" id="Cxx-yk-2XR"/>
-                        <outlet property="littleImageView" destination="Nxn-LG-oJs" id="yAy-Ht-nnA"/>
+                        <outlet property="experimentalSwitch" destination="Y55-QD-jhT" id="t0d-F3-tqA"/>
                         <outlet property="pickerViewsStackView" destination="0T1-Hw-OI2" id="PII-RJ-RaC"/>
                         <outlet property="redoButton" destination="Gha-MZ-5cr" id="4nh-bT-OLV"/>
                         <outlet property="undoButton" destination="V4e-VP-LAe" id="EjO-fn-yJJ"/>

@@ -20,7 +20,9 @@ extension TextAnnotationCanvas {
     self.selectedTextAnnotation = selectedTextAnnotation
   }
   
-  public func createTextAnnotation(text: String, location: CGPoint, textParams: TextParams) -> TextAnnotation {
+  public func createTextAnnotation(text: String,
+                                   location: CGPoint,
+                                   textParams: TextParams) -> TextAnnotation {
     let annotation = TextContainerView(frame: NSRect(origin: location, size: CGSize.zero),
                                        text: text,
                                        textParams: textParams,
@@ -72,11 +74,11 @@ extension TextAnnotationCanvas {
 		
     if annotationToActivate == nil {
       set(selectedTextAnnotation: nil)
-//      let newAnnotation = createTextAnnotation(text: "", location: screenPoint, size: nil)
-//      newAnnotation.addTo(canvas: self)
-//      newAnnotation.delegate = self
-//      newAnnotation.startEditing()
     }
+  }
+  
+  public func setTextExperimentalSettings(enabled: Bool) {
+    TextContainerView.experimentalSettings = enabled
   }
 }
 

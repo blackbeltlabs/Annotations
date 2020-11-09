@@ -64,6 +64,7 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   public var selectedTextAnnotation: TextAnnotation?
   public var lastMouseLocation: NSPoint?
   public var textStyle: TextParams = TextParams.defaultFont()
+  public var textExperimentalSettings: Bool = false
   
   // MARK: - Helpers and handlers
   private let canvasViewEventsHandler = CanvasViewEventsHandler()
@@ -159,7 +160,8 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
       if params.foregroundColor == nil {
         params.foregroundColor = color
       }
-      return createTextView(origin: mouseDown, params: params)
+      return createTextView(origin: mouseDown,
+                            params: params)
     default:
       return nil
     }

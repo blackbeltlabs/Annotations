@@ -34,7 +34,10 @@ public protocol ActivateResponder: class {
 }
 
 public class TextContainerView: NSView, TextAnnotation {
-    
+  
+  // MARK: - Experimental settings
+  static var experimentalSettings: Bool = false
+  
   // MARK: - Dependencies
   public weak var delegate: TextAnnotationDelegate?
   public weak var textUpdateDelegate: TextAnnotationUpdateDelegate?
@@ -414,7 +417,9 @@ public class TextContainerView: NSView, TextAnnotation {
       
       historyTrackingHelper.makeTextSnapshot(text: text)
       delegate?.textAnnotationDidStartEditing(textAnnotation: self)
-      emojiButton.isHidden = false
+      if Self.experimentalSettings {
+        emojiButton.isHidden = false
+      }
     }
     
     singleClickGestureRecognizer.isEnabled = editingState == .inactive
