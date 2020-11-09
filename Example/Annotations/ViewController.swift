@@ -54,6 +54,7 @@ class ViewController: NSViewController {
     }
 
     canvasView.createMode = .text
+    canvasView.setTextExperimentalSettings(enabled: true)
     history = CanvasHistory(model: model)
     updateHistoryButtons()
     canvasView.delegate = self
