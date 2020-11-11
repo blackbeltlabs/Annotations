@@ -6,7 +6,9 @@ protocol TextCanvas: TextAnnotationCanvas, TextViewDelegate where Self: CanvasVi
 }
 
 extension TextCanvas {
-  public func createTextView(text: String = "", origin: PointModel, params: TextParams) -> TextViewAnnotation {
+  public func createTextView(text: String = "",
+                             origin: PointModel,
+                             params: TextParams) -> TextViewAnnotation {
     let newTextView = createTextAnnotation(text: text,
                                            location: origin.cgPoint,
                                            textParams: params)

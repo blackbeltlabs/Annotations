@@ -27,9 +27,12 @@ class TextView: NSTextView {
 
   // update typing attributes for both current text and new added text
   func updateTypingAttributes(_ attributes: [NSAttributedString.Key: Any]) {
+    // need utf16 here to support emojies
+    let length = textStorage?.string.utf16.count ?? 0
+    
     textStorage?.setAttributes(
       attributes,
-      range: NSRange(location: 0, length: textStorage?.string.count ?? 0)
+      range: NSRange(location: 0, length: length)
     )
     typingAttributes = attributes
   }

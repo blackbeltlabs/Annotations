@@ -19,7 +19,8 @@ class ViewController: NSViewController {
   @IBOutlet var undoButton: NSButton!
   @IBOutlet var redoButton: NSButton!
   @IBOutlet weak var pickerViewsStackView: NSStackView!
-  @IBOutlet weak var littleImageView: NSImageView!
+  
+  @IBOutlet weak var experimentalSwitch: NSButton!
   
   var selectedPickerView: ColorPickerView?
   
@@ -53,16 +54,13 @@ class ViewController: NSViewController {
     }
 
     canvasView.createMode = .text
+    canvasView.setTextExperimentalSettings(enabled: true)
     history = CanvasHistory(model: model)
     updateHistoryButtons()
     canvasView.delegate = self
     canvasView.update(model: model)
     setupColorPickerViews()
     canvasView.textStyle = TextParams.randomFont()
-    
-    littleImageView.wantsLayer = true
-    littleImageView.layer?.borderColor = NSColor.green.cgColor
-    littleImageView.layer?.borderWidth = 1.0
     
     let image = backgroundImageView.image!
     
@@ -125,6 +123,11 @@ class ViewController: NSViewController {
   @IBAction func didToggleCheckbox(_ sender: NSButton) {
     let isOn = sender.state == .on
     canvasView.isUserInteractionEnabled = isOn
+  }
+  
+  @IBAction func didToggleExperimental(_ sender: NSButton) {
+    let isOn = sender.state == .on
+    canvasView.setTextExperimentalSettings(enabled: isOn)
   }
   
   @IBAction func didTapReset(_ sender: NSButton) {
