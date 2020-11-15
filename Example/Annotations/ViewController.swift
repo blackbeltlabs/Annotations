@@ -190,4 +190,8 @@ extension ViewController: CanvasViewDelegate {
     self.canvasView.textStyle = TextParams.randomFont()
     save(model: model)
   }
+  
+  func canvasView(_ canvasView: CanvasView, emojiPickerPresentationStateChanged state: Bool) {
+    
+  }
 }

@@ -15,6 +15,8 @@ public protocol CanvasViewDelegate: class {
   func canvasView(_ canvasView: CanvasView,
                   didTransform annotation: CanvasDrawable,
                   action: CanvasViewTransformAction)
+  
+  func canvasView(_ canvasView: CanvasView, emojiPickerPresentationStateChanged state: Bool)
 }
 
 public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, ObfuscateCanvas, TextAnnotationCanvas, HighlightCanvas, TextAnnotationDelegate, ObfuscateViewDelegate {

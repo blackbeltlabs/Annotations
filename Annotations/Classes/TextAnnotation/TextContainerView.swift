@@ -221,10 +221,18 @@ public class TextContainerView: NSView, TextAnnotation {
     }
   }
   
+  var emojiesPickerPresented = false {
+    didSet {
+      self.delegate?.emojiPickerPresentationStateChanged(self.emojiesPickerPresented)
+    }
+  }
+  
   static let textViewsLineFragmentPadding: CGFloat = 10.0
   
   // MARK: - Properties
   var debugMode: Bool = false
+  
+  var windowDidBecomeKeyListener: AnyObject?
   
   // MARK: - Init
   override init(frame frameRect: NSRect) {
@@ -381,6 +389,9 @@ public class TextContainerView: NSView, TextAnnotation {
 
   func updateParts(with editingState: TextAnnotationEditingState,
                    oldValue: TextAnnotationEditingState?) {
+    
+    emojiesPickerPresented = false
+
     guard editingState != oldValue else { return }
     
     if oldValue == .editing {
@@ -541,7 +552,26 @@ public class TextContainerView: NSView, TextAnnotation {
   }
   
   @objc func emojiButtonPressed() {
+    emojiesPickerPresented = true
+    
     NSApp.orderFrontCharacterPalette(textView)
+    
+    if let notif = self.windowDidBecomeKeyListener {
+      NotificationCenter.default.removeObserver(notif)
+    }
+    
+    guard let window = textView.window else { return }
+    
+    windowDidBecomeKeyListener = NotificationCenter.default.addObserver(forName: NSWindow.didBecomeKeyNotification,
+                                                                        object: window,
+                                                                        queue: .main) { [weak self] (_) in
+      guard let self = self else { return }
+      self.emojiesPickerPresented = false
+    }
+  }
+  
+  @objc func textViewWindowBecomesActive(_ notification: Notification) {
+    print("Window becomes active")
   }
   
   // MARK: - Other
