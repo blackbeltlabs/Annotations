@@ -9,6 +9,7 @@ public protocol CanvasViewDelegate: class {
   func canvasView(_ canvasView: CanvasView, didUpdateModel model: CanvasModel)
   func canvasView(_ canvasView: CanvasView, didCreateAnnotation annotation: CanvasDrawable)
   func canvasView(_ canvasView: CanvasView, didStartEditing annotation: TextAnnotation)
+  func canvasView(_ canvasView: CanvasView, didEdit annotation: TextAnnotation)
   func canvasView(_ canvasView: CanvasView, didEndEditing annotation: TextAnnotation)
   func canvasView(_ canvasView: CanvasView, didDeselect annotation: TextAnnotation)
   func canvasView(_ canvasView: CanvasView,

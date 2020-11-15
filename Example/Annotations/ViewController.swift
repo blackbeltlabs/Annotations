@@ -174,6 +174,9 @@ extension ViewController: CanvasViewDelegate {
     print("did start editing")
   }
   
+  func canvasView(_ canvasView: CanvasView, didEdit annotation: TextAnnotation) {
+  }
+  
   func canvasView(_ canvasView: CanvasView, didDeselect annotation: TextAnnotation) {
     print("did select canvas")
   }

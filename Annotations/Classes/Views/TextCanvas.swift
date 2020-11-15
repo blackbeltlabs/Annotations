@@ -93,7 +93,7 @@ extension TextCanvas {
   }
   
   public func textAnnotationDidEdit(textAnnotation: TextAnnotation) {
-    
+    delegate?.canvasView(self, didEdit: textAnnotation)
   }
   
   public func textAnnotationDidMove(textAnnotation: TextAnnotation) {
