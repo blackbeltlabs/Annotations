@@ -14,7 +14,8 @@ struct TextContainerViewPreview: NSViewRepresentable {
     TextContainerView(frame: .zero,
                       text: text,
                       textParams: style,
-                      legibilityEffectEnabled: false)
+                      legibilityEffectEnabled: false,
+                      enableEmojies: true)
   }
 
   func updateNSView(_ view: TextContainerView, context: Context) {

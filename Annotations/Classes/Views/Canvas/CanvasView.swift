@@ -68,6 +68,7 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   public var lastMouseLocation: NSPoint?
   public var textStyle: TextParams = TextParams.defaultFont()
   public var textExperimentalSettings: Bool = false
+  public var enableEmojies: Bool = true
   
   // MARK: - Helpers and handlers
   private let canvasViewEventsHandler = CanvasViewEventsHandler()

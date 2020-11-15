@@ -5,6 +5,7 @@ public protocol TextAnnotationCanvas: ActivateResponder where Self: TextAnnotati
   var textAnnotations: [TextAnnotation] { get set }
   var selectedTextAnnotation: TextAnnotation? { get set }
   var lastMouseLocation: NSPoint? { get set }
+  var enableEmojies: Bool { get }
 }
 
 extension TextAnnotationCanvas {
@@ -26,7 +27,8 @@ extension TextAnnotationCanvas {
     let annotation = TextContainerView(frame: NSRect(origin: location, size: CGSize.zero),
                                        text: text,
                                        textParams: textParams,
-                                       legibilityEffectEnabled: false)
+                                       legibilityEffectEnabled: false,
+                                       enableEmojies: enableEmojies)
     
     // some offset for new created annotations
     if text.isEmpty {
@@ -41,7 +43,7 @@ extension TextAnnotationCanvas {
   }
   
   public func createTextAnnotation(modelable: TextAnnotationModelable) -> TextAnnotation {
-    let annotation = TextContainerView(modelable: modelable)
+    let annotation = TextContainerView(modelable: modelable, enableEmojies: enableEmojies)
     
     annotation.activateResponder = self
     
