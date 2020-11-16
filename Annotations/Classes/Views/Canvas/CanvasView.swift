@@ -9,11 +9,14 @@ public protocol CanvasViewDelegate: class {
   func canvasView(_ canvasView: CanvasView, didUpdateModel model: CanvasModel)
   func canvasView(_ canvasView: CanvasView, didCreateAnnotation annotation: CanvasDrawable)
   func canvasView(_ canvasView: CanvasView, didStartEditing annotation: TextAnnotation)
+  func canvasView(_ canvasView: CanvasView, didEdit annotation: TextAnnotation)
   func canvasView(_ canvasView: CanvasView, didEndEditing annotation: TextAnnotation)
   func canvasView(_ canvasView: CanvasView, didDeselect annotation: TextAnnotation)
   func canvasView(_ canvasView: CanvasView,
                   didTransform annotation: CanvasDrawable,
                   action: CanvasViewTransformAction)
+  
+  func canvasView(_ canvasView: CanvasView, emojiPickerPresentationStateChanged state: Bool)
 }
 
 public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, ObfuscateCanvas, TextAnnotationCanvas, HighlightCanvas, TextAnnotationDelegate, ObfuscateViewDelegate {
@@ -65,6 +68,7 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   public var lastMouseLocation: NSPoint?
   public var textStyle: TextParams = TextParams.defaultFont()
   public var textExperimentalSettings: Bool = false
+  public var enableEmojies: Bool = true
   
   // MARK: - Helpers and handlers
   private let canvasViewEventsHandler = CanvasViewEventsHandler()

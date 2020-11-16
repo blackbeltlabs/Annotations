@@ -174,6 +174,9 @@ extension ViewController: CanvasViewDelegate {
     print("did start editing")
   }
   
+  func canvasView(_ canvasView: CanvasView, didEdit annotation: TextAnnotation) {
+  }
+  
   func canvasView(_ canvasView: CanvasView, didDeselect annotation: TextAnnotation) {
     print("did select canvas")
   }
@@ -186,5 +189,9 @@ extension ViewController: CanvasViewDelegate {
     print("did update")
     self.canvasView.textStyle = TextParams.randomFont()
     save(model: model)
+  }
+  
+  func canvasView(_ canvasView: CanvasView, emojiPickerPresentationStateChanged state: Bool) {
+    
   }
 }

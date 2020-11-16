@@ -7,4 +7,6 @@ public protocol TextAnnotationDelegate: class {
   func textAnnotationDidEndEditing(textAnnotation: TextAnnotation)
   func textAnnotationDidEdit(textAnnotation: TextAnnotation)
   func textAnnotationDidMove(textAnnotation: TextAnnotation)
+  
+  func emojiPickerPresentationStateChanged(_ isPresented: Bool)
 }

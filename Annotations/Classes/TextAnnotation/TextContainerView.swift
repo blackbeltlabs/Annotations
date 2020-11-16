@@ -221,23 +221,37 @@ public class TextContainerView: NSView, TextAnnotation {
     }
   }
   
+  var emojiesPickerPresented = false {
+    didSet {
+      self.delegate?.emojiPickerPresentationStateChanged(self.emojiesPickerPresented)
+    }
+  }
+  
   static let textViewsLineFragmentPadding: CGFloat = 10.0
   
   // MARK: - Properties
+  var enableEmojies: Bool = true
   var debugMode: Bool = false
+  
+  var windowDidBecomeKeyListener: AnyObject?
   
   // MARK: - Init
   override init(frame frameRect: NSRect) {
     super.init(frame: frameRect)
-    performSubfieldsInit(frameRect: frameRect, textParams: TextParams.defaultFont())
+    performSubfieldsInit(frameRect: frameRect,
+                         textParams: TextParams.defaultFont(),
+                         enableEmojies: true)
   }
   
   public init(frame frameRect: NSRect,
               text: String,
               textParams: TextParams,
-              legibilityEffectEnabled: Bool) {
+              legibilityEffectEnabled: Bool,
+              enableEmojies: Bool) {
     super.init(frame: frameRect)
-    performSubfieldsInit(frameRect: frameRect, textParams: textParams)
+    performSubfieldsInit(frameRect: frameRect,
+                         textParams: textParams,
+                         enableEmojies: enableEmojies)
     self.text = text
     
     self.legibilityEffectEnabled = legibilityEffectEnabled
@@ -245,11 +259,12 @@ public class TextContainerView: NSView, TextAnnotation {
     self.updateLegibilityButton(with: legibilityEffectEnabled)
   }
   
-  convenience init(modelable: TextAnnotationModelable) {
+  convenience init(modelable: TextAnnotationModelable, enableEmojies: Bool) {
     self.init(frame: modelable.frame,
               text: modelable.text,
               textParams: modelable.style,
-              legibilityEffectEnabled: modelable.legibilityEffectEnabled)
+              legibilityEffectEnabled: modelable.legibilityEffectEnabled,
+              enableEmojies: enableEmojies)
   }
   
   required init?(coder: NSCoder) {
@@ -257,7 +272,7 @@ public class TextContainerView: NSView, TextAnnotation {
   }
   
   // MARK: - Initial setup
-  func performSubfieldsInit(frameRect: CGRect, textParams: TextParams) {
+  func performSubfieldsInit(frameRect: CGRect, textParams: TextParams, enableEmojies: Bool) {
     
     if debugMode {
       wantsLayer = true
@@ -327,6 +342,8 @@ public class TextContainerView: NSView, TextAnnotation {
     
     textView.textContainer?.lineFragmentPadding = Self.textViewsLineFragmentPadding
     legibilityTextView.textContainer?.lineFragmentPadding = Self.textViewsLineFragmentPadding
+    
+    self.enableEmojies = enableEmojies
   }
   
   func setupTextView(_ textView: NSTextView) {
@@ -381,6 +398,9 @@ public class TextContainerView: NSView, TextAnnotation {
 
   func updateParts(with editingState: TextAnnotationEditingState,
                    oldValue: TextAnnotationEditingState?) {
+    
+    emojiesPickerPresented = false
+
     guard editingState != oldValue else { return }
     
     if oldValue == .editing {
@@ -417,7 +437,7 @@ public class TextContainerView: NSView, TextAnnotation {
       
       historyTrackingHelper.makeTextSnapshot(text: text)
       delegate?.textAnnotationDidStartEditing(textAnnotation: self)
-      if Self.experimentalSettings {
+      if Self.experimentalSettings && enableEmojies {
         emojiButton.isHidden = false
       }
     }
@@ -541,7 +561,26 @@ public class TextContainerView: NSView, TextAnnotation {
   }
   
   @objc func emojiButtonPressed() {
+    emojiesPickerPresented = true
+    
     NSApp.orderFrontCharacterPalette(textView)
+    
+    if let notif = self.windowDidBecomeKeyListener {
+      NotificationCenter.default.removeObserver(notif)
+    }
+    
+    guard let window = textView.window else { return }
+    
+    windowDidBecomeKeyListener = NotificationCenter.default.addObserver(forName: NSWindow.didBecomeKeyNotification,
+                                                                        object: window,
+                                                                        queue: .main) { [weak self] (_) in
+      guard let self = self else { return }
+      self.emojiesPickerPresented = false
+    }
+  }
+  
+  @objc func textViewWindowBecomesActive(_ notification: Notification) {
+    print("Window becomes active")
   }
   
   // MARK: - Other

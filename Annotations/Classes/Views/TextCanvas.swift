@@ -93,7 +93,7 @@ extension TextCanvas {
   }
   
   public func textAnnotationDidEdit(textAnnotation: TextAnnotation) {
-    
+    delegate?.canvasView(self, didEdit: textAnnotation)
   }
   
   public func textAnnotationDidMove(textAnnotation: TextAnnotation) {
@@ -106,5 +106,9 @@ extension TextCanvas {
   
   public func textAnnotationDidEndEditing(textAnnotation: TextAnnotation) {
     delegate?.canvasView(self, didEndEditing: textAnnotation)
+  }
+  
+  public func emojiPickerPresentationStateChanged(_ isPresented: Bool) {
+    delegate?.canvasView(self, emojiPickerPresentationStateChanged: isPresented)
   }
 }
