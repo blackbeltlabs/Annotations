@@ -216,6 +216,8 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
       return delete(pen: pen)
     case let highlight as HighlightView:
       return delete(highlight: highlight)
+    case let number as NumberView:
+      return delete(number: number)
     default:
       return model
     }
