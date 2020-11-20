@@ -26,6 +26,13 @@ class CanvasViewEventsHandler {
                                                color: canvasView.createColor) {
           canvasView.add(newItem)
           newItem.doInitialSetupOnCanvas()
+          
+          if let item = newItem as? TextViewAnnotation {
+           
+          } else {
+            isChanged = true
+          }
+          
           return
         }
       }

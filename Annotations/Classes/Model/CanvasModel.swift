@@ -49,7 +49,7 @@ public struct CanvasModel: Model {
   
   public var elements: [Indexable] {
     var elements: [Indexable] = texts + arrows + pens
-    elements.append(contentsOf: rects + obfuscates + highlights)
+    elements.append(contentsOf: rects + obfuscates + highlights + numbers)
     return elements
   }
   

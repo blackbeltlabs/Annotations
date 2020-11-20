@@ -288,6 +288,8 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
         redrawTexts(model: text, canvas: self.model)
       case let rect as RectModel:
         redrawRect(model: rect, canvas: model)
+      case let number as NumberModel:
+        redrawNumber(model: number, canvas: model)
       default:
         print("Unknown type")
       }

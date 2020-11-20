@@ -47,24 +47,4 @@ extension NumberCanvas {
   func drawableView(_ view: CanvasDrawable, didUpdate model: Any, atIndex index: Int) {
     self.model.numbers[index] = model as! NumberModel
   }
-  /*
-  func redrawPen(model: PenModel, canvas: CanvasModel) {
-    guard let modelIndex = canvas.pens.firstIndex(of: model) else { return }
-    let state = PenViewState(model: model, isSelected: false)
-    let view = PenView(state: state,
-                       modelIndex: modelIndex,
-                       globalIndex: model.index,
-                      color: model.color)
-    view.delegate = self
-    add(view)
-  }
-  
- 
- 
-  
-  func penView(_ penView: PenView, didUpdate model: PenModel, atIndex index: Int) {
-    self.model.pens[index] = model
-  }
- 
- */
 }
