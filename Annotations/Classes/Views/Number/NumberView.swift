@@ -12,7 +12,7 @@ class NumberView: DrawableView {
   var layer: CAShapeLayer
   
   let textLayer: CATextLayer = {
-    let numberLayer = CATextLayer()
+    let numberLayer = NumberTextLayer()
     numberLayer.font = "Helvetica-Bold" as CFTypeRef
     numberLayer.fontSize = 20
     numberLayer.alignmentMode = .center
@@ -109,9 +109,7 @@ class NumberView: DrawableView {
       layer.shapePath = Self.createPath(model: state.model)
    
       textLayer.string = NSString(format: "%d", model.number)
-      
       textLayer.frame = layer.bounds
-      textLayer.frame.origin.y += 1
       
       textLayer.contentsScale = 2.0
 

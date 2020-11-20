@@ -46,6 +46,7 @@
 		6F5A702C2562E23600854E82 /* NumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5A702B2562E23600854E82 /* NumberView.swift */; };
 		6F5A70312562EFF500854E82 /* NumberCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5A70302562EFF500854E82 /* NumberCanvas.swift */; };
 		6FD37BDF2567C54A00BCA1F9 /* DrawableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD37BDE2567C54A00BCA1F9 /* DrawableView.swift */; };
+		6FD37BE52567D1C200BCA1F9 /* NumberTextLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD37BE42567D1C200BCA1F9 /* NumberTextLayer.swift */; };
 		7F738EC433C84E5A4A87A9C18714C1D3 /* ModelColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774277CAF2500C59DD7F11635DFFC437 /* ModelColor.swift */; };
 		87BAC957D53D9B74E4475DEC2B7FAE89 /* TextContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32788BFF1A803EE0E8083CD79D87BADC /* TextContainerView.swift */; };
 		8C1ED3850C4CD9348787B939D63CDDC0 /* CanvasModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55061104299DA9F315B5602CA1AAA06F /* CanvasModel.swift */; };
@@ -140,9 +141,10 @@
 		6F5A701D2562E00400854E82 /* NumberModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberModel.swift; sourceTree = "<group>"; };
 		6F5A70262562E10300854E82 /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		6F5A702B2562E23600854E82 /* NumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberView.swift; sourceTree = "<group>"; };
-		6F5A70302562EFF500854E82 /* NumberCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NumberCanvas.swift; path = Canvas/NumberCanvas.swift; sourceTree = "<group>"; };
+		6F5A70302562EFF500854E82 /* NumberCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberCanvas.swift; sourceTree = "<group>"; };
 		6FC5EB7AEEFD36C8D2D5B035F79C34B0 /* KnobView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KnobView.swift; sourceTree = "<group>"; };
 		6FD37BDE2567C54A00BCA1F9 /* DrawableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawableView.swift; sourceTree = "<group>"; };
+		6FD37BE42567D1C200BCA1F9 /* NumberTextLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberTextLayer.swift; sourceTree = "<group>"; };
 		741DAB61A1D8BA7D6B996DAC86313E8A /* CanvasDrawable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CanvasDrawable.swift; sourceTree = "<group>"; };
 		74FEC23ED4A956EF7AA85CB934F78D72 /* Pods-Annotations_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Annotations_Example-dummy.m"; sourceTree = "<group>"; };
 		75A883DAB8F8999C6D43CBF9D4AAFE40 /* Annotations-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Annotations-prefix.pch"; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 		0B138161BA4B6AD9662D8EF6393C2B99 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6FD37BE32567D15200BCA1F9 /* Number */,
 				6F5A70252562E0ED00854E82 /* Common */,
 				0EF7B39CE508DA04E289885A915D9BAF /* ArrowCanvas.swift */,
 				1EE756A9B60F5FFF4726AB343918340E /* ArrowView.swift */,
@@ -241,8 +244,6 @@
 				8249D381E87FB99309A1E6323C7B9FC1 /* TextCanvas.swift */,
 				EC6B04C8668B3E246A122A7426B2ACE2 /* TextViewAnnotation.swift */,
 				510AF3DF0B732B50D21854E68FEAA70F /* Canvas */,
-				6F5A702B2562E23600854E82 /* NumberView.swift */,
-				6F5A70302562EFF500854E82 /* NumberCanvas.swift */,
 			);
 			name = Views;
 			path = Annotations/Classes/Views;
@@ -385,6 +386,16 @@
 				6FD37BDE2567C54A00BCA1F9 /* DrawableView.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		6FD37BE32567D15200BCA1F9 /* Number */ = {
+			isa = PBXGroup;
+			children = (
+				6F5A702B2562E23600854E82 /* NumberView.swift */,
+				6F5A70302562EFF500854E82 /* NumberCanvas.swift */,
+				6FD37BE42567D1C200BCA1F9 /* NumberTextLayer.swift */,
+			);
+			path = Number;
 			sourceTree = "<group>";
 		};
 		7FD0489886FEDD418E3449B60C9A2938 /* Pods-Annotations_Tests */ = {
@@ -733,6 +744,7 @@
 				9340B051C4481AB9054668371DD16747 /* StringExtension.swift in Sources */,
 				5200E56437498E081C20FB225CC9F300 /* StringSizeHelper.swift in Sources */,
 				1FDC65843B91D89C7A61B8033B9E3174 /* TextAnnotation.swift in Sources */,
+				6FD37BE52567D1C200BCA1F9 /* NumberTextLayer.swift in Sources */,
 				E75659A954FA8DDEB78F77AF197D7F1E /* TextAnnotationCanvas.swift in Sources */,
 				9B5E5B21ECC8FD7A26A3479F6CAF88AA /* TextAnnotationDelegate.swift in Sources */,
 				502232994249D84B8206244800927BAF /* TextAnnotationModelable.swift in Sources */,
