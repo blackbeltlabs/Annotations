@@ -19,7 +19,7 @@ public protocol CanvasViewDelegate: class {
   func canvasView(_ canvasView: CanvasView, emojiPickerPresentationStateChanged state: Bool)
 }
 
-public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, ObfuscateCanvas, TextAnnotationCanvas, HighlightCanvas, TextAnnotationDelegate, ObfuscateViewDelegate {
+public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, ObfuscateCanvas, TextAnnotationCanvas, HighlightCanvas, NumberCanvas, TextAnnotationDelegate, ObfuscateViewDelegate {
   
   public weak var delegate: CanvasViewDelegate?
   public var textCanvasDelegate: TextAnnotationDelegate?
@@ -166,6 +166,9 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
       }
       return createTextView(origin: mouseDown,
                             params: params)
+    case .number:
+      return createNumberView(origin: mouseDown,
+                              color: color).0
     default:
       return nil
     }
@@ -188,6 +191,8 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
       return createPenView(origin: dragFrom, to: to, color: color)
     case .highlight:
       return createHighlightView(origin: dragFrom, to: to, color: color, size: frame.size)
+    case .number:
+      return (nil, nil)
     }
   }
   

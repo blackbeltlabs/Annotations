@@ -18,12 +18,12 @@ class CanvasViewEventsHandler {
     canvasView.lastDraggedPoint = point
       
     switch canvasView.createMode {
-    case .text:
+    case .text, .number:
       // specific case for text
       // texts should be created from single mouse press
       if !canvasItemSelected {
         if let newItem = canvasView.createItem(mouseDown: point,
-                                                color: canvasView.createColor) {
+                                               color: canvasView.createColor) {
           canvasView.add(newItem)
           newItem.doInitialSetupOnCanvas()
           return

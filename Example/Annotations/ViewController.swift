@@ -99,7 +99,10 @@ class ViewController: NSViewController {
       canvasView.createMode = .obfuscate
     case 5:
       canvasView.createMode = .highlight
-    default: return
+    case 6:
+      canvasView.createMode = .number
+    default:
+      return
     }
   }
   
