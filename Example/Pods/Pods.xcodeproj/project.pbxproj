@@ -45,6 +45,7 @@
 		6F5A70272562E10300854E82 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5A70262562E10300854E82 /* ViewState.swift */; };
 		6F5A702C2562E23600854E82 /* NumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5A702B2562E23600854E82 /* NumberView.swift */; };
 		6F5A70312562EFF500854E82 /* NumberCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5A70302562EFF500854E82 /* NumberCanvas.swift */; };
+		6FD37BDF2567C54A00BCA1F9 /* DrawableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD37BDE2567C54A00BCA1F9 /* DrawableView.swift */; };
 		7F738EC433C84E5A4A87A9C18714C1D3 /* ModelColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774277CAF2500C59DD7F11635DFFC437 /* ModelColor.swift */; };
 		87BAC957D53D9B74E4475DEC2B7FAE89 /* TextContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32788BFF1A803EE0E8083CD79D87BADC /* TextContainerView.swift */; };
 		8C1ED3850C4CD9348787B939D63CDDC0 /* CanvasModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55061104299DA9F315B5602CA1AAA06F /* CanvasModel.swift */; };
@@ -141,6 +142,7 @@
 		6F5A702B2562E23600854E82 /* NumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberView.swift; sourceTree = "<group>"; };
 		6F5A70302562EFF500854E82 /* NumberCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NumberCanvas.swift; path = Canvas/NumberCanvas.swift; sourceTree = "<group>"; };
 		6FC5EB7AEEFD36C8D2D5B035F79C34B0 /* KnobView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KnobView.swift; sourceTree = "<group>"; };
+		6FD37BDE2567C54A00BCA1F9 /* DrawableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawableView.swift; sourceTree = "<group>"; };
 		741DAB61A1D8BA7D6B996DAC86313E8A /* CanvasDrawable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CanvasDrawable.swift; sourceTree = "<group>"; };
 		74FEC23ED4A956EF7AA85CB934F78D72 /* Pods-Annotations_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Annotations_Example-dummy.m"; sourceTree = "<group>"; };
 		75A883DAB8F8999C6D43CBF9D4AAFE40 /* Annotations-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Annotations-prefix.pch"; sourceTree = "<group>"; };
@@ -380,6 +382,7 @@
 			isa = PBXGroup;
 			children = (
 				6F5A70262562E10300854E82 /* ViewState.swift */,
+				6FD37BDE2567C54A00BCA1F9 /* DrawableView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -693,6 +696,7 @@
 				8C1ED3850C4CD9348787B939D63CDDC0 /* CanvasModel.swift in Sources */,
 				67F13115FCD9F74B676A5C8D55853460 /* CanvasView.swift in Sources */,
 				57C7539A73665359D0B788B4DD796B67 /* CanvasViewEventsHandler.swift in Sources */,
+				6FD37BDF2567C54A00BCA1F9 /* DrawableView.swift in Sources */,
 				E1B433171A021292A1CE50BD373F0E5A /* CAShapeLayerExtension.swift in Sources */,
 				998AD279CA01E78BF30661CEAA5644B8 /* CATransactionExtension.swift in Sources */,
 				3C9971F7F95822BB3C000AC9444ECAE3 /* CGPointExtension.swift in Sources */,

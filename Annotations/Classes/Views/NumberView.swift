@@ -1,6 +1,6 @@
 import Foundation
 
-class NumberView: CanvasDrawable {
+class NumberView: DrawableView {
     
   var state: ViewState<NumberModel> {
     didSet {
@@ -86,21 +86,7 @@ class NumberView: CanvasDrawable {
     
   }
   
-  // add / remove from canvas
-  
-  func addTo(canvas: CanvasView) {
-    canvas.canvasLayer.addSublayer(layer)
-  }
-  
-  func removeFrom(canvas: CanvasView) {
-    layer.removeFromSuperlayer()
-  }
-  
-  func contains(point: PointModel) -> Bool {
-    layer.path!.contains(point.cgPoint)
-  }
-  
-  
+    
   func dragged(from: PointModel, to: PointModel) {
     let delta = from.deltaTo(to)
     state.model.point = state.model.point.copyMoving(delta: delta)
@@ -128,24 +114,22 @@ class NumberView: CanvasDrawable {
       textLayer.frame.origin.y += 1
       
       textLayer.contentsScale = 2.0
-//      textLayer.borderWidth = 1.0
-//      textLayer.borderColor = NSColor.blue.cgColor
-      
+
       layer.removeAllAnimations()
       textLayer.removeAllAnimations()
       
       delegate?.drawableView(self, didUpdate: state.model, atIndex: modelIndex)
     }
-  
-    /*
-    if state.isSelected != oldState?.isSelected {
-      if state.isSelected {
-        select()
-      } else {
-        unselect()
-      }
+    
+    // render depending on text selected or not
+    if state.isSelected {
+      layer.strokeColor = NSColor.black.cgColor
+      layer.lineWidth = 2.0
+    } else {
+      layer.strokeColor = NSColor.clear.cgColor
+      layer.lineWidth = 0.0
     }
- */
+
   }
   
   func updateColor(_ color: NSColor) {
