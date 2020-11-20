@@ -64,7 +64,6 @@ class NumberView: DrawableView {
   // path
   
   static func createPath(model: NumberModel) -> CGPath {
-    
     let radius = 15.0
     
     let point = model.point

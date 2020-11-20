@@ -266,6 +266,7 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   
   public func update(model: CanvasModel) {
     self.model = model
+    updateNumbers()
     redraw()
   }
   
@@ -346,5 +347,17 @@ extension CanvasView {
       obfuscateCanvasLayer.contents = obfuscateFallbackImage(size: obfuscateCanvasLayer.bounds.size,
                                                              .black)
     }
+  }
+}
+
+// MARK: - Numbers
+
+extension CanvasView {
+  func updateNumbers() {
+    let numbers = model.numbers
+    
+    let updatedNumbers: [NumberModel] = numbers.enumerated().map { $1.copyWithNumber(number: UInt($0 + 1)) }
+    
+    model.numbers = updatedNumbers
   }
 }
