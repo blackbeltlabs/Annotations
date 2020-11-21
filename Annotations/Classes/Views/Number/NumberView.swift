@@ -1,7 +1,6 @@
 import Foundation
 
 class NumberView: DrawableView {
-    
   var state: ViewState<NumberModel> {
     didSet {
       render(state: state, oldState: oldValue)
@@ -28,7 +27,7 @@ class NumberView: DrawableView {
     return NSColor(cgColor: color)
   }
   
-  
+  // MARK: - Init
   convenience init(state: ViewState<NumberModel>,
                    modelIndex: Int,
                    globalIndex: Int,
@@ -58,11 +57,7 @@ class NumberView: DrawableView {
     set { state.isSelected = newValue }
   }
   
-  
-  // MARK: - Knobs
-  
-  // path
-  
+  // MARK: - Path
   static func createPath(model: NumberModel) -> CGPath {
     let radius = 15.0
     
@@ -85,14 +80,12 @@ class NumberView: DrawableView {
     
   }
   
-    
   func dragged(from: PointModel, to: PointModel) {
     let delta = from.deltaTo(to)
     state.model.point = state.model.point.copyMoving(delta: delta)
   }
   
-  
-  // layer
+  // MARK: - Layer
   static func createLayer(color: CGColor) -> CAShapeLayer {
     let layer = CAShapeLayer()
     layer.fillColor = color
@@ -102,7 +95,6 @@ class NumberView: DrawableView {
     return layer
   }
 
-  
   func render(state:  ViewState<NumberModel>, oldState: ViewState<NumberModel>? = nil) {
     if state.model != oldState?.model {
       layer.shapePath = Self.createPath(model: state.model)
@@ -118,7 +110,7 @@ class NumberView: DrawableView {
       delegate?.drawableView(self, didUpdate: state.model, atIndex: modelIndex)
     }
     
-    // render depending on text selected or not
+    // selection state
     if state.isSelected {
       layer.strokeColor = NSColor.black.cgColor
       layer.lineWidth = 2.0
@@ -126,12 +118,10 @@ class NumberView: DrawableView {
       layer.strokeColor = NSColor.clear.cgColor
       layer.lineWidth = 0.0
     }
-
   }
   
   func updateColor(_ color: NSColor) {
     layer.fillColor = color.cgColor
     state.model = model.copyWithColor(color: color.annotationModelColor)
   }
-    
 }
