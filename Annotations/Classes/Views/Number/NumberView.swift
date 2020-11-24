@@ -59,16 +59,8 @@ class NumberView: DrawableView {
   
   // MARK: - Path
   static func createPath(model: NumberModel) -> CGPath {
-    let radius = 15.0
-    
-    let point = model.point
-    
-    let rect = CGRect(x: point.x - radius,
-                      y: point.y - radius,
-                      width: radius * 2.0,
-                      height: radius * 2.0)
-    
-    return CGPath(ellipseIn: rect, transform: nil)
+  
+    CGPath(ellipseIn: model.rect, transform: nil)
   }
   
   // no knobs for this shape
@@ -82,7 +74,7 @@ class NumberView: DrawableView {
   
   func dragged(from: PointModel, to: PointModel) {
     let delta = from.deltaTo(to)
-    state.model.point = state.model.point.copyMoving(delta: delta)
+    state.model.centerPoint = state.model.centerPoint.copyMoving(delta: delta)
   }
   
   // MARK: - Layer

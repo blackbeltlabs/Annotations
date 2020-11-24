@@ -21,7 +21,7 @@ extension NumberCanvas {
   func createNumberView(origin: PointModel, color: ModelColor) -> (CanvasDrawable?, KnobView?) {
 
     let newNumber = NumberModel(index: model.elements.count + 1,
-                                point: origin,
+                                centerPoint: origin,
                                 number: UInt(model.numbers.count + 1),
                                 color: color)
   
