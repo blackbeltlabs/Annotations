@@ -18,6 +18,31 @@ public struct NumberModel: Model {
     CGRect(origin: origin, size: size)
   }
   
+  var originToX: CGPoint {
+    CGPoint(x: origin.x + size.width, y: origin.y)
+  }
+  
+  var originToY: CGPoint {
+    CGPoint(x: origin.x, y: origin.y + size.height)
+  }
+  
+  var originToXY: CGPoint {
+    CGPoint(x: origin.x + size.width, y: origin.y + size.height) 
+  }
+  
+  func valueFor(numberPoint: NumberPoint) -> PointModel {
+    switch numberPoint {
+    case .origin:
+      return origin.pointModel
+    case .originToX:
+      return originToX.pointModel
+    case .originToY:
+      return originToY.pointModel
+    case .originToXY:
+      return originToXY.pointModel
+    }
+  }
+  
   public var number: UInt
   public var color: ModelColor
   

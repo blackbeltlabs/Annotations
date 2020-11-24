@@ -1,5 +1,12 @@
 import Foundation
 
+enum NumberPoint: CaseIterable {
+  case origin
+  case originToX
+  case originToY
+  case originToXY
+}
+
 class NumberView: DrawableView {
   var state: ViewState<NumberModel> {
     didSet {
@@ -25,6 +32,21 @@ class NumberView: DrawableView {
   var color: NSColor? {
     guard let color = layer.fillColor else { return nil }
     return NSColor(cgColor: color)
+  }
+  
+  lazy var knobDict: [NumberPoint: KnobView] = [
+    .origin: KnobView(model: model.origin.pointModel),
+    .originToX: KnobView(model: model.originToX.pointModel),
+    .originToY: KnobView(model: model.originToY.pointModel),
+    .originToXY: KnobView(model: model.originToXY.pointModel)
+  ]
+  
+  var knobs: [KnobView] {
+    NumberPoint.allCases.map { knobAt(numberPoint: $0)}
+  }
+  
+  func knobAt(numberPoint: NumberPoint) -> KnobView {
+    return knobDict[numberPoint]!
   }
   
   // MARK: - Init
@@ -99,17 +121,28 @@ class NumberView: DrawableView {
       layer.removeAllAnimations()
       textLayer.removeAllAnimations()
       
+      
+      for numberPoint in NumberPoint.allCases {
+        knobAt(numberPoint: numberPoint).state.model = state.model.valueFor(numberPoint: numberPoint)
+      }
+      
       delegate?.drawableView(self, didUpdate: state.model, atIndex: modelIndex)
     }
     
-    // selection state
-    if state.isSelected {
-      layer.strokeColor = NSColor.black.cgColor
-      layer.lineWidth = 2.0
-    } else {
-      layer.strokeColor = NSColor.clear.cgColor
-      layer.lineWidth = 0.0
+    if state.isSelected != oldState?.isSelected {
+      if state.isSelected {
+        knobs.forEach { (knob) in
+          layer.addSublayer(knob.layer)
+        }
+      } else {
+        CATransaction.withoutAnimation {
+          knobs.forEach { (knob) in
+            knob.layer.removeFromSuperlayer()
+          }
+        }
+      }
     }
+    
   }
   
   func updateColor(_ color: NSColor) {
