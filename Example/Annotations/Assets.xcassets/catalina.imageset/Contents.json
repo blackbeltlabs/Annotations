@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "catalina-1.png",
+      "filename" : "background-1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "catalina.png",
+      "filename" : "background.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

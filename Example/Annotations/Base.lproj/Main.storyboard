@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -725,7 +725,7 @@ CA
                                 <rect key="frame" x="0.0" y="0.0" width="700" height="500"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y55-QD-jhT">
-                                        <rect key="frame" x="560" y="71" width="101" height="18"/>
+                                        <rect key="frame" x="554" y="75" width="105" height="18"/>
                                         <buttonCell key="cell" type="check" title="Experimental" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="cPh-6S-zjU">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -741,7 +741,7 @@ CA
                                 </constraints>
                             </customView>
                             <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JrP-53-D0T">
-                                <rect key="frame" x="297" y="8" width="395" height="24"/>
+                                <rect key="frame" x="285" y="9" width="407" height="24"/>
                                 <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="Y11-io-MbH">
                                     <font key="font" metaFont="system"/>
                                     <segments>
@@ -751,6 +751,7 @@ CA
                                         <segment label="Pen"/>
                                         <segment label="Obfuscate"/>
                                         <segment label="Highlight"/>
+                                        <segment label="Number"/>
                                     </segments>
                                 </segmentedCell>
                                 <connections>
@@ -778,7 +779,7 @@ CA
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wKk-SA-T8e">
-                                <rect key="frame" x="560" y="44" width="132" height="18"/>
+                                <rect key="frame" x="554" y="46" width="136" height="18"/>
                                 <buttonCell key="cell" type="check" title="Enable interaction" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="SQr-uD-lQv">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -788,7 +789,7 @@ CA
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vi4-iR-pfq">
-                                <rect key="frame" x="621" y="93" width="75" height="32"/>
+                                <rect key="frame" x="628" y="96" width="69" height="32"/>
                                 <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="inD-Yx-Mhg">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>

@@ -19,7 +19,7 @@ public protocol CanvasViewDelegate: class {
   func canvasView(_ canvasView: CanvasView, emojiPickerPresentationStateChanged state: Bool)
 }
 
-public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, ObfuscateCanvas, TextAnnotationCanvas, HighlightCanvas, TextAnnotationDelegate, ObfuscateViewDelegate {
+public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas, ObfuscateCanvas, TextAnnotationCanvas, HighlightCanvas, NumberCanvas, TextAnnotationDelegate, ObfuscateViewDelegate {
   
   public weak var delegate: CanvasViewDelegate?
   public var textCanvasDelegate: TextAnnotationDelegate?
@@ -166,6 +166,9 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
       }
       return createTextView(origin: mouseDown,
                             params: params)
+    case .number:
+      return createNumberView(origin: mouseDown,
+                              color: color).0
     default:
       return nil
     }
@@ -188,6 +191,8 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
       return createPenView(origin: dragFrom, to: to, color: color)
     case .highlight:
       return createHighlightView(origin: dragFrom, to: to, color: color, size: frame.size)
+    case .number:
+      return (nil, nil)
     }
   }
   
@@ -211,6 +216,8 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
       return delete(pen: pen)
     case let highlight as HighlightView:
       return delete(highlight: highlight)
+    case let number as NumberView:
+      return delete(number: number)
     default:
       return model
     }
@@ -259,6 +266,7 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   
   public func update(model: CanvasModel) {
     self.model = model
+    updateNumbers()
     redraw()
   }
   
@@ -283,6 +291,8 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
         redrawTexts(model: text, canvas: self.model)
       case let rect as RectModel:
         redrawRect(model: rect, canvas: model)
+      case let number as NumberModel:
+        redrawNumber(model: number, canvas: model)
       default:
         print("Unknown type")
       }
@@ -337,5 +347,17 @@ extension CanvasView {
       obfuscateCanvasLayer.contents = obfuscateFallbackImage(size: obfuscateCanvasLayer.bounds.size,
                                                              .black)
     }
+  }
+}
+
+// MARK: - Numbers
+
+extension CanvasView {
+  func updateNumbers() {
+    let numbers = model.numbers
+    
+    let updatedNumbers: [NumberModel] = numbers.enumerated().map { $1.copyWithNumber(number: UInt($0 + 1)) }
+    
+    model.numbers = updatedNumbers
   }
 }

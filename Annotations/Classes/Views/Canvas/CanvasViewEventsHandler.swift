@@ -23,7 +23,7 @@ class CanvasViewEventsHandler {
       // texts should be created from single mouse press
       if !canvasItemSelected {
         if let newItem = canvasView.createItem(mouseDown: point,
-                                                color: canvasView.createColor) {
+                                               color: canvasView.createColor) {
           canvasView.add(newItem)
           newItem.doInitialSetupOnCanvas()
           return
@@ -41,6 +41,19 @@ class CanvasViewEventsHandler {
         item.isSelected = true
         return
       }
+    }
+    
+    if canvasView.createMode == .number {
+      canvasView.selectedItem = nil
+      
+      guard let newItem = canvasView.createItem(mouseDown: point,
+                                                color: canvasView.createColor) else { return }
+      canvasView.add(newItem)
+      newItem.doInitialSetupOnCanvas()
+      newItem.isSelected = true
+      canvasView.selectedItem = newItem
+      isChanged = true
+      return
     }
       
     // if neither new item can be created nor any can be selected
