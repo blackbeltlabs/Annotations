@@ -92,32 +92,34 @@ public struct NumberModel: Model {
     let model: NumberModel = {
     
     switch rectPoint {
-    case .origin:
-      return .init(index: index,
-                   origin: origin.copyMoving(delta: delta),
-                   to: to,
-                   number: number,
-                   color: color)
-    case .to:
-      return .init(index: index,
-                   origin: origin,
-                   to: to.copyMoving(delta: delta),
-                   number: number,
-                   color: color)
-    case .originY:
-      return .init(index: index,
-                   origin: origin.returnPointModel(dx: origin.x + delta.x, dy: origin.y),
-                   to: to.returnPointModel(dx: to.x, dy: to.y + delta.y),
-                   number: number,
-                   color: color)
-    case .toX:
-      return .init(index: index,
-                   origin: origin.returnPointModel(dx: origin.x, dy: origin.y + delta.y),
-                   to: to.returnPointModel(dx: to.x + delta.x, dy: to.y),
-                   number: number,
-                   color: color)
-    }
+      case .origin:
+        return .init(index: index,
+                     origin: origin.copyMoving(delta: delta),
+                     to: to,
+                     number: number,
+                     color: color)
+      case .to:
+        return .init(index: index,
+                     origin: origin,
+                     to: to.copyMoving(delta: delta),
+                     number: number,
+                     color: color)
+      case .originY:
+        return .init(index: index,
+                     origin: origin.returnPointModel(dx: origin.x + delta.x, dy: origin.y),
+                     to: to.returnPointModel(dx: to.x, dy: to.y + delta.y),
+                     number: number,
+                     color: color)
+      case .toX:
+        return .init(index: index,
+                     origin: origin.returnPointModel(dx: origin.x, dy: origin.y + delta.y),
+                     to: to.returnPointModel(dx: to.x + delta.x, dy: to.y),
+                     number: number,
+                     color: color)
+      }
     }()
+    
+    // number view couldn't be less that these dimensions
     
     guard model.size.width > 15.0 && model.size.height > 15.0 else {
       return self
@@ -125,8 +127,7 @@ public struct NumberModel: Model {
         
     if model.size.width == model.size.height {
       return model
-    } else {
-        
+    } else { // need to ensure that the rect is square for numbers
       var updatedRect = model.rect
 
       if model.size.width > model.size.height {
@@ -135,6 +136,7 @@ public struct NumberModel: Model {
         updatedRect.size.height = updatedRect.size.width
       }
       
+      // resizing will depend on the used knob side
       switch rectPoint {
       case .origin:
         
@@ -151,19 +153,17 @@ public struct NumberModel: Model {
         
         let newOrigin = CGPoint(x: model.rect.origin.x, y: currentRectHeightPoint - updatedRect.height)
         let newSize = CGSize(width: updatedRect.width, height: updatedRect.height)
-        
         return Self.modelWithRect(index: index, cgRect: CGRect(origin: newOrigin, size: newSize), number: number, color: color)
       case .originY:
         let currentRectWidthPoint = model.rect.origin.x + model.rect.size.width
         
         let newOrigin = CGPoint(x: currentRectWidthPoint - updatedRect.width, y: model.rect.origin.y)
         let newSize = CGSize(width: updatedRect.width, height: updatedRect.height)
-  
+
         return Self.modelWithRect(index: index, cgRect: CGRect(origin: newOrigin, size: newSize), number: number, color: color)
       case .to:
         return Self.modelWithRect(index: index, cgRect: updatedRect, number: number, color: color)
       }
-      
     }
   }
   
