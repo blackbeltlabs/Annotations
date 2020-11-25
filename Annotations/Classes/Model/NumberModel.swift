@@ -16,18 +16,30 @@ public struct NumberModel: Model {
         
     let model = NumberModel(index: index,
                             origin: origin.pointModel,
-                            toPoint: toPoint.pointModel,
+                            to: toPoint.pointModel,
                             number: number,
                             color: color)
     
     return model
   }
   
+  static func modelWithRect(index: Int, cgRect: CGRect, number: UInt, color: ModelColor) -> NumberModel {
+    let origin: CGPoint = cgRect.origin
+    let toPoint: CGPoint = CGPoint(x: origin.x + cgRect.width,
+                                   y: origin.y + cgRect.height)
+    
+    return NumberModel(index: index,
+                       origin: origin.pointModel,
+                       to: toPoint.pointModel,
+                       number: number,
+                       color: color)
+  }
+  
   let origin: PointModel
-  let toPoint: PointModel
+  let to: PointModel
   
   var rect: CGRect {
-    CGRect(fromPoint: origin.cgPoint, toPoint: toPoint.cgPoint)
+    CGRect(fromPoint: origin.cgPoint, toPoint: to.cgPoint)
   }
   
   var size: CGSize {
@@ -45,17 +57,29 @@ public struct NumberModel: Model {
   var originToXY: CGPoint {
     CGPoint(x: origin.cgPoint.x + size.width, y: origin.cgPoint.y + size.height)
   }
-  
-  func valueFor(numberPoint: NumberPoint) -> PointModel {
-    switch numberPoint {
+    
+  func valueFor(rectPoint: RectPoint) -> PointModel {
+    switch rectPoint {
     case .origin:
-      return origin
-    case .originToX:
-      return originToX.pointModel
-    case .originToY:
-      return originToY.pointModel
-    case .originToXY:
-      return originToXY.pointModel
+      return origin.returnPointModel(
+        dx: origin.x + (origin.x < to.x ? widthDot : (-widthDot)),
+        dy: origin.y + (origin.y > to.y ? widthDot : (-widthDot))
+      )
+    case .to:
+      return to.returnPointModel(
+        dx: to.x + (origin.x > to.x ? widthDot : (-widthDot)),
+        dy: to.y + (origin.y > to.y ? widthDot : (-widthDot))
+      )
+    case .originY:
+      return origin.returnPointModel(
+        dx: origin.x + (origin.x < to.x ? widthDot : (-widthDot)),
+        dy: to.y + (origin.y > to.y ? widthDot : (-widthDot))
+      )
+    case .toX:
+      return to.returnPointModel(
+        dx: to.x + (origin.x > to.x ? widthDot : (-widthDot)),
+        dy: origin.y + (origin.y > to.y ? widthDot : (-widthDot))
+      )
     }
   }
   
@@ -63,10 +87,60 @@ public struct NumberModel: Model {
   public var color: ModelColor
   
   
+  func copyMoving(rectPoint: RectPoint, delta: PointModel) -> Self {
+    
+    let model: NumberModel = {
+    
+    switch rectPoint {
+    case .origin:
+      return .init(index: index,
+                   origin: origin.copyMoving(delta: delta),
+                   to: to,
+                   number: number,
+                   color: color)
+    case .to:
+      return .init(index: index,
+                   origin: origin,
+                   to: to.copyMoving(delta: delta),
+                   number: number,
+                   color: color)
+    case .originY:
+      return .init(index: index,
+                   origin: origin.returnPointModel(dx: origin.x + delta.x, dy: origin.y),
+                   to: to.returnPointModel(dx: to.x, dy: to.y + delta.y),
+                   number: number,
+                   color: color)
+    case .toX:
+      return .init(index: index,
+                   origin: origin.returnPointModel(dx: origin.x, dy: origin.y + delta.y),
+                   to: to.returnPointModel(dx: to.x + delta.x, dy: to.y),
+                   number: number,
+                   color: color)
+    }
+    }()
+    
+    guard model.size.width > 15.0 && model.size.height > 15.0 else {
+      return self
+    }
+        
+    if model.size.width == model.size.height {
+      return model
+    } else {
+      var updatedRect = model.rect
+
+      if model.size.width > model.size.height {
+        updatedRect.size.width = updatedRect.size.height
+      } else {
+        updatedRect.size.height = updatedRect.size.width
+      }
+      return Self.modelWithRect(index: index, cgRect: updatedRect, number: number, color: color)
+    }
+  }
+  
   func copyMoving(delta: PointModel) -> Self {
     return .init(index: index,
                  origin: origin.copyMoving(delta: delta),
-                 toPoint: toPoint.copyMoving(delta: delta),
+                 to: to.copyMoving(delta: delta),
                  number: number,
                  color: color)
   }

@@ -1,12 +1,5 @@
 import Foundation
 
-enum NumberPoint: CaseIterable {
-  case origin
-  case originToX
-  case originToY
-  case originToXY
-}
-
 class NumberView: DrawableView {
   var state: ViewState<NumberModel> {
     didSet {
@@ -34,19 +27,19 @@ class NumberView: DrawableView {
     return NSColor(cgColor: color)
   }
   
-  lazy var knobDict: [NumberPoint: KnobView] = [
+  lazy var knobDict: [RectPoint: KnobView] = [
     .origin: KnobView(model: model.origin),
-    .originToX: KnobView(model: model.originToX.pointModel),
-    .originToY: KnobView(model: model.originToY.pointModel),
-    .originToXY: KnobView(model: model.originToXY.pointModel)
+    .to: KnobView(model: model.to),
+    .originY: KnobView(model: model.origin.returnPointModel(dx: model.origin.x, dy: model.to.y)),
+    .toX: KnobView(model: model.to.returnPointModel(dx: model.to.x, dy: model.origin.y))
   ]
   
   var knobs: [KnobView] {
-    NumberPoint.allCases.map { knobAt(numberPoint: $0)}
+    RectPoint.allCases.map { knobAt(rectPoint: $0)}
   }
   
-  func knobAt(numberPoint: NumberPoint) -> KnobView {
-    return knobDict[numberPoint]!
+  func knobAt(rectPoint: RectPoint) -> KnobView {
+    return knobDict[rectPoint]!
   }
   
   // MARK: - Init
@@ -92,10 +85,11 @@ class NumberView: DrawableView {
   }
   
   func draggedKnob(_ knob: KnobView, from: PointModel, to: PointModel) {
-    if let numberPoint = (NumberPoint.allCases.first { (numberPoint) -> Bool in
-      return knobDict[numberPoint]! === knob
+    if let rectPoint = (RectPoint.allCases.first { (rectPoint) -> Bool in
+      return knobDict[rectPoint]! === knob
     }) {
-      print("Dragged knob = \(numberPoint). From = \(from). To = \(to)")
+      let delta = from.deltaTo(to)
+      state.model = model.copyMoving(rectPoint: rectPoint, delta: delta)
     }
   }
   
@@ -114,7 +108,7 @@ class NumberView: DrawableView {
     return layer
   }
 
-  func render(state:  ViewState<NumberModel>, oldState: ViewState<NumberModel>? = nil) {
+  func render(state: ViewState<NumberModel>, oldState: ViewState<NumberModel>? = nil) {
     if state.model != oldState?.model {
       layer.shapePath = Self.createPath(model: state.model)
    
@@ -122,13 +116,15 @@ class NumberView: DrawableView {
       textLayer.frame = layer.bounds
       
       textLayer.contentsScale = 2.0
+      
+      textLayer.fontSize = state.model.size.height * 0.6
 
       layer.removeAllAnimations()
       textLayer.removeAllAnimations()
       
       
-      for numberPoint in NumberPoint.allCases {
-        knobAt(numberPoint: numberPoint).state.model = state.model.valueFor(numberPoint: numberPoint)
+      for rectPoint in RectPoint.allCases {
+        knobAt(rectPoint: rectPoint).state.model = state.model.valueFor(rectPoint: rectPoint)        
       }
       
       delegate?.drawableView(self, didUpdate: state.model, atIndex: modelIndex)
