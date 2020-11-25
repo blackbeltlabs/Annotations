@@ -126,6 +126,7 @@ public struct NumberModel: Model {
     if model.size.width == model.size.height {
       return model
     } else {
+        
       var updatedRect = model.rect
 
       if model.size.width > model.size.height {
@@ -133,7 +134,36 @@ public struct NumberModel: Model {
       } else {
         updatedRect.size.height = updatedRect.size.width
       }
-      return Self.modelWithRect(index: index, cgRect: updatedRect, number: number, color: color)
+      
+      switch rectPoint {
+      case .origin:
+        
+        let newOrigin = CGPoint(x: to.cgPoint.x - updatedRect.width,
+                                y: to.cgPoint.y - updatedRect.height)
+        
+        return NumberModel(index: index,
+                           origin: newOrigin.pointModel,
+                           to: to,
+                           number: number,
+                           color: color)
+      case .toX:
+        let currentRectHeightPoint = model.rect.origin.y + model.rect.size.height
+        
+        let newOrigin = CGPoint(x: model.rect.origin.x, y: currentRectHeightPoint - updatedRect.height)
+        let newSize = CGSize(width: updatedRect.width, height: updatedRect.height)
+        
+        return Self.modelWithRect(index: index, cgRect: CGRect(origin: newOrigin, size: newSize), number: number, color: color)
+      case .originY:
+        let currentRectWidthPoint = model.rect.origin.x + model.rect.size.width
+        
+        let newOrigin = CGPoint(x: currentRectWidthPoint - updatedRect.width, y: model.rect.origin.y)
+        let newSize = CGSize(width: updatedRect.width, height: updatedRect.height)
+  
+        return Self.modelWithRect(index: index, cgRect: CGRect(origin: newOrigin, size: newSize), number: number, color: color)
+      case .to:
+        return Self.modelWithRect(index: index, cgRect: updatedRect, number: number, color: color)
+      }
+      
     }
   }
   
