@@ -20,10 +20,11 @@ extension NumberCanvas {
   
   func createNumberView(origin: PointModel, color: ModelColor) -> (CanvasDrawable?, KnobView?) {
 
-    let newNumber = NumberModel(index: model.elements.count + 1,
-                                centerPoint: origin,
-                                number: UInt(model.numbers.count + 1),
-                                color: color)
+    let newNumber = NumberModel.modelWithRadius(index: model.elements.count + 1,
+                                                centerPoint: origin,
+                                                radius: NumberModel.defaultRadius,
+                                                number: UInt(model.numbers.count + 1),
+                                                color: color)
   
     model.numbers.append(newNumber)
     

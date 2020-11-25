@@ -35,7 +35,7 @@ class NumberView: DrawableView {
   }
   
   lazy var knobDict: [NumberPoint: KnobView] = [
-    .origin: KnobView(model: model.origin.pointModel),
+    .origin: KnobView(model: model.origin),
     .originToX: KnobView(model: model.originToX.pointModel),
     .originToY: KnobView(model: model.originToY.pointModel),
     .originToXY: KnobView(model: model.originToXY.pointModel)
@@ -85,18 +85,23 @@ class NumberView: DrawableView {
     CGPath(ellipseIn: model.rect, transform: nil)
   }
   
-  // no knobs for this shape
   func knobAt(point: PointModel) -> KnobView? {
-    return nil
+    return knobs.first(where: { (knob) -> Bool in
+      return knob.contains(point: point)
+    })
   }
   
   func draggedKnob(_ knob: KnobView, from: PointModel, to: PointModel) {
-    
+    if let numberPoint = (NumberPoint.allCases.first { (numberPoint) -> Bool in
+      return knobDict[numberPoint]! === knob
+    }) {
+      print("Dragged knob = \(numberPoint). From = \(from). To = \(to)")
+    }
   }
   
   func dragged(from: PointModel, to: PointModel) {
     let delta = from.deltaTo(to)
-    state.model.centerPoint = state.model.centerPoint.copyMoving(delta: delta)
+    state.model = model.copyMoving(delta: delta)
   }
   
   // MARK: - Layer
