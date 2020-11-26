@@ -27,6 +27,21 @@ class NumberView: DrawableView {
     return NSColor(cgColor: color)
   }
   
+  lazy var knobDict: [RectPoint: KnobView] = [
+    .origin: KnobView(model: model.origin),
+    .to: KnobView(model: model.to),
+    .originY: KnobView(model: model.origin.returnPointModel(dx: model.origin.x, dy: model.to.y)),
+    .toX: KnobView(model: model.to.returnPointModel(dx: model.to.x, dy: model.origin.y))
+  ]
+  
+  var knobs: [KnobView] {
+    RectPoint.allCases.map { knobAt(rectPoint: $0)}
+  }
+  
+  func knobAt(rectPoint: RectPoint) -> KnobView {
+    return knobDict[rectPoint]!
+  }
+  
   // MARK: - Init
   convenience init(state: ViewState<NumberModel>,
                    modelIndex: Int,
@@ -59,30 +74,28 @@ class NumberView: DrawableView {
   
   // MARK: - Path
   static func createPath(model: NumberModel) -> CGPath {
-    let radius = 15.0
-    
-    let point = model.point
-    
-    let rect = CGRect(x: point.x - radius,
-                      y: point.y - radius,
-                      width: radius * 2.0,
-                      height: radius * 2.0)
-    
-    return CGPath(ellipseIn: rect, transform: nil)
+  
+    CGPath(ellipseIn: model.rect, transform: nil)
   }
   
-  // no knobs for this shape
   func knobAt(point: PointModel) -> KnobView? {
-    return nil
+    return knobs.first(where: { (knob) -> Bool in
+      return knob.contains(point: point)
+    })
   }
   
   func draggedKnob(_ knob: KnobView, from: PointModel, to: PointModel) {
-    
+    if let rectPoint = (RectPoint.allCases.first { (rectPoint) -> Bool in
+      return knobDict[rectPoint]! === knob
+    }) {
+      let delta = from.deltaTo(to)
+      state.model = model.copyMoving(rectPoint: rectPoint, delta: delta)
+    }
   }
   
   func dragged(from: PointModel, to: PointModel) {
     let delta = from.deltaTo(to)
-    state.model.point = state.model.point.copyMoving(delta: delta)
+    state.model = model.copyMoving(delta: delta)
   }
   
   // MARK: - Layer
@@ -95,7 +108,7 @@ class NumberView: DrawableView {
     return layer
   }
 
-  func render(state:  ViewState<NumberModel>, oldState: ViewState<NumberModel>? = nil) {
+  func render(state: ViewState<NumberModel>, oldState: ViewState<NumberModel>? = nil) {
     if state.model != oldState?.model {
       layer.shapePath = Self.createPath(model: state.model)
    
@@ -103,21 +116,34 @@ class NumberView: DrawableView {
       textLayer.frame = layer.bounds
       
       textLayer.contentsScale = 2.0
+      
+      textLayer.fontSize = state.model.size.height * 0.6
 
       layer.removeAllAnimations()
       textLayer.removeAllAnimations()
       
+      
+      for rectPoint in RectPoint.allCases {
+        knobAt(rectPoint: rectPoint).state.model = state.model.valueFor(rectPoint: rectPoint)        
+      }
+      
       delegate?.drawableView(self, didUpdate: state.model, atIndex: modelIndex)
     }
     
-    // selection state
-    if state.isSelected {
-      layer.strokeColor = NSColor.black.cgColor
-      layer.lineWidth = 2.0
-    } else {
-      layer.strokeColor = NSColor.clear.cgColor
-      layer.lineWidth = 0.0
+    if state.isSelected != oldState?.isSelected {
+      if state.isSelected {
+        knobs.forEach { (knob) in
+          layer.addSublayer(knob.layer)
+        }
+      } else {
+        CATransaction.withoutAnimation {
+          knobs.forEach { (knob) in
+            knob.layer.removeFromSuperlayer()
+          }
+        }
+      }
     }
+    
   }
   
   func updateColor(_ color: NSColor) {
