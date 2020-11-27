@@ -741,7 +741,7 @@ CA
                                 </constraints>
                             </customView>
                             <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JrP-53-D0T">
-                                <rect key="frame" x="285" y="9" width="407" height="24"/>
+                                <rect key="frame" x="228" y="9" width="464" height="24"/>
                                 <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="Y11-io-MbH">
                                     <font key="font" metaFont="system"/>
                                     <segments>
@@ -752,6 +752,7 @@ CA
                                         <segment label="Obfuscate"/>
                                         <segment label="Highlight"/>
                                         <segment label="Number"/>
+                                        <segment label="No tool"/>
                                     </segments>
                                 </segmentedCell>
                                 <connections>

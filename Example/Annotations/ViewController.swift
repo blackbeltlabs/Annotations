@@ -101,6 +101,8 @@ class ViewController: NSViewController {
       canvasView.createMode = .highlight
     case 6:
       canvasView.createMode = .number
+    case 7: // no tool
+      canvasView.createMode = nil
     default:
       return
     }
