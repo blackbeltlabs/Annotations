@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "button-toggle-outline_off.png",
+      "filename" : "Toggle-outline_off.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "button-toggle-outline_off@2x.png",
+      "filename" : "Toggle-outline_off@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "button-toggle-outline_off@3x.png",
+      "filename" : "Toggle-outline_off@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

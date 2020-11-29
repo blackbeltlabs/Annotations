@@ -76,7 +76,8 @@ class MouseEventsHandler {
 
     switch textContainerView.transformState {
     case .scale:
-      textContainerView.reduceWidthIfNeeded()
+      // FIXME: - Ensure that width is reduced correctly and doesn't affect text resizing
+      /* textContainerView.reduceWidthIfNeeded() */
       textContainerView.reduceHeightIfNeeded()
     default:
       break

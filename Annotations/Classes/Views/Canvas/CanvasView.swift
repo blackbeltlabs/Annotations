@@ -36,13 +36,17 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   
   public var model = CanvasModel()
   
-  public var createMode: CanvasItemType = .arrow
+  public var createMode: CanvasItemType? = .arrow
   public var createColor: ModelColor = ModelColor.defaultColor() {
     didSet {
       updateSelectedItemColor(createColor)
     }
   }
   public var items: [CanvasDrawable] = []
+  
+  public var isEmpty: Bool {
+    items.isEmpty
+  }
   
   var trackingArea: NSTrackingArea?
   var arrowLayers: [CAShapeLayer] = []
@@ -192,6 +196,8 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
     case .highlight:
       return createHighlightView(origin: dragFrom, to: to, color: color, size: frame.size)
     case .number:
+      return (nil, nil)
+    case nil:
       return (nil, nil)
     }
   }
