@@ -428,7 +428,6 @@ public class TextContainerView: NSView, TextAnnotation {
     case .active:
       (textView.isEditable, textView.isSelectable) = (false, false)
       decoratorViews.forEach { $0.isHidden = false }
-      updateLegibilityButton(for: textView.string)
       delegate?.textAnnotationDidSelect(textAnnotation: self)
       emojiButton.isHidden = true
     case .editing:
@@ -437,7 +436,7 @@ public class TextContainerView: NSView, TextAnnotation {
       
       historyTrackingHelper.makeTextSnapshot(text: text)
       delegate?.textAnnotationDidStartEditing(textAnnotation: self)
-      if Self.experimentalSettings && enableEmojies {
+      if enableEmojies {
         emojiButton.isHidden = false
       }
     }
@@ -554,11 +553,6 @@ public class TextContainerView: NSView, TextAnnotation {
     notifyAboutTextAnnotationUpdates()
   }
   
-  // hides or shows legibility button depending if test is empty or not
-  func updateLegibilityButton(for text: String) {
-    let isEmpty = text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-    legibilityButton.isHidden = isEmpty
-  }
   
   @objc func emojiButtonPressed() {
     emojiesPickerPresented = true
@@ -614,8 +608,6 @@ extension TextContainerView: NSTextViewDelegate {
     delegate?.textAnnotationDidEdit(textAnnotation: self)
     
     legibilityTextView.string = textView.string
-    
-    updateLegibilityButton(for: textView.string)
   }
 }
 
