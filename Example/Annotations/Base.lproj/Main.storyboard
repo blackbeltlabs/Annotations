@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -725,13 +725,23 @@ CA
                                 <rect key="frame" x="0.0" y="0.0" width="700" height="500"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y55-QD-jhT">
-                                        <rect key="frame" x="554" y="75" width="105" height="18"/>
+                                        <rect key="frame" x="554" y="100" width="105" height="18"/>
                                         <buttonCell key="cell" type="check" title="Experimental" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="cPh-6S-zjU">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>
                                             <action selector="didToggleExperimental:" target="XfG-lQ-9wD" id="JcR-M2-QxC"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bRd-ls-gkc">
+                                        <rect key="frame" x="535" y="43" width="155" height="18"/>
+                                        <buttonCell key="cell" type="check" title="Solid obfuscate color" bezelStyle="regularSquare" imagePosition="left" inset="2" id="n4m-Cb-ULU">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="didToggleSolidObfuscate:" target="XfG-lQ-9wD" id="obw-Y0-rE6"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -780,7 +790,7 @@ CA
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wKk-SA-T8e">
-                                <rect key="frame" x="554" y="46" width="136" height="18"/>
+                                <rect key="frame" x="554" y="71" width="136" height="18"/>
                                 <buttonCell key="cell" type="check" title="Enable interaction" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="SQr-uD-lQv">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -790,7 +800,7 @@ CA
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vi4-iR-pfq">
-                                <rect key="frame" x="628" y="96" width="69" height="32"/>
+                                <rect key="frame" x="628" y="121" width="69" height="32"/>
                                 <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="inD-Yx-Mhg">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -858,17 +868,19 @@ CA
                             <constraint firstAttribute="bottom" secondItem="ebu-rf-uXG" secondAttribute="bottom" id="0NO-rk-rSq"/>
                             <constraint firstItem="wKk-SA-T8e" firstAttribute="trailing" secondItem="JrP-53-D0T" secondAttribute="trailing" id="5vx-4G-YUZ"/>
                             <constraint firstAttribute="bottom" secondItem="JrP-53-D0T" secondAttribute="bottom" constant="10" id="7BM-JD-5g1"/>
-                            <constraint firstItem="JrP-53-D0T" firstAttribute="top" secondItem="wKk-SA-T8e" secondAttribute="bottom" constant="15" id="9k0-xn-U21"/>
+                            <constraint firstItem="JrP-53-D0T" firstAttribute="top" secondItem="wKk-SA-T8e" secondAttribute="bottom" constant="40" id="9k0-xn-U21"/>
                             <constraint firstItem="ebu-rf-uXG" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="65" id="9yF-ZF-Oo2"/>
                             <constraint firstItem="Gha-MZ-5cr" firstAttribute="centerY" secondItem="V4e-VP-LAe" secondAttribute="centerY" id="A8I-Lh-4yN"/>
                             <constraint firstItem="wKk-SA-T8e" firstAttribute="top" secondItem="Y55-QD-jhT" secondAttribute="bottom" constant="13" id="DD7-ev-rUf"/>
                             <constraint firstAttribute="trailing" secondItem="JrP-53-D0T" secondAttribute="trailing" constant="10" id="LEl-ts-QHM"/>
                             <constraint firstItem="KaE-1o-SX7" firstAttribute="centerY" secondItem="ebu-rf-uXG" secondAttribute="centerY" id="MWt-v1-8Fe"/>
+                            <constraint firstItem="bRd-ls-gkc" firstAttribute="top" secondItem="wKk-SA-T8e" secondAttribute="bottom" constant="12" id="O7h-fo-Mxq"/>
                             <constraint firstItem="Gha-MZ-5cr" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="5" id="RFI-sf-0Sa"/>
                             <constraint firstAttribute="trailing" secondItem="Gha-MZ-5cr" secondAttribute="trailing" constant="10" id="SiN-dI-imO"/>
                             <constraint firstItem="wKk-SA-T8e" firstAttribute="top" secondItem="Vi4-iR-pfq" secondAttribute="bottom" constant="40" id="UDd-Um-k5v"/>
                             <constraint firstItem="Vi4-iR-pfq" firstAttribute="trailing" secondItem="wKk-SA-T8e" secondAttribute="trailing" id="XVG-Of-osC"/>
                             <constraint firstItem="ebu-rf-uXG" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="ZkZ-Eg-Raq"/>
+                            <constraint firstItem="bRd-ls-gkc" firstAttribute="trailing" secondItem="wKk-SA-T8e" secondAttribute="trailing" id="bxs-rf-Xrp"/>
                             <constraint firstItem="0T1-Hw-OI2" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="fNE-cR-XUa"/>
                             <constraint firstItem="KaE-1o-SX7" firstAttribute="height" secondItem="ebu-rf-uXG" secondAttribute="height" id="heG-Gv-vyR"/>
                             <constraint firstItem="Gha-MZ-5cr" firstAttribute="leading" secondItem="V4e-VP-LAe" secondAttribute="trailing" id="ixG-lm-rmy"/>
