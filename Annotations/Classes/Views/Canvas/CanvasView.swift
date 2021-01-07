@@ -78,11 +78,14 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   private let canvasViewEventsHandler = CanvasViewEventsHandler()
   private let imageHelper = ImageHelper()
   private let imageColorsCalculator = ImageColorsCalculator()
-    
+  
+  // MARK: - Obfuscate
+  
   var obfuscateLayer: CALayer = CALayer()
   var obfuscateCanvasLayer: CALayer = CALayer() // palette layer
   var obfuscateMaskLayers: CALayer = CALayer() // obfuscate views are added here to be a mask of canvas layer
-  
+  public var solidColorForObsfuscate: Bool = false
+
   // MARK: - Initializers
   
   override init(frame frameRect: NSRect) {
@@ -334,6 +337,14 @@ extension CanvasView {
   
   // pass image that is under annotations
   public func setAnnotationsImage(_ image: NSImage) {
+    guard !solidColorForObsfuscate else {
+      // need this async call here otherwise an image will not be updated
+      DispatchQueue.main.async {
+        self.setSolidObfuscateColor()
+      }
+      return
+    }
+    
     DispatchQueue.global().async {
       let colors = self.imageColorsCalculator.mostUsedColors(from: image,
                                                              count: 5)
@@ -344,15 +355,23 @@ extension CanvasView {
   }
   
   func updateObfuscateCanvas(with colors: [NSColor]) {
+    guard !solidColorForObsfuscate else {
+      setSolidObfuscateColor()
+      return
+    }
     let image = generateObfuscatePaletteImage(size: obfuscateCanvasLayer.bounds.size,
                                               colorPalette: colors)
     if let image = image {
       obfuscateCanvasLayer.contents = image
     } else {
       // fallback with black color in case if image generation failed
-      obfuscateCanvasLayer.contents = obfuscateFallbackImage(size: obfuscateCanvasLayer.bounds.size,
-                                                             .black)
+      setSolidObfuscateColor()
     }
+  }
+  
+  func setSolidObfuscateColor(color: NSColor = .black) {
+    obfuscateCanvasLayer.contents = obfuscateFallbackImage(size: obfuscateCanvasLayer.bounds.size,
+                                                           color)
   }
 }
 

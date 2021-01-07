@@ -135,6 +135,15 @@ class ViewController: NSViewController {
     canvasView.setTextExperimentalSettings(enabled: isOn)
   }
   
+  @IBAction func didToggleSolidObfuscate(_ sender: NSButton) {
+    let isOn = sender.state == .on
+    canvasView.solidColorForObsfuscate = isOn
+    
+    let image = backgroundImageView.image!
+    
+    canvasView.setAnnotationsImage(image)
+  }
+  
   @IBAction func didTapReset(_ sender: NSButton) {
     canvasView.update(model: CanvasModel())
   }
