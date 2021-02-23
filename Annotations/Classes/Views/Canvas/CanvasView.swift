@@ -130,6 +130,9 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
     
     // fallback in case if obfuscate palette image will not be generated later for some reason
     if obfuscateCanvasLayer.contents == nil {
+      guard frame.size.width > 0 && frame.size.height > 0 else {
+        return
+      }
       obfuscateCanvasLayer.contents = obfuscateFallbackImage(size: frame.size,
                                                              .black)
     }
