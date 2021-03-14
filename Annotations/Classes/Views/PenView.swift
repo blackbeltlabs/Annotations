@@ -84,6 +84,11 @@ class PenView: CanvasDrawable, DrawableView {
     }
   }
   
+  func bringToTop(canvas: CanvasView) {
+    canvas.setMaximumZPosition(to: layer)
+    state.model.zPosition = layer.zPosition
+  }
+  
   func render(state: PenViewState, oldState: PenViewState? = nil) {
     if state.model != oldState?.model {
       layer.shapePath = Self.createPath(model: state.model)

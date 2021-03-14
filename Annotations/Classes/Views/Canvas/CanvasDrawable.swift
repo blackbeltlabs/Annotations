@@ -9,7 +9,7 @@ public protocol CanvasDrawable: class {
   var color: NSColor? { get }
   
   func updateColor(_ color: NSColor)
-  func addTo(canvas: CanvasView)
+  func addTo(canvas: CanvasView, zPosition: CGFloat?)
   func removeFrom(canvas: CanvasView)
   func bringToTop(canvas: CanvasView)
   func contains(point: PointModel) -> Bool

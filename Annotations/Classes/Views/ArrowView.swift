@@ -109,6 +109,11 @@ class ArrowView: CanvasDrawable, DrawableView {
     state.model = model.copyMoving(arrowPoint: arrowPoint, delta: delta)
   }
   
+  func bringToTop(canvas: CanvasView) {
+    canvas.setMaximumZPosition(to: layer)
+    state.model.zPosition = layer.zPosition
+  }
+  
   func render(state: ArrowViewState, oldState: ArrowViewState? = nil) {
     if state.model != oldState?.model {
       layer.shapePath = Self.createPath(model: state.model)

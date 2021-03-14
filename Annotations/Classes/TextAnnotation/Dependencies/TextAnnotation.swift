@@ -33,8 +33,11 @@ extension TextAnnotation {
     state = .inactive
   }
   
-  public func addTo(canvas: TextAnnotationCanvas) {
+  public func addTo(canvas: TextAnnotationCanvas, zPosition: CGFloat?) {
     canvas.add(textAnnotation: self)
+    if let zPosition = zPosition {
+      layer?.zPosition = zPosition
+    }
   }
 }
 

@@ -106,7 +106,7 @@ class ObfuscateView: CanvasDrawable {
     return layer.path!.contains(point.cgPoint)
   }
   
-  func addTo(canvas: CanvasView) {
+  func addTo(canvas: CanvasView, zPosition: CGFloat?) {
     self.canvasView = canvas
     canvas.obfuscateMaskLayers.addSublayer(layer)
   }

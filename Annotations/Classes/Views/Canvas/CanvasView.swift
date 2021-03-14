@@ -87,7 +87,7 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   public var solidColorForObsfuscate: Bool = false
   
   // MARK: - ZPosition
-  private var currentZPosition: Int = 0
+  private(set) var currentZPosition: Int = 0
   
   func generateZPosition() -> CGFloat {
     currentZPosition += 1
@@ -183,7 +183,8 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
         params.foregroundColor = color
       }
       return createTextView(origin: mouseDown,
-                            params: params)
+                            params: params,
+                            zPosition: 0)
     case .number:
       return createNumberView(origin: mouseDown,
                               color: color).0
@@ -217,7 +218,7 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   }
   
   public func add(_ item: CanvasDrawable, zPosition: CGFloat?) {
-    item.addTo(canvas: self)
+    item.addTo(canvas: self, zPosition: zPosition)
     items.append(item)
     
     delegate?.canvasView(self, didCreateAnnotation: item)

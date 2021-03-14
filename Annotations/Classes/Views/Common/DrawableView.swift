@@ -6,9 +6,13 @@ protocol DrawableView: CanvasDrawable {
 }
 
 extension DrawableView {
-  func addTo(canvas: CanvasView) {
+  func addTo(canvas: CanvasView, zPosition: CGFloat?) {
     canvas.canvasLayer.addSublayer(layer)
-    canvas.setMaximumZPosition(to: layer)
+    if let zPosition = zPosition {
+      layer.zPosition = zPosition
+    } else {
+      canvas.setMaximumZPosition(to: layer)
+    }
   }
   
   func removeFrom(canvas: CanvasView) {

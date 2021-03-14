@@ -8,7 +8,8 @@ protocol TextCanvas: TextAnnotationCanvas, TextViewDelegate where Self: CanvasVi
 extension TextCanvas {
   public func createTextView(text: String = "",
                              origin: PointModel,
-                             params: TextParams) -> TextViewAnnotation {
+                             params: TextParams,
+                             zPosition: CGFloat) -> TextViewAnnotation {
     let newTextView = createTextAnnotation(text: text,
                                            location: origin.cgPoint,
                                            textParams: params)
@@ -26,10 +27,10 @@ extension TextCanvas {
     let nsColor = params.foregroundColor ?? ModelColor.orange
     
     let newView = TextViewAnnotation(state: state,
-                                modelIndex: modelIndex,
-                                globalIndex: textModel.index,
-                                view: newTextView,
-                                color: nsColor)
+                                     modelIndex: modelIndex,
+                                     globalIndex: textModel.index,
+                                     view: newTextView,
+                                     color: nsColor)
     newView.delegate = self
 
     return newView
@@ -46,10 +47,10 @@ extension TextCanvas {
     let nsColor = textModel.style.foregroundColor ?? .orange
     
     let newView = TextViewAnnotation(state: state,
-                                modelIndex: index,
-                                globalIndex: textModel.index,
-                                view: newTextView,
-                                color: nsColor)
+                                     modelIndex: index,
+                                     globalIndex: textModel.index,
+                                     view: newTextView,
+                                     color: nsColor)
     newView.delegate = self
   
     
