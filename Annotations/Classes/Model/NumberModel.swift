@@ -4,6 +4,7 @@ public struct NumberModel: Model {
   
   static let defaultRadius: CGFloat = 15.0
   
+  public var zPosition: CGFloat = 0
   public var index: Int
     
   static func modelWithRadius(index: Int, centerPoint: PointModel, radius: CGFloat, number: UInt, color: ModelColor) -> NumberModel {

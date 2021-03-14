@@ -11,6 +11,7 @@ public protocol CanvasDrawable: class {
   func updateColor(_ color: NSColor)
   func addTo(canvas: CanvasView)
   func removeFrom(canvas: CanvasView)
+  func bringToTop(canvas: CanvasView)
   func contains(point: PointModel) -> Bool
   func knobAt(point: PointModel) -> KnobView?
   func draggedKnob(_ knob: KnobView, from: PointModel, to: PointModel)
@@ -26,6 +27,10 @@ extension CanvasDrawable {
   // this method is called to perform some actions after adding to the canvas
   // override if some initial actions are required (like start text editing after adding to the canvas)
   func doInitialSetupOnCanvas() {
+    
+  }
+  
+  func bringToTop(canvas: CanvasView) {
     
   }
 }

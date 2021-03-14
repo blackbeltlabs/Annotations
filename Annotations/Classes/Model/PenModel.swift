@@ -9,6 +9,7 @@
 import Foundation
 
 public struct PenModel: Model {
+  public var zPosition: CGFloat = 0
   public var index: Int
   public var points: [PointModel]
   public let color: ModelColor

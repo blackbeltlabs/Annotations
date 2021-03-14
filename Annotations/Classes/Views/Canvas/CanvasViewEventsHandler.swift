@@ -24,7 +24,7 @@ class CanvasViewEventsHandler {
       if !canvasItemSelected {
         if let newItem = canvasView.createItem(mouseDown: point,
                                                color: canvasView.createColor) {
-          canvasView.add(newItem)
+          canvasView.add(newItem, zPosition: canvasView.generateZPosition())
           newItem.doInitialSetupOnCanvas()
           return
         }
@@ -38,6 +38,7 @@ class CanvasViewEventsHandler {
         // select an item if any at the point
       } else if let item = itemAt(point: point) {
         canvasView.selectedItem = item
+        item.bringToTop(canvas: canvasView)
         item.isSelected = true
         return
       }
@@ -48,7 +49,7 @@ class CanvasViewEventsHandler {
       
       guard let newItem = canvasView.createItem(mouseDown: point,
                                                 color: canvasView.createColor) else { return }
-      canvasView.add(newItem)
+      canvasView.add(newItem, zPosition: canvasView.generateZPosition())
       newItem.doInitialSetupOnCanvas()
       newItem.isSelected = true
       canvasView.selectedItem = newItem
@@ -102,7 +103,7 @@ class CanvasViewEventsHandler {
         return
       }
       
-      canvasView.add(item)
+      canvasView.add(item, zPosition: canvasView.generateZPosition())
       canvasView.selectedItem = item
       canvasView.selectedKnob = newKnob
       isChanged = true

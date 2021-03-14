@@ -2,7 +2,7 @@ import Foundation
 
 protocol ObfuscateCanvas: class, ObfuscateViewDelegate {
   var model: CanvasModel { get set }
-  func add(_ item: CanvasDrawable)
+  func add(_ item: CanvasDrawable, zPosition: CGFloat?)
 }
 
 extension ObfuscateCanvas {
@@ -14,7 +14,7 @@ extension ObfuscateCanvas {
                              globalIndex: model.index,
                              color: model.color)
     view.delegate = self
-    add(view)
+    add(view, zPosition: nil)
   }
   
   func createObfuscateView(origin: PointModel, to: PointModel, color: ModelColor) -> (CanvasDrawable?, KnobView?) {

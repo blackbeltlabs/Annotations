@@ -9,7 +9,7 @@ struct ArrowViewState {
   var isSelected: Bool
 }
 
-class ArrowView: CanvasDrawable {
+class ArrowView: CanvasDrawable, DrawableView {
   var state: ArrowViewState {
     didSet {
       render(state: state, oldState: oldValue)
@@ -94,19 +94,6 @@ class ArrowView: CanvasDrawable {
   
   func knobAt(arrowPoint: ArrowPoint) -> KnobView {
     return knobDict[arrowPoint]!
-  }
-  
-  func contains(point: PointModel) -> Bool {
-    return layer.path!.contains(point.cgPoint)
-  }
-  
-  func addTo(canvas: CanvasView) {
-    canvas.canvasLayer.addSublayer(layer)
-  }
-  
-  func removeFrom(canvas: CanvasView) {
-    layer.removeFromSuperlayer()
-    knobs.forEach { $0.removeFrom(canvas: canvas) }
   }
   
   func dragged(from: PointModel, to: PointModel) {

@@ -2,7 +2,7 @@ import Foundation
 
 protocol NumberCanvas: CanvasDrawableDelegate {
   var model: CanvasModel { get set }
-  func add(_ item: CanvasDrawable)
+  func add(_ item: CanvasDrawable, zPosition: CGFloat?)
 }
 
 extension NumberCanvas {
@@ -15,7 +15,7 @@ extension NumberCanvas {
                           globalIndex: model.index,
                           color: model.color)
     view.delegate = self
-    add(view)
+    add(view, zPosition: model.zPosition)
   }
   
   func createNumberView(origin: PointModel, color: ModelColor) -> (CanvasDrawable?, KnobView?) {

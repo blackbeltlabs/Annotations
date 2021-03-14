@@ -273,9 +273,8 @@ public class TextContainerView: NSView, TextAnnotation {
   
   // MARK: - Initial setup
   func performSubfieldsInit(frameRect: CGRect, textParams: TextParams, enableEmojies: Bool) {
-    
+    wantsLayer = true
     if debugMode {
-      wantsLayer = true
       layer?.borderColor = NSColor.black.cgColor
       layer?.borderWidth = 1.0
     }

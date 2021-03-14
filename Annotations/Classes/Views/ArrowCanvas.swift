@@ -2,7 +2,7 @@ import Foundation
 
 protocol ArrowCanvas: class, ArrowViewDelegate {
   var model: CanvasModel { get set }
-  func add(_ item: CanvasDrawable)
+  func add(_ item: CanvasDrawable, zPosition: CGFloat?)
 }
 
 extension ArrowCanvas {
@@ -14,7 +14,7 @@ extension ArrowCanvas {
                          globalIndex: model.index,
                          color: model.color)
     view.delegate = self
-    add(view)
+    add(view, zPosition: model.zPosition)
   }
   
   func createArrowView(origin: PointModel, to: PointModel, color: ModelColor) -> (CanvasDrawable?, KnobView?) {

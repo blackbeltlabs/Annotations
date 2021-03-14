@@ -56,6 +56,11 @@ class TextViewAnnotation: CanvasDrawable {
     view.delete()
   }
   
+  // this method is never called here so should be just empty
+  func bringToTop(canvas: CanvasView) {
+   
+  }
+  
   func dragged(from: PointModel, to: PointModel) {
     
   }

@@ -9,7 +9,7 @@ struct PenViewState {
   var isSelected: Bool
 }
 
-class PenView: CanvasDrawable {
+class PenView: CanvasDrawable, DrawableView {
   var delegate: PenViewDelegate?
   var layer: CAShapeLayer
   
@@ -37,6 +37,8 @@ class PenView: CanvasDrawable {
   static var modelType: CanvasItemType { return .pen }
   
   var model: PenModel { return state.model }
+  
+  var knobs: [KnobView] { [] }
 
   var isSelected: Bool {
     get { return state.isSelected }
@@ -58,15 +60,7 @@ class PenView: CanvasDrawable {
     
     return layer
   }
-  
-  func addTo(canvas: CanvasView) {
-    canvas.canvasLayer.addSublayer(layer)
-  }
-  
-  func removeFrom(canvas: CanvasView) {
-    layer.removeFromSuperlayer()
-  }
-  
+
   func contains(point: PointModel) -> Bool {
     let tapTargetPath = layer.path!.copy(strokingWithWidth: 10, lineCap: .butt, lineJoin: .miter, miterLimit: 1)
 

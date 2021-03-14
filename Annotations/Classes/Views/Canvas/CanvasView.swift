@@ -85,7 +85,15 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   var obfuscateCanvasLayer: CALayer = CALayer() // palette layer
   var obfuscateMaskLayers: CALayer = CALayer() // obfuscate views are added here to be a mask of canvas layer
   public var solidColorForObsfuscate: Bool = false
-
+  
+  // MARK: - ZPosition
+  private var currentZPosition: Int = 0
+  
+  func generateZPosition() -> CGFloat {
+    currentZPosition += 1
+    return CGFloat(currentZPosition)
+  }
+  
   // MARK: - Initializers
   
   override init(frame frameRect: NSRect) {
@@ -208,11 +216,16 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
     }
   }
   
-  public func add(_ item: CanvasDrawable) {
+  public func add(_ item: CanvasDrawable, zPosition: CGFloat?) {
     item.addTo(canvas: self)
     items.append(item)
     
     delegate?.canvasView(self, didCreateAnnotation: item)
+  }
+  
+  func setMaximumZPosition(to layer: CALayer) {
+    currentZPosition += 1
+    layer.zPosition = CGFloat(currentZPosition)
   }
   
   // MARK: - Delete item

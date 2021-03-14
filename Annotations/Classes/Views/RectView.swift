@@ -10,7 +10,7 @@ struct RectViewState {
   var isSelected: Bool
 }
 
-class RectView: CanvasDrawable {
+class RectView: CanvasDrawable, DrawableView {
   var state: RectViewState {
     didSet {
       self.render(state: self.state, oldState: oldValue)
@@ -101,20 +101,7 @@ class RectView: CanvasDrawable {
   func knobAt(rectPoint: RectPoint) -> KnobView {
     return knobDict[rectPoint]!
   }
-  
-  func contains(point: PointModel) -> Bool {
-    return layer.path!.contains(point.cgPoint)
-  }
-  
-  func addTo(canvas: CanvasView) {
-    canvas.canvasLayer.addSublayer(layer)
-  }
-  
-  func removeFrom(canvas: CanvasView) {
-    layer.removeFromSuperlayer()
-    knobs.forEach { $0.removeFrom(canvas: canvas) }
-  }
-  
+
   func dragged(from: PointModel, to: PointModel) {
     let delta = from.deltaTo(to)
     state.model = model.copyMoving(delta: delta)

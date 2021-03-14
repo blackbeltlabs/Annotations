@@ -2,7 +2,7 @@ import Foundation
 
 protocol HighlightCanvas: class, HighlightViewDelegate {
   var model: CanvasModel { get set }
-  func add(_ item: CanvasDrawable)
+  func add(_ item: CanvasDrawable, zPosition: CGFloat?)
 }
 
 extension HighlightCanvas {
@@ -16,7 +16,7 @@ extension HighlightCanvas {
                              maskRects: rects,
                              color: model.color)
     view.delegate = self
-    add(view)
+    add(view, zPosition: nil)
   }
   
   func createHighlightView(origin: PointModel, to: PointModel, color: ModelColor, size: CGSize) -> (CanvasDrawable?, KnobView?) {

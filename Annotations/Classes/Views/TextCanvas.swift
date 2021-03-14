@@ -62,7 +62,7 @@ extension TextCanvas {
     
     let view = createTextView(textModel: model, index: index)
     view.delegate = self
-    add(view)
+    add(view, zPosition: model.zPosition)
     view.updateFrame(with: model)
     view.deselect()
     view.isSelected = false
@@ -84,6 +84,8 @@ extension TextCanvas {
 extension TextCanvas {
   public func textAnnotationDidSelect(textAnnotation: TextAnnotation) {
     selectedItem = nil
+    // update zPosition of textAnnotation to the highest one if selected
+    textAnnotation.layer?.zPosition = generateZPosition()
   }
   
   public func textAnnotationDidDeselect(textAnnotation: TextAnnotation) {
