@@ -3,6 +3,7 @@ import Foundation
 protocol HighlightCanvas: class, HighlightViewDelegate {
   var model: CanvasModel { get set }
   func add(_ item: CanvasDrawable)
+  var frame: CGRect { get set }
 }
 
 extension HighlightCanvas {
@@ -14,7 +15,8 @@ extension HighlightCanvas {
                              modelIndex: modelIndex,
                              globalIndex: model.index,
                              maskRects: rects,
-                             color: model.color)
+                             color: model.color,
+                             superviewFrame: frame)
     view.delegate = self
     add(view)
   }
@@ -34,7 +36,8 @@ extension HighlightCanvas {
                                 modelIndex: model.highlights.count - 1,
                                 globalIndex: newRect.index,
                                 maskRects: rects,
-                                color: color)
+                                color: color,
+                                superviewFrame: frame)
     newView.delegate = self
     
     let selectedKnob = newView.knobAt(rectPoint: .to)
