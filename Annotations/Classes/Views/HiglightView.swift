@@ -29,6 +29,8 @@ class HighlightView: CanvasDrawable {
   var globalIndex: Int
   var modelIndex: Int
   
+  var superviewFrame: CGRect
+  
   var color: NSColor? {
     guard let color = layer.strokeColor else { return nil }
     return NSColor(cgColor: color)
@@ -45,20 +47,22 @@ class HighlightView: CanvasDrawable {
                    modelIndex: Int,
                    globalIndex: Int,
                    maskRects: [CGRect],
-                   color: ModelColor) {
+                   color: ModelColor,
+                   superviewFrame: CGRect) {
     
     let layerColor = NSColor.color(from: color).cgColor
     let layer = type(of: self).createLayer(color: layerColor, state: state)
     
-    self.init(state: state, modelIndex: modelIndex, globalIndex: globalIndex, layer: layer, maskRects: maskRects)
+    self.init(state: state, modelIndex: modelIndex, globalIndex: globalIndex, layer: layer, maskRects: maskRects, superviewFrame: superviewFrame)
   }
   
-  init(state: HighlightViewState, modelIndex: Int, globalIndex: Int, layer: HighlightLayer, maskRects: [CGRect]) {
+  init(state: HighlightViewState, modelIndex: Int, globalIndex: Int, layer: HighlightLayer, maskRects: [CGRect], superviewFrame: CGRect) {
     self.state = state
     self.modelIndex = modelIndex
     self.globalIndex = globalIndex
     self.layer = layer
     self.maskRects = maskRects
+    self.superviewFrame = superviewFrame
     self.render(state: state)
   }
   
@@ -75,7 +79,7 @@ class HighlightView: CanvasDrawable {
       return layer.path!
     }
     set {
-      let frame = NSScreen.main?.frame ?? .zero
+      let frame = superviewFrame
       let path = CGPath(rect: frame, transform: nil)
       layer.path = path
       layer.bounds = path.boundingBox
@@ -166,7 +170,7 @@ class HighlightView: CanvasDrawable {
     }
     
     let maskPath = CGMutablePath()
-    let frame = NSScreen.main?.frame ?? .zero
+    let frame = canvas.frame
     maskRects.forEach {
       maskPath.addPath(NSBezierPath.concaveRectPath(rect: $0, radius: 4))
     }
