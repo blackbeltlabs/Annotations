@@ -1,16 +1,3 @@
-PODS:
-  - Annotations (0.9.3)
+PODFILE CHECKSUM: dc4ae3ec262a185b3fdcdea74a4b819562b5839f
 
-DEPENDENCIES:
-  - Annotations (from `../`)
-
-EXTERNAL SOURCES:
-  Annotations:
-    :path: "../"
-
-SPEC CHECKSUMS:
-  Annotations: 1e2a47114a0a59dde7b285a8a7617bcba39837b2
-
-PODFILE CHECKSUM: fe486dc29dc8a086e3a5e4f0862adf5be4ff59e1
-
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.1

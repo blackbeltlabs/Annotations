@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,8 @@
 		6F4BC2D8250BA911009B4070 /* texts.json in Resources */ = {isa = PBXBuildFile; fileRef = 6F4BC2D7250BA911009B4070 /* texts.json */; };
 		6FA3D1FA231E4F6E00CA2306 /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA3D1F9231E4F6E00CA2306 /* ColorPickerView.swift */; };
 		ACE1820E2243A76A00CEC127 /* test_drawing.json in Resources */ = {isa = PBXBuildFile; fileRef = ACE1820D2243A76A00CEC127 /* test_drawing.json */; };
+		B943BA572685EF9A002EDB2C /* Annotations in Frameworks */ = {isa = PBXBuildFile; productRef = B943BA562685EF9A002EDB2C /* Annotations */; };
+		B943BA582685EF9A002EDB2C /* Annotations in Embed Frameworks */ = {isa = PBXBuildFile; productRef = B943BA562685EF9A002EDB2C /* Annotations */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		ED83F67C20348A760038D96B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED83F67B20348A760038D96B /* AppDelegate.swift */; };
 		ED83F67E20348A760038D96B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED83F67D20348A760038D96B /* ViewController.swift */; };
 		ED83F68020348A760038D96B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED83F67F20348A760038D96B /* Assets.xcassets */; };
@@ -30,8 +32,22 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		B943BA542685E9A2002EDB2C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B943BA582685EF9A002EDB2C /* Annotations in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		30E97258C721028D28AB511A /* Annotations.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Annotations.podspec; path = ../Annotations.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		30E97258C721028D28AB511A /* Annotations.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Annotations.podspec; path = ../Annotations.podspec; sourceTree = "<group>"; };
 		5E382058B2DE95F267422F8B /* Pods-Annotations_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Annotations_Example.debug.xcconfig"; path = "Target Support Files/Pods-Annotations_Example/Pods-Annotations_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		6F4BC2D4250BA777009B4070 /* TextContainerView_Previews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextContainerView_Previews.swift; sourceTree = "<group>"; };
 		6F4BC2D7250BA911009B4070 /* texts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = texts.json; sourceTree = "<group>"; };
@@ -40,6 +56,7 @@
 		99A7D254385C1FB589AD3CCE /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		ACE1820D2243A76A00CEC127 /* test_drawing.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_drawing.json; sourceTree = "<group>"; };
 		B3ADEBFEC1E97B46066D73C6 /* Pods_Annotations_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Annotations_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B943BA552685EF84002EDB2C /* Annotations */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Annotations; path = ../..; sourceTree = "<group>"; };
 		D9050EF32AE3A75232273248 /* Pods_Annotations_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Annotations_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6AD311358326BC1B7127EA8 /* Pods-Annotations_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Annotations_Example.release.xcconfig"; path = "Target Support Files/Pods-Annotations_Example/Pods-Annotations_Example.release.xcconfig"; sourceTree = "<group>"; };
 		ED83F67820348A760038D96B /* Annotations_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Annotations_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,6 +79,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D5272240A6C6BACF8638AE7 /* Pods_Annotations_Example.framework in Frameworks */,
+				B943BA572685EF9A002EDB2C /* Annotations in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,6 +154,7 @@
 		ED83F67A20348A760038D96B /* Annotations */ = {
 			isa = PBXGroup;
 			children = (
+				B943BA552685EF84002EDB2C /* Annotations */,
 				6F4BC2D6250BA799009B4070 /* Previews */,
 				6FA3D1F8231E4F4E00CA2306 /* Views */,
 				ED83F67B20348A760038D96B /* AppDelegate.swift */,
@@ -180,13 +199,16 @@
 				ED83F67420348A760038D96B /* Sources */,
 				ED83F67520348A760038D96B /* Frameworks */,
 				ED83F67620348A760038D96B /* Resources */,
-				4C6D354D7232BF912DC4E88E /* [CP] Embed Pods Frameworks */,
+				B943BA542685E9A2002EDB2C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Annotations_Example;
+			packageProductDependencies = (
+				B943BA562685EF9A002EDB2C /* Annotations */,
+			);
 			productName = Annotations;
 			productReference = ED83F67820348A760038D96B /* Annotations_Example.app */;
 			productType = "com.apple.product-type.application";
@@ -199,7 +221,6 @@
 				ED83F68620348A760038D96B /* Sources */,
 				ED83F68720348A760038D96B /* Frameworks */,
 				ED83F68820348A760038D96B /* Resources */,
-				4AA0E7ADAFBB80632CD29A91 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -275,42 +296,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4AA0E7ADAFBB80632CD29A91 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Annotations_Tests/Pods-Annotations_Tests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Annotations/Annotations.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Annotations.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Annotations_Tests/Pods-Annotations_Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4C6D354D7232BF912DC4E88E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Annotations_Example/Pods-Annotations_Example-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Annotations/Annotations.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Annotations.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Annotations_Example/Pods-Annotations_Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		A4EA6BE06E806B4840E63ADC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -505,7 +490,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Release;
 		};
@@ -519,7 +505,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Annotations/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.cocoapods.demo.Annotations;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -536,7 +525,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Annotations/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.cocoapods.demo.Annotations;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -552,7 +544,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.Annotations-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -569,7 +565,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.Annotations-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -608,6 +608,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B943BA562685EF9A002EDB2C /* Annotations */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Annotations;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = ED83F67020348A760038D96B /* Project object */;
 }

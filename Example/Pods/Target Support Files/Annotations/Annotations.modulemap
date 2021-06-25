@@ -1,6 +1,0 @@
-framework module Annotations {
-  umbrella header "Annotations-umbrella.h"
-
-  export *
-  module * { export * }
-}
