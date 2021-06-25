@@ -48,12 +48,17 @@ class TextViewAnnotation: CanvasDrawable {
     return false
   }
   
-  func addTo(canvas: CanvasView) {
-    view.addTo(canvas: canvas)
+  func addTo(canvas: CanvasView, zPosition: CGFloat?) {
+    view.addTo(canvas: canvas, zPosition: zPosition)
   }
   
   func removeFrom(canvas: CanvasView) {
     view.delete()
+  }
+  
+  
+  func bringToTop(canvas: CanvasView) {
+   
   }
   
   func dragged(from: PointModel, to: PointModel) {

@@ -2,7 +2,7 @@ import Foundation
 
 protocol RectCanvas: class, RectViewDelegate {
   var model: CanvasModel { get set }
-  func add(_ item: CanvasDrawable)
+  func add(_ item: CanvasDrawable, zPosition: CGFloat?)
 }
 
 extension RectCanvas {
@@ -14,7 +14,7 @@ extension RectCanvas {
                         globalIndex: model.index,
                         color: model.color)
     view.delegate = self
-    add(view)
+    add(view, zPosition: model.zPosition)
   }
   
   func createRectView(origin: PointModel, to: PointModel, color: ModelColor) -> (CanvasDrawable?, KnobView?) {

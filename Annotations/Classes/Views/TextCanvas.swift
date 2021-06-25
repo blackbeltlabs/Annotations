@@ -8,7 +8,8 @@ protocol TextCanvas: TextAnnotationCanvas, TextViewDelegate where Self: CanvasVi
 extension TextCanvas {
   public func createTextView(text: String = "",
                              origin: PointModel,
-                             params: TextParams) -> TextViewAnnotation {
+                             params: TextParams,
+                             zPosition: CGFloat) -> TextViewAnnotation {
     let newTextView = createTextAnnotation(text: text,
                                            location: origin.cgPoint,
                                            textParams: params)
@@ -26,10 +27,10 @@ extension TextCanvas {
     let nsColor = params.foregroundColor ?? ModelColor.orange
     
     let newView = TextViewAnnotation(state: state,
-                                modelIndex: modelIndex,
-                                globalIndex: textModel.index,
-                                view: newTextView,
-                                color: nsColor)
+                                     modelIndex: modelIndex,
+                                     globalIndex: textModel.index,
+                                     view: newTextView,
+                                     color: nsColor)
     newView.delegate = self
 
     return newView
@@ -46,10 +47,10 @@ extension TextCanvas {
     let nsColor = textModel.style.foregroundColor ?? .orange
     
     let newView = TextViewAnnotation(state: state,
-                                modelIndex: index,
-                                globalIndex: textModel.index,
-                                view: newTextView,
-                                color: nsColor)
+                                     modelIndex: index,
+                                     globalIndex: textModel.index,
+                                     view: newTextView,
+                                     color: nsColor)
     newView.delegate = self
   
     
@@ -62,7 +63,7 @@ extension TextCanvas {
     
     let view = createTextView(textModel: model, index: index)
     view.delegate = self
-    add(view)
+    add(view, zPosition: model.zPosition)
     view.updateFrame(with: model)
     view.deselect()
     view.isSelected = false
@@ -84,6 +85,8 @@ extension TextCanvas {
 extension TextCanvas {
   public func textAnnotationDidSelect(textAnnotation: TextAnnotation) {
     selectedItem = nil
+    // update zPosition of textAnnotation to the highest one if selected
+    textAnnotation.layer?.zPosition = generateZPosition()
   }
   
   public func textAnnotationDidDeselect(textAnnotation: TextAnnotation) {

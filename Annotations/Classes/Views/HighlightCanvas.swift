@@ -2,8 +2,12 @@ import Foundation
 
 protocol HighlightCanvas: class, HighlightViewDelegate {
   var model: CanvasModel { get set }
+<<<<<<< HEAD
   func add(_ item: CanvasDrawable)
   var frame: CGRect { get set }
+=======
+  func add(_ item: CanvasDrawable, zPosition: CGFloat?)
+>>>>>>> e8c2656fcbc42712b64f5f1dafa9d3f8d051df29
 }
 
 extension HighlightCanvas {
@@ -18,7 +22,7 @@ extension HighlightCanvas {
                              color: model.color,
                              superviewFrame: frame)
     view.delegate = self
-    add(view)
+    add(view, zPosition: nil)
   }
   
   func createHighlightView(origin: PointModel, to: PointModel, color: ModelColor, size: CGSize) -> (CanvasDrawable?, KnobView?) {

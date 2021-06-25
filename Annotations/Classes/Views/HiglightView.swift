@@ -150,7 +150,7 @@ class HighlightView: CanvasDrawable {
     return canvas.canvasLayer.sublayers?.filter { type(of: $0) == HighlightLayer.self } as? [HighlightLayer] ?? []
   }
   
-  func addTo(canvas: CanvasView) {
+  func addTo(canvas: CanvasView, zPosition: CGFloat?) {
     var maskLayer: HighlightLayerMask
     if let parent = parentLayer(from: canvas) {
       parent.addSublayer(layer)

@@ -9,7 +9,7 @@ struct ArrowViewState {
   var isSelected: Bool
 }
 
-class ArrowView: CanvasDrawable {
+class ArrowView: CanvasDrawable, DrawableView {
   var state: ArrowViewState {
     didSet {
       render(state: state, oldState: oldValue)
@@ -96,19 +96,6 @@ class ArrowView: CanvasDrawable {
     return knobDict[arrowPoint]!
   }
   
-  func contains(point: PointModel) -> Bool {
-    return layer.path!.contains(point.cgPoint)
-  }
-  
-  func addTo(canvas: CanvasView) {
-    canvas.canvasLayer.addSublayer(layer)
-  }
-  
-  func removeFrom(canvas: CanvasView) {
-    layer.removeFromSuperlayer()
-    knobs.forEach { $0.removeFrom(canvas: canvas) }
-  }
-  
   func dragged(from: PointModel, to: PointModel) {
     let delta = from.deltaTo(to)
     state.model = model.copyMoving(delta: delta)
@@ -120,6 +107,11 @@ class ArrowView: CanvasDrawable {
     })!
     let delta = from.deltaTo(to)
     state.model = model.copyMoving(arrowPoint: arrowPoint, delta: delta)
+  }
+  
+  func bringToTop(canvas: CanvasView) {
+    canvas.setMaximumZPosition(to: layer)
+    state.model.zPosition = layer.zPosition
   }
   
   func render(state: ArrowViewState, oldState: ArrowViewState? = nil) {

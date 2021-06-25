@@ -8,6 +8,7 @@
 import Foundation
 
 public struct TextModel: Model, TextAnnotationModelable {
+  public var zPosition: CGFloat = 0
   public var index: Int
   public let origin: PointModel
   public let text: String

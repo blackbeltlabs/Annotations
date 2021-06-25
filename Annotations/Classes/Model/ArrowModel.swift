@@ -14,6 +14,7 @@ public enum ArrowPoint: CaseIterable {
 }
 
 public struct ArrowModel: Model {
+  public var zPosition: CGFloat = 0
   public var index: Int
   public let origin: PointModel
   public let to: PointModel
