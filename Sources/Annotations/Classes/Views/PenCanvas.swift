@@ -1,8 +1,7 @@
 import Foundation
 
-protocol PenCanvas: AnyObject, PenViewDelegate {
-  var model: CanvasModel { get set }
-  func add(_ item: CanvasDrawable, zPosition: CGFloat?)
+protocol PenCanvas: AnyCanvas, PenViewDelegate {
+
 }
 
 extension PenCanvas {
@@ -39,6 +38,7 @@ extension PenCanvas {
   }
   
   func penView(_ penView: PenView, didUpdate model: PenModel, atIndex index: Int) {
+    lastUpdatedModelId = model.id
     self.model.pens[index] = model
   }
 }

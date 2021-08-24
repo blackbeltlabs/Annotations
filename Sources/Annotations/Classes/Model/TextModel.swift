@@ -7,7 +7,9 @@
 
 import Foundation
 
-public struct TextModel: Model, TextAnnotationModelable {
+public struct TextModel: ShapeModel, TextAnnotationModelable {
+  
+  public var id: String = UUID().uuidString
   public var zPosition: CGFloat = 0
   public var index: Int
   public let origin: PointModel

@@ -22,18 +22,10 @@ public protocol Indexable {
   var index: Int { get set }
 }
 
-public protocol Model: Codable, CustomStringConvertible, Equatable, Indexable {}
-extension Model {
-  var json: String {
-    let encoder = JSONEncoder()
-    encoder.outputFormatting = .prettyPrinted
-    let result = try! encoder.encode(self)
-    return String(data: result, encoding: .utf8)!
-  }
-  
-  public var description: String {
-    return json
-  }
+public protocol AnyCanvas: AnyObject {
+  var lastUpdatedModelId: String? { get set }
+  var model: CanvasModel { get set }
+  func add(_ item: CanvasDrawable, zPosition: CGFloat?)
 }
 
 public struct CanvasModel: Model {

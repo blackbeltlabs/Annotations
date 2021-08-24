@@ -1,9 +1,10 @@
 import Foundation
 
-public struct NumberModel: Model {
+public struct NumberModel: ShapeModel {
   
   static let defaultRadius: CGFloat = 15.0
   
+  public var id: String = UUID().uuidString
   public var zPosition: CGFloat = 0
   public var index: Int
     

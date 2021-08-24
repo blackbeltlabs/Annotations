@@ -1,8 +1,8 @@
 import Foundation
 
-protocol ArrowCanvas: AnyObject, ArrowViewDelegate {
-  var model: CanvasModel { get set }
-  func add(_ item: CanvasDrawable, zPosition: CGFloat?)
+
+protocol ArrowCanvas: AnyCanvas, ArrowViewDelegate {
+
 }
 
 extension ArrowCanvas {
@@ -46,6 +46,7 @@ extension ArrowCanvas {
   }
   
   func arrowView(_ arrowView: ArrowView, didUpdate model: ArrowModel, atIndex index: Int) {
+    lastUpdatedModelId = model.id
     self.model.arrows[index] = model
   }
 }

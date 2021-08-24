@@ -9,6 +9,7 @@
   },
   "texts": [
     {
+      "id": "t1",
       "zPosition": 0,
       "index": 0,
       "origin": { "index": 0, "x": 50, "y": 50 },
@@ -20,6 +21,7 @@
       "legibilityEffectEnabled": true
     },
     {
+      "id": "t2",
       "zPosition": 0,
       "index": 1,
       "origin": { "index": 1, "x": 150, "y": 150 },
@@ -31,6 +33,7 @@
       "legibilityEffectEnabled": false
     },
     {
+      "id": "t3",
       "zPosition": 0,
       "index": 2,
       "origin": { "index": 2, "x": 200, "y": 250 },
@@ -44,6 +47,7 @@
   ],
   "arrows": [
     {
+      "id": "a1",
       "zPosition": 0,
       "index": 3,
       "origin": { "index": 3, "x": 10, "y": 10 },
@@ -53,6 +57,7 @@
   ],
   "pens": [
     {
+      "id": "p1",
       "zPosition": 0,
       "index": 4,
       "points": [
@@ -65,6 +70,7 @@
   ],
   "rects": [
     {
+      "id": "r1",
       "zPosition": 0,
       "index": 5,
       "origin": { "index": 5, "x": 80, "y": 120 },
@@ -75,6 +81,7 @@
   ],
   "obfuscates": [
     {
+      "id": "o1",
       "zPosition": 0,
       "index": 6,
       "origin": { "index": 6, "x": 180, "y": 80 },

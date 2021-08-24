@@ -16,7 +16,9 @@ public enum RectPoint: CaseIterable {
 
 let widthDot: Double = 0
 
-public class RectModel: Model {
+public class RectModel: ShapeModel {
+  
+  public var id: String = UUID().uuidString
   public var zPosition: CGFloat = 0
   public var index: Int
   public let origin: PointModel

@@ -35,6 +35,7 @@ public class CanvasView: NSView, ArrowCanvas, PenCanvas, RectCanvas, TextCanvas,
   public override var isFlipped: Bool { true }
   
   public var model = CanvasModel()
+  public var lastUpdatedModelId: String?
   
   public var createMode: CanvasItemType? = .arrow
   public var createColor: ModelColor = ModelColor.defaultColor() {

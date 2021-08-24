@@ -8,7 +8,9 @@
 
 import Foundation
 
-public struct PointModel: Model {
+public struct PointModel: ShapeModel {
+  
+  public var id: String = UUID().uuidString
   public var index: Int
   public let x: Double
   public let y: Double

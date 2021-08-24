@@ -1,8 +1,7 @@
 import Foundation
 
-protocol NumberCanvas: CanvasDrawableDelegate {
-  var model: CanvasModel { get set }
-  func add(_ item: CanvasDrawable, zPosition: CGFloat?)
+protocol NumberCanvas: AnyCanvas, CanvasDrawableDelegate {
+
 }
 
 extension NumberCanvas {
@@ -36,6 +35,8 @@ extension NumberCanvas {
                              color: color)
     
     newView.delegate = self
+    
+    lastUpdatedModelId = newNumber.id
     
     return (newView, nil)
   }

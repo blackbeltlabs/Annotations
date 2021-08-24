@@ -13,7 +13,8 @@ public enum ArrowPoint: CaseIterable {
   case to
 }
 
-public struct ArrowModel: Model {
+public struct ArrowModel: ShapeModel {
+  public var id: String = UUID().uuidString
   public var zPosition: CGFloat = 0
   public var index: Int
   public let origin: PointModel

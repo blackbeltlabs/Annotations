@@ -77,6 +77,7 @@ extension TextCanvas {
       return
     }
     self.model.texts[index] = model
+    lastUpdatedModelId = model.id
     delegate?.canvasView(self, didUpdateModel: self.model)
   }
 }

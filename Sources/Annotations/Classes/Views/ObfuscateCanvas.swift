@@ -1,8 +1,7 @@
 import Cocoa
 
-protocol ObfuscateCanvas: AnyObject, ObfuscateViewDelegate {
-  var model: CanvasModel { get set }
-  func add(_ item: CanvasDrawable, zPosition: CGFloat?)
+protocol ObfuscateCanvas: AnyCanvas, ObfuscateViewDelegate {
+ 
 }
 
 extension ObfuscateCanvas {
@@ -46,6 +45,7 @@ extension ObfuscateCanvas {
   }
   
   func obfuscateView(_ view: ObfuscateView, didUpdate model: ObfuscateModel, atIndex index: Int) {
+    lastUpdatedModelId = model.id
     self.model.obfuscates[index] = model
   }
   

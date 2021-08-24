@@ -8,7 +8,9 @@
 
 import Foundation
 
-public struct PenModel: Model {
+public struct PenModel: ShapeModel {
+  
+  public var id: String = UUID().uuidString
   public var zPosition: CGFloat = 0
   public var index: Int
   public var points: [PointModel]

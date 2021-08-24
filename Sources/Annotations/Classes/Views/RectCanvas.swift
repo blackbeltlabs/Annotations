@@ -1,8 +1,7 @@
 import Foundation
 
-protocol RectCanvas: AnyObject, RectViewDelegate {
-  var model: CanvasModel { get set }
-  func add(_ item: CanvasDrawable, zPosition: CGFloat?)
+protocol RectCanvas: AnyCanvas, RectViewDelegate {
+ 
 }
 
 extension RectCanvas {
@@ -46,6 +45,7 @@ extension RectCanvas {
   }
   
   func rectView(_ rectView: RectView, didUpdate model: RectModel, atIndex index: Int) {
+    lastUpdatedModelId = model.id
     self.model.rects[index] = model
   }
 }

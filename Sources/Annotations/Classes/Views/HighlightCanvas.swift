@@ -1,9 +1,7 @@
 import Foundation
 
-protocol HighlightCanvas: AnyObject, HighlightViewDelegate {
-  var model: CanvasModel { get set }
+protocol HighlightCanvas: AnyCanvas, HighlightViewDelegate {
   var frame: CGRect { get set }
-  func add(_ item: CanvasDrawable, zPosition: CGFloat?)
 }
 
 extension HighlightCanvas {
@@ -52,6 +50,7 @@ extension HighlightCanvas {
   func highlightView(_ highlightView: HighlightView,
                      didUpdate model: HighlightModel,
                      atIndex index: Int) {
+    lastUpdatedModelId = model.id
     self.model.highlights[index] = model
   }
   
