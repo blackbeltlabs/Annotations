@@ -61,10 +61,20 @@ public class TextContainerView: NSView, TextAnnotation {
   
   // set flipped layout for subviews to simplify work with text view resizing
   public override var isFlipped: Bool { true }
-
-  // layout all subviews on frame update
+    
+//  // layout all subviews on frame update
   public override var frame: NSRect {
     didSet {
+
+    }
+  }
+  
+  public override func layout() {
+      super.layout()
+      setupFrames(with: frame)
+  }
+  
+  private func setupFrames(with frame: NSRect) {
       guard frame.height > 0 else { return }
        
       // layout text view
@@ -107,7 +117,6 @@ public class TextContainerView: NSView, TextAnnotation {
                                  y: legibilityButton.frame.origin.y,
                                  width: 23.0,
                                  height: 23.0)
-    }
   }
   
   // MARK: - Tracking area
