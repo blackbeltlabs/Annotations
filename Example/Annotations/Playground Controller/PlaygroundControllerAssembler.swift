@@ -17,11 +17,16 @@ final class PlaygroundControllerAssembler {
     let vc = PlaygroundViewController()
    
     vc.loadViewClosure = { vc in
-      vc.view = NSView(frame: .init(origin: .zero, size: windowSize))
+      let view = MainView(frame: .init(origin: .zero, size: windowSize))
+      vc.view = view
     }
     
     windowController.contentViewController = vc
     
     return windowController
   }
+}
+
+final class MainView: NSView {
+  override var isFlipped: Bool { true }
 }

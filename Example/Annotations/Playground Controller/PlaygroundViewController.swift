@@ -20,6 +20,11 @@ class PlaygroundViewController: NSViewController {
     return textView
   }()
   
+  let textAnnotationView: TextAnnotation = {
+    let annotation = TextContainerView(frame: .init(origin: .zero, size: CGSize(width: 200, height: 200)), text: "Some text", textParams: .init(), legibilityEffectEnabled: false, enableEmojies: true)
+    return annotation
+  }()
+  
   
   override func loadView() {
     loadViewClosure?(self)
@@ -61,6 +66,11 @@ class PlaygroundViewController: NSViewController {
     
     textView.wantsLayer = true
     textView.layer?.borderWidth = 1.0
+    
+    view.addSubview(textAnnotationView)
+    
+    textAnnotationView.text = "REAL Annotaiton view"
+    textAnnotationView.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
   }
 }
 
