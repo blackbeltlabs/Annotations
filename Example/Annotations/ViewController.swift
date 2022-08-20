@@ -146,6 +146,10 @@ class ViewController: NSViewController {
   
   @IBAction func didTapReset(_ sender: NSButton) {
     canvasView.update(model: CanvasModel())
+    let vc = PlaygroundControllerAssembler.assemble()
+    vc.showWindow(self)
+    vc.window?.makeKeyAndOrderFront(self)
+    vc.window?.center()
   }
   
   @objc func colorPickerViewTapped(gr: NSGestureRecognizer) {
