@@ -126,8 +126,14 @@ class TextFrameTransformer {
     guard let textContainerView = self.textContainerView else { return }
     
     let inset = textContainerView.inset
-
-    textContainerView.frame.size.width = size.width + inset.dx * 2
-    textContainerView.frame.size.height = size.height + inset.dy * 2
+    
+    let newSize = CGSize(width: size.width + inset.dx * 2,
+                         height: size.height + inset.dy * 2)
+    
+    textContainerView.frame.size = newSize
+    
+    if textContainerView.renderInLayout {
+      textContainerView.layout()
+    }
   }
 }

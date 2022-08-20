@@ -21,7 +21,13 @@ class PlaygroundViewController: NSViewController {
   }()
   
   let textAnnotationView: TextAnnotation = {
-    let annotation = TextContainerView(frame: .init(origin: .zero, size: CGSize(width: 200, height: 200)), text: "Some text", textParams: .init(), legibilityEffectEnabled: false, enableEmojies: true)
+    let annotation = TextContainerView(frame: .init(origin: .zero,
+                                                    size: CGSize(width: 200,
+                                                                 height: 200)),
+                                       text: "Some text",
+                                       textParams: .init(),
+                                       legibilityEffectEnabled: false,
+                                       enableEmojies: true)
     return annotation
   }()
   
