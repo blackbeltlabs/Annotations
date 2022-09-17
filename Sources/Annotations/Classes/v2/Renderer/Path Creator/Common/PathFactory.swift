@@ -1,6 +1,6 @@
 import Foundation
 
-class PathCreatorFactory {
+class PathFactory {
   static func path(for figure: Figure) -> CGPath? {
     switch figure {
     case let arrow as Arrow:
