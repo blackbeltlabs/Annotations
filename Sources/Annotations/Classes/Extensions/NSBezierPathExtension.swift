@@ -64,6 +64,7 @@ extension NSBezierPath {
                 path.addLine(to: point)
             }
         }
+      
         let bezierPath = NSBezierPath(path: path)
         return bezierPath
     }

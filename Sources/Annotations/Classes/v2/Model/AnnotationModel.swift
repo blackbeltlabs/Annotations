@@ -1,6 +1,6 @@
 import CoreGraphics
 
-public protocol AnnotationModel: Identifiable, Codable {
+public protocol AnnotationModel: Codable {
   var id: String { get set }
   var colour: ModelColor { get set }
   var zPosition: CGFloat { get set }
@@ -8,7 +8,11 @@ public protocol AnnotationModel: Identifiable, Codable {
   var points: [AnnotationPoint] { get set }
 }
 
-public protocol TwoPointsModel {
+public protocol Figure: AnnotationModel {
+  
+}
+
+public protocol TwoPointsModel: AnnotationModel {
   var origin: AnnotationPoint { get set }
   var to: AnnotationPoint { get set }
 }
