@@ -3,7 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "Annotations",
-    platforms: [.macOS("10.13")],
+    platforms: [.macOS("10.15")],
     products: [
         .library(
             name: "Annotations",

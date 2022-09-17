@@ -1,7 +1,4 @@
-
-import Foundation
-
-// convenient data type to not bind to NSColor or UIColor so the lib will be ready for both Mac OS and iOS (if need to be used on iOS in the future)
+import CoreGraphics
 
 public struct ModelColor: Codable, Equatable {
   public let red: CGFloat
@@ -45,6 +42,9 @@ public struct ModelColor: Codable, Equatable {
     return [orange, yellow, green, fuschia, violet]
   }
   
+  public static var zero: ModelColor {
+    Self.init(red: 0, green: 0, blue: 0, alpha: 0)
+  }
   // MARK: - Helpers
 
   public static func colorFromRelative(red: CGFloat,
@@ -63,5 +63,4 @@ public struct ModelColor: Codable, Equatable {
                blue: CGFloat.random(in: 0..<1.0),
                alpha: 1.0)
   }
-  
 }
