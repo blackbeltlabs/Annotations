@@ -14,7 +14,6 @@ protocol RendererCanvas: AnyObject {
 class Renderer {
   weak var canvasView: RendererCanvas?
   
-  
   func render(_ model: AnnotationModel) {
     if let text = model as? Text {
       renderText(text)
