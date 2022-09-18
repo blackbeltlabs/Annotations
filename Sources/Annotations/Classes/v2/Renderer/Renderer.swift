@@ -9,41 +9,10 @@ protocol RendererCanvas: AnyObject {
   func renderText(text: Text)
 }
 
-enum LayerType {
-  case normal
-  case obfuscate
-  case highlight
-}
 
-struct LayerUISettings {
-  let lineWidth: CGFloat
-  let strokeColor: CGColor?
-  let fillColor: CGColor?
-  let lineJoin: CAShapeLayerLineJoin
-  let lineCap: CAShapeLayerLineCap
-  let fillRule: CAShapeLayerFillRule
-  let lineDash: (phase: CGFloat, lengths: [CGFloat]?)
-  
-  internal init(lineWidth: CGFloat,
-                strokeColor: CGColor? = nil,
-                fillColor: CGColor? = nil,
-                lineJoin: CAShapeLayerLineJoin = .miter,
-                lineCap: CAShapeLayerLineCap = .butt,
-                fillRule: CAShapeLayerFillRule = .nonZero,
-                lineDash: (phase: CGFloat, lengths: [CGFloat]?) = (0, nil)) {
-    self.lineWidth = lineWidth
-    self.strokeColor = strokeColor
-    self.fillColor = fillColor
-    self.lineJoin = lineJoin
-    self.lineCap = lineCap
-    self.fillRule = fillRule
-    self.lineDash = lineDash
-  }
-  
-}
 
 class Renderer {
-  weak var canvasView: NSView?
+  weak var canvasView: RendererCanvas?
   
   
   func render(_ model: AnnotationModel) {
@@ -62,8 +31,14 @@ class Renderer {
     guard let style = FigureStyleFactory.figureStyle(for: model) else {
       fatalError("Can't instantiate style for model = \(model)")
     }
-            
-            
+    
+    let layerType = LayerTypeFactory.layerType(for: model)
+    
+    canvasView?.renderLayer(id: model.id,
+                            type: layerType,
+                            path: path,
+                            settings: style,
+                            zPosition: model.zPosition)
   }
   
   
