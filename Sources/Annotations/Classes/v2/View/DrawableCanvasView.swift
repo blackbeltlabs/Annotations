@@ -1,7 +1,8 @@
 import Cocoa
+import Combine
 
 class DrawableCanvasView: NSView {
-  
+  let viewSizeUpdated = PassthroughSubject<CGSize, Never>()
 }
 
 
@@ -54,5 +55,10 @@ extension DrawableCanvasView: RendererCanvas {
   
   private func drawable(with id: String) -> DrawableElement? {
     drawables.first(where: { $0.id == id })
+  }
+  
+  override func layout() {
+    super.layout()
+    viewSizeUpdated.send(frame.size)
   }
 }

@@ -7,4 +7,14 @@ public struct Pen: Figure {
   public var zPosition: CGFloat = 0
   
   public var points: [AnnotationPoint] = []
+  
+  
+  struct Mocks {
+    static var mock: Pen {
+      .init(colour: .fuschia,
+            points: [.init(x: 350, y: 150),
+                     .init(x: 355, y: 240),
+                     .init(x: 345, y: 290)])
+    }
+  }
 }
