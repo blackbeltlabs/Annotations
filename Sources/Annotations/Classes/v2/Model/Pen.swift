@@ -9,8 +9,8 @@ public struct Pen: Figure {
   public var points: [AnnotationPoint] = []
   
   
-  struct Mocks {
-    static var mock: Pen {
+  public struct Mocks {
+    public static var mock: Pen {
       .init(colour: .fuschia,
             points: [.init(x: 350, y: 150),
                      .init(x: 355, y: 240),

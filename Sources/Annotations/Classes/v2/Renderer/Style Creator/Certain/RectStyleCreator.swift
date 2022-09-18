@@ -2,7 +2,7 @@ import Cocoa
 
 class RectStyleCreator: FigureStyleCreator {
   func createStyle(for figure: Rect) -> LayerUISettings {
-    switch figure.type {
+    switch figure.rectType {
     case .regular:
        return .init(lineWidth: 5,
                     strokeColor: figure.colour.cgColor,

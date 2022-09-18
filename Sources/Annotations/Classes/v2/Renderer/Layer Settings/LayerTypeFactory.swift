@@ -4,7 +4,7 @@ class LayerTypeFactory {
   static func layerType(for figure: Figure) -> LayerType {
     switch figure {
     case let rect as Rect:
-      switch rect.type {
+      switch rect.rectType {
       case .obfuscate:
         return .obfuscate
       case .highlight:

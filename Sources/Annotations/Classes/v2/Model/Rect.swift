@@ -10,7 +10,7 @@ public enum RectModelType: String, Codable {
 
 public struct Rect: TwoPointsModel, Figure {
   
-  public var type: RectModelType = .regular
+  public var rectType: RectModelType = .regular
   
   public var id: String = UUID().uuidString
   public var colour: ModelColor = .zero

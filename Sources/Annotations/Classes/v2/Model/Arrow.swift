@@ -9,8 +9,8 @@ public struct Arrow: TwoPointsModel, Figure {
   public var origin: AnnotationPoint
   public var to: AnnotationPoint
   
-  struct Mocks {
-    static var mock: Arrow {
+  public struct Mocks {
+    public static var mock: Arrow {
       .init(colour: .green,
             origin: .init(x: 10, y: 10),
             to: .init(x: 80, y: 80))

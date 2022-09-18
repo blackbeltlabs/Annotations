@@ -6,79 +6,30 @@ class PlaygroundViewController: NSViewController {
   
   var loadViewClosure: ((PlaygroundViewController) -> Void)?
   
-  let simpleTextView: NSTextView = {
-    let textView = NSTextView(frame: .zero)
-    textView.translatesAutoresizingMaskIntoConstraints = false
-    textView.string = "Test"
-    return textView
-  }()
-  
-  let textView: TestTextView = {
-    let textView = TestTextView(frame: .zero)
-    textView.translatesAutoresizingMaskIntoConstraints = false
-    textView.string = "Our Text View"
-    return textView
-  }()
-  
-  let textAnnotationView: TextAnnotation = {
-    let annotation = TextContainerView(frame: .init(origin: .zero,
-                                                    size: CGSize(width: 200,
-                                                                 height: 200)),
-                                       text: "Some text",
-                                       textParams: .init(),
-                                       legibilityEffectEnabled: false,
-                                       enableEmojies: true)
-    return annotation
-  }()
-  
-  
+  var modelsManager: ModelsManager?
+
   override func loadView() {
     loadViewClosure?(self)
   }
-  
-  private func setupTextView(_ textView: NSTextView) {
-    
-    textView.alignment = .natural
-    textView.backgroundColor = NSColor.clear
-    textView.isRichText = false
-    textView.usesRuler = false
-    textView.usesFontPanel = false
-    textView.drawsBackground = false
-    textView.isVerticallyResizable = true
-  }
-  
+
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.addSubview(simpleTextView)
     
-    view.addSubview(textView)
+    let (modelsManager, canvasView) = AnnotationsCanvasFactory.instantiate()
     
-    setupTextView(simpleTextView)
-    setupTextView(textView)
+    canvasView.translatesAutoresizingMaskIntoConstraints = false
+    view.addSubview(canvasView)
     
-    simpleTextView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20.0).isActive = true
-    simpleTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    simpleTextView.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
-    simpleTextView.heightAnchor.constraint(equalToConstant: 100.0).isActive = true
+    canvasView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+    canvasView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    canvasView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+    canvasView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     
-    simpleTextView.wantsLayer = true
-    simpleTextView.layer?.borderWidth = 1.0
+    canvasView.layer?.backgroundColor = NSColor.yellow.cgColor
+    self.modelsManager = modelsManager
     
-    
-    textView.topAnchor.constraint(equalTo: simpleTextView.bottomAnchor, constant: 20.0).isActive = true
-    textView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    textView.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
-    textView.heightAnchor.constraint(equalToConstant: 100.0).isActive = true
-    
-    textView.wantsLayer = true
-    textView.layer?.borderWidth = 1.0
-    
-    view.addSubview(textAnnotationView)
-    
-    textAnnotationView.text = "REAL Annotaiton view"
-    textAnnotationView.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+    modelsManager.add(models: [Arrow.Mocks.mock, Pen.Mocks.mock])
   }
 }
-
 
 
