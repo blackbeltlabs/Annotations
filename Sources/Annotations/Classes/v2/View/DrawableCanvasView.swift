@@ -2,9 +2,13 @@ import Cocoa
 import Combine
 
 public class DrawableCanvasView: NSView {
+  let obfuscateLayer: ObfuscateLayer = ObfuscateLayer()
+  
   override init(frame frameRect: NSRect) {
     super.init(frame: frameRect)
     wantsLayer = true
+    
+    layer?.addSublayer(obfuscateLayer)
   }
   
   required init?(coder: NSCoder) {
@@ -12,8 +16,23 @@ public class DrawableCanvasView: NSView {
   }
   
   let viewSizeUpdated = PassthroughSubject<CGSize, Never>()
+  
+  
+  public override func layout() {
+    super.layout()
+    viewSizeUpdated.send(frame.size)
+    
+    obfuscateLayer.frame = frame
+    
+    if obfuscateLayer.contents == nil {
+      guard frame.size.width > 0 && frame.size.height > 0 else {
+        return
+      }
+      obfuscateLayer.contents = ObfuscateFallbackHelper.obfuscateFallbackImage(size: frame.size, .black)
+    }
+    
+  }
 }
-
 
 protocol DrawableElement {
   var id: String { get set }
@@ -23,10 +42,16 @@ extension DrawableCanvasView: RendererCanvas {
   
   public override var isFlipped: Bool { true }
   
+  
+  
   var drawables: [DrawableElement] {
     let sublayers = layer?.sublayers ?? []
   
-    return sublayers.compactMap { $0 as? DrawableElement }
+    let regularLayers = sublayers.compactMap { $0 as? DrawableElement }
+    
+    let obfuscateLayers = obfuscateLayer.allObfuscatedLayers.compactMap { $0 as? DrawableElement }
+    
+    return regularLayers + obfuscateLayers
   }
   
   func renderLayer(id: String,
@@ -51,7 +76,11 @@ extension DrawableCanvasView: RendererCanvas {
       return layer
     } else {
       let newLayer: T = createNormalLayer(with: id)
-      layer?.addSublayer(newLayer)
+      if type == .normal {
+        layer?.addSublayer(newLayer)
+      } else {
+        obfuscateLayer.addObfuscatedArea(newLayer)
+      }
       renderNormalLayer(layer: newLayer,
                         path: renderingSet.path,
                         settings: renderingSet.settings,
@@ -94,10 +123,5 @@ extension DrawableCanvasView: RendererCanvas {
   
   private func drawable(with id: String) -> DrawableElement? {
     drawables.first(where: { $0.id == id })
-  }
-  
-  public override func layout() {
-    super.layout()
-    viewSizeUpdated.send(frame.size)
   }
 }

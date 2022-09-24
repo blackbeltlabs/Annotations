@@ -1,5 +1,9 @@
 import Quartz
 
+class CanvasLayer: CALayer, DrawableElement {
+  var id: String = ""
+}
+
 class CanvasShapeLayer: CAShapeLayer, DrawableElement {
   var id: String = ""
 }

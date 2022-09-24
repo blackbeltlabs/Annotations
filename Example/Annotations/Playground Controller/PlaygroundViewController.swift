@@ -31,7 +31,8 @@ class PlaygroundViewController: NSViewController {
     modelsManager.add(models: [Arrow.Mocks.mock,
                                Pen.Mocks.mock,
                                Rect.Mocks.mockRegular,
-                               Number.Mocks.mock])
+                               Rect.Mocks.mockObfuscate,
+                               Number.Mocks.mock,])
   }
 }
 

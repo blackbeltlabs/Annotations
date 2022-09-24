@@ -26,5 +26,12 @@ public struct Rect: RectBased, Figure {
             color: .init(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0),
             origin: .init(x: 80, y: 120), to: .init(x: 100, y: 100))
     }
+    
+    public static var mockObfuscate: Rect {
+      .init(rectType: .obfuscate,
+            color: .init(red: 1.0, green: 1.0, blue: 0.0, alpha: 1.0),
+            origin: .init(x: 180, y: 80),
+            to: .init(x: 100, y: 100))
+    }
   }
 }
