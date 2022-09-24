@@ -3,7 +3,7 @@ import CoreGraphics
 
 public struct Arrow: TwoPointsModel, Figure {
   public var id: String = UUID().uuidString
-  public var colour: ModelColor = .zero
+  public var color: ModelColor = .zero
   public var zPosition: CGFloat = 0
   
   public var origin: AnnotationPoint
@@ -11,7 +11,7 @@ public struct Arrow: TwoPointsModel, Figure {
   
   public struct Mocks {
     public static var mock: Arrow {
-      .init(colour: .green,
+      .init(color: .green,
             origin: .init(x: 10, y: 10),
             to: .init(x: 80, y: 80))
     }

@@ -2,7 +2,7 @@ import CoreGraphics
 
 public protocol AnnotationModel: Codable {
   var id: String { get set }
-  var colour: ModelColor { get set }
+  var color: ModelColor { get set }
   var zPosition: CGFloat { get set }
   
   var points: [AnnotationPoint] { get set }

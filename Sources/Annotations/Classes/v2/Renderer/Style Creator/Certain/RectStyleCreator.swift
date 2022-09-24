@@ -5,7 +5,7 @@ class RectStyleCreator: FigureStyleCreator {
     switch figure.rectType {
     case .regular:
        return .init(lineWidth: 5,
-                    strokeColor: figure.colour.cgColor,
+                    strokeColor: figure.color.cgColor,
                     fillColor: CGColor.clear)
     case .obfuscate:
         return .init(lineWidth: 2,
@@ -18,7 +18,7 @@ class RectStyleCreator: FigureStyleCreator {
     case .number:
       return .init(lineWidth: 0,
                    strokeColor: .clear,
-                   fillColor: figure.colour.cgColor)
+                   fillColor: figure.color.cgColor)
     }
   }
 }
