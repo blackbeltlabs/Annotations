@@ -9,6 +9,8 @@ class FigureStyleFactory {
       return PenStyleCreator().createStyle(for: pen)
     case let rect as Rect:
       return RectStyleCreator().createStyle(for: rect)
+    case let number as Number:
+      return NumberStyleCreator().createStyle(for: number)
     default:
       return nil
     }

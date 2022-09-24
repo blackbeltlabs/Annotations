@@ -7,6 +7,12 @@ final class RectPathCreator: PathCreator {
   }
 }
 
+final class NumberPathCreator: PathCreator {
+  func createPath(for figure: Number) -> CGPath {
+    let rect = CGRect.rect(fromPoint: figure.origin.cgPoint, toPoint: figure.to.cgPoint)
+    return CGPath(ellipseIn: rect, transform: nil)
+  }
+}
 
 private extension CGRect {
   static func rect(fromPoint: CGPoint, toPoint: CGPoint) -> CGRect {

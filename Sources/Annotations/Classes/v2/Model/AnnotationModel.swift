@@ -30,3 +30,8 @@ extension TwoPointsModel {
     }
   }
 }
+
+
+public protocol RectBased: TwoPointsModel {
+  
+}

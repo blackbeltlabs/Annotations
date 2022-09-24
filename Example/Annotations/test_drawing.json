@@ -71,7 +71,6 @@
       "to": { "index": 5, "x": 100, "y": 100 },
       "color": {"red": 1.0, "green": 0.0, "blue": 0.0, "alpha": 1.0}
     }
-
   ],
   "obfuscates": [
     {
@@ -83,5 +82,14 @@
     }
   ],
   "highlights" : [],
-  "numbers" : []
+  "numbers" : [
+    {
+      "zPosition": 10,
+      "index": 5,
+      "origin": { "index": 5, "x": 120, "y": 120 },
+      "to": { "index": 5, "x": 200, "y": 200 },
+      "color": {"red": 1.0, "green": 0.0, "blue": 0.0, "alpha": 1.0},
+      "number" : 9,
+    }
+  ]
 }

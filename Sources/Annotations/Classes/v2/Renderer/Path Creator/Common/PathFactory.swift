@@ -9,6 +9,8 @@ class PathFactory {
       return PenPathCreator().createPath(for: pen)
     case let rect as Rect:
       return RectPathCreator().createPath(for: rect)
+    case let number as Number:
+      return NumberPathCreator().createPath(for: number)
     default:
       return nil
     }

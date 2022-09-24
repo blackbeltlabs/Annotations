@@ -5,10 +5,9 @@ public enum RectModelType: String, Codable {
   case regular
   case obfuscate
   case highlight
-  case number
 }
 
-public struct Rect: TwoPointsModel, Figure {
+public struct Rect: RectBased, Figure {
   
   public var rectType: RectModelType
   

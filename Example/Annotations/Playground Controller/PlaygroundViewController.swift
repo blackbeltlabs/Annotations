@@ -28,7 +28,10 @@ class PlaygroundViewController: NSViewController {
     canvasView.layer?.backgroundColor = NSColor.yellow.cgColor
     self.modelsManager = modelsManager
     
-    modelsManager.add(models: [Arrow.Mocks.mock, Pen.Mocks.mock, Rect.Mocks.mockRegular])
+    modelsManager.add(models: [Arrow.Mocks.mock,
+                               Pen.Mocks.mock,
+                               Rect.Mocks.mockRegular,
+                               Number.Mocks.mock])
   }
 }
 

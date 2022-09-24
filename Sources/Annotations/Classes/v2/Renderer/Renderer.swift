@@ -1,12 +1,21 @@
 import Cocoa
 
+struct LayerRenderingSet {
+  let path: CGPath
+  let settings: LayerUISettings
+  let zPosition: CGFloat
+}
+
 protocol RendererCanvas: AnyObject {
   func renderLayer(id: String,
                    type: LayerType,
-                   path: CGPath,
-                   settings: LayerUISettings,
-                   zPosition: CGFloat)
+                   renderingSet: LayerRenderingSet)
   func renderText(text: Text)
+  
+  func renderNumber(id: String,
+                    renderingSet: LayerRenderingSet,
+                    numberValue: Int,
+                    numberFontSize: CGFloat)
 }
 
 
@@ -41,13 +50,21 @@ class Renderer {
       fatalError("Can't instantiate style for model = \(model)")
     }
     
-    let layerType = LayerTypeFactory.layerType(for: model)
+    let renderingSet: LayerRenderingSet = .init(path: path, settings: style, zPosition: model.zPosition)
+    switch model {
+    case let number as Number:
+      canvasView?.renderNumber(id: number.id,
+                               renderingSet: renderingSet,
+                               numberValue: number.value,
+                               numberFontSize: number.size.height * 0.6)
+    default:
+      let layerType = LayerTypeFactory.layerType(for: model)
+      
+      canvasView?.renderLayer(id: model.id,
+                              type: layerType,
+                              renderingSet: renderingSet)
+    }
     
-    canvasView?.renderLayer(id: model.id,
-                            type: layerType,
-                            path: path,
-                            settings: style,
-                            zPosition: model.zPosition)
   }
   
   
