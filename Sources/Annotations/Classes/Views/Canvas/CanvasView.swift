@@ -386,9 +386,13 @@ extension CanvasView {
     }
   }
   
+  fileprivate func extractedFunc(_ color: NSColor) -> NSImage {
+    return obfuscateFallbackImage(size: obfuscateCanvasLayer.bounds.size,
+                                  color)
+  }
+  
   func setSolidObfuscateColor(color: NSColor = .black) {
-    obfuscateCanvasLayer.contents = obfuscateFallbackImage(size: obfuscateCanvasLayer.bounds.size,
-                                                           color)
+    obfuscateCanvasLayer.contents = extractedFunc(color)
   }
 }
 

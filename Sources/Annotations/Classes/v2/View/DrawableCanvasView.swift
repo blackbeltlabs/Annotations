@@ -3,6 +3,8 @@ import Combine
 
 public class DrawableCanvasView: NSView {
   let obfuscateLayer: ObfuscateLayer = ObfuscateLayer()
+  let imageColorsCalculator = ImageColorsCalculator()
+
   
   override init(frame frameRect: NSRect) {
     super.init(frame: frameRect)
@@ -21,16 +23,7 @@ public class DrawableCanvasView: NSView {
   public override func layout() {
     super.layout()
     viewSizeUpdated.send(frame.size)
-    
-    obfuscateLayer.frame = frame
-    
-    if obfuscateLayer.contents == nil {
-      guard frame.size.width > 0 && frame.size.height > 0 else {
-        return
-      }
-      obfuscateLayer.contents = ObfuscateFallbackHelper.obfuscateFallbackImage(size: frame.size, .black)
-    }
-    
+    obfuscateLayer.frame = bounds
   }
 }
 
@@ -41,7 +34,6 @@ protocol DrawableElement {
 extension DrawableCanvasView: RendererCanvas {
   
   public override var isFlipped: Bool { true }
-  
   
   
   var drawables: [DrawableElement] {
@@ -115,6 +107,30 @@ extension DrawableCanvasView: RendererCanvas {
     layer.path = path
     layer.setup(with: settings)
     layer.zPosition = zPosition
+  }
+  
+  func renderObfuscatedArea(_ type: ObfuscatedAreaType) {
+    switch type {
+    case .solidColor(let color):
+      let fallbackImage = ObfuscateRendererHelper.obfuscateFallbackImage(size: frame.size,
+                                                                         color)
+      obfuscateLayer.setObfuscatedAreaContents(fallbackImage)
+    case .image(let image):
+      let size = frame.size
+      imageColorsCalculator.mostUsedColors(from: image, count: 5) { [weak self] colors in
+        guard let self = self else { return }
+        let paletteImage = ObfuscateRendererHelper.obfuscatePaletteImage(size: size,
+                                                                         colorPalette: colors)
+        
+        DispatchQueue.main.async {
+          if let paletteImage {
+            self.obfuscateLayer.setObfuscatedAreaContents(paletteImage)
+          } else {
+            self.renderObfuscatedArea(.solidColor(.black))
+          }
+        }
+      }
+    }
   }
   
   func renderText(text: Text) {

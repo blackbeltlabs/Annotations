@@ -16,8 +16,14 @@ protocol RendererCanvas: AnyObject {
                     renderingSet: LayerRenderingSet,
                     numberValue: Int,
                     numberFontSize: CGFloat)
+  
+  func renderObfuscatedArea(_ type: ObfuscatedAreaType)
 }
 
+enum ObfuscatedAreaType {
+  case solidColor(_ color: NSColor)
+  case image(_ image: NSImage)
+}
 
 
 class Renderer {
@@ -70,5 +76,10 @@ class Renderer {
   
   func renderText(_ model: Text) {
     
+  }
+  
+  
+  func renderObfuscatedArea(type: ObfuscatedAreaType) {
+    canvasView?.renderObfuscatedArea(type)
   }
 }

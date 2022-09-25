@@ -90,6 +90,15 @@ public class ImageColorsCalculator {
     return mostUsed.map { $0.solidColor }
   }
   
+  public func mostUsedColors(from nsImage: NSImage,
+                             count: Int,
+                             completion: @escaping ([NSColor]) -> Void) {
+    DispatchQueue.global().async {
+      let colors = self.mostUsedColors(from: nsImage, count: count)
+      completion(colors)
+    }
+  }
+  
   func allColors(bitmap: CGContext) -> [Pixel: Int] {
     let width = bitmap.width
     let height = bitmap.height

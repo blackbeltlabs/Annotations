@@ -16,8 +16,8 @@ public final class AnnotationsCanvasFactory {
                               modelsManager: ModelsManager) {
     canvasView
       .viewSizeUpdated
-      .sink { [weak modelsManager] _ in
-        modelsManager?.renderAll()
+      .sink { [weak modelsManager] size in
+        modelsManager?.viewSizeUpdated.send(size)
       }.store(in: &modelsManager.commonCancellables)
   }
 }

@@ -32,7 +32,17 @@ class PlaygroundViewController: NSViewController {
                                Pen.Mocks.mock,
                                Rect.Mocks.mockRegular,
                                Rect.Mocks.mockObfuscate,
-                               Number.Mocks.mock,])
+                               Number.Mocks.mock])
+    
+    let backgroundImage = NSImage(named: "catalina")!
+    modelsManager.addBackgroundImage(backgroundImage)
+    
+  }
+  
+  override func viewDidAppear() {
+    super.viewDidAppear()
+    
+    
   }
 }
 

@@ -25,4 +25,8 @@ class ObfuscateLayer: CALayer {
   var allObfuscatedLayers: [CALayer] {
     maskLayer.sublayers ?? []
   }
+  
+  func setObfuscatedAreaContents(_ contents: Any) {
+    self.contents = contents
+  }
 }
