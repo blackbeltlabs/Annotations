@@ -127,8 +127,10 @@ class TextFrameTransformer {
     
     let inset = textContainerView.inset
     
-    let newSize = CGSize(width: size.width + inset.dx * 2,
-                         height: size.height + inset.dy * 2)
+    // should use ceil here, otherwise the layout() of superview can be called
+    // then can lead to incorrect results
+    let newSize = CGSize(width: ceil(size.width + inset.dx * 2),
+                         height: ceil(size.height + inset.dy * 2))
     
     textContainerView.frame.size = newSize
     

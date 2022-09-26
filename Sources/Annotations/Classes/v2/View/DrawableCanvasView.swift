@@ -20,13 +20,16 @@ public class DrawableCanvasView: NSView {
   
   let viewSizeUpdated = PassthroughSubject<CGSize, Never>()
   
+  public override var frame: NSRect {
+    didSet {
+      viewSizeUpdated.send(frame.size)
+    }
+  }
+  
   public override func layout() {
     super.layout()
-   
     obfuscateLayer.frame = bounds
     higlightsLayer.frame = bounds
-    
-    viewSizeUpdated.send(frame.size)
   }
 }
 
@@ -47,7 +50,10 @@ extension DrawableCanvasView: RendererCanvas {
     
     let highlightDrawables = higlightsLayer.allHighlightDrawables
     
-    return regularLayers + obfuscateLayers + highlightDrawables
+    
+    let textAnnotations = subviews.compactMap { $0 as? DrawableElement }
+    
+    return regularLayers + obfuscateLayers + highlightDrawables + textAnnotations
   }
   
   func renderLayer(id: String,
@@ -132,13 +138,26 @@ extension DrawableCanvasView: RendererCanvas {
     layer.zPosition = zPosition
   }
   
-  
-  
   func renderText(text: Text) {
+    // FIXME: - Implement update here
+    if drawables.contains(where: { $0.id == text.id }) {
+      return
+    }
     
+    let textAnnotation = TextContainerView(modelable: text, enableEmojies: true)
+    textAnnotation.id = text.id
+    textAnnotation.state = .inactive
+    textAnnotation.layer?.zPosition = text.zPosition
+   
+    addSubview(textAnnotation)
   }
   
   private func drawable(with id: String) -> DrawableElement? {
     drawables.first(where: { $0.id == id })
   }
+}
+
+
+extension TextContainerView: DrawableElement {
+  
 }

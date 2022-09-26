@@ -35,6 +35,8 @@ public protocol ActivateResponder: AnyObject {
 
 public class TextContainerView: NSView, TextAnnotation {
   
+  var id: String = ""
+  
   // MARK: - Experimental settings
   static var experimentalSettings: Bool = false
   

@@ -6,6 +6,7 @@ struct LayerRenderingSet {
   let zPosition: CGFloat
 }
 
+
 protocol RendererCanvas: AnyObject {
   func renderLayer(id: String,
                    type: LayerType,
@@ -77,7 +78,7 @@ class Renderer {
   
   
   func renderText(_ model: Text) {
-    
+    canvasView?.renderText(text: model)
   }
   
   func renderObfuscatedAreaBackground(type: ObfuscatedAreaType) {
