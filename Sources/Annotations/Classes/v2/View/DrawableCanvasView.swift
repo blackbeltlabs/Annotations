@@ -6,7 +6,6 @@ public class DrawableCanvasView: NSView {
   let higlightsLayer = HiglightsLayer()
   let imageColorsCalculator = ImageColorsCalculator()
 
-  
   override init(frame frameRect: NSRect) {
     super.init(frame: frameRect)
     wantsLayer = true
@@ -21,11 +20,9 @@ public class DrawableCanvasView: NSView {
   
   let viewSizeUpdated = PassthroughSubject<CGSize, Never>()
   
-  
   public override func layout() {
     super.layout()
    
-    
     obfuscateLayer.frame = bounds
     higlightsLayer.frame = bounds
     
@@ -40,7 +37,6 @@ protocol DrawableElement {
 extension DrawableCanvasView: RendererCanvas {
   
   public override var isFlipped: Bool { true }
-  
   
   var drawables: [DrawableElement] {
     let sublayers = layer?.sublayers ?? []
@@ -136,29 +132,7 @@ extension DrawableCanvasView: RendererCanvas {
     layer.zPosition = zPosition
   }
   
-  func renderObfuscatedAreaBackground(_ type: ObfuscatedAreaType) {
-    switch type {
-    case .solidColor(let color):
-      let fallbackImage = ObfuscateRendererHelper.obfuscateFallbackImage(size: frame.size,
-                                                                         color)
-      obfuscateLayer.setObfuscatedAreaContents(fallbackImage)
-    case .image(let image):
-      let size = frame.size
-      imageColorsCalculator.mostUsedColors(from: image, count: 5) { [weak self] colors in
-        guard let self = self else { return }
-        let paletteImage = ObfuscateRendererHelper.obfuscatePaletteImage(size: size,
-                                                                         colorPalette: colors)
-        
-        DispatchQueue.main.async {
-          if let paletteImage {
-            self.obfuscateLayer.setObfuscatedAreaContents(paletteImage)
-          } else {
-            self.renderObfuscatedAreaBackground(.solidColor(.black))
-          }
-        }
-      }
-    }
-  }
+  
   
   func renderText(text: Text) {
     
