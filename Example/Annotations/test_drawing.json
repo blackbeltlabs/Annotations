@@ -33,7 +33,7 @@
     {
       "zPosition": 0,
       "index": 2,
-      "origin": { "index": 2, "x": 200, "y": 250 },
+      "origin": { "index": 2, "x": 300, "y": 300 },
       "text": "Julian Drapaylo",
       "style": {
         "font_name": "Chalkduster Regular",
@@ -81,7 +81,29 @@
       "color": {"red": 1.0, "green": 1.0, "blue": 0.0, "alpha": 1.0 }
     }
   ],
-  "highlights" : [],
+  "highlights" : [
+    {
+      "zPosition": 2,
+      "index": 5,
+      "origin": { "index": 5, "x": 100, "y": 100 },
+      "to": { "index": 5, "x": 200, "y": 200 },
+      "color": {"red": 1.0, "green": 0.0, "blue": 0.0, "alpha": 1.0 }
+    },
+    {
+      "zPosition": 2,
+      "index": 5,
+      "origin": { "index": 5, "x": 250, "y": 250 },
+      "to": { "index": 5, "x": 350, "y": 350 },
+      "color": {"red": 1.0, "green": 0.0, "blue": 0.0, "alpha": 1.0 }
+    },
+    {
+      "zPosition": 2,
+      "index": 5,
+      "origin": { "index": 5, "x": 300, "y": 300 },
+      "to": { "index": 5, "x": 350, "y": 350 },
+      "color": {"red": 1.0, "green": 0.0, "blue": 0.0, "alpha": 1.0 }
+    }
+  ],
   "numbers" : [
     {
       "zPosition": 10,

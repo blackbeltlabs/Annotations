@@ -32,6 +32,10 @@ class PlaygroundViewController: NSViewController {
                                Pen.Mocks.mock,
                                Rect.Mocks.mockRegular,
                                Rect.Mocks.mockObfuscate,
+                               Rect.Mocks.mockHighlight,
+                               Rect.Mocks.mockHighlight2,
+                               Rect.Mocks.mockHighlight3,
+                               Rect.Mocks.mockRegularAsHighlight,
                                Number.Mocks.mock])
     
     let backgroundImage = NSImage(named: "catalina")!

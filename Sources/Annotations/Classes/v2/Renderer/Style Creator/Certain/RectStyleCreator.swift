@@ -11,10 +11,10 @@ class RectStyleCreator: FigureStyleCreator {
       return .init(lineWidth: 2,
                    strokeColor: NSColor.red.cgColor,
                    fillColor: .black)
-    case .highlight:
-      return .init(lineWidth: 1,
-                   strokeColor: nil,
-                   fillColor: .clear)
+    case .highlight:        
+      return .init(lineWidth: 0,
+                   strokeColor: NSColor.black.cgColor,
+                   fillColor: NSColor.red.cgColor)
     }
   }
 }

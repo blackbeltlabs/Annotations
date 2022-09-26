@@ -56,6 +56,6 @@ extension HighlightCanvas {
   }
   
   func highlightViewRects() -> [CGRect] {
-    return model.highlights.map { $0.rect}
+    return model.highlights.map { $0.rect }
   }
 }

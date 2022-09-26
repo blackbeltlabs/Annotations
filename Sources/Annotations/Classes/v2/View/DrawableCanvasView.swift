@@ -3,6 +3,7 @@ import Combine
 
 public class DrawableCanvasView: NSView {
   let obfuscateLayer: ObfuscateLayer = ObfuscateLayer()
+  let higlightsLayer = HiglightsLayer()
   let imageColorsCalculator = ImageColorsCalculator()
 
   
@@ -11,6 +12,7 @@ public class DrawableCanvasView: NSView {
     wantsLayer = true
     
     layer?.addSublayer(obfuscateLayer)
+    layer?.addSublayer(higlightsLayer)
   }
   
   required init?(coder: NSCoder) {
@@ -22,8 +24,12 @@ public class DrawableCanvasView: NSView {
   
   public override func layout() {
     super.layout()
-    viewSizeUpdated.send(frame.size)
+   
+    
     obfuscateLayer.frame = bounds
+    higlightsLayer.frame = bounds
+    
+    viewSizeUpdated.send(frame.size)
   }
 }
 
@@ -43,7 +49,9 @@ extension DrawableCanvasView: RendererCanvas {
     
     let obfuscateLayers = obfuscateLayer.allObfuscatedLayers.compactMap { $0 as? DrawableElement }
     
-    return regularLayers + obfuscateLayers
+    let highlightDrawables = higlightsLayer.allHighlightDrawables
+    
+    return regularLayers + obfuscateLayers + highlightDrawables
   }
   
   func renderLayer(id: String,
@@ -59,33 +67,52 @@ extension DrawableCanvasView: RendererCanvas {
   private func renderAnyShapeLayer<T: CAShapeLayer & DrawableElement>(of layerType: T.Type,
                                                                       id: String,
                                                                       type: LayerType,
-                                                                      renderingSet: LayerRenderingSet) -> T {
-    if let layer = drawable(with: id) as? T {
-      renderNormalLayer(layer: layer,
-                        path: renderingSet.path,
-                        settings: renderingSet.settings,
-                        zPosition: renderingSet.zPosition)
-      return layer
+                                                                      renderingSet: LayerRenderingSet) -> T? {
+    if let drawable = drawable(with: id) {
+      if let layer  = drawable as? T {
+        renderNormalLayer(layer: layer,
+                          path: renderingSet.path,
+                          settings: renderingSet.settings,
+                          zPosition: renderingSet.zPosition)
+      } else if let highlight = drawable as? HiglightRectArea {
+        higlightsLayer.addHighlightArea(path: renderingSet.path,
+                                        id: id)
+        return nil
+      }
     } else {
       let newLayer: T = createNormalLayer(with: id)
-      if type == .normal {
+      
+      switch type {
+      case .normal:
         layer?.addSublayer(newLayer)
-      } else {
+      case .obfuscate:
         obfuscateLayer.addObfuscatedArea(newLayer)
+      case .highlight:
+        higlightsLayer.addHighlightArea(path: renderingSet.path,
+                                        id: id)
+        return newLayer
       }
+   
       renderNormalLayer(layer: newLayer,
                         path: renderingSet.path,
                         settings: renderingSet.settings,
                         zPosition: renderingSet.zPosition)
       return newLayer
     }
+    
+    return nil
   }
   
-  func renderNumber(id: String, renderingSet: LayerRenderingSet, numberValue: Int, numberFontSize: CGFloat) {
-    let numberLayer = renderAnyShapeLayer(of: NumberLayer.self,
+  func renderNumber(id: String,
+                    renderingSet: LayerRenderingSet,
+                    numberValue: Int,
+                    numberFontSize: CGFloat) {
+    guard let numberLayer = renderAnyShapeLayer(of: NumberLayer.self,
                                           id: id,
                                           type: .normal,
-                                          renderingSet: renderingSet)
+                                                renderingSet: renderingSet) else {
+      return
+    }
     numberLayer.textLayer.frame = numberLayer.path!.boundingBox
     numberLayer.textLayer.fontSize = numberFontSize
     numberLayer.textLayer.string = String(format: "%d", numberValue)
@@ -109,7 +136,7 @@ extension DrawableCanvasView: RendererCanvas {
     layer.zPosition = zPosition
   }
   
-  func renderObfuscatedArea(_ type: ObfuscatedAreaType) {
+  func renderObfuscatedAreaBackground(_ type: ObfuscatedAreaType) {
     switch type {
     case .solidColor(let color):
       let fallbackImage = ObfuscateRendererHelper.obfuscateFallbackImage(size: frame.size,
@@ -126,7 +153,7 @@ extension DrawableCanvasView: RendererCanvas {
           if let paletteImage {
             self.obfuscateLayer.setObfuscatedAreaContents(paletteImage)
           } else {
-            self.renderObfuscatedArea(.solidColor(.black))
+            self.renderObfuscatedAreaBackground(.solidColor(.black))
           }
         }
       }

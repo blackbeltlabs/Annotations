@@ -123,7 +123,7 @@ class HighlightView: CanvasDrawable {
     
     let layer = HighlightLayer()
     layer.fillColor = NSColor.clear.cgColor
-    layer.mask = maskLayer
+    //layer.mask = maskLayer
     
     return layer
   }

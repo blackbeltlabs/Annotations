@@ -17,7 +17,7 @@ protocol RendererCanvas: AnyObject {
                     numberValue: Int,
                     numberFontSize: CGFloat)
   
-  func renderObfuscatedArea(_ type: ObfuscatedAreaType)
+  func renderObfuscatedAreaBackground(_ type: ObfuscatedAreaType)
 }
 
 enum ObfuscatedAreaType {
@@ -56,7 +56,9 @@ class Renderer {
       fatalError("Can't instantiate style for model = \(model)")
     }
     
-    let renderingSet: LayerRenderingSet = .init(path: path, settings: style, zPosition: model.zPosition)
+    let renderingSet: LayerRenderingSet = .init(path: path,
+                                                settings: style,
+                                                zPosition: model.zPosition)
     switch model {
     case let number as Number:
       canvasView?.renderNumber(id: number.id,
@@ -78,8 +80,7 @@ class Renderer {
     
   }
   
-  
-  func renderObfuscatedArea(type: ObfuscatedAreaType) {
-    canvasView?.renderObfuscatedArea(type)
+  func renderObfuscatedAreaBackground(type: ObfuscatedAreaType) {
+    canvasView?.renderObfuscatedAreaBackground(type)
   }
 }
