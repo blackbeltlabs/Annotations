@@ -18,7 +18,7 @@ public class KnobView {
   init(model: PointModel) {
     state = KnobViewState(model: model)
     layer = CAShapeLayer()
-    layer.fillColor = NSColor.annotations.cgColor
+    layer.fillColor = NSColor.zapierOrange.cgColor
     layer.strokeColor = NSColor.knob.cgColor
     layer.lineWidth = 1
     render(state: state)

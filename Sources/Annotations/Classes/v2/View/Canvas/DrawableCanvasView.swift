@@ -4,7 +4,10 @@ import Combine
 public class DrawableCanvasView: NSView {
   let obfuscateLayer: ObfuscateLayer = ObfuscateLayer()
   let higlightsLayer = HiglightsLayer()
+
   let imageColorsCalculator = ImageColorsCalculator()
+  
+  private var knobLayers: [CanvasLayer] = []
 
   override init(frame frameRect: NSRect) {
     super.init(frame: frameRect)
@@ -154,6 +157,34 @@ extension DrawableCanvasView: RendererCanvas {
   
   private func drawable(with id: String) -> DrawableElement? {
     drawables.first(where: { $0.id == id })
+  }
+}
+
+extension DrawableCanvasView {
+  func renderKnobs(_ knobs: [Knob]) {
+    removeAllKnobs()
+    for knob in knobs {
+      let knobLayer = createKnobLayer(with: knob.id)
+      knobLayer.render(with: knob.frameRect)
+      layer?.addSublayer(knobLayer)
+      knobLayers.append(knobLayer)
+    }
+  }
+  
+  func createKnobLayer(with id: String) -> ControlKnob {
+    let knob = ControlKnob(backgroundColor: NSColor.zapierOrange.cgColor,
+                           borderColor: NSColor.knob.cgColor)
+    knob.zPosition = 1000000
+    knob.id = id
+    return knob
+  }
+    
+  func removeAllKnobs() {
+    for knob in knobLayers {
+      knob.removeFromSuperlayer()
+    }
+    
+    knobLayers = []
   }
 }
 

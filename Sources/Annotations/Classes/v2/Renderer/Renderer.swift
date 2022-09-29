@@ -19,6 +19,8 @@ protocol RendererCanvas: AnyObject {
                     numberFontSize: CGFloat)
   
   func renderObfuscatedAreaBackground(_ type: ObfuscatedAreaType)
+  
+  func renderKnobs(_ knobs: [Knob])
 }
 
 enum ObfuscatedAreaType {
@@ -73,7 +75,6 @@ class Renderer {
                               type: layerType,
                               renderingSet: renderingSet)
     }
-    
   }
   
   
