@@ -16,7 +16,7 @@ final class NumberPathCreator: PathCreator {
   }
 }
 
-private extension CGRect {
+extension CGRect {
   static func rect(fromPoint: CGPoint, toPoint: CGPoint) -> CGRect {
     let x = min(fromPoint.x, toPoint.x)
     let y = min(fromPoint.y, toPoint.y)

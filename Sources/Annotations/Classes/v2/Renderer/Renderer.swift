@@ -82,11 +82,25 @@ class Renderer {
   }
   
   func renderSelection(for model: AnnotationModel, isSelected: Bool) {
+    
+    if model is Rect || model is Arrow {
+      
+    }
     switch model {
     case let pen as Pen:
       canvasView?.renderLineDashPhaseAnimation(for: pen.id,
                                                animation: .penAnimation(pen.id),
                                                remove: !isSelected)
+    case let arrow as Arrow:
+      if isSelected {
+        let knobs = ArrowKnobsCreator().createKnobs(for: arrow)
+        canvasView?.renderKnobs(knobs.allKnobs)
+      } else {
+        canvasView?.renderKnobs([])
+      }
+      
+    
+     
     default:
       break
     }
