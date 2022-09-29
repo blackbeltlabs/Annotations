@@ -11,6 +11,8 @@ class PlaygroundViewController: NSViewController {
   override func loadView() {
     loadViewClosure?(self)
   }
+  
+  let penMock = Pen.Mocks.mock
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -28,8 +30,9 @@ class PlaygroundViewController: NSViewController {
     canvasView.layer?.backgroundColor = NSColor.yellow.cgColor
     self.modelsManager = modelsManager
     
+    
     modelsManager.add(models: [Arrow.Mocks.mock,
-                               Pen.Mocks.mock,
+                               penMock,
                                Rect.Mocks.mockRegular,
                                Rect.Mocks.mockObfuscate,
                                Rect.Mocks.mockHighlight,
@@ -39,15 +42,21 @@ class PlaygroundViewController: NSViewController {
                                Number.Mocks.mock,
                                Text.Mocks.mockText1])
     
+    
+    
     let backgroundImage = NSImage(named: "catalina")!
     modelsManager.addBackgroundImage(backgroundImage)
     
+    
+    modelsManager.select(model: penMock)
+    
+    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+      self.modelsManager?.deselect()
+    }
   }
   
   override func viewDidAppear() {
     super.viewDidAppear()
-    
-    
   }
 }
 

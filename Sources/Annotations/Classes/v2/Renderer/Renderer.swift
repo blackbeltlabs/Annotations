@@ -20,14 +20,18 @@ protocol RendererCanvas: AnyObject {
   
   func renderObfuscatedAreaBackground(_ type: ObfuscatedAreaType)
   
+  
   func renderKnobs(_ knobs: [Knob])
+  
+  func renderLineDashPhaseAnimation(for layerId: String,
+                                    animation: LineDashPhaseAnimation,
+                                    remove: Bool)
 }
 
 enum ObfuscatedAreaType {
   case solidColor(_ color: NSColor)
   case image(_ image: NSImage)
 }
-
 
 class Renderer {
   weak var canvasView: RendererCanvas?
@@ -74,6 +78,17 @@ class Renderer {
       canvasView?.renderLayer(id: model.id,
                               type: layerType,
                               renderingSet: renderingSet)
+    }
+  }
+  
+  func renderSelection(for model: AnnotationModel, isSelected: Bool) {
+    switch model {
+    case let pen as Pen:
+      canvasView?.renderLineDashPhaseAnimation(for: pen.id,
+                                               animation: .penAnimation(pen.id),
+                                               remove: !isSelected)
+    default:
+      break
     }
   }
   

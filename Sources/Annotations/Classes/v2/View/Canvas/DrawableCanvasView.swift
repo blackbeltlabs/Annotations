@@ -186,6 +186,17 @@ extension DrawableCanvasView {
     
     knobLayers = []
   }
+  
+  func renderLineDashPhaseAnimation(for layerId: String,
+                                    animation: LineDashPhaseAnimation,
+                                    remove: Bool) {
+    guard let layer = drawable(with: layerId) as? CanvasShapeLayer else { return }
+    if remove {
+      layer.removeLineDashPhaseAnimation(key: animation.animationKey)
+    } else {
+      layer.addLineDashPhaseAnimation(animation)
+    }
+  }
 }
 
 

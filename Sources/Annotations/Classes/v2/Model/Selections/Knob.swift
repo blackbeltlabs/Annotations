@@ -1,7 +1,7 @@
 import Foundation
 import CoreGraphics
 
-struct Knob {
+struct Knob: Selection {
   let id: String
   let frameRect: CGRect
   
