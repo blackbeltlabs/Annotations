@@ -96,6 +96,18 @@ public class ModelsManager {
     selectedModel.send(nil)
   }
   
+  public func update(model: AnnotationModel) {
+    var models = self.models.value
+    
+    if let firstIndex = models.firstIndex(where: { $0.id == model.id }) {
+      models[firstIndex] = model
+    } else {
+      models.append(model)
+    }
+    
+    self.models.send(models)
+  }
+  
   // add background image that is used for obfuscated purposes
   public func addBackgroundImage(_ image: NSImage) {
     backgroundImage.send(solidColorForObsfuscate ? nil : image)

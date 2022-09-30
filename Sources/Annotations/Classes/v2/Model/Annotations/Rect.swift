@@ -7,7 +7,7 @@ public enum RectModelType: String, Codable {
   case highlight
 }
 
-public struct Rect: RectBased, Figure {
+public struct Rect: RectBased, TwoPointsModel, Figure {
   
   public var rectType: RectModelType
   
@@ -17,9 +17,7 @@ public struct Rect: RectBased, Figure {
   
   public var origin: AnnotationPoint
   public var to: AnnotationPoint
-  
-  public var points: [AnnotationPoint] = []
-  
+    
   public struct Mocks {
     public static var mockRegular: Rect {
       .init(rectType: .regular,

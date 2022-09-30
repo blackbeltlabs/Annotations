@@ -8,6 +8,7 @@ public protocol AnnotationModel: Codable {
   var points: [AnnotationPoint] { get set }
 }
 
+
 public protocol Figure: AnnotationModel {
   
 }

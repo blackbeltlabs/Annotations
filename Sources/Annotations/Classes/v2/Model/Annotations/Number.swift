@@ -11,10 +11,7 @@ public struct Number: RectBased, Figure {
   public var to: AnnotationPoint
   
   public var value: Int  // number value
-  
-  public var points: [AnnotationPoint] = []
-  
-  
+    
   var rect: CGRect {
     CGRect(fromPoint: origin.cgPoint, toPoint: to.cgPoint)
   }

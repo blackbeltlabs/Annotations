@@ -79,6 +79,7 @@ extension DrawableCanvasView: RendererCanvas {
                           path: renderingSet.path,
                           settings: renderingSet.settings,
                           zPosition: renderingSet.zPosition)
+        return layer
       } else if let highlight = drawable as? HiglightRectArea {
         higlightsLayer.addHighlightArea(path: renderingSet.path,
                                         id: id)
@@ -113,14 +114,17 @@ extension DrawableCanvasView: RendererCanvas {
                     numberValue: Int,
                     numberFontSize: CGFloat) {
     guard let numberLayer = renderAnyShapeLayer(of: NumberLayer.self,
-                                          id: id,
-                                          type: .normal,
+                                                id: id,
+                                                type: .normal,
                                                 renderingSet: renderingSet) else {
       return
     }
-    numberLayer.textLayer.frame = numberLayer.path!.boundingBox
-    numberLayer.textLayer.fontSize = numberFontSize
-    numberLayer.textLayer.string = String(format: "%d", numberValue)
+    
+    CATransaction.withoutAnimation {
+      numberLayer.textLayer.frame = numberLayer.path!.boundingBox
+      numberLayer.textLayer.fontSize = numberFontSize
+      numberLayer.textLayer.string = String(format: "%d", numberValue)
+    }
   }
   
   func createNormalLayer<T: CAShapeLayer & DrawableElement>(with id: String) -> T {

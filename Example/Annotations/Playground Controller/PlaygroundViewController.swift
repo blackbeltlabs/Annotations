@@ -55,10 +55,15 @@ class PlaygroundViewController: NSViewController {
     
     annotations
       .publisher
-      .flatMap(maxPublishers: .max(1)) { Just($0).delay(for: 1.0, scheduler: RunLoop.main) }
+      .flatMap(maxPublishers: .max(1)) { Just($0).delay(for: 2.0, scheduler: RunLoop.main) }
       .sink { [weak self] model in
         print("Select model = \(model)")
-        self?.modelsManager?.select(model: model)
+        
+        let updatedModel = Movement.movedAnnotation(model, delta: .init(dx: 20, dy: 20))
+        
+        self?.modelsManager?.update(model: updatedModel)
+        
+       // self?.modelsManager?.select(model: updatedModel)
       }
       .store(in: &cancellables)
     
