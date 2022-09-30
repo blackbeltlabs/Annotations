@@ -12,7 +12,7 @@ public struct Arrow: TwoPointsModel, Figure {
   public struct Mocks {
     public static var mock: Arrow {
       .init(color: .green,
-            origin: .init(x: 10, y: 10),
+            origin: .init(x: 10, y:  10),
             to: .init(x: 80, y: 80))
     }
   }

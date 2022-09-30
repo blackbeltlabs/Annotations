@@ -7,6 +7,10 @@ public struct AnnotationPoint: Codable {
   static var zero: AnnotationPoint {
     .init(x: 0, y: 0)
   }
+  
+  func applyingDelta(vector: CGVector) -> AnnotationPoint {
+    return .init(x: x + vector.dx, y: y + vector.dy)
+  }
 }
 
 // MARK: - CGPoint adapters

@@ -1,10 +1,19 @@
 import Foundation
 
+public enum ArrowKnobType: KnobType {
+  case from
+  case to
+}
+
 struct ArrowKnobPair: KnobPair {
-  let from: Knob
-  let to: Knob
   
-  var allKnobs: [Knob] { [from, to] }
+  init(from: Knob, to: Knob) {
+    knobsDict = [.from : from,
+                 .to : to]
+  }
+
+  let knobsDict: [ArrowKnobType: Knob]
+  var allKnobs: [Knob] { knobsDict.map(\.value) }
 }
 
 class ArrowKnobsCreator: KnobsCreator {

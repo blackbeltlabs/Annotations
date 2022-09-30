@@ -1,12 +1,26 @@
 import Foundation
 
+public enum RectKnobType: KnobType {
+  case bottomLeft
+  case bottomRight
+  case topLeft
+  case topRight
+}
+
 struct RectKnobPair: KnobPair {
-  let bottomLeft: Knob
-  let bottomRight: Knob
-  let topLeft: Knob
-  let topRight: Knob
+
+  init(bottomLeft: Knob, bottomRight: Knob, topLeft: Knob, topRight: Knob) {
+    knobsDict = [
+                 .bottomLeft : bottomLeft,
+                 .bottomRight : bottomRight,
+                 .topLeft : topLeft,
+                 .topRight : topRight
+                ]
+  }
   
-  var allKnobs: [Knob] { [bottomLeft, bottomRight, topLeft, topRight] }
+  let knobsDict: [RectKnobType: Knob]
+  
+  var allKnobs: [Knob] {knobsDict.map(\.value)}
 }
 
 
@@ -15,10 +29,12 @@ class RectKnobsCreator: KnobsCreator {
     let rect = CGRect.rect(fromPoint: rectBased.origin.cgPoint,
                            toPoint: rectBased.to.cgPoint)
     
-    return RectKnobPair(bottomLeft: .fromCenterPoint(point: .init(x: rect.minX, y: rect.maxY)),
-                        bottomRight: .fromCenterPoint(point: .init(x: rect.maxX, y: rect.maxY)),
-                        topLeft: .fromCenterPoint(point: .init(x: rect.minX, y: rect.minY)),
-                        topRight: .fromCenterPoint(point: .init(x: rect.maxX, y: rect.minY)))      
+    let rectPoints = rect.allPoints
+        
+    return RectKnobPair(bottomLeft: .fromCenterPoint(point: rectPoints.leftBottom),
+                        bottomRight: .fromCenterPoint(point: rectPoints.rightBottom),
+                        topLeft: .fromCenterPoint(point: rectPoints.leftTop),
+                        topRight: .fromCenterPoint(point: rectPoints.rightTop))
   }
   
   func createKnobs(for annotation: Rect) -> KnobPair {
