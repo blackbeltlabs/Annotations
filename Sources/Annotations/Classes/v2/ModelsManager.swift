@@ -15,6 +15,7 @@ public class ModelsManager {
   
   // MARK: - Public settings
   public var solidColorForObsfuscate: Bool = false
+  public var isUserInteractionEnabled = CurrentValueSubject<Bool, Never>(true)
   
   public let viewSizeUpdated = PassthroughSubject<CGSize, Never>()
   

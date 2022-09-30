@@ -14,10 +14,17 @@ public final class AnnotationsCanvasFactory {
   
   static func setupPublishers(canvasView: DrawableCanvasView,
                               modelsManager: ModelsManager) {
+    
     canvasView
       .viewSizeUpdated
       .sink { [weak modelsManager] size in
         modelsManager?.viewSizeUpdated.send(size)
       }.store(in: &modelsManager.commonCancellables)
+    
+    modelsManager
+      .isUserInteractionEnabled
+      .receive(on: DispatchQueue.main)
+      .assign(to: \.isUserInteractionEnabled, on: canvasView )
+      .store(in: &canvasView.commonCancellables)
   }
 }

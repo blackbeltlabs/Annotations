@@ -2,13 +2,28 @@ import Cocoa
 import Combine
 
 public class DrawableCanvasView: NSView {
+  // MARK: - Layers
   let obfuscateLayer: ObfuscateLayer = ObfuscateLayer()
   let higlightsLayer = HiglightsLayer()
-
-  let imageColorsCalculator = ImageColorsCalculator()
   
   private var knobLayers: [CanvasLayer] = []
+  
+  // MARK: - Touches
+  private var trackingArea: NSTrackingArea?
 
+  // MARK: - Helpers
+  let imageColorsCalculator = ImageColorsCalculator()
+  
+  // MARK: - Publishers
+  let viewSizeUpdated = PassthroughSubject<CGSize, Never>()
+  
+  var isUserInteractionEnabled: Bool = true
+  
+  // MARK: - Cancellables
+  
+  var commonCancellables = Set<AnyCancellable>()
+  
+  // MARK: - Init
   override init(frame frameRect: NSRect) {
     super.init(frame: frameRect)
     wantsLayer = true
@@ -20,9 +35,8 @@ public class DrawableCanvasView: NSView {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
-  let viewSizeUpdated = PassthroughSubject<CGSize, Never>()
-  
+
+  // MARK: - Frame updates
   public override var frame: NSRect {
     didSet {
       viewSizeUpdated.send(frame.size)
@@ -33,6 +47,48 @@ public class DrawableCanvasView: NSView {
     super.layout()
     obfuscateLayer.frame = bounds
     higlightsLayer.frame = bounds
+  }
+  
+  // MARK: - Tracking areas
+  override public func updateTrackingAreas() {
+    if let trackingArea = trackingArea {
+      removeTrackingArea(trackingArea)
+    }
+    
+    let options : NSTrackingArea.Options = [.activeInKeyWindow, .mouseMoved]
+    let newTrackingArea = NSTrackingArea(rect: self.bounds, options: options,
+                                         owner: self, userInfo: nil)
+    self.addTrackingArea(newTrackingArea)
+    self.trackingArea = newTrackingArea
+  }
+  
+  // MARK: - Mouse touches
+  
+  override public func mouseDown(with event: NSEvent) {
+    super.mouseDown(with: event)
+    
+    print("Mouse down with = \(event)")
+   // canvasViewEventsHandler.mouseDown(with: event)
+  }
+  
+  override public func mouseDragged(with event: NSEvent) {
+    super.mouseDragged(with: event)
+    print("Mouse dragged with = \(event)")
+   // canvasViewEventsHandler.mouseDragged(with: event)
+  }
+  
+  override public func mouseUp(with event: NSEvent) {
+    super.mouseUp(with: event)
+    
+    print("Mouse up with = \(event)")
+ //   canvasViewEventsHandler.mouseUp(with: event)
+  }
+  
+  public override func hitTest(_ point: NSPoint) -> NSView? {
+    guard isUserInteractionEnabled else {
+      return nil
+    }
+    return super.hitTest(point)
   }
 }
 
