@@ -1,11 +1,12 @@
 import Foundation
 
 class ResizeRectTransformation: ResizeTransformation {
-  func resizedAnnotation(_ annotation: Rect, knobType: RectKnobType, delta: CGVector) -> Rect {
-    let rect = CGRect(fromPoint: annotation.origin.cgPoint, toPoint: annotation.to.cgPoint)
+  
+  static func resizedRectBased<T: RectBased>(_ rectBased: T, knobType: RectKnobType, delta: CGVector) -> T {
+    let rect = CGRect(fromPoint: rectBased.origin.cgPoint, toPoint: rectBased.to.cgPoint)
     let allPoints = rect.allPoints
     
-    var updatedAnnotation = annotation
+    var updatedAnnotation = rectBased
       
     updatedAnnotation.origin = point(in: allPoints, for: knobType).modelPoint.applyingDelta(vector: delta)
     updatedAnnotation.to = oppositePoint(in: allPoints, for: knobType).modelPoint
@@ -13,8 +14,12 @@ class ResizeRectTransformation: ResizeTransformation {
     return updatedAnnotation
   }
   
+  func resizedAnnotation(_ annotation: Rect, knobType: RectKnobType, delta: CGVector) -> Rect {
+    Self.resizedRectBased(annotation, knobType: knobType, delta: delta)
+  }
   
-  private func point(in rectPoints: RectPoints, for knobType: RectKnobType) -> CGPoint {
+  
+  private static func point(in rectPoints: RectPoints, for knobType: RectKnobType) -> CGPoint {
     switch knobType {
     case .bottomLeft:
       return rectPoints.leftBottom
@@ -27,7 +32,7 @@ class ResizeRectTransformation: ResizeTransformation {
     }
   }
   
-  private func oppositePoint(in rectPoints: RectPoints, for knobType: RectKnobType) -> CGPoint {
+  private static func oppositePoint(in rectPoints: RectPoints, for knobType: RectKnobType) -> CGPoint {
     switch knobType {
     case .bottomLeft:
       return rectPoints.rightTop

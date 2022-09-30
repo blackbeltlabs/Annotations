@@ -7,6 +7,8 @@ public class ResizeTransformationFactory {
       return ResizeArrowTransformation().resizedAnnotation(arrow, knobType: knob, delta: delta)
     case (let rect as Rect, let knob as RectKnobType):
       return ResizeRectTransformation().resizedAnnotation(rect, knobType: knob, delta: delta)
+    case (let number as Number, let knob as RectKnobType):
+      return ResizeNumberTransformation().resizedAnnotation(number, knobType: knob, delta: delta)
     default:
       return annotation
     }
