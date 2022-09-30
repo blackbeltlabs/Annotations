@@ -4,12 +4,15 @@ import Cocoa
 
 
 public class ModelsManager {
+  
+  // MARK: - Dependencies
   let renderer: Renderer
+  let mouseInteractionHandler: MouseInteractionHandler
   
+  // MARK: - Models
   let models = CurrentValueSubject<[AnnotationModel], Never>([])
-  
   let selectedModel = CurrentValueSubject<AnnotationModel?, Never>(nil)
-    
+  
   // MARK: - Combine
   public var commonCancellables = Set<AnyCancellable>()
   
@@ -17,13 +20,17 @@ public class ModelsManager {
   public var solidColorForObsfuscate: Bool = false
   public var isUserInteractionEnabled = CurrentValueSubject<Bool, Never>(true)
   
+  public var createMode = CurrentValueSubject<CanvasItemType?, Never>(.arrow)
+  public var createColor = CurrentValueSubject<ModelColor, Never>(.defaultColor())
+  
   public let viewSizeUpdated = PassthroughSubject<CGSize, Never>()
   
   // used for obfuscate purposes
   private let backgroundImage = CurrentValueSubject<NSImage?, Never>(nil)
 
-  init(renderer: Renderer) {
+  init(renderer: Renderer, mouseInteractionHandler: MouseInteractionHandler) {
     self.renderer = renderer
+    self.mouseInteractionHandler = mouseInteractionHandler
     setupPublishers()
   }
   

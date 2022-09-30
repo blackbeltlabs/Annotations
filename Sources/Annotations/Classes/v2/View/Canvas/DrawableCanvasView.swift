@@ -1,6 +1,12 @@
 import Cocoa
 import Combine
 
+private enum MouseEventType {
+  case down
+  case dragged
+  case up
+}
+
 public class DrawableCanvasView: NSView {
   // MARK: - Layers
   let obfuscateLayer: ObfuscateLayer = ObfuscateLayer()
@@ -16,6 +22,10 @@ public class DrawableCanvasView: NSView {
   
   // MARK: - Publishers
   let viewSizeUpdated = PassthroughSubject<CGSize, Never>()
+  
+  let mouseDownSubject = PassthroughSubject<CGPoint, Never>()
+  let mouseDraggedSubject = PassthroughSubject<CGPoint, Never>()
+  let mouseUpSubject = PassthroughSubject<CGPoint, Never>()
   
   var isUserInteractionEnabled: Bool = true
   
@@ -66,29 +76,42 @@ public class DrawableCanvasView: NSView {
   
   override public func mouseDown(with event: NSEvent) {
     super.mouseDown(with: event)
-    
-    print("Mouse down with = \(event)")
-   // canvasViewEventsHandler.mouseDown(with: event)
+    handleMouseEventType(.down, event: event)
   }
   
   override public func mouseDragged(with event: NSEvent) {
     super.mouseDragged(with: event)
-    print("Mouse dragged with = \(event)")
-   // canvasViewEventsHandler.mouseDragged(with: event)
+    handleMouseEventType(.dragged, event: event)
   }
   
   override public func mouseUp(with event: NSEvent) {
     super.mouseUp(with: event)
-    
-    print("Mouse up with = \(event)")
- //   canvasViewEventsHandler.mouseUp(with: event)
+    handleMouseEventType(.up, event: event)
   }
-  
+    
   public override func hitTest(_ point: NSPoint) -> NSView? {
     guard isUserInteractionEnabled else {
       return nil
     }
     return super.hitTest(point)
+  }
+  
+  private func handleMouseEventType(_ type: MouseEventType, event: NSEvent) {
+    guard isUserInteractionEnabled else { return }
+    let point = convert(event.locationInWindow, from: nil)
+    
+    switch type {
+    case .down:
+      mouseDownSubject.send(point)
+    case .dragged:
+      mouseDraggedSubject.send(point)
+    case .up:
+      mouseUpSubject.send(point)
+    }
+  }
+  
+  private func mousePressPoint(from event: NSEvent) -> CGPoint {
+    convert(event.locationInWindow, from: nil)
   }
 }
 
