@@ -82,27 +82,17 @@ class Renderer {
   }
   
   func renderSelection(for model: AnnotationModel, isSelected: Bool) {
-    
-    if model is Rect || model is Arrow {
-      
-    }
-    switch model {
-    case let pen as Pen:
-      canvasView?.renderLineDashPhaseAnimation(for: pen.id,
-                                               animation: .penAnimation(pen.id),
-                                               remove: !isSelected)
-    case let arrow as Arrow:
+    if model is Rect || model is Arrow || model is Number {
       if isSelected {
-        let knobs = ArrowKnobsCreator().createKnobs(for: arrow)
+        guard let knobs = KnobsFactory.knobPair(for: model) else { return }
         canvasView?.renderKnobs(knobs.allKnobs)
       } else {
         canvasView?.renderKnobs([])
       }
-      
-    
-     
-    default:
-      break
+    } else if let pen = model as? Pen {
+      canvasView?.renderLineDashPhaseAnimation(for: pen.id,
+                                               animation: .penAnimation(pen.id),
+                                               remove: !isSelected)
     }
   }
   

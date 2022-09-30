@@ -15,10 +15,10 @@ class RectKnobsCreator: KnobsCreator {
     let rect = CGRect.rect(fromPoint: rectBased.origin.cgPoint,
                            toPoint: rectBased.to.cgPoint)
     
-    return RectKnobPair(bottomLeft: .fromCenterPoint(point: .init(x: rect.minX, y: rect.minY)),
-                        bottomRight: .fromCenterPoint(point: .init(x: rect.maxX, y: rect.minY)),
-                        topLeft: .fromCenterPoint(point: .init(x: rect.maxX, y: rect.minY)),
-                        topRight: .fromCenterPoint(point: .init(x: rect.maxX, y: rect.maxY)))
+    return RectKnobPair(bottomLeft: .fromCenterPoint(point: .init(x: rect.minX, y: rect.maxY)),
+                        bottomRight: .fromCenterPoint(point: .init(x: rect.maxX, y: rect.maxY)),
+                        topLeft: .fromCenterPoint(point: .init(x: rect.minX, y: rect.minY)),
+                        topRight: .fromCenterPoint(point: .init(x: rect.maxX, y: rect.minY)))      
   }
   
   func createKnobs(for annotation: Rect) -> KnobPair {

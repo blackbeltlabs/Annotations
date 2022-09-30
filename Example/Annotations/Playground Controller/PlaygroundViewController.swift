@@ -1,6 +1,7 @@
 import Foundation
 import AppKit
 import Annotations
+import Combine
 
 class PlaygroundViewController: NSViewController {
   
@@ -12,8 +13,9 @@ class PlaygroundViewController: NSViewController {
     loadViewClosure?(self)
   }
   
+  private var cancellables = Set<AnyCancellable>()
   
-
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -32,28 +34,36 @@ class PlaygroundViewController: NSViewController {
     
     let penMock = Pen.Mocks.mock
     let arrowMock = Arrow.Mocks.mock
+    let rectRegular = Rect.Mocks.mockRegular
+    let rectObfuscate = Rect.Mocks.mockObfuscate
+    let rectHighlight = Rect.Mocks.mockHighlight
+    let number = Number.Mocks.mock
     modelsManager.add(models: [arrowMock,
                                penMock,
-                               Rect.Mocks.mockRegular,
-                               Rect.Mocks.mockObfuscate,
-                               Rect.Mocks.mockHighlight,
+                               rectRegular,
+                               rectObfuscate,
+                               rectHighlight,
                                Rect.Mocks.mockHighlight2,
                                Rect.Mocks.mockHighlight3,
                                Rect.Mocks.mockRegularAsHighlight,
-                               Number.Mocks.mock,
+                               number,
                                Text.Mocks.mockText1])
     
     
+    let annotations: [AnnotationModel] = [penMock, arrowMock, rectRegular, rectObfuscate, rectHighlight, number]
+    
+    
+    annotations
+      .publisher
+      .flatMap(maxPublishers: .max(1)) { Just($0).delay(for: 1.0, scheduler: RunLoop.main) }
+      .sink { [weak self] model in
+        print("Select model = \(model)")
+        self?.modelsManager?.select(model: model)
+      }
+      .store(in: &cancellables)
     
     let backgroundImage = NSImage(named: "catalina")!
     modelsManager.addBackgroundImage(backgroundImage)
-    
-    
-    modelsManager.select(model: arrowMock)
-    
-    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-      self.modelsManager?.select(model: penMock)
-    }
   }
   
   override func viewDidAppear() {
