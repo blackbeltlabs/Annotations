@@ -56,6 +56,7 @@ class PlaygroundViewController: NSViewController {
     
     let deltas = Array.init(repeating: 50, count: 10)
 
+    /*
     deltas
       .publisher
       .flatMap(maxPublishers: .max(1)) { Just($0).delay(for: 2.0, scheduler: RunLoop.main) }
@@ -74,7 +75,8 @@ class PlaygroundViewController: NSViewController {
        // self?.modelsManager?.select(model: model)
       }
       .store(in: &cancellables)
-    
+    */
+     
     let backgroundImage = NSImage(named: "catalina")!
     modelsManager.addBackgroundImage(backgroundImage)
     

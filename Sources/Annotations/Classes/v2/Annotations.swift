@@ -7,7 +7,7 @@ public final class AnnotationsCanvasFactory {
     let mouseInteractionHandler = MouseInteractionHandler()
     let modelsManager = ModelsManager(renderer: renderer,
                                       mouseInteractionHandler: mouseInteractionHandler)
-    
+    mouseInteractionHandler.dataSource = modelsManager
     setupPublishers(canvasView: canvasView,
                     modelsManager: modelsManager,
                     mouseInteractionHandler: mouseInteractionHandler)
@@ -33,7 +33,6 @@ public final class AnnotationsCanvasFactory {
       .store(in: &canvasView.commonCancellables)
     
     // Mouse events
-    
     canvasView
       .mouseDownSubject
       .sink { [weak mouseInteractionHandler] point in

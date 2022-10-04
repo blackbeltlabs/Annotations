@@ -121,3 +121,15 @@ public class ModelsManager {
     backgroundImage.send(solidColorForObsfuscate ? nil : image)
   }
 }
+
+
+// MARK: - MouseInteractionHandlerDataSource
+extension ModelsManager: MouseInteractionHandlerDataSource {
+  var annotations: [AnnotationModel] {
+    models.value
+  }
+  
+  var selectedAnnotation: AnnotationModel? {
+    selectedModel.value
+  }
+}
