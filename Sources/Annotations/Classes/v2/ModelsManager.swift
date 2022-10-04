@@ -41,7 +41,9 @@ public class ModelsManager {
       .map(\.1)
       .receive(on: DispatchQueue.main)
       .sink { [weak self] models in
-        self?.renderer.render(models)
+        guard let self = self else { return }
+        self.renderer.render(models)
+        self.updateSelectionModelIfNeeded(with: models)
       }
       .store(in: &commonCancellables)
     
@@ -64,7 +66,8 @@ public class ModelsManager {
         }
       }()
       self?.renderer.renderObfuscatedAreaBackground(type: obfuscatedAreaType)
-    }.store(in: &commonCancellables)
+    }
+    .store(in: &commonCancellables)
    
     
     // SELECTION
@@ -84,11 +87,12 @@ public class ModelsManager {
           self.renderer.renderSelection(for: previousSelection, isSelected: false)
         }
         if let currentSelection {
+          self.renderer.render([currentSelection])
           self.renderer.renderSelection(for: currentSelection, isSelected: true)
         }
         
-      }.store(in: &commonCancellables)
-  
+      }
+      .store(in: &commonCancellables)
   }
   
   public func add(models: [AnnotationModel]) {
@@ -114,6 +118,15 @@ public class ModelsManager {
     }
     
     self.models.send(models)
+  }
+  
+  
+  private func updateSelectionModelIfNeeded(with models: [AnnotationModel]){
+    guard let selectedAnnotation = selectedModel.value else { return }
+    
+    guard let firstIndex = models.firstIndex(where: { $0.id == selectedAnnotation.id }) else { return }
+    
+    select(model: models[firstIndex])
   }
   
   // add background image that is used for obfuscated purposes
