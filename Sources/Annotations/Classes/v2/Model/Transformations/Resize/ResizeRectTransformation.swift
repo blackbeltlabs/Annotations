@@ -16,12 +16,25 @@ class ResizeRectTransformation: ResizeTransformation {
     Self.oppositePoint = Self.oppositePoint(in: allPoints, for: knobType)
   }
     
-  static func resizedRectBased<T: RectBased>(_ rectBased: T, knobType: RectKnobType, delta: CGVector) -> T {
+  static func resizedRectBased<T: RectBased>(_ rectBased: T,
+                                             knobType: RectKnobType,
+                                             delta: CGVector,
+                                             keepSquare: Bool) -> T {
     guard let originPoint = Self.originPoint, let oppositePoint = Self.oppositePoint else { return rectBased }
     
     var updatedAnnotation = rectBased
     
-    let originWithDelta = originPoint.modelPoint.applyingDelta(vector: delta)
+    let deltaToUse: CGVector = {
+      if keepSquare {
+        let maxValue = min(abs(delta.dx), abs(delta.dy))
+        return CGVector(dx: maxValue * sign(for: delta.dx),
+                        dy: maxValue * sign(for: delta.dy))
+      } else {
+        return delta
+      }
+    }()
+    
+    let originWithDelta = originPoint.modelPoint.applyingDelta(vector: deltaToUse)
     
     updatedAnnotation.origin = originWithDelta
     updatedAnnotation.to = oppositePoint.modelPoint
@@ -32,7 +45,7 @@ class ResizeRectTransformation: ResizeTransformation {
   }
   
   func resizedAnnotation(_ annotation: Rect, knobType: RectKnobType, delta: CGVector) -> Rect {
-    Self.resizedRectBased(annotation, knobType: knobType, delta: delta)
+    Self.resizedRectBased(annotation, knobType: knobType, delta: delta, keepSquare: false)
   }
   
   func resizingStarted(_ annotation: Rect, knobType: RectKnobType, point: CGPoint) {
@@ -63,6 +76,11 @@ class ResizeRectTransformation: ResizeTransformation {
     case .topRight:
       return rectPoints.leftBottom
     }
+  }
+  
+  
+  private static func sign(for floatingValue: Double) -> Double {
+    return floatingValue < 0 ? -1.0 : 1.0
   }
   
   // FIXME: - Remove if not used
