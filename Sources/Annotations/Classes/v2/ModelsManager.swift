@@ -93,6 +93,21 @@ public class ModelsManager {
         
       }
       .store(in: &commonCancellables)
+    
+    // COLOR
+    createColor
+      .dropFirst()
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] color in
+        guard let self else { return }
+        // if there is a selected annotation then update its color
+        // and update it in models storage
+        guard var selectedAnnotation = self.selectedModel.value else { return }
+          
+        selectedAnnotation.color = color
+        self.update(model: selectedAnnotation)
+      }
+      .store(in: &commonCancellables)
   }
   
   public func add(models: [AnnotationModel]) {
@@ -120,6 +135,9 @@ public class ModelsManager {
     self.models.send(models)
   }
   
+  public func updateCurrentColor(_ color: ModelColor) {
+    self.createColor.send(color)
+  }
   
   private func updateSelectionModelIfNeeded(with models: [AnnotationModel]){
     guard let selectedAnnotation = selectedModel.value else { return }

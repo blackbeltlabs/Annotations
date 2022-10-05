@@ -5,9 +5,15 @@ import Combine
 
 class PlaygroundViewController: NSViewController {
   
+  let canvasControlsView: CanvasControlsView = {
+    let view = CanvasControlsView(frame: .zero)
+    view.translatesAutoresizingMaskIntoConstraints = false
+    return view
+  }()
+  
   var loadViewClosure: ((PlaygroundViewController) -> Void)?
   
-  var modelsManager: ModelsManager?
+  var modelsManager: ModelsManager!
 
   override func loadView() {
     loadViewClosure?(self)
@@ -24,7 +30,14 @@ class PlaygroundViewController: NSViewController {
     canvasView.translatesAutoresizingMaskIntoConstraints = false
     view.addSubview(canvasView)
     
-    canvasView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+    view.addSubview(canvasControlsView)
+    
+    canvasControlsView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+    canvasControlsView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+    canvasControlsView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    canvasControlsView.heightAnchor.constraint(equalToConstant: 65.0).isActive = true
+    
+    canvasView.topAnchor.constraint(equalTo: canvasControlsView.bottomAnchor).isActive = true
     canvasView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     canvasView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
     canvasView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -81,6 +94,16 @@ class PlaygroundViewController: NSViewController {
     modelsManager.addBackgroundImage(backgroundImage)
     
     
+    setupPublishers()
+    
+  }
+  
+  func setupPublishers() {
+    canvasControlsView
+      .colorSelected
+      .map(\.annotationModelColor)
+      .assign(to: \.value, on: modelsManager.createColor)
+      .store(in: &cancellables)
   }
   
   override func viewDidAppear() {
