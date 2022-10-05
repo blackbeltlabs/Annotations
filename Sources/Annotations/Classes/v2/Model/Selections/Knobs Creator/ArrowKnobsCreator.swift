@@ -14,6 +14,8 @@ struct ArrowKnobPair: KnobPair {
 
   let knobsDict: [ArrowKnobType: Knob]
   var allKnobs: [Knob] { knobsDict.map(\.value) }
+  
+  var allKnobsWithType: [(KnobType, Knob)] { knobsDict.map { ($0.key, $0.value ) } }
 }
 
 class ArrowKnobsCreator: KnobsCreator {

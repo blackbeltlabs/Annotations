@@ -13,4 +13,15 @@ public class ResizeTransformationFactory {
       return annotation
     }
   }
+  
+  public static func resizingStarted(_ annotation: AnnotationModel, knob: KnobType, point: CGPoint) {
+    switch (annotation, knob) {
+    case (let rect as Rect, let knob as RectKnobType):
+      return ResizeRectTransformation().resizingStarted(rect, knobType: knob, point: point)
+    case (let number as Number, let knob as RectKnobType):
+      return ResizeNumberTransformation().resizingStarted(number, knobType: knob, point: point)
+    default:
+      break
+    }
+  }
 }

@@ -21,6 +21,10 @@ struct RectKnobPair: KnobPair {
   let knobsDict: [RectKnobType: Knob]
   
   var allKnobs: [Knob] {knobsDict.map(\.value)}
+  
+  var allKnobsWithType: [(KnobType, Knob)] {
+    knobsDict.map { ($0.key, $0.value ) }
+  }
 }
 
 

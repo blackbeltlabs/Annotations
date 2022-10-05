@@ -1,15 +1,32 @@
 import Foundation
 
+
 class ResizeRectTransformation: ResizeTransformation {
   
-  static func resizedRectBased<T: RectBased>(_ rectBased: T, knobType: RectKnobType, delta: CGVector) -> T {
-    let rect = CGRect(fromPoint: rectBased.origin.cgPoint, toPoint: rectBased.to.cgPoint)
+  private static var originPoint: CGPoint?
+  private static var oppositePoint: CGPoint?
+  
+  
+  static func startResizingRectBased<T: RectBased>(_ annotation: T, knobType: RectKnobType, point: CGPoint) {
+    let rect = CGRect(fromPoint: annotation.origin.cgPoint, toPoint: annotation.to.cgPoint)
     let allPoints = rect.allPoints
+  
+    Self.originPoint = Self.point(in: allPoints,
+                                  for: knobType)
+    Self.oppositePoint = Self.oppositePoint(in: allPoints, for: knobType)
+  }
+    
+  static func resizedRectBased<T: RectBased>(_ rectBased: T, knobType: RectKnobType, delta: CGVector) -> T {
+    guard let originPoint = Self.originPoint, let oppositePoint = Self.oppositePoint else { return rectBased }
     
     var updatedAnnotation = rectBased
-      
-    updatedAnnotation.origin = point(in: allPoints, for: knobType).modelPoint.applyingDelta(vector: delta)
-    updatedAnnotation.to = oppositePoint(in: allPoints, for: knobType).modelPoint
+    
+    let originWithDelta = originPoint.modelPoint.applyingDelta(vector: delta)
+    
+    updatedAnnotation.origin = originWithDelta
+    updatedAnnotation.to = oppositePoint.modelPoint
+    
+    Self.originPoint = originWithDelta.cgPoint
     
     return updatedAnnotation
   }
@@ -18,6 +35,9 @@ class ResizeRectTransformation: ResizeTransformation {
     Self.resizedRectBased(annotation, knobType: knobType, delta: delta)
   }
   
+  func resizingStarted(_ annotation: Rect, knobType: RectKnobType, point: CGPoint) {
+    Self.startResizingRectBased(annotation, knobType: knobType, point: point)
+  }
   
   private static func point(in rectPoints: RectPoints, for knobType: RectKnobType) -> CGPoint {
     switch knobType {

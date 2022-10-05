@@ -5,6 +5,7 @@ struct Knob: Selection {
   let id: String
   let frameRect: CGRect
   
+  
   static let defaultSize = CGSize(width: 10, height: 10)
   
   static func fromCenterPoint(point: CGPoint, id: String = UUID().uuidString) -> Knob {
