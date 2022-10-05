@@ -39,6 +39,9 @@ class CanvasControlsView: NSView {
   let colorSelected = CurrentValueSubject<NSColor, Never>(.orange)
   let canvasAnnotationType = CurrentValueSubject<CanvasAnnotationType, Never>(.arrow)
   
+  let undoPressedPublisher = PassthroughSubject<Void, Never>()
+  let redoPressedPublisher = PassthroughSubject<Void, Never>()
+  
   // MARK: - Colors
   lazy var colorPickerColors: [NSColor] = {
     return ModelColor.defaultColors().map { NSColor.color(from: $0) }
@@ -72,6 +75,27 @@ class CanvasControlsView: NSView {
       item.representedObject = type
       return item
     }
+  }()
+  
+  // MARK: - Undo / Redo
+  
+  lazy var undoRedoStackView: NSStackView = {
+    let stackView = NSStackView()
+    stackView.translatesAutoresizingMaskIntoConstraints = false
+    stackView.orientation = .horizontal
+    return stackView
+  }()
+  
+  lazy var undoButton: NSButton = {
+    let button = NSButton(title: "<", target: self, action: #selector(undoPressed))
+    button.translatesAutoresizingMaskIntoConstraints = false
+    return button
+  }()
+  
+  lazy var redoButton: NSButton = {
+    let button = NSButton(title: ">", target: self, action: #selector(redoPressed))
+    button.translatesAutoresizingMaskIntoConstraints = false
+    return button
   }()
   
 
@@ -114,9 +138,16 @@ class CanvasControlsView: NSView {
     
     addSubview(createModePopupButton)
     
-    createModePopupButton.leadingAnchor.constraint(equalTo: colorsStackView.trailingAnchor,
-                                                   constant: 10).isActive = true
+    createModePopupButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     createModePopupButton.centerYAnchor.constraint(equalTo: colorsStackView.centerYAnchor).isActive = true
+    
+    undoRedoStackView.addArrangedSubview(undoButton)
+    undoRedoStackView.addArrangedSubview(redoButton)
+    
+    addSubview(undoRedoStackView)
+    
+    undoRedoStackView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    undoRedoStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
   }
   
   // MARK: - Color actions
@@ -151,6 +182,17 @@ class CanvasControlsView: NSView {
       }
     }
     canvasAnnotationType.send(selected)
+  }
+  
+  // MARK: - Undo / Redo
+  @objc
+  func undoPressed() {
+    undoPressedPublisher.send(())
+  }
+  
+  @objc
+  func redoPressed() {
+    redoPressedPublisher.send(())
   }
 }
 
