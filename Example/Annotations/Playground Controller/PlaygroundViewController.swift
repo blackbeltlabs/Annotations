@@ -102,7 +102,13 @@ class PlaygroundViewController: NSViewController {
     canvasControlsView
       .colorSelected
       .map(\.annotationModelColor)
-      .assign(to: \.value, on: modelsManager.createColor)
+      .assign(to: \.value, on: modelsManager.createColorSubject)
+      .store(in: &cancellables)
+    
+    canvasControlsView
+      .canvasAnnotationType
+      .map(\.createMode)
+      .assign(to: \.value, on: modelsManager.createModeSubject)
       .store(in: &cancellables)
   }
   

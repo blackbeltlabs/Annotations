@@ -13,6 +13,8 @@ public class ModelsManager {
   let models = CurrentValueSubject<[AnnotationModel], Never>([])
   let selectedModel = CurrentValueSubject<AnnotationModel?, Never>(nil)
   
+  let beingCreatedModel = CurrentValueSubject<AnnotationModel?, Never>(nil)
+  
   // MARK: - Combine
   public var commonCancellables = Set<AnyCancellable>()
   
@@ -20,8 +22,8 @@ public class ModelsManager {
   public var solidColorForObsfuscate: Bool = false
   public var isUserInteractionEnabled = CurrentValueSubject<Bool, Never>(true)
   
-  public var createMode = CurrentValueSubject<CanvasItemType?, Never>(.arrow)
-  public var createColor = CurrentValueSubject<ModelColor, Never>(.defaultColor())
+  public var createModeSubject = CurrentValueSubject<CanvasItemType?, Never>(.arrow)
+  public var createColorSubject = CurrentValueSubject<ModelColor, Never>(.defaultColor())
   
   public let viewSizeUpdated = PassthroughSubject<CGSize, Never>()
   
@@ -82,7 +84,7 @@ public class ModelsManager {
       .map(\.1)
       .receive(on: DispatchQueue.main)
       .sink { [weak self] (previousSelection, currentSelection) in
-        guard let self = self else { return }
+        guard let self else { return }
         if let previousSelection {
           self.renderer.renderSelection(for: previousSelection, isSelected: false)
         }
@@ -94,8 +96,17 @@ public class ModelsManager {
       }
       .store(in: &commonCancellables)
     
+    beingCreatedModel
+      .compactMap { $0 }
+      .sink { [weak self] model in
+        guard let self = self else { return }
+        self.renderer.render([model])
+      }
+      .store(in: &commonCancellables)
+    
+    
     // COLOR
-    createColor
+    createColorSubject
       .dropFirst()
       .receive(on: DispatchQueue.main)
       .sink { [weak self] color in
@@ -136,7 +147,7 @@ public class ModelsManager {
   }
   
   public func updateCurrentColor(_ color: ModelColor) {
-    self.createColor.send(color)
+    createColorSubject.send(color)
   }
   
   private func updateSelectionModelIfNeeded(with models: [AnnotationModel]){
@@ -162,5 +173,17 @@ extension ModelsManager: MouseInteractionHandlerDataSource {
   
   var selectedAnnotation: AnnotationModel? {
     selectedModel.value
+  }
+  
+  var createMode: CanvasItemType? {
+    createModeSubject.value
+  }
+  
+  var createColor: ModelColor {
+    createColorSubject.value
+  }
+  
+  func renderNew(_ model: AnnotationModel) {
+    beingCreatedModel.send(model)
   }
 }

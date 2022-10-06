@@ -206,6 +206,29 @@ extension CanvasControlsView {
   }
 }
 
+extension CanvasAnnotationType {
+  var createMode: CanvasItemType? {
+    switch self {
+    case .noType:
+      return nil
+    case .text:
+      return .text
+    case .arrow:
+      return .arrow
+    case .pen:
+      return .pen
+    case .rect:
+      return .rect
+    case .obfuscate:
+      return .obfuscate
+    case .highlight:
+      return .highlight
+    case .number:
+      return .number
+    }
+  }
+}
+
 
 // MARK: - Previews
 import SwiftUI
