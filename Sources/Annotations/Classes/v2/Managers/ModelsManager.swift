@@ -10,7 +10,7 @@ public class ModelsManager {
   let mouseInteractionHandler: MouseInteractionHandler
   
   // MARK: - Models
-  let models = CurrentValueSubject<[AnnotationModel], Never>([])
+  private let models = CurrentValueSubject<AnnotationModelsSet, Never>(.init([]))
   let selectedModel = CurrentValueSubject<AnnotationModel?, Never>(nil)
   
   let beingCreatedModel = CurrentValueSubject<AnnotationModel?, Never>(nil)
@@ -44,8 +44,8 @@ public class ModelsManager {
       .receive(on: DispatchQueue.main)
       .sink { [weak self] models in
         guard let self = self else { return }
-        self.renderer.render(models)
-        self.updateSelectionModelIfNeeded(with: models)
+        self.renderer.render(models.all)
+        self.updateSelectionModelIfNeeded(with: models.all)
       }
       .store(in: &commonCancellables)
     
@@ -88,6 +88,7 @@ public class ModelsManager {
         if let previousSelection {
           self.renderer.renderSelection(for: previousSelection, isSelected: false)
         }
+        
         if let currentSelection {
           self.renderer.render([currentSelection])
           self.renderer.renderSelection(for: currentSelection, isSelected: true)
@@ -122,11 +123,30 @@ public class ModelsManager {
   }
   
   public func add(models: [AnnotationModel]) {
-    self.models.send(models)
+    let modelsSet = AnnotationModelsSet(models)
+    self.models.send(modelsSet)
+  }
+  
+  // FIXME: - Handle with just models (without additional render removal)
+  public func delete(model: AnnotationModel) {
+    var allModelsSet = self.models.value
+    allModelsSet.remove(with: model.id)
+    
+    if selectedAnnotation?.id == model.id {
+      deselect()
+    }
+    
+    self.models.send(allModelsSet)
+    renderer.renderRemoval(of: model.id)
+  }
+  
+  public func deleteSelectedModel() {
+    guard let value = selectedModel.value else { return }
+    delete(model: value)
   }
   
   public func select(model: AnnotationModel) {
-    guard models.value.contains(where: { $0.id == model.id }) else { return }
+    guard models.value.contains(model) else { return }
     selectedModel.send(model)
   }
   
@@ -135,15 +155,9 @@ public class ModelsManager {
   }
   
   public func update(model: AnnotationModel) {
-    var models = self.models.value
-    
-    if let firstIndex = models.firstIndex(where: { $0.id == model.id }) {
-      models[firstIndex] = model
-    } else {
-      models.append(model)
-    }
-    
-    self.models.send(models)
+    var allModels = models.value
+    allModels.update(model)
+    models.send(allModels)
   }
   
   public func updateCurrentColor(_ color: ModelColor) {
@@ -152,7 +166,7 @@ public class ModelsManager {
   
   private func updateSelectionModelIfNeeded(with models: [AnnotationModel]) {
     guard let selectedAnnotation = selectedModel.value else { return }
-    
+  
     guard let firstIndex = models.firstIndex(where: { $0.id == selectedAnnotation.id }) else { return }
     
     select(model: models[firstIndex])
@@ -168,7 +182,7 @@ public class ModelsManager {
 // MARK: - MouseInteractionHandlerDataSource
 extension ModelsManager: MouseInteractionHandlerDataSource {
   var annotations: [AnnotationModel] {
-    models.value
+    models.value.all
   }
   
   var selectedAnnotation: AnnotationModel? {

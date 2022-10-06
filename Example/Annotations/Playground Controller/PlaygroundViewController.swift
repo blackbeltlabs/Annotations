@@ -93,10 +93,21 @@ class PlaygroundViewController: NSViewController {
     let backgroundImage = NSImage(named: "catalina")!
     modelsManager.addBackgroundImage(backgroundImage)
     
-    
     setupPublishers()
     
   }
+  
+
+  override func keyDown(with event: NSEvent) {
+    super.keyDown(with: event)
+    
+    // delete button {
+    if event.keyCode == 51  {
+      modelsManager.deleteSelectedModel()
+    }
+  }
+  
+  override var acceptsFirstResponder: Bool { true }
   
   func setupPublishers() {
     canvasControlsView
@@ -114,6 +125,9 @@ class PlaygroundViewController: NSViewController {
   
   override func viewDidAppear() {
     super.viewDidAppear()
+    
+    becomeFirstResponder()
+    view.window?.makeKeyAndOrderFront(self)
   }
 }
 

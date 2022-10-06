@@ -20,13 +20,22 @@ class HiglightsLayer: CALayer {
   
   private(set) var rectAreas: Set<HiglightRectArea> = [] {
     didSet {
-      self.rerenderMasksPath(with: rectAreas.map(\.rect))
+      if self.rectAreas.isEmpty {
+        backgroundColor = .clear
+      } else {
+        backgroundColor = CGColor(red: 0, green: 0, blue: 0, alpha: 0.5)
+        self.rerenderMasksPath(with: rectAreas.map(\.rect))
+      }
     }
   }
     
   override init() {
     super.init()
     setup()
+  }
+  
+  override init(layer: Any) {
+    super.init(layer: layer)
   }
   
   required init?(coder: NSCoder) {

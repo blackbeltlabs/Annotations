@@ -20,7 +20,7 @@ public struct Number: RectBased, Figure {
     rect.size
   }
   
-  static let defaultRadius: CGFloat = 15.0
+  static var defaultRadius: CGFloat = 15.0
   
   static func modelWithRadius(centerPoint: AnnotationPoint, radius: CGFloat, value: Int, zPosition: CGFloat, color: ModelColor) -> Self {
     let origin = CGPoint(x: CGFloat(centerPoint.x) - radius,

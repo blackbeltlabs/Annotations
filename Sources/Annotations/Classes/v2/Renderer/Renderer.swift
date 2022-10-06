@@ -26,6 +26,10 @@ protocol RendererCanvas: AnyObject {
   func renderLineDashPhaseAnimation(for layerId: String,
                                     animation: LineDashPhaseAnimation,
                                     remove: Bool)
+  
+  func renderRemoval(with id: String)
+  
+  func clearAll()
 }
 
 enum ObfuscatedAreaType {
@@ -39,8 +43,9 @@ class Renderer {
   init(canvasView: RendererCanvas?) {
     self.canvasView = canvasView
   }
-  
+
   func render(_ models: [AnnotationModel]) {
+     // canvasView?.clearAll()
     for model in models {
       render(model)
     }
@@ -95,13 +100,16 @@ class Renderer {
                                                remove: !isSelected)
     }
   }
-  
-  
+
   func renderText(_ model: Text) {
     canvasView?.renderText(text: model)
   }
   
   func renderObfuscatedAreaBackground(type: ObfuscatedAreaType) {
     canvasView?.renderObfuscatedAreaBackground(type)
+  }
+  
+  func renderRemoval(of modelId: String) {
+    canvasView?.renderRemoval(with: modelId)
   }
 }

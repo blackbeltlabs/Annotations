@@ -238,8 +238,28 @@ extension DrawableCanvasView: RendererCanvas {
     addSubview(textAnnotation)
   }
   
+  func renderRemoval(with id: String) {
+    guard let drawable = drawable(with: id) else { return }
+    removeDrawable(drawable)
+  }
+  
+  private func removeDrawable(_ drawable: DrawableElement) {
+    if let layer = drawable as? CALayer {
+      layer.removeFromSuperlayer()
+    } else if let view = drawable as? NSView {
+      view.removeFromSuperview()
+    } else if let highlightedArea = drawable as? HiglightRectArea {
+      higlightsLayer.removeHighlightArea(highlightedArea.id)
+    }
+  }
+  
   private func drawable(with id: String) -> DrawableElement? {
     drawables.first(where: { $0.id == id })
+  }
+  
+  func clearAll() {
+    drawables.forEach { self.removeDrawable($0) }
+    knobLayers.forEach { $0.removeFromSuperlayer() }
   }
 }
 
