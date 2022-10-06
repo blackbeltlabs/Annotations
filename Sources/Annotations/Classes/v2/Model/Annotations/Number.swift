@@ -20,6 +20,21 @@ public struct Number: RectBased, Figure {
     rect.size
   }
   
+  static let defaultRadius: CGFloat = 15.0
+  
+  static func modelWithRadius(centerPoint: AnnotationPoint, radius: CGFloat, value: Int, zPosition: CGFloat, color: ModelColor) -> Self {
+    let origin = CGPoint(x: CGFloat(centerPoint.x) - radius,
+                         y: CGFloat(centerPoint.y) - radius)
+    let to = CGPoint(x: origin.x + radius * 2.0,
+                     y: origin.y + radius * 2.0)
+    
+    return Number(color: color,
+                  zPosition: zPosition,
+                  origin: origin.modelPoint,
+                  to: to.modelPoint,
+                  value: value)
+  }
+  
   public struct Mocks {
     public static var mock: Number {
       .init(color: .init(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0),

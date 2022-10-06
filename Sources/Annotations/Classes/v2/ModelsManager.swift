@@ -150,7 +150,7 @@ public class ModelsManager {
     createColorSubject.send(color)
   }
   
-  private func updateSelectionModelIfNeeded(with models: [AnnotationModel]){
+  private func updateSelectionModelIfNeeded(with models: [AnnotationModel]) {
     guard let selectedAnnotation = selectedModel.value else { return }
     
     guard let firstIndex = models.firstIndex(where: { $0.id == selectedAnnotation.id }) else { return }

@@ -1,7 +1,7 @@
 import Foundation
 import CoreGraphics
 
-final class ModelsCreator {
+final class ModelsCreator {  
   static func createModelFromTwoPoints(createModeType: CanvasItemType,
                                        first: CGPoint,
                                        second: CGPoint,

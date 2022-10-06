@@ -38,7 +38,7 @@ private struct PossibleDragging {
   
   var isCreateMode: Bool {
     switch type {
-    case .create(let canvasItemType):
+    case .create:
       return true
     default:
       return false
@@ -92,7 +92,18 @@ class MouseInteractionHandler {
     dataSource.deselect()
     
     if let createMode = dataSource.createMode {
-      possibleMovement = .init(lastDraggedPoint: point, type: .create(createMode))
+      
+      if createMode == .number {
+        let number = Number.modelWithRadius(centerPoint: point.modelPoint,
+                                            radius: Number.defaultRadius,
+                                            value: nextModelNumber,
+                                            zPosition: newZPosition,
+                                            color: dataSource.createColor)
+        dataSource.update(model: number)
+        dataSource.select(model: number)
+      } else {
+        possibleMovement = .init(lastDraggedPoint: point, type: .create(createMode))
+      }
     } else {
       possibleMovement = nil
     }
@@ -151,10 +162,7 @@ class MouseInteractionHandler {
       let updatedAnnotation = ResizeTransformationFactory.resizedAnnotation(annotation: selectedAnnotation,
                                                                             knob: knobType,
                                                                             delta: delta)
-      
       dataSource.select(model: updatedAnnotation)
-      
-      
       self.possibleMovement = possibleMovement.copy(with: point,
                                                     modifiedAnnotation: updatedAnnotation)
     }
@@ -174,13 +182,24 @@ class MouseInteractionHandler {
 
     self.possibleMovement = nil
   }
-  
-  private var newZPosition: CGFloat {
+}
+
+// MARK: - Z Positions
+extension MouseInteractionHandler {
+  fileprivate var newZPosition: CGFloat {
     let max =
       dataSource!
       .annotations
       .map(\.zPosition)
       .max() ?? 0
     return max + 1
+  }
+}
+
+// MARK: - Numbers
+
+extension MouseInteractionHandler {
+  fileprivate var nextModelNumber: Int {
+    dataSource!.annotations.compactMap { $0 as? Number }.count + 1
   }
 }
