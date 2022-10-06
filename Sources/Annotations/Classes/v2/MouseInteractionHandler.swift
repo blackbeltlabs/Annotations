@@ -82,7 +82,20 @@ class MouseInteractionHandler {
     for annotation in annotations {
       let selectionPath = SelectionPathFactory.selectionPath(for: annotation)
       if let selectionPath, selectionPath.contains(point) {
-        dataSource.select(model: annotation)
+              
+        let maxZPosition = self.newZPosition
+        
+        // update zPosition if needed
+        if annotation.zPosition <= maxZPosition,
+           makesSenseToUpdateZPosition(for: annotation) {
+          var updatedAnnotation = annotation
+          updatedAnnotation.zPosition = maxZPosition
+          dataSource.update(model: updatedAnnotation)
+          dataSource.select(model: updatedAnnotation)
+        } else {
+          dataSource.select(model: annotation)
+        }
+        
         possibleMovement = .init(lastDraggedPoint: point,
                                  type: .move)
         return
@@ -186,13 +199,26 @@ class MouseInteractionHandler {
 
 // MARK: - Z Positions
 extension MouseInteractionHandler {
-  fileprivate var newZPosition: CGFloat {
-    let max =
+  fileprivate var maxZPosition: CGFloat {
       dataSource!
       .annotations
       .map(\.zPosition)
       .max() ?? 0
-    return max + 1
+  }
+  
+  fileprivate var newZPosition: CGFloat {
+    return maxZPosition + 1
+  }
+  
+  // no need to update for obfuscate and higlight tools as not supported now
+  func makesSenseToUpdateZPosition(for model: AnnotationModel) -> Bool {
+    if let rect = model as? Rect {
+      if rect.rectType == .highlight || rect.rectType == .obfuscate {
+        return false
+      }
+    }
+    
+    return true
   }
 }
 
