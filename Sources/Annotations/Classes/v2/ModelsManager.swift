@@ -183,7 +183,7 @@ extension ModelsManager: MouseInteractionHandlerDataSource {
     createColorSubject.value
   }
   
-  func renderNew(_ model: AnnotationModel) {
+  func renderNew(_ model: AnnotationModel?) {
     beingCreatedModel.send(model)
   }
 }

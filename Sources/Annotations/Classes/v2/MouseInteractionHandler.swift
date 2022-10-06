@@ -13,7 +13,7 @@ protocol MouseInteractionHandlerDataSource: AnyObject {
   func select(model: AnnotationModel)
   func deselect()
   
-  func renderNew(_ model: AnnotationModel)
+  func renderNew(_ model: AnnotationModel?)
 }
 
 private struct PossibleDragging {
@@ -91,7 +91,6 @@ class MouseInteractionHandler {
     
     dataSource.deselect()
     
-    
     if let createMode = dataSource.createMode {
       possibleMovement = .init(lastDraggedPoint: point, type: .create(createMode))
     } else {
@@ -110,22 +109,30 @@ class MouseInteractionHandler {
     
     switch possibleMovement.type {
     case .create(let createMode):
-      // annotation was already created
-      if let annotation = possibleMovement.modifiedAnnotation {
-        let updatedAnnotation = NewCreation.updatedAnnotation(annotation: annotation,
-                                                              draggedPoint: point)
-        dataSource.renderNew(updatedAnnotation)
-        self.possibleMovement = possibleMovement.copy(with: point,
-                                                      modifiedAnnotation: updatedAnnotation)
-      } else {
-        let newAnnotation = ModelsCreator.createModelFromTwoPoints(createModeType: createMode,
-                                                                   first: possibleMovement.lastDraggedPoint,
-                                                                   second: point,
-                                                                   zPosition: newZPosition,
-                                                                   color: dataSource.createColor)
-        dataSource.renderNew(newAnnotation)
-        self.possibleMovement = possibleMovement.copy(with: point, modifiedAnnotation: newAnnotation)
-      }
+      let beingCreatedAnnotation: AnnotationModel? = {
+        if let annotation = possibleMovement.modifiedAnnotation {
+          return NewCreation.updatedAnnotation(annotation: annotation,
+                                               draggedPoint: point)
+        } else {
+          guard ModelsCreatorValidator.isModelValid(for: createMode,
+                                                    firstPoint: possibleMovement.lastDraggedPoint,
+                                                    secondPoint: point) else {
+            return nil
+          }
+          
+          return ModelsCreator.createModelFromTwoPoints(createModeType: createMode,
+                                                        first: possibleMovement.lastDraggedPoint,
+                                                        second: point,
+                                                        zPosition: newZPosition,
+                                                        color: dataSource.createColor)
+        }
+      }()
+      
+      guard let beingCreatedAnnotation else { return }
+      
+      dataSource.renderNew(beingCreatedAnnotation)
+      self.possibleMovement = possibleMovement.copy(with: point,
+                                                    modifiedAnnotation: beingCreatedAnnotation)
     case .move:
         guard let selectedAnnotation = dataSource.selectedAnnotation else {
           return
@@ -158,7 +165,9 @@ class MouseInteractionHandler {
     
     if let modifiedAnnotation = possibleMovement.modifiedAnnotation {
       dataSource?.update(model: modifiedAnnotation)
+      // select annotation that just was created
       if possibleMovement.isCreateMode {
+        dataSource?.renderNew(nil)
         dataSource?.select(model: modifiedAnnotation)
       }
     }

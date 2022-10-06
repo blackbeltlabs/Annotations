@@ -59,5 +59,10 @@ extension CGPoint {
   func deltaTo(_ point: CGPoint) -> PointModel {
     pointModel.deltaTo(point.pointModel)
   }
+  
+  static func distanceBetween(point1: CGPoint, point2: CGPoint) -> Double {
+    let delta = point1.deltaTo(point2)
+    return sqrt(pow(delta.x, 2) + pow(delta.y, 2))
+  }  
 }
 
