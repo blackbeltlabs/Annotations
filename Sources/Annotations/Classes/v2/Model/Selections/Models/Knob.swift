@@ -7,7 +7,7 @@ struct Knob: Selection {
   
   static let defaultSize = CGSize(width: 10, height: 10)
   
-  static func fromCenterPoint(point: CGPoint, id: String = UUID().uuidString) -> Knob {
+  static func fromCenterPoint(point: CGPoint, id: String) -> Knob {
     let sizePart = self.defaultSize.width
     return .init(id: id, frameRect: .init(origin: .init(x: point.x - sizePart / 2.0,
                                                         y: point.y - sizePart / 2.0),
@@ -16,10 +16,10 @@ struct Knob: Selection {
   
   struct Mocks {
     static var rectKnobs: [Knob] {
-      [.fromCenterPoint(point: .init(x: 20, y: 20)),
-       .fromCenterPoint(point: .init(x: 100, y: 20)),
-       .fromCenterPoint(point: .init(x: 100, y: 100)),
-       .fromCenterPoint(point: .init(x: 20, y: 100))
+      [.fromCenterPoint(point: .init(x: 20, y: 20), id: UUID().uuidString),
+       .fromCenterPoint(point: .init(x: 100, y: 20), id: UUID().uuidString),
+       .fromCenterPoint(point: .init(x: 100, y: 100), id: UUID().uuidString),
+       .fromCenterPoint(point: .init(x: 20, y: 100), id: UUID().uuidString)
       ]
     }
   }

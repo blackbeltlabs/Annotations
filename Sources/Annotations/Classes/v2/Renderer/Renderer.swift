@@ -21,7 +21,7 @@ protocol RendererCanvas: AnyObject {
   func renderObfuscatedAreaBackground(_ type: ObfuscatedAreaType)
   
   
-  func renderKnobs(_ knobs: [Knob])
+  func renderSelections(_ selections: [Selection])
   
   func renderLineDashPhaseAnimation(for layerId: String,
                                     animation: LineDashPhaseAnimation,
@@ -90,14 +90,22 @@ class Renderer {
     if model is Rect || model is Arrow || model is Number {
       if isSelected {
         guard let knobs = KnobsFactory.knobPair(for: model) else { return }
-        canvasView?.renderKnobs(knobs.allKnobs)
+        canvasView?.renderSelections(knobs.allKnobs)
       } else {
-        canvasView?.renderKnobs([])
+        canvasView?.renderSelections([])
       }
     } else if let pen = model as? Pen {
       canvasView?.renderLineDashPhaseAnimation(for: pen.id,
                                                animation: .penAnimation(pen.id),
                                                remove: !isSelected)
+    } else if let text = model as? Text {
+      if isSelected {
+        let frame = CGRect.rect(fromPoint: text.origin.cgPoint, toPoint: text.to.cgPoint)
+        let border = Border.textAnnotationBorder(from: frame)
+        canvasView?.renderSelections([border])
+      } else {
+        canvasView?.renderSelections([])
+      }
     }
   }
 

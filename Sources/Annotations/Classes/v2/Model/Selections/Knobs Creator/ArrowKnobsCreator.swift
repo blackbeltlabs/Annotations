@@ -20,7 +20,7 @@ struct ArrowKnobPair: KnobPair {
 
 class ArrowKnobsCreator: KnobsCreator {
   func createKnobs(for annotation: Arrow) -> KnobPair {
-    ArrowKnobPair(from: .fromCenterPoint(point: annotation.origin.cgPoint),
-                  to:  .fromCenterPoint(point: annotation.to.cgPoint))
+    ArrowKnobPair(from: .fromCenterPoint(point: annotation.origin.cgPoint, id: annotation.id + "_0"),
+                  to:  .fromCenterPoint(point: annotation.to.cgPoint, id: annotation.id + "_1"))
   }
 }

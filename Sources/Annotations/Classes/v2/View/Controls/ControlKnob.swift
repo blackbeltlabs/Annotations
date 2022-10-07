@@ -3,26 +3,26 @@ import QuartzCore
 final class ControlKnob: CanvasLayer {
   
   // MARK: - Init
-  init(backgroundColor: CGColor, borderColor: CGColor) {
+  override init() {
     super.init()
-    setup(backgroundColor: backgroundColor, borderColor: borderColor)
+    masksToBounds = true
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  // MARK: - Setup
-  private func setup(backgroundColor: CGColor, borderColor: CGColor) {
-    masksToBounds = true
-    self.backgroundColor = backgroundColor
-    borderWidth = 1.0
-    self.borderColor = borderColor
+  override init(layer: Any) {
+    super.init(layer: layer
+    )
   }
   
   // MARK: - Render
-  func render(with rect: CGRect) {
+  func render(with rect: CGRect, backgroundColor: CGColor, borderColor: CGColor, borderWidth: CGFloat) {
     self.frame = rect
+    self.backgroundColor = backgroundColor
+    self.borderWidth = 1.0
+    self.borderColor = borderColor
   }
   
   override func layoutSublayers() {

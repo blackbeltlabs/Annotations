@@ -12,7 +12,9 @@ public class DrawableCanvasView: NSView {
   let obfuscateLayer: ObfuscateLayer = ObfuscateLayer()
   let higlightsLayer = HiglightsLayer()
   
-  private var knobLayers: [CanvasLayer] = []
+  let selectionsLayer = CALayer()
+  
+  private var knobLayers: [CALayer] = []
   
   // MARK: - Touches
   private var trackingArea: NSTrackingArea?
@@ -40,6 +42,9 @@ public class DrawableCanvasView: NSView {
     
     layer?.addSublayer(obfuscateLayer)
     layer?.addSublayer(higlightsLayer)
+    layer?.addSublayer(selectionsLayer)
+    
+    selectionsLayer.zPosition = 10000000
   }
   
   required init?(coder: NSCoder) {
@@ -57,6 +62,7 @@ public class DrawableCanvasView: NSView {
     super.layout()
     obfuscateLayer.frame = bounds
     higlightsLayer.frame = bounds
+    selectionsLayer.frame = bounds
   }
   
   // MARK: - Tracking areas
@@ -275,32 +281,79 @@ extension DrawableCanvasView: RendererCanvas {
 }
 
 extension DrawableCanvasView {
-  func renderKnobs(_ knobs: [Knob]) {
-    removeAllKnobs()
-    for knob in knobs {
-      let knobLayer = createKnobLayer(with: knob.id)
-      knobLayer.render(with: knob.frameRect)
-      layer?.addSublayer(knobLayer)
-      knobLayers.append(knobLayer)
+  
+  func renderSelections(_ selections: [Selection]) {
+    if selections.isEmpty {
+      removeAllSelections()
+      return
     }
+    
+    for selection in selections {
+      renderOrUpdateSelection(selection)
+    }
+  }
+  
+  func renderOrUpdateSelection(_ selection: Selection) {
+    switch selection {
+    case let knob as Knob:
+      let layerToRender: ControlKnob
+      if let knobLayer = knobLayers.compactMap({ $0 as? DrawableElement }).first(where: { $0.id == knob.id }) as? ControlKnob {
+        layerToRender = knobLayer
+      } else {
+        layerToRender = createKnobLayer(with: knob.id)
+        selectionsLayer.addSublayer(layerToRender)
+        knobLayers.append(layerToRender)
+      }
+      layerToRender.render(with: knob.frameRect,
+                           backgroundColor: NSColor.zapierOrange.cgColor,
+                           borderColor: NSColor.knob.cgColor,
+                           borderWidth: 1.0)
+    case let border as Border:
+      let layerToRender: ControlBorder
+      
+      if let borderLayer =  knobLayers.compactMap({ $0 as? DrawableElement }).first(where: { $0.id == border.id }) as? ControlBorder {
+        layerToRender = borderLayer
+      } else {
+        layerToRender = createBorderLayer(with: border.id)
+        selectionsLayer.addSublayer(layerToRender)
+        knobLayers.append(layerToRender)
+      }
+      
+      layerToRender.setup(with: border.path, strokeColor: border.color, lineWidth: border.lineWidth)
+      
+      print("Render border")
+    default:
+      break
+    }
+  }
+  
+  func createSelectionLayer<T: CALayer & DrawableElement>(of type: T.Type, id: String, zPosition: CGFloat) -> T {
+    var selectionLayer = T()
+    selectionLayer.id = id
+    selectionLayer.zPosition = zPosition
+    return selectionLayer
   }
   
   func createKnobLayer(with id: String) -> ControlKnob {
-    let knob = ControlKnob(backgroundColor: NSColor.zapierOrange.cgColor,
-                           borderColor: NSColor.knob.cgColor)
-    knob.zPosition = 1000000
-    knob.id = id
-    return knob
+    createSelectionLayer(of: ControlKnob.self, id: id, zPosition: 2)
   }
-    
-  func removeAllKnobs() {
+  
+
+  func createBorderLayer(with id: String) -> ControlBorder {
+    createSelectionLayer(of: ControlBorder.self, id: id, zPosition: 1)
+  }
+  
+  func removeAllSelections() {
     for knob in knobLayers {
       knob.removeFromSuperlayer()
     }
-    
+
     knobLayers = []
   }
-  
+
+}
+
+extension DrawableCanvasView {
   func renderLineDashPhaseAnimation(for layerId: String,
                                     animation: LineDashPhaseAnimation,
                                     remove: Bool) {

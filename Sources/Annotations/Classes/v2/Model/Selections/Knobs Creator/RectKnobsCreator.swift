@@ -35,10 +35,10 @@ class RectKnobsCreator: KnobsCreator {
     
     let rectPoints = rect.allPoints
         
-    return RectKnobPair(bottomLeft: .fromCenterPoint(point: rectPoints.leftBottom),
-                        bottomRight: .fromCenterPoint(point: rectPoints.rightBottom),
-                        topLeft: .fromCenterPoint(point: rectPoints.leftTop),
-                        topRight: .fromCenterPoint(point: rectPoints.rightTop))
+    return RectKnobPair(bottomLeft: .fromCenterPoint(point: rectPoints.leftBottom, id: rectBased.id + "_0"),
+                        bottomRight: .fromCenterPoint(point: rectPoints.rightBottom, id: rectBased.id + "_1"),
+                        topLeft: .fromCenterPoint(point: rectPoints.leftTop, id: rectBased.id + "_2"),
+                        topRight: .fromCenterPoint(point: rectPoints.rightTop, id: rectBased.id + "_3"))
   }
   
   func createKnobs(for annotation: Rect) -> KnobPair {
