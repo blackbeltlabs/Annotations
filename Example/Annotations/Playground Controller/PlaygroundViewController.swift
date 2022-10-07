@@ -14,6 +14,8 @@ class PlaygroundViewController: NSViewController {
   var loadViewClosure: ((PlaygroundViewController) -> Void)?
   
   var modelsManager: ModelsManager!
+  
+  var sharedHistory: SharedHistory!
 
   override func loadView() {
     loadViewClosure?(self)
@@ -25,7 +27,9 @@ class PlaygroundViewController: NSViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    let (modelsManager, canvasView) = AnnotationsCanvasFactory.instantiate()
+    let (modelsManager, canvasView, history) = AnnotationsCanvasFactory.instantiate()
+    
+    sharedHistory = history
     
     canvasView.translatesAutoresizingMaskIntoConstraints = false
     view.addSubview(canvasView)
@@ -120,6 +124,32 @@ class PlaygroundViewController: NSViewController {
       .canvasAnnotationType
       .map(\.createMode)
       .assign(to: \.value, on: modelsManager.createModeSubject)
+      .store(in: &cancellables)
+    
+    canvasControlsView
+      .undoPressedPublisher
+      .sink { [weak self] in
+        self?.sharedHistory.performUndo()
+      }
+      .store(in: &cancellables)
+    
+    canvasControlsView
+      .redoPressedPublisher
+      .sink { [weak self] in
+        self?.sharedHistory.performRedo()
+      }
+      .store(in: &cancellables)
+    
+    sharedHistory
+      .canUndoPublisher
+      .receive(on: DispatchQueue.main)
+      .assign(to: \.isEnabled, on: canvasControlsView.undoButton)
+      .store(in: &cancellables)
+    
+    sharedHistory
+      .canRedoPublisher
+      .receive(on: DispatchQueue.main)
+      .assign(to: \.isEnabled, on: canvasControlsView.redoButton)
       .store(in: &cancellables)
   }
   

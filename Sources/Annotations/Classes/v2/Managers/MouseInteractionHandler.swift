@@ -83,13 +83,13 @@ class MouseInteractionHandler {
       let selectionPath = SelectionPathFactory.selectionPath(for: annotation)
       if let selectionPath, selectionPath.contains(point) {
               
-        let maxZPosition = self.newZPosition
+        let maxZPosition = self.maxZPosition
         
         // update zPosition if needed
-        if annotation.zPosition <= maxZPosition,
+        if annotation.zPosition < maxZPosition,
            makesSenseToUpdateZPosition(for: annotation) {
           var updatedAnnotation = annotation
-          updatedAnnotation.zPosition = maxZPosition
+          updatedAnnotation.zPosition = self.newZPosition
           dataSource.update(model: updatedAnnotation)
           dataSource.select(model: updatedAnnotation)
         } else {

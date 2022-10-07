@@ -8,6 +8,7 @@ public class ModelsManager {
   // MARK: - Dependencies
   let renderer: Renderer
   let mouseInteractionHandler: MouseInteractionHandler
+  let history: SharedHistory
   
   // MARK: - Models
   private let models = CurrentValueSubject<AnnotationModelsSet, Never>(.init([]))
@@ -30,9 +31,10 @@ public class ModelsManager {
   // used for obfuscate purposes
   private let backgroundImage = CurrentValueSubject<NSImage?, Never>(nil)
 
-  init(renderer: Renderer, mouseInteractionHandler: MouseInteractionHandler) {
+  init(renderer: Renderer, mouseInteractionHandler: MouseInteractionHandler, history: SharedHistory) {
     self.renderer = renderer
     self.mouseInteractionHandler = mouseInteractionHandler
+    self.history = history
     setupPublishers()
   }
   
@@ -138,6 +140,10 @@ public class ModelsManager {
     
     self.models.send(allModelsSet)
     renderer.renderRemoval(of: model.id)
+    
+    history.addUndo { [weak self] in
+      self?.update(model: model)
+    }
   }
   
   public func deleteSelectedModel() {
@@ -156,6 +162,17 @@ public class ModelsManager {
   
   public func update(model: AnnotationModel) {
     var allModels = models.value
+    
+    if let oldModel = allModels.model(for: model.id) {
+      history.addUndo {
+        self.update(model: oldModel)
+      }
+    } else {
+      history.addUndo { [weak self] in
+        self?.delete(model: model)
+      }
+    }
+
     allModels.update(model)
     models.send(allModels)
   }

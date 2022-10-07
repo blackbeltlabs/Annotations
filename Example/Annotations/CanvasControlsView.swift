@@ -86,13 +86,13 @@ class CanvasControlsView: NSView {
     return stackView
   }()
   
-  lazy var undoButton: NSButton = {
+  private(set) lazy var undoButton: NSButton = {
     let button = NSButton(title: "<", target: self, action: #selector(undoPressed))
     button.translatesAutoresizingMaskIntoConstraints = false
     return button
   }()
   
-  lazy var redoButton: NSButton = {
+  private(set) lazy var redoButton: NSButton = {
     let button = NSButton(title: ">", target: self, action: #selector(redoPressed))
     button.translatesAutoresizingMaskIntoConstraints = false
     return button

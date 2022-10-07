@@ -1,18 +1,22 @@
 import Foundation
 
 public final class AnnotationsCanvasFactory {
-  public static func instantiate() -> (modelsManager: ModelsManager, canvasView: DrawableCanvasView) {
+  
+  // a custom shared history instance could be passed if needed
+  public static func instantiate(_ customHistory: SharedHistory? = nil) -> (modelsManager: ModelsManager, canvasView: DrawableCanvasView, history: SharedHistory) {
     let canvasView = DrawableCanvasView(frame: .zero)
     let renderer = Renderer(canvasView: canvasView)
     let mouseInteractionHandler = MouseInteractionHandler()
+    let history = customHistory ?? SharedHistory()
     let modelsManager = ModelsManager(renderer: renderer,
-                                      mouseInteractionHandler: mouseInteractionHandler)
+                                      mouseInteractionHandler: mouseInteractionHandler,
+                                      history: history)
     mouseInteractionHandler.dataSource = modelsManager
     setupPublishers(canvasView: canvasView,
                     modelsManager: modelsManager,
                     mouseInteractionHandler: mouseInteractionHandler)
     
-    return (modelsManager, canvasView)
+    return (modelsManager, canvasView, history)
   }
   
   static func setupPublishers(canvasView: DrawableCanvasView,
