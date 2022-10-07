@@ -58,6 +58,5 @@ public final class AnnotationsCanvasFactory {
         mouseInteractionHandler?.handleMouseUp(point: point)
       }
       .store(in: &canvasView.commonCancellables)
-  
   }
 }

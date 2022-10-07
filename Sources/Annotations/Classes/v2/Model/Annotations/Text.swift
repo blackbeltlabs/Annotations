@@ -5,7 +5,7 @@ public struct Text: AnnotationModel, TwoPointsModel {
   
   public var id: String = UUID().uuidString
   public var color: ModelColor = .zero
-  public var zPosition: CGFloat = 0
+  public var zPosition: CGFloat = 10
   
   public var style: TextParams = TextParams()
   
@@ -14,7 +14,7 @@ public struct Text: AnnotationModel, TwoPointsModel {
   public var text: String = ""
   
   public var origin: AnnotationPoint
-  public var to: AnnotationPoint = .zero// not used now but can be supported in the future
+  public var to: AnnotationPoint // not used now but can be supported in the future
   
   public struct Mocks {
     public static var mockText1: Text {
@@ -22,7 +22,8 @@ public struct Text: AnnotationModel, TwoPointsModel {
             zPosition: 1,
             style: .init(fontName: "Apple Chancery", foregroundColor: .init(red: 0.1, green: 0.2, blue: 0.3, alpha: 1.0)),
             text: "Blackbelt Labs",
-            origin: .init(x: 50, y: 50))
+            origin: .init(x: 50, y: 50),
+            to: .init(x: 200, y: 200))
     }
   }
 }

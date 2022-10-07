@@ -55,7 +55,8 @@ class PlaygroundViewController: NSViewController {
     let rectObfuscate = Rect.Mocks.mockObfuscate
     let rectHighlight = Rect.Mocks.mockHighlight
     let number = Number.Mocks.mock
-    modelsManager.add(models: [arrowMock,
+    var textModel = Text.Mocks.mockText1
+    modelsManager.add(models: [/*arrowMock,
                                penMock,
                                rectRegular,
                                rectObfuscate,
@@ -63,8 +64,8 @@ class PlaygroundViewController: NSViewController {
                                Rect.Mocks.mockHighlight2,
                                Rect.Mocks.mockHighlight3,
                                Rect.Mocks.mockRegularAsHighlight,
-                               number,
-                               Text.Mocks.mockText1])
+                               number, */
+                               textModel])
     
     
     let annotations: [AnnotationModel] = [penMock, arrowMock, rectRegular, rectObfuscate, rectHighlight, number]
@@ -72,6 +73,12 @@ class PlaygroundViewController: NSViewController {
     let annotations2: [AnnotationModel] = [rectRegular]
     
     let deltas = Array.init(repeating: 50, count: 10)
+    
+    
+    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+      textModel.legibilityEffectEnabled = true
+      self.modelsManager.update(model: textModel)
+    }
 
     /*
     deltas

@@ -226,16 +226,25 @@ extension DrawableCanvasView: RendererCanvas {
   
   func renderText(text: Text) {
     // FIXME: - Implement update here
-    if drawables.contains(where: { $0.id == text.id }) {
-      return
+    if let textAnnotation = drawable(with: text.id) as? TextAnnotationView {
+      renderTextAnnotation(textAnnotation, with: text)
+    } else {
+      let textView = TextAnnotationView(frame: frame)
+      self.addSubview(textView)
+      renderTextAnnotation(textView, with: text)
     }
+  }
+  
+  private func renderTextAnnotation(_ annotation: TextAnnotationView,
+                                    with textModel: Text) {
+    let frame = CGRect(fromPoint: textModel.origin.cgPoint,
+                       toPoint: textModel.to.cgPoint)
     
-    let textAnnotation = TextContainerView(modelable: text, enableEmojies: true)
-    textAnnotation.id = text.id
-    textAnnotation.state = .inactive
-    textAnnotation.layer?.zPosition = text.zPosition
-   
-    addSubview(textAnnotation)
+    annotation.frame = frame
+    annotation.string = textModel.text
+    annotation.setStyle(textModel.style)
+    annotation.setLegibilityEffectEnabled(textModel.legibilityEffectEnabled)
+    annotation.setZPosition(textModel.zPosition)
   }
   
   func renderRemoval(with id: String) {
