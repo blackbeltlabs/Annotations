@@ -9,6 +9,8 @@ class KnobsFactory {
       return RectKnobsCreator().createKnobs(for: rect)
     case let number as Number:
       return NumberKnobsCreator().createKnobs(for: number)
+    case let text as Text:
+      return TextKnobsCreator().createKnobs(for: text)
     default:
       return nil
     }

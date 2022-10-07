@@ -100,8 +100,14 @@ class Renderer {
                                                remove: !isSelected)
     } else if let text = model as? Text {
       if isSelected {
-        let frame = CGRect.rect(fromPoint: text.origin.cgPoint, toPoint: text.to.cgPoint)
-        let border = Border.textAnnotationBorder(from: frame)
+        
+        guard let knobs = KnobsFactory.knobPair(for: model) else { return }
+        
+        canvasView?.renderSelections(knobs.allKnobs)
+        
+        let rect = TextBordersCreator.bordersRect(for: text)
+        let lineWidth = TextBordersCreator.borderLineWidth(for: text)
+        let border = Border.textAnnotationBorder(rect: rect, lineWidth: lineWidth)
         canvasView?.renderSelections([border])
       } else {
         canvasView?.renderSelections([])

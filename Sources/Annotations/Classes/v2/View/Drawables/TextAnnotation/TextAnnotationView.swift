@@ -12,7 +12,7 @@ class TextAnnotationView: NSView, DrawableElement {
     }
   }
   
-  let debugMode: Bool = false
+  let debugMode: Bool = true
   
   let textView = TextView(frame: .zero)
   
@@ -34,7 +34,6 @@ class TextAnnotationView: NSView, DrawableElement {
       textView.string
     }
   }
-  
   
   var isEditable: Bool {
     set {

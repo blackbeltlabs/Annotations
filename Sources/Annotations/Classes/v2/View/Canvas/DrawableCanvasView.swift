@@ -283,14 +283,17 @@ extension DrawableCanvasView: RendererCanvas {
 extension DrawableCanvasView {
   
   func renderSelections(_ selections: [Selection]) {
-    if selections.isEmpty {
-      removeAllSelections()
-      return
+    CATransaction.withoutAnimation {
+      if selections.isEmpty {
+        removeAllSelections()
+        return
+      }
+      
+      for selection in selections {
+        renderOrUpdateSelection(selection)
+      }
     }
     
-    for selection in selections {
-      renderOrUpdateSelection(selection)
-    }
   }
   
   func renderOrUpdateSelection(_ selection: Selection) {
@@ -320,8 +323,6 @@ extension DrawableCanvasView {
       }
       
       layerToRender.setup(with: border.path, strokeColor: border.color, lineWidth: border.lineWidth)
-      
-      print("Render border")
     default:
       break
     }
