@@ -240,11 +240,13 @@ extension DrawableCanvasView: RendererCanvas {
     let frame = CGRect(fromPoint: textModel.origin.cgPoint,
                        toPoint: textModel.to.cgPoint)
     
+    annotation.id = textModel.id
     annotation.frame = frame
     annotation.string = textModel.text
     annotation.setStyle(textModel.style)
     annotation.setLegibilityEffectEnabled(textModel.legibilityEffectEnabled)
     annotation.setZPosition(textModel.zPosition)
+    annotation.isEditable = false
   }
   
   func renderRemoval(with id: String) {

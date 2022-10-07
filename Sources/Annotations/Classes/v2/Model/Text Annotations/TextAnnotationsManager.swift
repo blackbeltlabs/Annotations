@@ -1,8 +1,10 @@
-//
-//  File.swift
-//  
-//
-//  Created by Drapailo Yulian on 07.10.2022.
-//
-
 import Foundation
+import CoreGraphics
+
+class TextAnnotationsManager {
+  var textStyle: TextParams = .defaultFont()
+  
+//  func createNewTextModel(at point: CGPoint) -> Text {
+//    
+//  }
+}

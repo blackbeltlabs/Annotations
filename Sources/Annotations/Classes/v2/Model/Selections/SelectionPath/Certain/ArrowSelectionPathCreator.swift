@@ -1,7 +1,7 @@
 import CoreGraphics
 
 final class ArrowSelectionPathCreator: SelectionPathCreator {
-  func createSelectionPath(for figure: Arrow) -> CGPath {
-    ArrowPathCreator().createPath(for: figure)
+  func createSelectionPath(for annotation: Arrow) -> CGPath {
+    ArrowPathCreator().createPath(for: annotation)
   }
 }

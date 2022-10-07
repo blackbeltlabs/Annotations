@@ -1,6 +1,6 @@
 import CoreGraphics
 
 protocol SelectionPathCreator {
-  associatedtype F: Figure
+  associatedtype F: AnnotationModel
   func createSelectionPath(for figure: F) -> CGPath
 }

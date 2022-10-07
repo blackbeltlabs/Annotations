@@ -1,7 +1,9 @@
 import Foundation
 import Cocoa
 
-class TextAnnotationView: NSView {
+class TextAnnotationView: NSView, DrawableElement {
+  
+  var id: String = ""
   
   override var frame: NSRect {
     didSet {
@@ -30,6 +32,16 @@ class TextAnnotationView: NSView {
     }
     get {
       textView.string
+    }
+  }
+  
+  
+  var isEditable: Bool {
+    set {
+      textView.isEditable = newValue
+    }
+    get {
+      textView.isEditable
     }
   }
   

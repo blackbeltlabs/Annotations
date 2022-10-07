@@ -1,7 +1,7 @@
 import Foundation
 
 final class RectSelectionPathCreator: SelectionPathCreator {
-  func createSelectionPath(for figure: Rect) -> CGPath {
-    RectPathCreator().createPath(for: figure)
+  func createSelectionPath(for annotation: Rect) -> CGPath {
+    RectPathCreator().createPath(for: annotation)
   }
 }

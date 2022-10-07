@@ -1,7 +1,6 @@
 import Foundation
 
 final class PathCalculations {
-      
   static func delta(from point1: CGPoint, to point2: CGPoint) -> CGPoint {
       CGPoint(x: point2.x - point1.x,
               y: point2.y - point1.y)

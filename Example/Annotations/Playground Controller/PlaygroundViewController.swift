@@ -75,10 +75,10 @@ class PlaygroundViewController: NSViewController {
     let deltas = Array.init(repeating: 50, count: 10)
     
     
-    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-      textModel.legibilityEffectEnabled = true
-      self.modelsManager.update(model: textModel)
-    }
+//    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+//      textModel.legibilityEffectEnabled = true
+//      self.modelsManager.update(model: textModel)
+//    }
 
     /*
     deltas

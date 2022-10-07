@@ -1,7 +1,7 @@
 import Foundation
 import CoreGraphics
 
-public struct Text: AnnotationModel, TwoPointsModel {
+public struct Text: AnnotationModel, TwoPointsModel, RectBased {
   
   public var id: String = UUID().uuidString
   public var color: ModelColor = .zero
