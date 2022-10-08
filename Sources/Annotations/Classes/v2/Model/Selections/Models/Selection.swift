@@ -13,7 +13,7 @@ struct Border: Selection {
   let path: CGPath
   
   
-  static func textAnnotationBorder(id: String = UUID().uuidString,
+  static func textAnnotationBorder(id: String,
                                    rect: CGRect,
                                    lineWidth: CGFloat) -> Border {
     

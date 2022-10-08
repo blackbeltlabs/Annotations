@@ -50,7 +50,6 @@ class TextView: NSTextView {
     var updatedRect = rect
     updatedRect.size.width = cursorWidth
     super.drawInsertionPoint(in: updatedRect, color: color, turnedOn: flag)
-
   }
 
   override func setNeedsDisplay(_ rect: NSRect, avoidAdditionalLayout flag: Bool) {

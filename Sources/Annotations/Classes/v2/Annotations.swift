@@ -6,12 +6,14 @@ public final class AnnotationsCanvasFactory {
   public static func instantiate(_ customHistory: SharedHistory? = nil) -> (modelsManager: ModelsManager, canvasView: DrawableCanvasView, history: SharedHistory) {
     let canvasView = DrawableCanvasView(frame: .zero)
     let renderer = Renderer(canvasView: canvasView)
-    let mouseInteractionHandler = MouseInteractionHandler()
+    let textAnnotationsManager = TextAnnotationsManager()
+    let mouseInteractionHandler = MouseInteractionHandler(textAnnotationsManager: textAnnotationsManager)
     let history = customHistory ?? SharedHistory()
     let modelsManager = ModelsManager(renderer: renderer,
                                       mouseInteractionHandler: mouseInteractionHandler,
                                       history: history)
     mouseInteractionHandler.dataSource = modelsManager
+    textAnnotationsManager.source = canvasView
     setupPublishers(canvasView: canvasView,
                     modelsManager: modelsManager,
                     mouseInteractionHandler: mouseInteractionHandler)

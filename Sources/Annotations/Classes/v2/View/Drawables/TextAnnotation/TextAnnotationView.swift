@@ -1,9 +1,12 @@
 import Foundation
 import Cocoa
+import Combine
 
 class TextAnnotationView: NSView, DrawableElement {
   
   var id: String = ""
+  
+  let textDidChangedSubject = PassthroughSubject<String, Never>()
   
   override var frame: NSRect {
     didSet {
@@ -73,6 +76,7 @@ class TextAnnotationView: NSView, DrawableElement {
                                                 blur: 4.0,
                                                 spread: 0)
     
+    textView.delegate = self
   }
   
   
@@ -114,4 +118,23 @@ class TextAnnotationView: NSView, DrawableElement {
     layer?.zPosition = zPosition
   }
   
+  func setEditing(_ enabled: Bool) {
+    if enabled {
+      textView.isEditable = true
+      textView.isSelectable = true
+      textView.window?.makeFirstResponder(textView)
+    } else {
+      textView.isEditable = false
+      textView.isSelectable = false
+    }
+  }
+  
+}
+
+extension TextAnnotationView: NSTextViewDelegate {
+  func textDidChange(_ notification: Notification) {
+    guard let textView = notification.object as? NSTextView else { return }
+    
+    textDidChangedSubject.send(textView.string)
+  }
 }

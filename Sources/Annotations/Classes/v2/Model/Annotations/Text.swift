@@ -14,7 +14,7 @@ public struct Text: AnnotationModel, TwoPointsModel, RectBased {
   public var text: String = ""
   
   public var origin: AnnotationPoint
-  public var to: AnnotationPoint // not used now but can be supported in the future
+  public var to: AnnotationPoint
   
   public struct Mocks {
     public static var mockText1: Text {
@@ -30,8 +30,20 @@ public struct Text: AnnotationModel, TwoPointsModel, RectBased {
 
 // Adapter for Text Anotations part
 
-extension Text: TextAnnotationModelable {
+extension Text {
   public var frame: CGRect {
-    return CGRect(x: origin.x, y: origin.y, width: 0.0, height: 0.0)
+    get {
+      CGRect(fromPoint: origin.cgPoint, toPoint: to.cgPoint)
+    }
+    set {
+      origin = CGPoint(x: newValue.minX, y: newValue.minY).modelPoint
+      to = CGPoint(x: newValue.maxX, y: newValue.maxY).modelPoint
+    }
+  }
+  
+  mutating func updateFrameSize(_ size: CGSize) {
+    var currentFrame = frame
+    currentFrame.size = size
+    self.frame = currentFrame
   }
 }

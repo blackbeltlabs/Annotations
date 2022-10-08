@@ -87,7 +87,8 @@ public class ModelsManager {
       .receive(on: DispatchQueue.main)
       .sink { [weak self] (previousSelection, currentSelection) in
         guard let self else { return }
-        if let previousSelection {
+      
+        if let previousSelection, previousSelection.id != currentSelection?.id {
           self.renderer.renderSelection(for: previousSelection, isSelected: false)
         }
         

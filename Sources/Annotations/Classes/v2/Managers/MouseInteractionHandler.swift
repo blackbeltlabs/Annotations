@@ -52,12 +52,19 @@ private enum PossibleDraggingType {
   case resize(KnobType)
 }
 
-
 class MouseInteractionHandler {
   
   weak var dataSource: MouseInteractionHandlerDataSource?
   
   private var possibleMovement: PossibleDragging?
+  
+  let textAnnotationsManager: TextAnnotationsManager
+  
+  var textCouldBeEdited: Bool = false
+  
+  init(textAnnotationsManager: TextAnnotationsManager) {
+    self.textAnnotationsManager = textAnnotationsManager
+  }
   
   func handleMouseDown(point: CGPoint) {
     guard let dataSource = dataSource else { return }
@@ -82,6 +89,12 @@ class MouseInteractionHandler {
     for annotation in annotations {
       let selectionPath = SelectionPathFactory.selectionPath(for: annotation)
       if let selectionPath, selectionPath.contains(point) {
+        
+        // this annotation was already selected
+        if annotation.id == dataSource.selectedAnnotation?.id,
+           annotation is Text {
+          textCouldBeEdited = true
+        }
               
         let maxZPosition = self.maxZPosition
         
@@ -98,11 +111,19 @@ class MouseInteractionHandler {
         
         possibleMovement = .init(lastDraggedPoint: point,
                                  type: .move)
+        
         return
       }
     }
     
     dataSource.deselect()
+    
+    if textAnnotationsManager.isEditing {
+      let result = textAnnotationsManager.cancelEditing()
+      if let model = result.model, result.textWasUpdated {
+        dataSource.update(model: model)
+      }
+    }
     
     if let createMode = dataSource.createMode {
       
@@ -182,14 +203,23 @@ class MouseInteractionHandler {
   }
   
   func handleMouseUp(point: CGPoint) {
+    guard let dataSource = dataSource else { return }
     guard let possibleMovement else { return }
-    
+  
     if let modifiedAnnotation = possibleMovement.modifiedAnnotation {
-      dataSource?.update(model: modifiedAnnotation)
+      dataSource.update(model: modifiedAnnotation)
       // select annotation that just was created
       if possibleMovement.isCreateMode {
-        dataSource?.renderNew(nil)
-        dataSource?.select(model: modifiedAnnotation)
+        dataSource.renderNew(nil)
+        dataSource.select(model: modifiedAnnotation)
+      }
+    } else {
+      if let selectedAnnotation = dataSource.selectedAnnotation as? Text,
+         textCouldBeEdited {
+        textAnnotationsManager.handleTextEditing(for: selectedAnnotation) { text in
+          dataSource.select(model: text)
+        }
+        textCouldBeEdited = false
       }
     }
 

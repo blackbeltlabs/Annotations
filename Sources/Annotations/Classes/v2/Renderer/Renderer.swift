@@ -1,4 +1,5 @@
 import Cocoa
+import Combine
 
 struct LayerRenderingSet {
   let path: CGPath
@@ -11,7 +12,11 @@ protocol RendererCanvas: AnyObject {
   func renderLayer(id: String,
                    type: LayerType,
                    renderingSet: LayerRenderingSet)
+  
   func renderText(text: Text)
+  
+  func startEditingText(for id: String) -> AnyPublisher<String, Never>?
+  func stopEditingText(for id: String)
   
   func renderNumber(id: String,
                     renderingSet: LayerRenderingSet,
@@ -28,6 +33,7 @@ protocol RendererCanvas: AnyObject {
                                     remove: Bool)
   
   func renderRemoval(with id: String)
+  
   
   func clearAll()
 }
@@ -107,7 +113,9 @@ class Renderer {
         
         let rect = TextBordersCreator.bordersRect(for: text)
         let lineWidth = TextBordersCreator.borderLineWidth(for: text)
-        let border = Border.textAnnotationBorder(rect: rect, lineWidth: lineWidth)
+        let border = Border.textAnnotationBorder(id: text.id + "10",
+                                                 rect: rect,
+                                                 lineWidth: lineWidth)
         canvasView?.renderSelections([border])
       } else {
         canvasView?.renderSelections([])

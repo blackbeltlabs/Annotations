@@ -238,6 +238,8 @@ extension DrawableCanvasView: RendererCanvas {
       let textView = TextAnnotationView(frame: frame)
       self.addSubview(textView)
       renderTextAnnotation(textView, with: text)
+      startEditingText(for: text.id)
+      stopEditingText(for: text.id)
     }
   }
   
@@ -248,11 +250,24 @@ extension DrawableCanvasView: RendererCanvas {
     
     annotation.id = textModel.id
     annotation.frame = frame
-    annotation.string = textModel.text
+    if annotation.string != textModel.text {
+      annotation.string = textModel.text
+    }
     annotation.setStyle(textModel.style)
     annotation.setLegibilityEffectEnabled(textModel.legibilityEffectEnabled)
     annotation.setZPosition(textModel.zPosition)
-    annotation.isEditable = false
+    //annotation.isEditable = false
+  }
+  
+  func startEditingText(for id: String) -> AnyPublisher<String, Never>? {
+    guard let textAnnotation = drawable(with: id) as? TextAnnotationView else { return nil }
+    textAnnotation.setEditing(true)
+    return textAnnotation.textDidChangedSubject.eraseToAnyPublisher()
+  }
+  
+  func stopEditingText(for id: String) {
+    guard let textAnnotation = drawable(with: id) as? TextAnnotationView else { return }
+    textAnnotation.setEditing(false)
   }
   
   func renderRemoval(with id: String) {
@@ -369,5 +384,9 @@ extension DrawableCanvasView {
 
 
 extension TextContainerView: DrawableElement {
+  
+}
+
+extension DrawableCanvasView: TextAnnotationsSource {
   
 }
