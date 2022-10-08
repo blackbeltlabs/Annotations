@@ -13,7 +13,7 @@ protocol RendererCanvas: AnyObject {
                    type: LayerType,
                    renderingSet: LayerRenderingSet)
   
-  func renderText(text: Text)
+  func renderText(text: Text, rendererType: TextRenderingType?)
   
   func startEditingText(for id: String) -> AnyPublisher<String, Never>?
   func stopEditingText(for id: String)
@@ -53,17 +53,20 @@ class Renderer {
   func render(_ models: [AnnotationModel]) {
      // canvasView?.clearAll()
     for model in models {
-      render(model)
+      render(.init(model: model, renderingType: nil))
     }
   }
   
-  func render(_ model: AnnotationModel) {
+  func render(_ renderedModel: RenderedModel) {
+    let model = renderedModel.model
+    
     if let text = model as? Text {
-      renderText(text)
+      renderText(text, rendererType: renderedModel.renderingType as? TextRenderingType)
     } else if let figure = model as? Figure {
       renderFigure(figure)
     }
   }
+  
   
   func renderFigure(_ model: Figure) {
     guard let path = PathFactory.path(for: model) else {
@@ -123,8 +126,9 @@ class Renderer {
     }
   }
 
-  func renderText(_ model: Text) {
-    canvasView?.renderText(text: model)
+  func renderText(_ model: Text, rendererType: TextRenderingType?) {
+    canvasView?.renderText(text: model,
+                           rendererType: rendererType)
   }
   
   func renderObfuscatedAreaBackground(type: ObfuscatedAreaType) {

@@ -133,6 +133,17 @@ class TextAnnotationView: NSView, DrawableElement {
     textView.textContainer?.lineFragmentPadding = padding
     legibilityTextView.textContainer?.lineFragmentPadding = padding
   }
+  
+  var font: NSFont? {
+    get {
+      textView.font
+    }
+    
+    set {
+      textView.font = newValue
+      legibilityTextView.font = newValue
+    }
+  }
 }
 
 extension TextAnnotationView: NSTextViewDelegate {

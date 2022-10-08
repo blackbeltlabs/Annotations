@@ -11,6 +11,8 @@ protocol MouseInteractionHandlerDataSource: AnyObject {
   var createColor: ModelColor { get }
   
   func select(model: AnnotationModel)
+  
+  func select(model: AnnotationModel, renderingType: RenderingType?)
   func deselect()
   
   func renderNew(_ model: AnnotationModel?)
@@ -186,8 +188,8 @@ class MouseInteractionHandler {
         let updatedAnnotation = MovementTransformation.movedAnnotation(selectedAnnotation, delta: delta)
         dataSource.select(model: updatedAnnotation)
 
-      self.possibleMovement = possibleMovement.copy(with: point,
-                                                    modifiedAnnotation: updatedAnnotation)
+        self.possibleMovement = possibleMovement.copy(with: point,
+                                                      modifiedAnnotation: updatedAnnotation)
     case .resize(let knobType):
       guard let selectedAnnotation = dataSource.selectedAnnotation else {
         return
@@ -196,9 +198,22 @@ class MouseInteractionHandler {
       let updatedAnnotation = ResizeTransformationFactory.resizedAnnotation(annotation: selectedAnnotation,
                                                                             knob: knobType,
                                                                             delta: delta)
-      dataSource.select(model: updatedAnnotation)
+      
+      dataSource.select(model: updatedAnnotation, renderingType: renderingType(for: knobType))
       self.possibleMovement = possibleMovement.copy(with: point,
                                                     modifiedAnnotation: updatedAnnotation)
+    }
+  }
+  
+  private func renderingType(for knobType: KnobType) -> RenderingType? {
+    guard let knobType = knobType as? TextKnobType else { return nil }
+    switch knobType {
+    case .resizeLeft:
+      return TextRenderingType.resize
+    case .resizeRight:
+      return TextRenderingType.resize
+    case .bottomScale:
+      return TextRenderingType.scale
     }
   }
   
@@ -217,7 +232,7 @@ class MouseInteractionHandler {
       if let selectedAnnotation = dataSource.selectedAnnotation as? Text,
          textCouldBeEdited {
         textAnnotationsManager.handleTextEditing(for: selectedAnnotation) { text in
-          dataSource.select(model: text)
+          dataSource.select(model: text, renderingType: TextRenderingType.textEditingUpdate)
         }
         textCouldBeEdited = false
       }

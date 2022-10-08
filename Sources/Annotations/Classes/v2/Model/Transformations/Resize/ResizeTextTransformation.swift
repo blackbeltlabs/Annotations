@@ -15,10 +15,10 @@ class ResizeTextTransformation: ResizeTransformation {
       return resizeRightToLeft(delta: delta, text: annotation, type: .fromRightToLeft)
     case .bottomScale:
       return bottomScale(delta: delta, text: annotation)
-      //return annotation
     }
   }
   
+  // MARK: - Resize
   private func resizeRightToLeft(delta: CGVector, text: Text, type: ResizeSideType) -> Text {
     var updatedText = text
     
@@ -26,49 +26,6 @@ class ResizeTextTransformation: ResizeTransformation {
     
     return updatedText
   }
-  
-  private func bottomScale(delta: CGVector, text: Text) -> Text {
-    let minimumTextViewHeight: CGFloat = 10.0
-
-    let height = text.frame.size.height + delta.dy
-    
-    if height < minimumTextViewHeight {
-      return text
-    }
-    
-    
-    var updatedText = text
-    updatedText.frame = CGRect(origin: updatedText.frame.origin,
-                               size: .init(width: updatedText.frame.size.width,
-                                           height: height))
-    
-    if let font = font(from: text.style) {
-      let updatedFont = FontsLayoutHelper.fontFittingText(updatedText.text,
-                                                          in: updatedText.frame.size,
-                                                          fontDescriptor: font.fontDescriptor)
-      updatedText.style.fontSize = updatedFont!.pointSize
-    }
-    
-    return updatedText
-  }
-  
-  private func textBoundingBox(for text: Text) -> CGRect {
-    let frameBounds = CGRect(origin: .zero, size: text.frame.size)
-    
-    let insets = NSEdgeInsets(top: 0,
-                              left: TextLayoutHelper.singleLinePadding,
-                              bottom: 0,
-                              right: TextLayoutHelper.singleLinePadding)
-    
-    return frameBounds.insetBy(dx: insets.left + insets.right, dy: insets.bottom + insets.top)
-  }
-  
-  
-  private func font(from textParams: TextParams) -> NSFont? {
-    guard let fontName = textParams.fontName else { return nil }
-    return NSFont(name: fontName, size: 20)
-  }
-  
   
   private func resizeRightToLeft(_ frame: CGRect, attributedText: NSAttributedString, delta: CGVector, type: ResizeSideType) -> CGRect {
     let minimumTextViewWidth: CGFloat = 50.0
@@ -94,5 +51,45 @@ class ResizeTextTransformation: ResizeTransformation {
     updatedFrame.size = CGSize(width: updatedWidth, height: updatedHeight)
     
     return updatedFrame
+  }
+  
+  // MARK: - Scale
+  private func bottomScale(delta: CGVector, text: Text) -> Text {
+    let minimumTextViewHeight: CGFloat = 10.0
+
+    let height = text.frame.size.height + delta.dy
+    
+    if height < minimumTextViewHeight {
+      return text
+    }
+    
+    let scaleUp = delta.dy > 0
+        
+    var updatedText = text
+    updatedText.frame = CGRect(origin: updatedText.frame.origin,
+                               size: .init(width: updatedText.frame.size.width,
+                                           height: height))
+    
+    let boundingBox = textBoundingBox(for: text)
+    let updatedFont = FontsLayoutHelper.fontFittingText(updatedText.text,
+                                                        in: boundingBox.size,
+                                                        fontName: text.style.fontName!,
+                                                        scaleUp: scaleUp,
+                                                        currentFontSize: updatedText.style.fontSize!)
+    
+    updatedText.style.fontSize = updatedFont
+    
+    return updatedText
+  }
+  
+  private func textBoundingBox(for text: Text) -> CGRect {
+    let frameBounds = CGRect(origin: .zero, size: text.frame.size)
+    
+    let insets = NSEdgeInsets(top: 0,
+                              left: TextLayoutHelper.containerLinePadding,
+                              bottom: 0,
+                              right: TextLayoutHelper.containerLinePadding)
+    
+    return frameBounds.insetBy(dx: insets.left + insets.right, dy: insets.bottom + insets.top)
   }
 }

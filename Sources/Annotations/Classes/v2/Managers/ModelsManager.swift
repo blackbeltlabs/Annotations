@@ -3,6 +3,23 @@ import Combine
 import Cocoa
 
 
+protocol RenderingType {
+  
+}
+
+enum TextRenderingType: RenderingType {
+  case resize
+  case scale
+  case textEditingUpdate
+}
+
+struct RenderedModel {
+  let model: AnnotationModel
+  let renderingType: RenderingType?
+  
+  var id: String { model.id }
+}
+
 public class ModelsManager {
   
   // MARK: - Dependencies
@@ -12,9 +29,9 @@ public class ModelsManager {
   
   // MARK: - Models
   private let models = CurrentValueSubject<AnnotationModelsSet, Never>(.init([]))
-  let selectedModel = CurrentValueSubject<AnnotationModel?, Never>(nil)
   
-  let beingCreatedModel = CurrentValueSubject<AnnotationModel?, Never>(nil)
+  let selectedModel = CurrentValueSubject<RenderedModel?, Never>(nil)
+  let beingCreatedModel = CurrentValueSubject<RenderedModel?, Never>(nil)
   
   // MARK: - Combine
   public var commonCancellables = Set<AnyCancellable>()
@@ -89,12 +106,12 @@ public class ModelsManager {
         guard let self else { return }
       
         if let previousSelection, previousSelection.id != currentSelection?.id {
-          self.renderer.renderSelection(for: previousSelection, isSelected: false)
+          self.renderer.renderSelection(for: previousSelection.model, isSelected: false)
         }
         
         if let currentSelection {
-          self.renderer.render([currentSelection])
-          self.renderer.renderSelection(for: currentSelection, isSelected: true)
+          self.renderer.render(currentSelection)
+          self.renderer.renderSelection(for: currentSelection.model, isSelected: true)
         }
         
       }
@@ -104,7 +121,7 @@ public class ModelsManager {
       .compactMap { $0 }
       .sink { [weak self] model in
         guard let self = self else { return }
-        self.renderer.render([model])
+        self.renderer.render(model)
       }
       .store(in: &commonCancellables)
     
@@ -117,7 +134,7 @@ public class ModelsManager {
         guard let self else { return }
         // if there is a selected annotation then update its color
         // and update it in models storage
-        guard var selectedAnnotation = self.selectedModel.value else { return }
+        guard var selectedAnnotation = self.selectedModel.value?.model else { return }
           
         selectedAnnotation.color = color
         self.update(model: selectedAnnotation)
@@ -149,12 +166,17 @@ public class ModelsManager {
   
   public func deleteSelectedModel() {
     guard let value = selectedModel.value else { return }
-    delete(model: value)
+    delete(model: value.model)
   }
   
   public func select(model: AnnotationModel) {
+    select(model: model, renderingType: nil)
+  }
+  
+  func select(model: AnnotationModel, renderingType: RenderingType?) {
     guard models.value.contains(model) else { return }
-    selectedModel.send(model)
+    selectedModel.send(.init(model: model,
+                             renderingType: renderingType))
   }
   
   public func deselect() {
@@ -204,7 +226,7 @@ extension ModelsManager: MouseInteractionHandlerDataSource {
   }
   
   var selectedAnnotation: AnnotationModel? {
-    selectedModel.value
+    selectedModel.value?.model
   }
   
   var createMode: CanvasItemType? {
@@ -216,6 +238,7 @@ extension ModelsManager: MouseInteractionHandlerDataSource {
   }
   
   func renderNew(_ model: AnnotationModel?) {
-    beingCreatedModel.send(model)
+    let renderingModel: RenderedModel? = model.map { .init(model: $0, renderingType: nil) }
+    beingCreatedModel.send(renderingModel)
   }
 }

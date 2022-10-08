@@ -66,9 +66,11 @@ class TextFrameTransformer {
     updateTextViewSize(size: CGSize(width: width,
                                     height: height))
     
+    let fontT = NSFont(descriptor: textView.font!.fontDescriptor, size: 1.0)
+    
     let font = fontSizeHelper.fontFittingText(textView.string,
                                               in: textView.textBoundingBox.size,
-                                              fontDescriptor: textView.font!.fontDescriptor)
+                                              fontDescriptor: fontT!.fontDescriptor)
     textContainerView?.font = font
   }
   

@@ -20,7 +20,7 @@ public struct Text: AnnotationModel, TwoPointsModel, RectBased {
     public static var mockText1: Text {
       .init(color: .zero,
             zPosition: 1,
-            style: .init(fontName: "Apple Chancery", foregroundColor: .init(red: 0.1, green: 0.2, blue: 0.3, alpha: 1.0)),
+            style: .init(fontName: "Apple Chancery", fontSize: 10.0, foregroundColor: .init(red: 0.1, green: 0.2, blue: 0.3, alpha: 1.0)),
             text: "Blackbelt Labs",
             origin: .init(x: 50, y: 50),
             to: .init(x: 200, y: 200))

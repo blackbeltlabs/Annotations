@@ -230,10 +230,25 @@ extension DrawableCanvasView: RendererCanvas {
     layer.zPosition = zPosition
   }
   
-  func renderText(text: Text) {
+  func renderText(text: Text, rendererType: TextRenderingType?) {
     // FIXME: - Implement update here
     if let textAnnotation = drawable(with: text.id) as? TextAnnotationView {
-      renderTextAnnotation(textAnnotation, with: text)
+      
+      if let renderingType = rendererType {
+        switch renderingType {
+        case .resize:
+          textAnnotation.frame = text.frame
+        case .scale:
+          textAnnotation.frame = text.frame
+          let newFont = text.style.attributes[.font] as! NSFont
+          print("New font size = \(newFont.pointSize)")
+          textAnnotation.font = newFont
+        case .textEditingUpdate:
+          textAnnotation.frame = text.frame
+        }
+      } else {
+        renderTextAnnotation(textAnnotation, with: text)
+      }
     } else {
       let textView = TextAnnotationView(frame: frame)
       textView.setLinePadding(TextLayoutHelper.singleLinePadding)
