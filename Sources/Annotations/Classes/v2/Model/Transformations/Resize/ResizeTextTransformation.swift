@@ -1,4 +1,5 @@
 import Foundation
+import Cocoa
 
 private enum ResizeSideType {
   case fromRightToLeft
@@ -13,7 +14,8 @@ class ResizeTextTransformation: ResizeTransformation {
     case .resizeRight:
       return resizeRightToLeft(delta: delta, text: annotation, type: .fromRightToLeft)
     case .bottomScale:
-      return annotation
+      return bottomScale(delta: delta, text: annotation)
+      //return annotation
     }
   }
   
@@ -24,6 +26,49 @@ class ResizeTextTransformation: ResizeTransformation {
     
     return updatedText
   }
+  
+  private func bottomScale(delta: CGVector, text: Text) -> Text {
+    let minimumTextViewHeight: CGFloat = 10.0
+
+    let height = text.frame.size.height + delta.dy
+    
+    if height < minimumTextViewHeight {
+      return text
+    }
+    
+    
+    var updatedText = text
+    updatedText.frame = CGRect(origin: updatedText.frame.origin,
+                               size: .init(width: updatedText.frame.size.width,
+                                           height: height))
+    
+    if let font = font(from: text.style) {
+      let updatedFont = FontsLayoutHelper.fontFittingText(updatedText.text,
+                                                          in: updatedText.frame.size,
+                                                          fontDescriptor: font.fontDescriptor)
+      updatedText.style.fontSize = updatedFont!.pointSize
+    }
+    
+    return updatedText
+  }
+  
+  private func textBoundingBox(for text: Text) -> CGRect {
+    let frameBounds = CGRect(origin: .zero, size: text.frame.size)
+    
+    let insets = NSEdgeInsets(top: 0,
+                              left: TextLayoutHelper.singleLinePadding,
+                              bottom: 0,
+                              right: TextLayoutHelper.singleLinePadding)
+    
+    return frameBounds.insetBy(dx: insets.left + insets.right, dy: insets.bottom + insets.top)
+  }
+  
+  
+  private func font(from textParams: TextParams) -> NSFont? {
+    guard let fontName = textParams.fontName else { return nil }
+    return NSFont(name: fontName, size: 20)
+  }
+  
   
   private func resizeRightToLeft(_ frame: CGRect, attributedText: NSAttributedString, delta: CGVector, type: ResizeSideType) -> CGRect {
     let minimumTextViewWidth: CGFloat = 50.0
