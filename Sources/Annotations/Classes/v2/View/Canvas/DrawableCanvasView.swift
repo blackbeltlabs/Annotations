@@ -236,9 +236,9 @@ extension DrawableCanvasView: RendererCanvas {
       renderTextAnnotation(textAnnotation, with: text)
     } else {
       let textView = TextAnnotationView(frame: frame)
+      textView.setLinePadding(TextLayoutHelper.singleLinePadding)
       self.addSubview(textView)
       renderTextAnnotation(textView, with: text)
-      startEditingText(for: text.id)
       stopEditingText(for: text.id)
     }
   }

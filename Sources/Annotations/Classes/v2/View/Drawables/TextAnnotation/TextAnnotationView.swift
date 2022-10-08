@@ -129,6 +129,10 @@ class TextAnnotationView: NSView, DrawableElement {
     }
   }
   
+  func setLinePadding(_ padding: CGFloat) {
+    textView.textContainer?.lineFragmentPadding = padding
+    legibilityTextView.textContainer?.lineFragmentPadding = padding
+  }
 }
 
 extension TextAnnotationView: NSTextViewDelegate {

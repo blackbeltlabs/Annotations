@@ -9,6 +9,8 @@ public class ResizeTransformationFactory {
       return ResizeRectTransformation().resizedAnnotation(rect, knobType: knob, delta: delta)
     case (let number as Number, let knob as RectKnobType):
       return ResizeNumberTransformation().resizedAnnotation(number, knobType: knob, delta: delta)
+    case (let text as Text, let knob as TextKnobType):
+      return ResizeTextTransformation().resizedAnnotation(text, knobType: knob, delta: delta)
     default:
       return annotation
     }

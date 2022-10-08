@@ -1,6 +1,5 @@
 import Foundation
 
-
 class ResizeRectTransformation: ResizeTransformation {
   
   private static var originPoint: CGPoint?

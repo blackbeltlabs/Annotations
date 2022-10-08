@@ -47,3 +47,10 @@ extension Text {
     self.frame = currentFrame
   }
 }
+
+
+extension Text {
+  var attributedText: NSAttributedString {
+    NSAttributedString(string: text, attributes: style.attributes)
+  }
+}
