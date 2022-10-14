@@ -133,6 +133,13 @@ public class ModelsManager {
       .receive(on: DispatchQueue.main)
       .sink { [weak self] color in
         guard let self else { return }
+        
+        // a text annotation can be edited so need to handle that in mouseInteractionHandler
+        if self.mouseInteractionHandler.isEditingMode {
+          self.mouseInteractionHandler.handleColorUpdateForEditedAnnotation(color)
+          return
+        }
+        
         // if there is a selected annotation then update its color
         // and update it in models storage
         guard var selectedAnnotation = self.selectedModel.value?.model else { return }

@@ -67,32 +67,22 @@ class MouseInteractionHandler {
   
   private var textCouldBeEdited: Bool = false
   
-  private var isCreateMode: Bool {
-    textAnnotationsManager.createMode
+  var isEditingMode: Bool {
+    textAnnotationsManager.isEditing
   }
-  
-  let createColor: CurrentValueSubject<ModelColor, Never> = .init(.defaultColor())
-  
-  private var cancellables = Set<AnyCancellable>()
+
+
   
   init(textAnnotationsManager: TextAnnotationsManager, positionsHandler: PositionHandler) {
     self.textAnnotationsManager = textAnnotationsManager
     self.positionsHandler = positionsHandler
-    
-    setupPublishers()
   }
   
-  func setupPublishers() {
-    createColor
-      .sink { [weak self] color in
-        guard let self = self else { return }
-        if self.textAnnotationsManager.createMode {
-          self.textAnnotationsManager.updateEditingText(with: color)
-          self.dataSource?.select(model: self.textAnnotationsManager.editingText!,
-                                  renderingType: nil)
-        }
-    }
-    .store(in: &cancellables)
+  func handleColorUpdateForEditedAnnotation(_ color: ModelColor) {
+    guard textAnnotationsManager.isEditing else { return }
+    self.textAnnotationsManager.updateEditingText(with: color)
+    self.dataSource?.select(model: self.textAnnotationsManager.editingText!,
+                            renderingType: nil)
   }
   
   func handleMouseDown(point: CGPoint) {
@@ -273,7 +263,7 @@ class MouseInteractionHandler {
     }
   
     if let modifiedAnnotation = possibleMovement.modifiedAnnotation {
-      if textAnnotationsManager.createMode, let text = modifiedAnnotation as? Text {
+      if textAnnotationsManager.isEditing, let text = modifiedAnnotation as? Text {
         textAnnotationsManager.updateEditingText(text)
         return
       }
