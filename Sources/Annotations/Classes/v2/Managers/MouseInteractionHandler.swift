@@ -13,9 +13,8 @@ protocol MouseInteractionHandlerDataSource: AnyObject {
   func select(model: AnnotationModel)
   
   func select(model: AnnotationModel, renderingType: RenderingType?)
+  func select(model: AnnotationModel, renderingType: RenderingType?, checkIfContainsInModelsSet: Bool)
   func deselect()
-  
-  func renderNew(_ model: AnnotationModel?)
 }
 
 private struct PossibleDragging {
@@ -70,11 +69,11 @@ class MouseInteractionHandler {
   
   func handleMouseDown(point: CGPoint) {
     guard let dataSource = dataSource else { return }
-   
-    let annotations = dataSource.annotations.sorted(by: { $0.zPosition > $1.zPosition })
+       
     
     // if annotation was selected before
     // try to select knobs
+    // or if it is a create mode for text annotation then can transform it during creation
     if let selectedAnnotation = dataSource.selectedAnnotation,
        let knobPair = KnobsFactory.knobPair(for: selectedAnnotation) {
       
@@ -88,11 +87,23 @@ class MouseInteractionHandler {
       }
     }
     
+    // if not knob was selected and there was a create mode of text annotations
+    // then need to complete its creation and add to canvas
+    if textAnnotationsManager.createMode {
+      guard let text = textAnnotationsManager.cancelEditing().model else { return }
+      dataSource.deselect()
+      dataSource.update(model: text)
+      return
+    }
+    
+    let annotations = dataSource.annotations.sorted(by: { $0.zPosition > $1.zPosition })
+    
     for annotation in annotations {
       let selectionPath = SelectionPathFactory.selectionPath(for: annotation)
       if let selectionPath, selectionPath.contains(point) {
         
-        // this annotation was already selected
+        // if this is a text annotation, and text annotation was already selected
+        // then it could be edited on double tap
         if annotation.id == dataSource.selectedAnnotation?.id,
            annotation is Text {
           textCouldBeEdited = true
@@ -113,7 +124,6 @@ class MouseInteractionHandler {
         
         possibleMovement = .init(lastDraggedPoint: point,
                                  type: .move)
-        
         return
       }
     }
@@ -137,6 +147,18 @@ class MouseInteractionHandler {
                                             color: dataSource.createColor)
         dataSource.update(model: number)
         dataSource.select(model: number)
+      } else if createMode == .text {
+        let newText = TextAnnotationsManager.createNewTextAnnotation(from: point,
+                                                                     color: dataSource.createColor,
+                                                                     zPosition: newZPosition,
+                                                                     textStyle: textAnnotationsManager.textStyle)
+        
+        dataSource.select(model: newText, renderingType: nil, checkIfContainsInModelsSet: false)
+        
+        textAnnotationsManager.handleTextEditing(for: newText, createMode: true) { text in
+          dataSource.select(model: text,
+                            renderingType: TextRenderingType.textEditingUpdate)
+        }
       } else {
         possibleMovement = .init(lastDraggedPoint: point, type: .create(createMode))
       }
@@ -177,7 +199,9 @@ class MouseInteractionHandler {
       
       guard let beingCreatedAnnotation else { return }
       
-      dataSource.renderNew(beingCreatedAnnotation)
+      dataSource.select(model: beingCreatedAnnotation,
+                        renderingType: CommonRenderingType.dontRenderSelection,
+                        checkIfContainsInModelsSet: false)
       self.possibleMovement = possibleMovement.copy(with: point,
                                                     modifiedAnnotation: beingCreatedAnnotation)
     case .move:
@@ -199,7 +223,7 @@ class MouseInteractionHandler {
                                                                             knob: knobType,
                                                                             delta: delta)
       
-      dataSource.select(model: updatedAnnotation, renderingType: renderingType(for: knobType))
+      dataSource.select(model: updatedAnnotation, renderingType: renderingType(for: knobType), checkIfContainsInModelsSet: false)
       self.possibleMovement = possibleMovement.copy(with: point,
                                                     modifiedAnnotation: updatedAnnotation)
     }
@@ -220,25 +244,31 @@ class MouseInteractionHandler {
   func handleMouseUp(point: CGPoint) {
     guard let dataSource = dataSource else { return }
     guard let possibleMovement else { return }
+    
+    defer {
+      self.possibleMovement = nil
+    }
   
     if let modifiedAnnotation = possibleMovement.modifiedAnnotation {
+      if textAnnotationsManager.createMode, let text = modifiedAnnotation as? Text {
+        textAnnotationsManager.updateEditingText(text)
+        return
+      }
+      
       dataSource.update(model: modifiedAnnotation)
       // select annotation that just was created
       if possibleMovement.isCreateMode {
-        dataSource.renderNew(nil)
         dataSource.select(model: modifiedAnnotation)
       }
     } else {
       if let selectedAnnotation = dataSource.selectedAnnotation as? Text,
          textCouldBeEdited {
         textAnnotationsManager.handleTextEditing(for: selectedAnnotation) { text in
-          dataSource.select(model: text, renderingType: TextRenderingType.textEditingUpdate)
+          dataSource.select(model: text, renderingType: TextRenderingType.textEditingUpdate, checkIfContainsInModelsSet: false)
         }
         textCouldBeEdited = false
       }
     }
-
-    self.possibleMovement = nil
   }
 }
 
@@ -268,7 +298,6 @@ extension MouseInteractionHandler {
 }
 
 // MARK: - Numbers
-
 extension MouseInteractionHandler {
   fileprivate var nextModelNumber: Int {
     dataSource!.annotations.compactMap { $0 as? Number }.count + 1

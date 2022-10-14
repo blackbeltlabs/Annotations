@@ -129,6 +129,10 @@ class Renderer {
   func renderText(_ model: Text, rendererType: TextRenderingType?) {
     canvasView?.renderText(text: model,
                            rendererType: rendererType)
+    
+    if rendererType == .newModel {
+      renderSelection(for: model, isSelected: true)
+    }
   }
   
   func renderObfuscatedAreaBackground(type: ObfuscatedAreaType) {

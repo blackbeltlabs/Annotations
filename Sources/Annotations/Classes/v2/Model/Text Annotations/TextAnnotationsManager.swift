@@ -16,12 +16,39 @@ class TextAnnotationsManager {
   private var editCancellable: AnyCancellable?
   
   private var startEditingString: String = ""
-  var editingText: Text?
+  private var editingText: Text?
   
   private var updatedTextAnnotationClosure: ((Text) -> Void)?
   
   
-  func handleTextEditing(for text: Text, onUpdate: @escaping (Text) -> Void) {
+  private(set) var createMode: Bool = false
+    
+  
+  static func createNewTextAnnotation(from point: CGPoint,
+                                      color: ModelColor,
+                                      zPosition: CGFloat,
+                                      textStyle: TextParams) -> Text {
+    
+    let bestSize = TextLayoutHelper.bestSizeWithAttributes(for: "",
+                                                           attributes: textStyle.attributes)
+    
+    return Text(color: color,
+                zPosition: zPosition,
+                style: textStyle,
+                legibilityEffectEnabled: false,
+                text: "",
+                origin: point.modelPoint,
+                to: .init(x: point.x + bestSize.width,
+                          y: point.y + bestSize.height))
+  }
+  
+  
+  func handleTextEditing(for text: Text, createMode: Bool = false, onUpdate: @escaping (Text) -> Void) {
+    
+    if createMode {
+      self.createMode = createMode
+    }
+    
     editingText = text
     self.startEditingString = text.text
     editCancellable = source?.startEditingText(for: text.id)?.sink(receiveValue: { [weak self] textString in
@@ -33,8 +60,15 @@ class TextAnnotationsManager {
     self.updatedTextAnnotationClosure = onUpdate
   }
   
+  func updateEditingText(_ text: Text) {
+    self.editingText = text
+  }
+
   func cancelEditing() -> (model: Text?, textWasUpdated: Bool) {
     guard let editingId = editingText?.id else { return (nil, false) }
+    if createMode {
+      createMode = false
+    }
     return cancelEditing(for: editingId)
   }
   
@@ -70,5 +104,4 @@ class TextAnnotationsManager {
     
     updatedTextAnnotationClosure?(updatedText)
   }
-  
 }

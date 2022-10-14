@@ -245,6 +245,8 @@ extension DrawableCanvasView: RendererCanvas {
           textAnnotation.font = newFont
         case .textEditingUpdate:
           textAnnotation.frame = text.frame
+        case .newModel:
+          renderTextAnnotation(textAnnotation, with: text)
         }
       } else {
         renderTextAnnotation(textAnnotation, with: text)

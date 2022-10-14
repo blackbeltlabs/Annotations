@@ -7,7 +7,13 @@ protocol RenderingType {
   
 }
 
+
+enum CommonRenderingType: RenderingType {
+  case dontRenderSelection
+}
+
 enum TextRenderingType: RenderingType {
+  case newModel
   case resize
   case scale
   case textEditingUpdate
@@ -31,7 +37,6 @@ public class ModelsManager {
   private let models = CurrentValueSubject<AnnotationModelsSet, Never>(.init([]))
   
   let selectedModel = CurrentValueSubject<RenderedModel?, Never>(nil)
-  let beingCreatedModel = CurrentValueSubject<RenderedModel?, Never>(nil)
   
   // MARK: - Combine
   public var commonCancellables = Set<AnyCancellable>()
@@ -90,7 +95,6 @@ public class ModelsManager {
     }
     .store(in: &commonCancellables)
    
-    
     // SELECTION
    let selectionPreviousCurrent =
     selectedModel
@@ -101,7 +105,7 @@ public class ModelsManager {
     // and select the current one
     Publishers.CombineLatest(viewSizeUpdate, selectionPreviousCurrent)
       .map(\.1)
-      .receive(on: DispatchQueue.main)
+  //    .receive(on: DispatchQueue.main) FIXME: - handle custom receive here
       .sink { [weak self] (previousSelection, currentSelection) in
         guard let self else { return }
       
@@ -111,20 +115,17 @@ public class ModelsManager {
         
         if let currentSelection {
           self.renderer.render(currentSelection)
+          
+          if let renderingType = currentSelection.renderingType as? CommonRenderingType,
+             renderingType == .dontRenderSelection {
+            return
+          }
+
           self.renderer.renderSelection(for: currentSelection.model, isSelected: true)
         }
         
       }
       .store(in: &commonCancellables)
-    
-    beingCreatedModel
-      .compactMap { $0 }
-      .sink { [weak self] model in
-        guard let self = self else { return }
-        self.renderer.render(model)
-      }
-      .store(in: &commonCancellables)
-    
     
     // COLOR
     createColorSubject
@@ -137,7 +138,11 @@ public class ModelsManager {
         guard var selectedAnnotation = self.selectedModel.value?.model else { return }
           
         selectedAnnotation.color = color
-        self.update(model: selectedAnnotation)
+        
+        // update in models storage only if exists
+        if self.models.value.contains(selectedAnnotation) {
+          self.update(model: selectedAnnotation)
+        }
       }
       .store(in: &commonCancellables)
   }
@@ -170,11 +175,17 @@ public class ModelsManager {
   }
   
   public func select(model: AnnotationModel) {
-    select(model: model, renderingType: nil)
+    select(model: model, renderingType: nil, checkIfContainsInModelsSet: true)
   }
   
   func select(model: AnnotationModel, renderingType: RenderingType?) {
-    guard models.value.contains(model) else { return }
+    select(model: model, renderingType: renderingType, checkIfContainsInModelsSet: false)
+  }
+  
+  func select(model: AnnotationModel, renderingType: RenderingType?, checkIfContainsInModelsSet: Bool) {
+    if checkIfContainsInModelsSet {
+      guard models.value.contains(model) else { return }
+    }
     selectedModel.send(.init(model: model,
                              renderingType: renderingType))
   }
@@ -235,10 +246,5 @@ extension ModelsManager: MouseInteractionHandlerDataSource {
   
   var createColor: ModelColor {
     createColorSubject.value
-  }
-  
-  func renderNew(_ model: AnnotationModel?) {
-    let renderingModel: RenderedModel? = model.map { .init(model: $0, renderingType: nil) }
-    beingCreatedModel.send(renderingModel)
   }
 }
