@@ -67,7 +67,6 @@ class Renderer {
     }
   }
   
-  
   func renderFigure(_ model: Figure) {
     guard let path = PathFactory.path(for: model) else {
       fatalError("Can`t instantiate path for model = \(model)")

@@ -72,7 +72,6 @@ class MouseInteractionHandler {
   }
 
 
-  
   init(textAnnotationsManager: TextAnnotationsManager, positionsHandler: PositionHandler) {
     self.textAnnotationsManager = textAnnotationsManager
     self.positionsHandler = positionsHandler
