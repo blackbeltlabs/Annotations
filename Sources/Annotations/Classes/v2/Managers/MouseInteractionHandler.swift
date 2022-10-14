@@ -62,17 +62,18 @@ class MouseInteractionHandler {
   private var possibleMovement: PossibleDragging?
   
   let textAnnotationsManager: TextAnnotationsManager
+  let positionsHandler: PositionHandler
   
   var textCouldBeEdited: Bool = false
   
-  init(textAnnotationsManager: TextAnnotationsManager) {
+  init(textAnnotationsManager: TextAnnotationsManager, positionsHandler: PositionHandler) {
     self.textAnnotationsManager = textAnnotationsManager
+    self.positionsHandler = positionsHandler
   }
   
   func handleMouseDown(point: CGPoint) {
     guard let dataSource = dataSource else { return }
        
-    
     // if annotation was selected before
     // try to select knobs
     // or if it is a create mode for text annotation then can transform it during creation
@@ -120,13 +121,13 @@ class MouseInteractionHandler {
           textCouldBeEdited = true
         }
               
-        let maxZPosition = self.maxZPosition
+        let maxZPosition = positionsHandler.maxZPosition
         
         // update zPosition if needed
         if annotation.zPosition < maxZPosition,
-           makesSenseToUpdateZPosition(for: annotation) {
+           positionsHandler.makesSenseToUpdateZPosition(for: annotation) {
           var updatedAnnotation = annotation
-          updatedAnnotation.zPosition = self.newZPosition
+          updatedAnnotation.zPosition = positionsHandler.newZPosition
           dataSource.update(model: updatedAnnotation)
           dataSource.select(model: updatedAnnotation)
         } else {
@@ -154,14 +155,14 @@ class MouseInteractionHandler {
         let number = Number.modelWithRadius(centerPoint: point.modelPoint,
                                             radius: Number.defaultRadius,
                                             value: nextModelNumber,
-                                            zPosition: newZPosition,
+                                            zPosition: positionsHandler.newZPosition,
                                             color: dataSource.createColor)
         dataSource.update(model: number)
         dataSource.select(model: number)
       } else if createMode == .text {
         let newText = TextAnnotationsManager.createNewTextAnnotation(from: point,
                                                                      color: dataSource.createColor,
-                                                                     zPosition: newZPosition,
+                                                                     zPosition: positionsHandler.newZPosition,
                                                                      textStyle: textAnnotationsManager.textStyle)
         
         dataSource.select(model: newText, renderingType: nil, checkIfContainsInModelsSet: false)
@@ -203,7 +204,7 @@ class MouseInteractionHandler {
           return ModelsCreator.createModelFromTwoPoints(createModeType: createMode,
                                                         first: possibleMovement.lastDraggedPoint,
                                                         second: point,
-                                                        zPosition: newZPosition,
+                                                        zPosition: positionsHandler.newZPosition,
                                                         color: dataSource.createColor)
         }
       }()
@@ -240,18 +241,6 @@ class MouseInteractionHandler {
     }
   }
   
-  private func renderingType(for knobType: KnobType) -> RenderingType? {
-    guard let knobType = knobType as? TextKnobType else { return nil }
-    switch knobType {
-    case .resizeLeft:
-      return TextRenderingType.resize
-    case .resizeRight:
-      return TextRenderingType.resize
-    case .bottomScale:
-      return TextRenderingType.scale
-    }
-  }
-  
   func handleMouseUp(point: CGPoint) {
     guard let dataSource = dataSource else { return }
     guard let possibleMovement else { return }
@@ -283,28 +272,18 @@ class MouseInteractionHandler {
   }
 }
 
-// MARK: - Z Positions
+// customise rendering type for some kind of updates
 extension MouseInteractionHandler {
-  fileprivate var maxZPosition: CGFloat {
-      dataSource!
-      .annotations
-      .map(\.zPosition)
-      .max() ?? 0
-  }
-  
-  fileprivate var newZPosition: CGFloat {
-    return maxZPosition + 1
-  }
-  
-  // no need to update for obfuscate and higlight tools as not supported now
-  func makesSenseToUpdateZPosition(for model: AnnotationModel) -> Bool {
-    if let rect = model as? Rect {
-      if rect.rectType == .highlight || rect.rectType == .obfuscate {
-        return false
-      }
+  private func renderingType(for knobType: KnobType) -> RenderingType? {
+    guard let knobType = knobType as? TextKnobType else { return nil }
+    switch knobType {
+    case .resizeLeft:
+      return TextRenderingType.resize
+    case .resizeRight:
+      return TextRenderingType.resize
+    case .bottomScale:
+      return TextRenderingType.scale
     }
-    
-    return true
   }
 }
 

@@ -7,11 +7,16 @@ public final class AnnotationsCanvasFactory {
     let canvasView = DrawableCanvasView(frame: .zero)
     let renderer = Renderer(canvasView: canvasView)
     let textAnnotationsManager = TextAnnotationsManager()
-    let mouseInteractionHandler = MouseInteractionHandler(textAnnotationsManager: textAnnotationsManager)
+    
+    let positionsHandler = PositionHandler()
+    let mouseInteractionHandler = MouseInteractionHandler(textAnnotationsManager: textAnnotationsManager,
+                                                          positionsHandler: positionsHandler)
     let history = customHistory ?? SharedHistory()
     let modelsManager = ModelsManager(renderer: renderer,
                                       mouseInteractionHandler: mouseInteractionHandler,
                                       history: history)
+    
+    positionsHandler.dataSource = modelsManager
     mouseInteractionHandler.dataSource = modelsManager
     mouseInteractionHandler.renderer = renderer
     textAnnotationsManager.source = canvasView

@@ -231,7 +231,7 @@ public class ModelsManager {
 
 
 // MARK: - MouseInteractionHandlerDataSource
-extension ModelsManager: MouseInteractionHandlerDataSource {
+extension ModelsManager: MouseInteractionHandlerDataSource, PositionHandlerDataSource {
   var annotations: [AnnotationModel] {
     models.value.all
   }
