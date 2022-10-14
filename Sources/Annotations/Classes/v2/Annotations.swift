@@ -44,6 +44,11 @@ public final class AnnotationsCanvasFactory {
       .assign(to: \.isUserInteractionEnabled, on: canvasView)
       .store(in: &canvasView.commonCancellables)
     
+    modelsManager
+      .createColorSubject
+      .assign(to: \.value, on: mouseInteractionHandler.createColor)
+      .store(in: &modelsManager.commonCancellables)
+    
     // Mouse events
     canvasView
       .mouseDownSubject

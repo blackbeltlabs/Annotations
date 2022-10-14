@@ -144,6 +144,19 @@ class TextAnnotationView: NSView, DrawableElement {
       legibilityTextView.font = newValue
     }
   }
+  
+  var color: NSColor {
+    set {
+      var currentTypingAttributes = textView.typingAttributes
+      currentTypingAttributes[.foregroundColor] = newValue
+      textView.updateTypingAttributes(currentTypingAttributes)
+      textView.insertionPointColor = color
+      textView.needsDisplay = true
+    }
+    get {
+      textView.typingAttributes[.foregroundColor] as? NSColor ?? .black
+    }
+  }
 }
 
 extension TextAnnotationView: NSTextViewDelegate {

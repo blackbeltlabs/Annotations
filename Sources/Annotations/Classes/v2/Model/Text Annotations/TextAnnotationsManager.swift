@@ -16,7 +16,7 @@ class TextAnnotationsManager {
   private var editCancellable: AnyCancellable?
   
   private var startEditingString: String = ""
-  private var editingText: Text?
+  private(set) var editingText: Text?
   
   private var updatedTextAnnotationClosure: ((Text) -> Void)?
   
@@ -61,6 +61,12 @@ class TextAnnotationsManager {
   }
   
   func updateEditingText(_ text: Text) {
+    self.editingText = text
+  }
+  
+  func updateEditingText(with color: ModelColor) {
+    guard var text = editingText else { return }
+    text.color = color
     self.editingText = text
   }
 

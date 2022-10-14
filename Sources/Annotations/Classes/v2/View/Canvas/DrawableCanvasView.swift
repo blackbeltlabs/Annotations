@@ -270,9 +270,14 @@ extension DrawableCanvasView: RendererCanvas {
     if annotation.string != textModel.text {
       annotation.string = textModel.text
     }
-    annotation.setStyle(textModel.style)
+    
+    var style = textModel.style
+    style.foregroundColor = textModel.color
+    
+    annotation.setStyle(style)
     annotation.setLegibilityEffectEnabled(textModel.legibilityEffectEnabled)
     annotation.setZPosition(textModel.zPosition)
+    
     //annotation.isEditable = false
   }
   

@@ -1,5 +1,6 @@
 import Foundation
 import CoreGraphics
+import Combine
 
 protocol MouseInteractionHandlerDataSource: AnyObject {
   var annotations: [AnnotationModel] { get }
@@ -61,14 +62,37 @@ class MouseInteractionHandler {
   
   private var possibleMovement: PossibleDragging?
   
-  let textAnnotationsManager: TextAnnotationsManager
-  let positionsHandler: PositionHandler
+  private let textAnnotationsManager: TextAnnotationsManager
+  private let positionsHandler: PositionHandler
   
-  var textCouldBeEdited: Bool = false
+  private var textCouldBeEdited: Bool = false
+  
+  private var isCreateMode: Bool {
+    textAnnotationsManager.createMode
+  }
+  
+  let createColor: CurrentValueSubject<ModelColor, Never> = .init(.defaultColor())
+  
+  private var cancellables = Set<AnyCancellable>()
   
   init(textAnnotationsManager: TextAnnotationsManager, positionsHandler: PositionHandler) {
     self.textAnnotationsManager = textAnnotationsManager
     self.positionsHandler = positionsHandler
+    
+    setupPublishers()
+  }
+  
+  func setupPublishers() {
+    createColor
+      .sink { [weak self] color in
+        guard let self = self else { return }
+        if self.textAnnotationsManager.createMode {
+          self.textAnnotationsManager.updateEditingText(with: color)
+          self.dataSource?.select(model: self.textAnnotationsManager.editingText!,
+                                  renderingType: nil)
+        }
+    }
+    .store(in: &cancellables)
   }
   
   func handleMouseDown(point: CGPoint) {
@@ -150,7 +174,6 @@ class MouseInteractionHandler {
     }
     
     if let createMode = dataSource.createMode {
-      
       if createMode == .number {
         let number = Number.modelWithRadius(centerPoint: point.modelPoint,
                                             radius: Number.defaultRadius,
@@ -165,7 +188,7 @@ class MouseInteractionHandler {
                                                                      zPosition: positionsHandler.newZPosition,
                                                                      textStyle: textAnnotationsManager.textStyle)
         
-        dataSource.select(model: newText, renderingType: nil, checkIfContainsInModelsSet: false)
+        dataSource.select(model: newText, renderingType: nil)
         
         textAnnotationsManager.handleTextEditing(for: newText, createMode: true) { text in
           dataSource.select(model: text,
@@ -270,6 +293,7 @@ class MouseInteractionHandler {
       }
     }
   }
+  
 }
 
 // customise rendering type for some kind of updates
