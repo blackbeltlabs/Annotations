@@ -13,6 +13,7 @@ public final class AnnotationsCanvasFactory {
                                       mouseInteractionHandler: mouseInteractionHandler,
                                       history: history)
     mouseInteractionHandler.dataSource = modelsManager
+    mouseInteractionHandler.renderer = renderer
     textAnnotationsManager.source = canvasView
     setupPublishers(canvasView: canvasView,
                     modelsManager: modelsManager,

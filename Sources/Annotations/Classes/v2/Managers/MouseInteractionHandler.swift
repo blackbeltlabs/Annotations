@@ -14,6 +14,7 @@ protocol MouseInteractionHandlerDataSource: AnyObject {
   
   func select(model: AnnotationModel, renderingType: RenderingType?)
   func select(model: AnnotationModel, renderingType: RenderingType?, checkIfContainsInModelsSet: Bool)
+  
   func deselect()
 }
 
@@ -56,6 +57,7 @@ private enum PossibleDraggingType {
 class MouseInteractionHandler {
   
   weak var dataSource: MouseInteractionHandlerDataSource?
+  weak var renderer: Renderer?
   
   private var possibleMovement: PossibleDragging?
   
@@ -91,8 +93,17 @@ class MouseInteractionHandler {
     // then need to complete its creation and add to canvas
     if textAnnotationsManager.createMode {
       guard let text = textAnnotationsManager.cancelEditing().model else { return }
+      
+      
       dataSource.deselect()
-      dataSource.update(model: text)
+      
+      //if text is empty then need just remove this annotation
+      if text.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+        renderer?.renderRemoval(of: text.id)
+      } else {
+        dataSource.update(model: text)
+      }
+    
       return
     }
     
