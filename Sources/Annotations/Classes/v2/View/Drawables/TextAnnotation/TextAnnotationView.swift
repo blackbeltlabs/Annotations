@@ -17,7 +17,7 @@ class TextAnnotationView: NSView, DrawableElement {
   
   let debugMode: Bool = true
   
-  let textView = TextView(frame: .zero)
+  private let textView = TextView(frame: .zero)
   
   private lazy var legibilityTextView: LegibilityTextView = {
     let textView = LegibilityTextView(frame: .zero)
@@ -162,7 +162,7 @@ class TextAnnotationView: NSView, DrawableElement {
 extension TextAnnotationView: NSTextViewDelegate {
   func textDidChange(_ notification: Notification) {
     guard let textView = notification.object as? NSTextView else { return }
-    
+    legibilityTextView.string = textView.string
     textDidChangedSubject.send(textView.string)
   }
 }

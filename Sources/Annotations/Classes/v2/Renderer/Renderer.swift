@@ -115,10 +115,19 @@ class Renderer {
         
         let rect = TextBordersCreator.bordersRect(for: text)
         let lineWidth = TextBordersCreator.borderLineWidth(for: text)
-        let border = Border.textAnnotationBorder(id: text.id + "10",
+        let border = Border.textAnnotationBorder(id: SelectionsIdManager.generateId(for: .border, of: text.id),
                                                  rect: rect,
                                                  lineWidth: lineWidth)
-        canvasView?.renderSelections([border])
+        
+        let legibilityRect = CGRect(origin: .init(x: rect.origin.x,
+                                                  y: rect.maxY + 4.0), size: .init(width: 23, height: 23))
+        let legibilityControl = LegibilityControl(id: SelectionsIdManager.generateId(for: .legibilityButton, of: text.id),
+                                                  frameRect: legibilityRect,
+                                                  isEnabled: text.legibilityEffectEnabled,
+                                                  zPosition: 3)
+        
+        
+        canvasView?.renderSelections([border, legibilityControl])
       } else {
         canvasView?.renderSelections([])
       }

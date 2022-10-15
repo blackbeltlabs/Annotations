@@ -283,6 +283,22 @@ class MouseInteractionHandler {
     }
   }
   
+  // MARK: - Mouse button presses
+  func handleLegibilityButtonPressed(_ buttonId: String) {
+    guard let textAnnotationId = SelectionsIdManager.extractAnnotationIdFromNumberId(buttonId) else { return }
+    guard var selectedAnnotation = dataSource?.selectedAnnotation as? Text,
+          selectedAnnotation.id == textAnnotationId else { return }
+    
+    selectedAnnotation.legibilityEffectEnabled.toggle()
+    
+    if textAnnotationsManager.isEditing {
+      textAnnotationsManager.updateEditingText(selectedAnnotation)
+      dataSource?.select(model: selectedAnnotation, renderingType: nil)
+    } else {
+      dataSource?.update(model: selectedAnnotation)
+    }
+  }
+  
 }
 
 // customise rendering type for some kind of updates

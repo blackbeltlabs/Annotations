@@ -7,14 +7,27 @@ private enum MouseEventType {
   case up
 }
 
+private class SelectionMainView: NSView {
+  override var isFlipped: Bool { true }
+}
+
 public class DrawableCanvasView: NSView {
   // MARK: - Layers
   let obfuscateLayer: ObfuscateLayer = ObfuscateLayer()
   let higlightsLayer = HiglightsLayer()
   
-  let selectionsLayer = CALayer()
+  let selectionView: NSView = {
+    let view = SelectionMainView()
+    view.wantsLayer = true
+    return view
+  }()
+  
+  var selectionsLayer: CALayer {
+    selectionView.layer!
+  }
   
   private var knobLayers: [CALayer] = []
+  private var selectionViews: [NSView] = []
   
   // MARK: - Touches
   private var trackingArea: NSTrackingArea?
@@ -29,6 +42,9 @@ public class DrawableCanvasView: NSView {
   let mouseDraggedSubject = PassthroughSubject<CGPoint, Never>()
   let mouseUpSubject = PassthroughSubject<CGPoint, Never>()
   
+  let legibilityButtonPressedSubject = PassthroughSubject<String, Never>()
+  let emojiButtonPressedSubject = PassthroughSubject<String, Never>()
+  
   var isUserInteractionEnabled: Bool = true
   
   // MARK: - Cancellables
@@ -42,7 +58,10 @@ public class DrawableCanvasView: NSView {
     
     layer?.addSublayer(obfuscateLayer)
     layer?.addSublayer(higlightsLayer)
-    layer?.addSublayer(selectionsLayer)
+    
+    
+    addSubview(selectionView)
+    //layer?.addSublayer(selectionsLayer)
     
     selectionsLayer.zPosition = 10000000
   }
@@ -62,7 +81,9 @@ public class DrawableCanvasView: NSView {
     super.layout()
     obfuscateLayer.frame = bounds
     higlightsLayer.frame = bounds
-    selectionsLayer.frame = bounds
+    
+    selectionView.frame = bounds
+  //  selectionsLayer.frame = bounds
   }
   
   // MARK: - Tracking areas
@@ -277,8 +298,6 @@ extension DrawableCanvasView: RendererCanvas {
     annotation.setStyle(style)
     annotation.setLegibilityEffectEnabled(textModel.legibilityEffectEnabled)
     annotation.setZPosition(textModel.zPosition)
-    
-    //annotation.isEditable = false
   }
   
   func startEditingText(for id: String) -> AnyPublisher<String, Never>? {
@@ -314,11 +333,11 @@ extension DrawableCanvasView: RendererCanvas {
   func clearAll() {
     drawables.forEach { self.removeDrawable($0) }
     knobLayers.forEach { $0.removeFromSuperlayer() }
+    selectionViews.forEach { $0.removeFromSuperview() }
   }
 }
 
 extension DrawableCanvasView {
-  
   func renderSelections(_ selections: [Selection]) {
     CATransaction.withoutAnimation {
       if selections.isEmpty {
@@ -330,40 +349,58 @@ extension DrawableCanvasView {
         renderOrUpdateSelection(selection)
       }
     }
-    
+  }
+  
+  func getOrCreateSelectionLayer<T: CALayer & DrawableElement>(id: String, creationClosure: (String) -> T) -> T {
+    if let selectionTypeLayer = knobLayers.compactMap({ $0 as? DrawableElement }).first(where: { $0.id == id }) as? T {
+      return selectionTypeLayer
+    } else {
+      let layer = creationClosure(id)
+      selectionsLayer.addSublayer(layer)
+      knobLayers.append(layer)
+      return layer
+    }
   }
   
   func renderOrUpdateSelection(_ selection: Selection) {
     switch selection {
     case let knob as Knob:
-      let layerToRender: ControlKnob
-      if let knobLayer = knobLayers.compactMap({ $0 as? DrawableElement }).first(where: { $0.id == knob.id }) as? ControlKnob {
-        layerToRender = knobLayer
-      } else {
-        layerToRender = createKnobLayer(with: knob.id)
-        selectionsLayer.addSublayer(layerToRender)
-        knobLayers.append(layerToRender)
+      let layerToRender: ControlKnob = getOrCreateSelectionLayer(id: knob.id) { id in
+        createKnobLayer(with: id)
       }
+      
       layerToRender.render(with: knob.frameRect,
                            backgroundColor: NSColor.zapierOrange.cgColor,
                            borderColor: NSColor.knob.cgColor,
                            borderWidth: 1.0)
     case let border as Border:
-      let layerToRender: ControlBorder
+      let layerToRender: ControlBorder = getOrCreateSelectionLayer(id: border.id) { id in
+        createBorderLayer(with: id)
+      }
+      layerToRender.setup(with: border.path, strokeColor: border.color, lineWidth: border.lineWidth)
       
-      if let borderLayer =  knobLayers.compactMap({ $0 as? DrawableElement }).first(where: { $0.id == border.id }) as? ControlBorder {
-        layerToRender = borderLayer
+    case let legibilityControl as LegibilityControl:
+      let buttonToRender: LegibilityControlButton
+      
+      if let button = selectionViews.compactMap({ $0 as? DrawableElement }).first(where: { $0.id == legibilityControl.id }) as? LegibilityControlButton {
+        buttonToRender = button
       } else {
-        layerToRender = createBorderLayer(with: border.id)
-        selectionsLayer.addSublayer(layerToRender)
-        knobLayers.append(layerToRender)
+        buttonToRender = LegibilityControlButton(frame: .zero)
+        buttonToRender.id = legibilityControl.id
+        buttonToRender.target = self
+        buttonToRender.action = #selector(legibilityButtonPressed(_ :))
+        selectionViews.append(buttonToRender)
+        selectionView.addSubview(buttonToRender)
       }
       
-      layerToRender.setup(with: border.path, strokeColor: border.color, lineWidth: border.lineWidth)
+      buttonToRender.setupWith(frame: legibilityControl.frameRect, imageType: legibilityControl.isEnabled ? .enabled : .disabled)
+       
     default:
       break
     }
   }
+  
+  
   
   func createSelectionLayer<T: CALayer & DrawableElement>(of type: T.Type, id: String, zPosition: CGFloat) -> T {
     var selectionLayer = T()
@@ -387,6 +424,17 @@ extension DrawableCanvasView {
     }
 
     knobLayers = []
+    
+    selectionViews.forEach { $0.removeFromSuperview() }
+    selectionViews = []
+  }
+  
+  // MARK: - Actions
+  
+  @objc
+  func legibilityButtonPressed(_ button: LegibilityControlButton) {
+    legibilityButtonPressedSubject.send(button.id)
+    print("Button pressed = \(button.id)")
   }
 
 }
