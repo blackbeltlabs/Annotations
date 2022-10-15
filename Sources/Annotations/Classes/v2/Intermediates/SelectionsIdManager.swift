@@ -19,7 +19,7 @@ class SelectionsIdManager {
   }
   
   static func generateId(with number: Int, appendTo annotationId: String) -> String {
-    String(format: "%@_%d", annotationId, "number")
+    String(format: "%@_%d", annotationId, number)
   }
   
   static func extractAnnotationIdFromNumberId(_ string: String) -> String? {

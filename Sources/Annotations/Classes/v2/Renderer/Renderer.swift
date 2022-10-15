@@ -34,6 +34,8 @@ protocol RendererCanvas: AnyObject {
   
   func renderRemoval(with id: String)
   
+  func presentEmojiesPicker(for textId: String)
+  
   
   func clearAll()
 }
@@ -121,13 +123,25 @@ class Renderer {
         
         let legibilityRect = CGRect(origin: .init(x: rect.origin.x,
                                                   y: rect.maxY + 4.0), size: .init(width: 23, height: 23))
-        let legibilityControl = LegibilityControl(id: SelectionsIdManager.generateId(for: .legibilityButton, of: text.id),
+        let legibilityControl = LegibilityControl(id: SelectionsIdManager.generateId(for: .legibilityButton,
+                                                                                     of: text.id),
                                                   frameRect: legibilityRect,
                                                   isEnabled: text.legibilityEffectEnabled,
                                                   zPosition: 3)
         
+        let emojiButtonOriginX = legibilityRect.maxX + 5.0
         
-        canvasView?.renderSelections([border, legibilityControl])
+        let emojiButtonRect =  CGRect(x: emojiButtonOriginX,
+                                      y: legibilityRect.origin.y,
+                                      width: 23.0,
+                                      height: 23.0)
+        
+        let emojiControl = EmojiControl(id: SelectionsIdManager.generateId(for: .emojiButton, of: text.id),
+                                        frameRect: emojiButtonRect,
+                                        zPosition: 3)
+        
+        
+        canvasView?.renderSelections([border, legibilityControl, emojiControl])
       } else {
         canvasView?.renderSelections([])
       }
@@ -141,6 +155,10 @@ class Renderer {
     if rendererType == .newModel {
       renderSelection(for: model, isSelected: true)
     }
+  }
+  
+  func renderTextEmojiPicker(for textId: String) {
+    canvasView?.presentEmojiesPicker(for: textId)
   }
   
   func renderObfuscatedAreaBackground(type: ObfuscatedAreaType) {

@@ -46,7 +46,7 @@ class PlaygroundViewController: NSViewController {
     canvasView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
     canvasView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     
-    canvasView.layer?.backgroundColor = NSColor.yellow.cgColor
+    canvasView.layer?.backgroundColor = NSColor.brown.cgColor
     self.modelsManager = modelsManager
     
     let penMock = Pen.Mocks.mock

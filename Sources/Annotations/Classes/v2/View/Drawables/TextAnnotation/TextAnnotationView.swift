@@ -89,7 +89,6 @@ class TextAnnotationView: NSView, DrawableElement {
     textView.usesRuler = false
     textView.usesFontPanel = false
     textView.drawsBackground = false
-    //textView.isVerticallyResizable = true
     
     if debugMode {
       textView.wantsLayer = true
@@ -156,6 +155,10 @@ class TextAnnotationView: NSView, DrawableElement {
     get {
       textView.typingAttributes[.foregroundColor] as? NSColor ?? .black
     }
+  }
+  
+  func presentEmojiPicker() {
+    NSApp.orderFrontCharacterPalette(textView)
   }
 }
 

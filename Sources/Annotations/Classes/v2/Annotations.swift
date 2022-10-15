@@ -73,5 +73,12 @@ public final class AnnotationsCanvasFactory {
         mouseInteractionHandler?.handleLegibilityButtonPressed(id)
       }
       .store(in: &canvasView.commonCancellables)
+    
+    canvasView
+      .emojiButtonPressedSubject
+      .sink { [weak mouseInteractionHandler] id in
+        mouseInteractionHandler?.handleEmojiPickerPressed(id)
+      }
+      .store(in: &canvasView.commonCancellables)
   }
 }

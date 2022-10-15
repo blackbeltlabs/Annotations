@@ -45,6 +45,9 @@ public class DrawableCanvasView: NSView {
   let legibilityButtonPressedSubject = PassthroughSubject<String, Never>()
   let emojiButtonPressedSubject = PassthroughSubject<String, Never>()
   
+  let emojiPickerisPresented = CurrentValueSubject<Bool, Never>(false)
+  var emojiPickerPresentedCancellable: AnyCancellable?
+  
   var isUserInteractionEnabled: Bool = true
   
   // MARK: - Cancellables
@@ -362,6 +365,18 @@ extension DrawableCanvasView {
     }
   }
   
+  func getOrCreateSelectionControl<T: NSControl & DrawableElement>(id: String,
+                                                                   creationClosure: (String) -> T) -> T {
+    if let selectionTypeLayer = selectionViews.compactMap({ $0 as? DrawableElement }).first(where: { $0.id == id }) as? T {
+      return selectionTypeLayer
+    } else {
+      let view = creationClosure(id)
+      selectionViews.append(view)
+      selectionView.addSubview(view)
+      return view
+    }
+  }
+  
   func renderOrUpdateSelection(_ selection: Selection) {
     switch selection {
     case let knob as Knob:
@@ -380,26 +395,31 @@ extension DrawableCanvasView {
       layerToRender.setup(with: border.path, strokeColor: border.color, lineWidth: border.lineWidth)
       
     case let legibilityControl as LegibilityControl:
-      let buttonToRender: LegibilityControlButton
-      
-      if let button = selectionViews.compactMap({ $0 as? DrawableElement }).first(where: { $0.id == legibilityControl.id }) as? LegibilityControlButton {
-        buttonToRender = button
-      } else {
-        buttonToRender = LegibilityControlButton(frame: .zero)
-        buttonToRender.id = legibilityControl.id
-        buttonToRender.target = self
-        buttonToRender.action = #selector(legibilityButtonPressed(_ :))
-        selectionViews.append(buttonToRender)
-        selectionView.addSubview(buttonToRender)
+      let buttonToRender: LegibilityControlButton = getOrCreateSelectionControl(id: legibilityControl.id) { id in
+        let button = LegibilityControlButton(frame: .zero)
+        button.id = id
+        button.target = self
+        button.action = #selector(legibilityButtonPressed(_ :))
+        return button
       }
       
-      buttonToRender.setupWith(frame: legibilityControl.frameRect, imageType: legibilityControl.isEnabled ? .enabled : .disabled)
-       
+      buttonToRender.setupWith(frame: legibilityControl.frameRect,
+                               imageType: legibilityControl.isEnabled ? .enabled : .disabled)
+      
+    case let emojiControl as EmojiControl:
+      let buttonToRender: EmojiControlButton = getOrCreateSelectionControl(id: emojiControl.id) { id in
+        let button = EmojiControlButton(frame: .zero)
+        button.id = id
+        button.target = self
+        button.action = #selector(emojiButtonPressed(_ :))
+        return button
+      }
+      
+      buttonToRender.setup(with: emojiControl.frameRect)
     default:
       break
     }
   }
-  
   
   
   func createSelectionLayer<T: CALayer & DrawableElement>(of type: T.Type, id: String, zPosition: CGFloat) -> T {
@@ -430,11 +450,30 @@ extension DrawableCanvasView {
   }
   
   // MARK: - Actions
-  
   @objc
   func legibilityButtonPressed(_ button: LegibilityControlButton) {
     legibilityButtonPressedSubject.send(button.id)
     print("Button pressed = \(button.id)")
+  }
+  
+  @objc
+  func emojiButtonPressed(_ button: EmojiControlButton) {
+    emojiButtonPressedSubject.send(button.id)
+  }
+  
+  func presentEmojiesPicker(for textId: String) {
+    guard let textAnnotation = drawable(with: textId) as? TextAnnotationView else { return }
+    emojiPickerisPresented.send(true)
+    textAnnotation.presentEmojiPicker()
+    
+    emojiPickerPresentedCancellable =
+    NotificationCenter
+      .default
+      .publisher(for: NSWindow.didBecomeKeyNotification, object: window)
+      .first()
+      .print()
+      .map { _ in false }
+      .assign(to: \.value, on: emojiPickerisPresented)
   }
 
 }

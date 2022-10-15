@@ -283,7 +283,7 @@ class MouseInteractionHandler {
     }
   }
   
-  // MARK: - Mouse button presses
+  // MARK: - Mouse button presses for text annotations
   func handleLegibilityButtonPressed(_ buttonId: String) {
     guard let textAnnotationId = SelectionsIdManager.extractAnnotationIdFromNumberId(buttonId) else { return }
     guard var selectedAnnotation = dataSource?.selectedAnnotation as? Text,
@@ -297,6 +297,13 @@ class MouseInteractionHandler {
     } else {
       dataSource?.update(model: selectedAnnotation)
     }
+  }
+  
+  func handleEmojiPickerPressed(_ buttonId: String) {
+    guard let textAnnotationId = SelectionsIdManager.extractAnnotationIdFromNumberId(buttonId) else { return }
+    guard var selectedAnnotation = dataSource?.selectedAnnotation as? Text,
+          selectedAnnotation.id == textAnnotationId else { return }
+    renderer?.renderTextEmojiPicker(for: textAnnotationId)
   }
   
 }
