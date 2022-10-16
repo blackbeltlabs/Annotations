@@ -4,14 +4,23 @@ import CoreGraphics
 struct Knob: Selection {
   let id: String
   let frameRect: CGRect
+  let borderColor: CGColor
+  let backgroundColor: CGColor
   
+
   static let defaultSize = CGSize(width: 10, height: 10)
   
-  static func fromCenterPoint(point: CGPoint, id: String) -> Knob {
-    let sizePart = self.defaultSize.width
-    return .init(id: id, frameRect: .init(origin: .init(x: point.x - sizePart / 2.0,
-                                                        y: point.y - sizePart / 2.0),
-                                         size: defaultSize))
+  static func fromCenterPoint(point: CGPoint,
+                              sizePart: CGFloat = Self.defaultSize.width,
+                              id: String,
+                              borderColor: CGColor = .commonKnobBorderColor,
+                              backgroundColor: CGColor = .zapierOrange) -> Knob {
+    return .init(id: id,
+                 frameRect: .init(origin: .init(x: point.x - sizePart / 2.0,
+                                                y: point.y - sizePart / 2.0),
+                                  size: .init(width: sizePart, height: sizePart)),
+                 borderColor: borderColor,
+                 backgroundColor: backgroundColor)
   }
   
   struct Mocks {

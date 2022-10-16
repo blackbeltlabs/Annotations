@@ -389,26 +389,25 @@ extension DrawableCanvasView {
     switch selection {
     case let knob as Knob:
       let layerToRender: ControlKnob = getOrCreateSelectionLayer(id: knob.id) { id in
-        createKnobLayer(with: id)
+        SelectionDrawablesFactory.createKnobLayer(with: id)
       }
       
       layerToRender.render(with: knob.frameRect,
-                           backgroundColor: NSColor.zapierOrange.cgColor,
-                           borderColor: NSColor.knob.cgColor,
+                           backgroundColor: knob.backgroundColor,
+                           borderColor: knob.borderColor,
                            borderWidth: 1.0)
     case let border as Border:
       let layerToRender: ControlBorder = getOrCreateSelectionLayer(id: border.id) { id in
-        createBorderLayer(with: id)
+        SelectionDrawablesFactory.createBorderLayer(with: id)
       }
       layerToRender.setup(with: border.path, strokeColor: border.color, lineWidth: border.lineWidth)
       
     case let legibilityControl as LegibilityControl:
       let buttonToRender: LegibilityControlButton = getOrCreateSelectionControl(id: legibilityControl.id) { id in
-        let button = LegibilityControlButton(frame: .zero)
-        button.id = id
-        button.target = self
-        button.action = #selector(legibilityButtonPressed(_ :))
-        return button
+        
+        SelectionDrawablesFactory.createLegibilityButton(with: id,
+                                                         target: self,
+                                                         action: #selector(legibilityButtonPressed(_ :)))
       }
       
       buttonToRender.setupWith(frame: legibilityControl.frameRect,
@@ -416,34 +415,15 @@ extension DrawableCanvasView {
       
     case let emojiControl as EmojiControl:
       let buttonToRender: EmojiControlButton = getOrCreateSelectionControl(id: emojiControl.id) { id in
-        let button = EmojiControlButton(frame: .zero)
-        button.id = id
-        button.target = self
-        button.action = #selector(emojiButtonPressed(_ :))
-        return button
+        SelectionDrawablesFactory.createEmojiButton(with: id,
+                                                    target: self,
+                                                    action: #selector(emojiButtonPressed(_ :)))
       }
       
       buttonToRender.setup(with: emojiControl.frameRect)
     default:
       break
     }
-  }
-  
-  
-  func createSelectionLayer<T: CALayer & DrawableElement>(of type: T.Type, id: String, zPosition: CGFloat) -> T {
-    var selectionLayer = T()
-    selectionLayer.id = id
-    selectionLayer.zPosition = zPosition
-    return selectionLayer
-  }
-  
-  func createKnobLayer(with id: String) -> ControlKnob {
-    createSelectionLayer(of: ControlKnob.self, id: id, zPosition: 2)
-  }
-  
-
-  func createBorderLayer(with id: String) -> ControlBorder {
-    createSelectionLayer(of: ControlBorder.self, id: id, zPosition: 1)
   }
   
   func removeAllSelections() {
@@ -477,7 +457,6 @@ extension DrawableCanvasView {
       .map { _ in false }
       .assign(to: \.value, on: emojiPickerisPresented)
   }
-
 }
 
 extension DrawableCanvasView {
@@ -491,9 +470,4 @@ extension DrawableCanvasView {
       layer.addLineDashPhaseAnimation(animation)
     }
   }
-}
-
-
-extension TextContainerView: DrawableElement {
-  
 }

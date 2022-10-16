@@ -2,15 +2,15 @@ import Cocoa
 
 extension NSColor {
   static var knob: NSColor {
-    #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    .white
   }
   
   static var obfuscate: NSColor {
-    #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+      .init(red: 65.0 / 255.0, green: 70.0 / 255.0, blue: 70.0 / 255.0, alpha: 1.0)
   }
   
   static var zapierOrange: NSColor {
-    #colorLiteral(red: 1, green: 0.2980392157, blue: 0, alpha: 1)
+    .init(red: 255.0 / 255.0, green: 76.0 / 255.0, blue: 0, alpha: 1.0)
   }
   
   public static func color(from modelColor: ModelColor) -> NSColor {
@@ -22,7 +22,6 @@ extension NSColor {
   
   public var annotationModelColor: ModelColor {
     let rgbColor: NSColor
-        
     if self.colorSpace == .sRGB {
       rgbColor = self
     } else {
