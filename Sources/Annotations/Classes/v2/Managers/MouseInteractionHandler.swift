@@ -108,7 +108,6 @@ class MouseInteractionHandler {
     if textAnnotationsManager.createMode {
       guard let text = textAnnotationsManager.cancelEditing().model else { return }
       
-      
       dataSource.deselect()
       
       //if text is empty then need just remove this annotation
@@ -179,7 +178,7 @@ class MouseInteractionHandler {
         
         dataSource.select(model: newText, renderingType: nil)
         
-        textAnnotationsManager.handleTextEditing(for: newText, createMode: true) { text in
+        textAnnotationsManager.handleTextEditing(for: newText, createMode: true, showEmojiPicker: true) { text in
           dataSource.select(model: text,
                             renderingType: TextRenderingType.textEditingUpdate)
         }
@@ -275,7 +274,7 @@ class MouseInteractionHandler {
     } else {
       if let selectedAnnotation = dataSource.selectedAnnotation as? Text,
          textCouldBeEdited {
-        textAnnotationsManager.handleTextEditing(for: selectedAnnotation) { text in
+        textAnnotationsManager.handleTextEditing(for: selectedAnnotation, showEmojiPicker: true) { text in
           dataSource.select(model: text, renderingType: TextRenderingType.textEditingUpdate, checkIfContainsInModelsSet: false)
         }
         textCouldBeEdited = false

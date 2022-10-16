@@ -16,6 +16,8 @@ public struct Text: AnnotationModel, TwoPointsModel, RectBased {
   public var origin: AnnotationPoint
   public var to: AnnotationPoint
   
+  var displayEmojiPicker: Bool = false
+  
   public struct Mocks {
     public static var mockText1: Text {
       .init(color: .zero,

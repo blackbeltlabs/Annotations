@@ -26,8 +26,8 @@ public class DrawableCanvasView: NSView {
     selectionView.layer!
   }
   
-  private var knobLayers: [CALayer] = []
-  private var selectionViews: [NSView] = []
+  private var knobLayers: [(CALayer & DrawableElement)] = []
+  private var selectionViews: [(NSView & DrawableElement)] = []
   
   // MARK: - Touches
   private var trackingArea: NSTrackingArea?
@@ -354,6 +354,20 @@ extension DrawableCanvasView {
     }
   }
   
+  func renderRemovalSelections(_ selections: [Selection]) {
+    for selection in selections {
+      if let index = selectionViews.firstIndex(where: { $0.id == selection.id }) {
+        let view = selectionViews.remove(at: index)
+        view.removeFromSuperview()
+      }
+      
+      if let index = knobLayers.firstIndex(where: { $0.id == selection.id }) {
+        let knob = knobLayers.remove(at: index)
+        knob.removeFromSuperlayer()
+      }
+    }
+  }
+  
   func getOrCreateSelectionLayer<T: CALayer & DrawableElement>(id: String, creationClosure: (String) -> T) -> T {
     if let selectionTypeLayer = knobLayers.compactMap({ $0 as? DrawableElement }).first(where: { $0.id == id }) as? T {
       return selectionTypeLayer
@@ -364,6 +378,7 @@ extension DrawableCanvasView {
       return layer
     }
   }
+  
   
   func getOrCreateSelectionControl<T: NSControl & DrawableElement>(id: String,
                                                                    creationClosure: (String) -> T) -> T {
@@ -439,10 +454,7 @@ extension DrawableCanvasView {
   }
   
   func removeAllSelections() {
-    for knob in knobLayers {
-      knob.removeFromSuperlayer()
-    }
-
+    knobLayers.forEach { $0.removeFromSuperlayer() }
     knobLayers = []
     
     selectionViews.forEach { $0.removeFromSuperview() }
@@ -493,9 +505,5 @@ extension DrawableCanvasView {
 
 
 extension TextContainerView: DrawableElement {
-  
-}
-
-extension DrawableCanvasView: TextAnnotationsSource {
   
 }

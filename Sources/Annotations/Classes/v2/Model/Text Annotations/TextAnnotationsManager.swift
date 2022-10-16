@@ -2,10 +2,14 @@ import Foundation
 import CoreGraphics
 import Combine
 
+struct TextAnnotationEditingOptions {
+  let showEmojiPickerButton: Bool
+}
+
 protocol TextAnnotationsSource: AnyObject {
-  func startEditingText(for id: String) -> AnyPublisher<String, Never>?
-  
-  func stopEditingText(for id: String)
+  func startEditingText(for text: Text,
+                        options: TextAnnotationEditingOptions) -> AnyPublisher<String, Never>?
+  func stopEditingText(for text: Text)
 }
 
 class TextAnnotationsManager {
@@ -43,15 +47,17 @@ class TextAnnotationsManager {
   }
   
   
-  func handleTextEditing(for text: Text, createMode: Bool = false, onUpdate: @escaping (Text) -> Void) {
+  func handleTextEditing(for text: Text, createMode: Bool = false, showEmojiPicker: Bool, onUpdate: @escaping (Text) -> Void) {
     
     if createMode {
       self.createMode = createMode
     }
-    
-    editingText = text
-    self.startEditingString = text.text
-    editCancellable = source?.startEditingText(for: text.id)?.sink(receiveValue: { [weak self] textString in
+    let inputText = text.copyWith(displayEmojiPicker: showEmojiPicker)
+
+    editingText = inputText
+    self.startEditingString = inputText.text
+    editCancellable =
+    source?.startEditingText(for: inputText, options: .init(showEmojiPickerButton: showEmojiPicker))?.sink(receiveValue: { [weak self] textString in
       guard let self else { return }
       guard let editingText = self.editingText else { return }
       self.handleTextChanged(for: editingText, updatedString: textString)
@@ -71,23 +77,24 @@ class TextAnnotationsManager {
   }
 
   func cancelEditing() -> (model: Text?, textWasUpdated: Bool) {
-    guard let editingId = editingText?.id else { return (nil, false) }
+    guard let editingText = editingText else { return (nil, false) }
     if createMode {
       createMode = false
     }
-    return cancelEditing(for: editingId)
+    return cancelEditing(for: editingText)
   }
   
-  func cancelEditing(for id: String) -> (model: Text?, textWasUpdated: Bool) {
+  func cancelEditing(for text: Text) -> (model: Text?, textWasUpdated: Bool) {
     defer {
       updatedTextAnnotationClosure = nil
       editingText = nil
       startEditingString = ""
     }
     
-    source?.stopEditingText(for: id)
+    source?.stopEditingText(for: text)
     if let editingText {
-      return (editingText, editingText.text != startEditingString)
+      let textToReturn = editingText.copyWith(displayEmojiPicker: false)
+      return (textToReturn, textToReturn.text != startEditingString)
     } else {
       return (nil, false)
     }
@@ -109,5 +116,14 @@ class TextAnnotationsManager {
     self.editingText = updatedText
     
     updatedTextAnnotationClosure?(updatedText)
+  }
+}
+
+
+private extension Text {
+  func copyWith(displayEmojiPicker: Bool) -> Self {
+    var modifiedText = self
+    modifiedText.displayEmojiPicker = displayEmojiPicker
+    return modifiedText
   }
 }

@@ -27,6 +27,7 @@ protocol RendererCanvas: AnyObject {
   
   
   func renderSelections(_ selections: [Selection])
+  func renderRemovalSelections(_ selections: [Selection])
   
   func renderLineDashPhaseAnimation(for layerId: String,
                                     animation: LineDashPhaseAnimation,
@@ -45,7 +46,7 @@ enum ObfuscatedAreaType {
   case image(_ image: NSImage)
 }
 
-class Renderer {
+class Renderer: TextAnnotationsSource {
   weak var canvasView: RendererCanvas?
   
   init(canvasView: RendererCanvas?) {
@@ -121,33 +122,47 @@ class Renderer {
                                                  rect: rect,
                                                  lineWidth: lineWidth)
         
-        let legibilityRect = CGRect(origin: .init(x: rect.origin.x,
-                                                  y: rect.maxY + 4.0), size: .init(width: 23, height: 23))
+        let legibilityRect = TextBordersCreator.legibilityFrameRect(for: text)
+
         let legibilityControl = LegibilityControl(id: SelectionsIdManager.generateId(for: .legibilityButton,
                                                                                      of: text.id),
                                                   frameRect: legibilityRect,
                                                   isEnabled: text.legibilityEffectEnabled,
                                                   zPosition: 3)
         
-        let emojiButtonOriginX = legibilityRect.maxX + 5.0
-        
-        let emojiButtonRect =  CGRect(x: emojiButtonOriginX,
-                                      y: legibilityRect.origin.y,
-                                      width: 23.0,
-                                      height: 23.0)
-        
-        let emojiControl = EmojiControl(id: SelectionsIdManager.generateId(for: .emojiButton, of: text.id),
-                                        frameRect: emojiButtonRect,
-                                        zPosition: 3)
         
         
-        canvasView?.renderSelections([border, legibilityControl, emojiControl])
+        canvasView?.renderSelections([border, legibilityControl])
+        
+        
+        let emojiControl = createEmojiControl(for: text)
+        if text.displayEmojiPicker {
+          canvasView?.renderSelections([emojiControl])
+        } else {
+          canvasView?.renderRemovalSelections([emojiControl])
+        }
       } else {
         canvasView?.renderSelections([])
       }
     }
   }
+  
+  func createEmojiControl(for text: Text) -> EmojiControl {
+    let legibilityRect = TextBordersCreator.legibilityFrameRect(for: text)
+    let emojiButtonOriginX = legibilityRect.maxX + 5.0
+    
+    let emojiButtonRect = CGRect(x: emojiButtonOriginX,
+                                 y: legibilityRect.origin.y,
+                                 width: 23.0,
+                                 height: 23.0)
+    
+    return EmojiControl(id: SelectionsIdManager.generateId(for: .emojiButton,
+                                                           of: text.id),
+                                                           frameRect: emojiButtonRect,
+                                                           zPosition: 3)
+  }
 
+  // MARK: - Text annotation
   func renderText(_ model: Text, rendererType: TextRenderingType?) {
     canvasView?.renderText(text: model,
                            rendererType: rendererType)
@@ -159,6 +174,24 @@ class Renderer {
   
   func renderTextEmojiPicker(for textId: String) {
     canvasView?.presentEmojiesPicker(for: textId)
+  }
+  
+  func startEditingText(for text: Text,
+                        options: TextAnnotationEditingOptions) -> AnyPublisher<String, Never>? {
+    
+    if options.showEmojiPickerButton {
+      let control = createEmojiControl(for: text)
+      canvasView?.renderSelections([control])
+    }
+    
+    return canvasView?.startEditingText(for: text.id)
+  }
+  
+  func stopEditingText(for text: Text) {
+    canvasView?.stopEditingText(for: text.id)
+    
+    let control = createEmojiControl(for: text)
+    canvasView?.renderRemovalSelections([control])
   }
   
   func renderObfuscatedAreaBackground(type: ObfuscatedAreaType) {
