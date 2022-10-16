@@ -399,7 +399,7 @@ extension CanvasView {
 // MARK: - Numbers
 
 extension CanvasView {
-  func updateNumbers() {
+  private func updateNumbers() {
     let numbers = model.numbers
     
     let updatedNumbers: [NumberModel] = numbers.enumerated().map { $1.copyWithNumber(number: UInt($0 + 1)) }

@@ -40,6 +40,12 @@ struct AnnotationModelsSet {
     modelsSet = Set(anyModels)
   }
   
+  mutating func update(_ models: [AnnotationModel]) {
+    let newSet = Set(models.map { AnyAnnotationModel(model: $0) })
+    let result = newSet.union(modelsSet)
+    modelsSet = result
+  }
+  
   mutating func update(_ model: AnnotationModel) {
     let annotationModel = AnyAnnotationModel(model: model)
     modelsSet.update(with: annotationModel)

@@ -168,6 +168,11 @@ public class ModelsManager {
       deselect()
     }
     
+    // if number is deleted then it could be needed to recalculate number values
+    if model is Number, let numbers = updateNumbersIfNeeded(in: allModelsSet.all) {
+      allModelsSet.update(numbers)
+    }
+    
     self.models.send(allModelsSet)
     renderer.renderRemoval(of: model.id)
     
@@ -213,8 +218,13 @@ public class ModelsManager {
         self?.delete(model: model)
       }
     }
-
+    
     allModels.update(model)
+    
+    if let numbers = updateNumbersIfNeeded(in: allModels.all) {
+      allModels.update(numbers)
+    }
+    
     models.send(allModels)
   }
   
@@ -233,6 +243,27 @@ public class ModelsManager {
   // add background image that is used for obfuscated purposes
   public func addBackgroundImage(_ image: NSImage) {
     backgroundImage.send(solidColorForObsfuscate ? nil : image)
+  }
+  
+  // MARK: - Numbers
+  // if some intermediate number was deleted then it might need to update their values
+  func updateNumbersIfNeeded(in models: [AnnotationModel]) -> [Number]? {
+    // 1. get all numbers sorted
+    let allNumbers: [Number] = models.compactMap { $0 as? Number }.sorted { $0.value < $1.value }
+    
+    //2. check if need to update (in case if indexes order is incorrect)
+    guard allNumbers.enumerated().first(where: { $0.element.value != $0.offset + 1 }) != nil else {
+      return nil
+    }
+
+    // 3. update numbers order to be correct
+    var updatedNumbers = allNumbers
+    
+    for i in 0..<updatedNumbers.count {
+      updatedNumbers[i].value = i + 1
+    }
+    
+    return updatedNumbers
   }
 }
 

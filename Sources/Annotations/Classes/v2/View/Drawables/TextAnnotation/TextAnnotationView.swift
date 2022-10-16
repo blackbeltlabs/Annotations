@@ -111,6 +111,11 @@ class TextAnnotationView: NSView, DrawableElement {
     if let font = style.attributes[.font] as? NSFont {
       legibilityTextView.font = font
     }
+    
+    if let nsColor = style.attributes[.foregroundColor] as? NSColor {
+      textView.insertionPointColor = nsColor
+      textView.needsDisplay = true
+    }
   }
   
   func setZPosition(_ zPosition: CGFloat) {
@@ -141,19 +146,6 @@ class TextAnnotationView: NSView, DrawableElement {
     set {
       textView.font = newValue
       legibilityTextView.font = newValue
-    }
-  }
-  
-  var color: NSColor {
-    set {
-      var currentTypingAttributes = textView.typingAttributes
-      currentTypingAttributes[.foregroundColor] = newValue
-      textView.updateTypingAttributes(currentTypingAttributes)
-      textView.insertionPointColor = color
-      textView.needsDisplay = true
-    }
-    get {
-      textView.typingAttributes[.foregroundColor] as? NSColor ?? .black
     }
   }
   
