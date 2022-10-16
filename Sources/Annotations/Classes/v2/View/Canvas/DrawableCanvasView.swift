@@ -25,9 +25,8 @@ public class DrawableCanvasView: NSView {
   var selectionsLayer: CALayer {
     selectionView.layer!
   }
-  
-  private var knobLayers: [(CALayer & DrawableElement)] = []
-  private var selectionViews: [(NSView & DrawableElement)] = []
+    
+  private var selectionDrawables = DrawableModelsSet([])
   
   // MARK: - Touches
   private var trackingArea: NSTrackingArea?
@@ -335,8 +334,7 @@ extension DrawableCanvasView: RendererCanvas {
   
   func clearAll() {
     drawables.forEach { self.removeDrawable($0) }
-    knobLayers.forEach { $0.removeFromSuperlayer() }
-    selectionViews.forEach { $0.removeFromSuperview() }
+    selectionDrawables.all.forEach { self.removeDrawable($0) }
   }
 }
 
@@ -356,25 +354,20 @@ extension DrawableCanvasView {
   
   func renderRemovalSelections(_ selections: [Selection]) {
     for selection in selections {
-      if let index = selectionViews.firstIndex(where: { $0.id == selection.id }) {
-        let view = selectionViews.remove(at: index)
-        view.removeFromSuperview()
-      }
-      
-      if let index = knobLayers.firstIndex(where: { $0.id == selection.id }) {
-        let knob = knobLayers.remove(at: index)
-        knob.removeFromSuperlayer()
+      if let drawable = selectionDrawables.model(for: selection.id) {
+        removeDrawable(drawable)
+        selectionDrawables.remove(with: selection.id)
       }
     }
   }
   
   func getOrCreateSelectionLayer<T: CALayer & DrawableElement>(id: String, creationClosure: (String) -> T) -> T {
-    if let selectionTypeLayer = knobLayers.compactMap({ $0 as? DrawableElement }).first(where: { $0.id == id }) as? T {
+    if let selectionTypeLayer = selectionDrawables.model(for: id) as? T {
       return selectionTypeLayer
     } else {
       let layer = creationClosure(id)
       selectionsLayer.addSublayer(layer)
-      knobLayers.append(layer)
+      selectionDrawables.update(layer)
       return layer
     }
   }
@@ -382,11 +375,11 @@ extension DrawableCanvasView {
   
   func getOrCreateSelectionControl<T: NSControl & DrawableElement>(id: String,
                                                                    creationClosure: (String) -> T) -> T {
-    if let selectionTypeLayer = selectionViews.compactMap({ $0 as? DrawableElement }).first(where: { $0.id == id }) as? T {
+    if let selectionTypeLayer = selectionDrawables.model(for: id) as? T {
       return selectionTypeLayer
     } else {
       let view = creationClosure(id)
-      selectionViews.append(view)
+      selectionDrawables.update(view)
       selectionView.addSubview(view)
       return view
     }
@@ -454,11 +447,8 @@ extension DrawableCanvasView {
   }
   
   func removeAllSelections() {
-    knobLayers.forEach { $0.removeFromSuperlayer() }
-    knobLayers = []
-    
-    selectionViews.forEach { $0.removeFromSuperview() }
-    selectionViews = []
+    selectionDrawables.all.forEach { removeDrawable($0) }
+    selectionDrawables.clearAll()
   }
   
   // MARK: - Actions
