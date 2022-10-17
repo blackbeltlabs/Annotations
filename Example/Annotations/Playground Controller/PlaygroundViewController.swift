@@ -14,9 +14,18 @@ class PlaygroundViewController: NSViewController {
   
   var loadViewClosure: ((PlaygroundViewController) -> Void)?
   
-  var modelsManager: ModelsManager!
+  var parts: AnnotationsManagingParts!
+  var modelsManager: ModelsManager {
+    parts.modelsManager
+  }
   
-  var sharedHistory: SharedHistory!
+  var sharedHistory: SharedHistory {
+    parts.history
+  }
+  
+  var annotationSettings: Settings {
+    parts.settings
+  }
 
   override func loadView() {
     loadViewClosure?(self)
@@ -28,10 +37,9 @@ class PlaygroundViewController: NSViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    let (modelsManager, canvasView, history) = AnnotationsCanvasFactory.instantiate()
-    
-    sharedHistory = history
-    
+    let (canvasView, parts) = AnnotationsCanvasFactory.instantiate()
+    self.parts = parts
+        
     canvasView.translatesAutoresizingMaskIntoConstraints = false
     view.addSubview(canvasView)
     
@@ -48,7 +56,6 @@ class PlaygroundViewController: NSViewController {
     canvasView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     
     canvasView.layer?.backgroundColor = NSColor.brown.cgColor
-    self.modelsManager = modelsManager
     
     let penMock = Pen.Mocks.mock
     let arrowMock = Arrow.Mocks.mock
@@ -103,7 +110,8 @@ class PlaygroundViewController: NSViewController {
     */
      
     let backgroundImage = NSImage(named: "catalina")!
-    modelsManager.addBackgroundImage(backgroundImage)
+    
+    annotationSettings.setBackgroundImage(backgroundImage)
     
     setupPublishers(drawableCanvasView: canvasView)
   }
@@ -122,13 +130,13 @@ class PlaygroundViewController: NSViewController {
     canvasControlsView
       .colorSelected
       .map(\.annotationModelColor)
-      .assign(to: \.value, on: modelsManager.createColorSubject)
+      .assign(to: \.value, on: annotationSettings.createColorSubject)
       .store(in: &cancellables)
     
     canvasControlsView
       .canvasAnnotationType
       .map(\.createMode)
-      .assign(to: \.value, on: modelsManager.createModeSubject)
+      .assign(to: \.value, on: annotationSettings.currentAnnotationTypeSubject)
       .store(in: &cancellables)
     
     canvasControlsView

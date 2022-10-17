@@ -67,6 +67,15 @@ public class SharedHistory {
     manager.redo()
   }
   
+  // MARK: - Undo / Redo states
+  public var canUndo: Bool {
+    canUndoSubject.value
+  }
+  
+  public var canRedo: Bool {
+    canRedoSubject.value
+  }
+  
   // MARK: - Clear
   public func clear() {
     manager.removeAllActions()

@@ -2,6 +2,11 @@ import Quartz
 
 class ObfuscateLayer: CALayer {
   private let maskLayer: CALayer = CALayer()
+  
+  // MARK: - Init
+  override init(layer: Any) {
+    super.init(layer: layer)
+  }
     
   override init() {
     super.init()

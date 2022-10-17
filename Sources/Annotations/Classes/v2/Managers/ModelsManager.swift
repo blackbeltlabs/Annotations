@@ -42,11 +42,10 @@ public class ModelsManager {
   public var commonCancellables = Set<AnyCancellable>()
   
   // MARK: - Public settings
-  public var solidColorForObsfuscate: Bool = false
-  public var isUserInteractionEnabled = CurrentValueSubject<Bool, Never>(true)
-  
-  public var createModeSubject = CurrentValueSubject<CanvasItemType?, Never>(.arrow)
-  public var createColorSubject = CurrentValueSubject<ModelColor, Never>(.defaultColor())
+  var solidColorForObsfuscate: Bool = false
+  let isUserInteractionEnabled = CurrentValueSubject<Bool, Never>(true)
+  let createModeSubject = CurrentValueSubject<CanvasItemType?, Never>(.arrow)
+  let createColorSubject = CurrentValueSubject<ModelColor, Never>(.defaultColor())
   
   public let viewSizeUpdated = PassthroughSubject<CGSize, Never>()
   
@@ -152,6 +151,15 @@ public class ModelsManager {
         }
       }
       .store(in: &commonCancellables)
+    
+    // deselect selected annotation if userInteraction is disabled
+    isUserInteractionEnabled
+      .filter { !$0 }
+      .map({ enabled -> RenderedModel? in
+        return nil
+      })
+      .assign(to: \.value, on: selectedModel)
+      .store(in: &commonCancellables)
   }
   
   public func add(models: [AnnotationModel]) {
@@ -179,6 +187,10 @@ public class ModelsManager {
     history.addUndo { [weak self] in
       self?.update(model: model)
     }
+  }
+  
+  public func containsAnnotations() -> Bool {
+    !models.value.all.isEmpty
   }
   
   public func deleteSelectedModel() {
@@ -241,7 +253,7 @@ public class ModelsManager {
   }
   
   // add background image that is used for obfuscated purposes
-  public func addBackgroundImage(_ image: NSImage) {
+  func addBackgroundImage(_ image: NSImage) {
     backgroundImage.send(solidColorForObsfuscate ? nil : image)
   }
   
