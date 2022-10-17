@@ -120,6 +120,14 @@ class MouseInteractionHandler {
       return
     }
     
+    if textAnnotationsManager.isEditing {
+      let result = textAnnotationsManager.cancelEditing()
+      if let model = result.model, result.textWasUpdated {
+        dataSource.update(model: model)
+      }
+    }
+    
+    
     let annotations = dataSource.annotations.sorted(by: { $0.zPosition > $1.zPosition })
     
     for annotation in annotations {
@@ -152,14 +160,6 @@ class MouseInteractionHandler {
       }
     }
     
-    
-    
-    if textAnnotationsManager.isEditing {
-      let result = textAnnotationsManager.cancelEditing()
-      if let model = result.model, result.textWasUpdated {
-        dataSource.update(model: model)
-      }
-    }
     
     // Can't create new annotation like text or number if was deselected (for better UI)
     var wasDeselected: Bool = false
@@ -270,10 +270,22 @@ class MouseInteractionHandler {
     }
   
     if let modifiedAnnotation = possibleMovement.modifiedAnnotation {
-      if textAnnotationsManager.isEditing, let text = modifiedAnnotation as? Text {
-        textAnnotationsManager.updateEditingText(text)
+      
+      if var text = modifiedAnnotation as? Text {
+    
+        if let updatedAnnotation = ResizeTextTransformation.reduceHeightIfNeeded(for: text) {
+          dataSource.select(model: updatedAnnotation)
+          text = updatedAnnotation
+        }
+        
+        if textAnnotationsManager.isEditing {
+          textAnnotationsManager.updateEditingText(text)
+        } else {
+          dataSource.update(model: text)
+        }
         return
       }
+    
       
       dataSource.update(model: modifiedAnnotation)
       // select annotation that just was created
@@ -291,6 +303,7 @@ class MouseInteractionHandler {
     }
   }
   
+ 
   // currently cursor are supported for text annotations only
   func handleMouseMoved(point: CGPoint) {
     guard let dataSource = dataSource else { return }
@@ -366,7 +379,7 @@ class MouseInteractionHandler {
   
   func handleEmojiPickerPressed(_ buttonId: String) {
     guard let textAnnotationId = SelectionsIdManager.extractAnnotationIdFromNumberId(buttonId) else { return }
-    guard var selectedAnnotation = dataSource?.selectedAnnotation as? Text,
+    guard let selectedAnnotation = dataSource?.selectedAnnotation as? Text,
           selectedAnnotation.id == textAnnotationId else { return }
     renderer?.renderTextEmojiPicker(for: textAnnotationId)
   }

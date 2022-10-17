@@ -48,8 +48,7 @@ class ResizeTextTransformation: ResizeTransformation {
       updatedFrame.origin.x += offset
     }
     
-    let updatedHeight = TextLayoutHelper.getHeightAttr(for: attributedText,
-                                                       width: updatedWidth - TextLayoutHelper.containerLinePadding)
+    let updatedHeight = Self.calculateHeight(for: attributedText, with: updatedWidth)
     
     updatedFrame.size = CGSize(width: updatedWidth, height: updatedHeight)
     
@@ -95,4 +94,26 @@ class ResizeTextTransformation: ResizeTransformation {
     
     return frameBounds.insetBy(dx: insets.left + insets.right, dy: insets.bottom + insets.top)
   }
+  
+  // MARK: - Reduced widt
+  
+  // if nil is returned it means that nothing was reduced
+  class func reduceHeightIfNeeded(for text: Text) -> Text? {
+    let textFrame = text.frame
+    let newHeight = calculateHeight(for: text.attributedText, with: textFrame.width)
+    
+    guard newHeight < textFrame.height else { return nil }
+    
+    var updatedText = text
+    updatedText.updateFrameSize(CGSize(width: textFrame.width, height: newHeight))
+    return updatedText
+  }
+  
+  // MARK: - Helpers
+  
+  class func calculateHeight(for text: NSAttributedString, with width: CGFloat) -> CGFloat {
+    TextLayoutHelper.getHeightAttr(for: text,
+                                   width: width - TextLayoutHelper.containerLinePadding)
+  }
+  
 }
