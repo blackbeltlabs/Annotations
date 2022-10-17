@@ -16,8 +16,25 @@ class CursorHelper {
   }()
   
   func cursor(with resourceName: String, hotSpot: NSPoint) -> NSCursor {
-    guard let image = Bundle(for: CursorHelper.self).image(forResource: resourceName) else { return NSCursor.crosshair }
+    guard let image = Bundle.module.image(forResource: resourceName) else {
+      return NSCursor.crosshair
+    }
     return NSCursor(image: image, hotSpot: hotSpot)
+  }
+  
+ func cursor(for type: CursorType) -> NSCursor {
+    switch type {
+    case .`default`:
+      return defaultCursor
+    case .textEditing:
+      return .iBeam
+    case .textMove:
+      return moveCursor
+    case .textResize:
+      return resizeCursor
+    case .textScale:
+      return scaleCursor
+    }
   }
 }
 

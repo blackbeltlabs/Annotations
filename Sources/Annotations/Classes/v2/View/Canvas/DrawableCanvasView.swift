@@ -5,6 +5,7 @@ private enum MouseEventType {
   case down
   case dragged
   case up
+  case moved
 }
 
 private class SelectionMainView: NSView {
@@ -40,6 +41,7 @@ public class DrawableCanvasView: NSView {
   let mouseDownSubject = PassthroughSubject<CGPoint, Never>()
   let mouseDraggedSubject = PassthroughSubject<CGPoint, Never>()
   let mouseUpSubject = PassthroughSubject<CGPoint, Never>()
+  let mouseMovedSubject = PassthroughSubject<CGPoint, Never>()
   
   let legibilityButtonPressedSubject = PassthroughSubject<String, Never>()
   let emojiButtonPressedSubject = PassthroughSubject<String, Never>()
@@ -117,6 +119,11 @@ public class DrawableCanvasView: NSView {
     super.mouseUp(with: event)
     handleMouseEventType(.up, event: event)
   }
+  
+  public override func mouseMoved(with event: NSEvent) {
+    super.mouseMoved(with: event)
+    handleMouseEventType(.moved, event: event)
+  }
     
   public override func hitTest(_ point: NSPoint) -> NSView? {
     guard isUserInteractionEnabled else {
@@ -136,12 +143,19 @@ public class DrawableCanvasView: NSView {
       mouseDraggedSubject.send(point)
     case .up:
       mouseUpSubject.send(point)
+    case .moved:
+      mouseMovedSubject.send(point)
     }
   }
   
   private func mousePressPoint(from event: NSEvent) -> CGPoint {
     convert(event.locationInWindow, from: nil)
   }
+  
+  // need just leave it empty to ensure that custom cursors will work
+  // and will not blink
+  // https://stackoverflow.com/a/64370679/5236187
+  public override func cursorUpdate(with event: NSEvent) { }
 }
 
 protocol DrawableElement {
@@ -254,7 +268,6 @@ extension DrawableCanvasView: RendererCanvas {
   }
   
   func renderText(text: Text, rendererType: TextRenderingType?) {
-    // FIXME: - Implement update here
     if let textAnnotation = drawable(with: text.id) as? TextAnnotationView {
       
       if let renderingType = rendererType {
@@ -431,6 +444,13 @@ extension DrawableCanvasView {
     selectionDrawables.clearAll()
   }
   
+  // MARK: - Cursor
+  
+  func setCursor(for type: CursorType) {
+    let cursor = CursorHelper().cursor(for: type)
+    cursor.set()
+  }
+  
   // MARK: - Actions
   @objc
   func legibilityButtonPressed(_ button: LegibilityControlButton) {
@@ -457,6 +477,7 @@ extension DrawableCanvasView {
       .map { _ in false }
       .assign(to: \.value, on: emojiPickerisPresented)
   }
+  
 }
 
 extension DrawableCanvasView {

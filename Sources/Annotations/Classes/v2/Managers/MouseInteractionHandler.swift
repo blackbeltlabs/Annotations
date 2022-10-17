@@ -152,7 +152,7 @@ class MouseInteractionHandler {
       }
     }
     
-    dataSource.deselect()
+    
     
     if textAnnotationsManager.isEditing {
       let result = textAnnotationsManager.cancelEditing()
@@ -161,8 +161,15 @@ class MouseInteractionHandler {
       }
     }
     
+    // Can't create new annotation like text or number if was deselected (for better UI)
+    var wasDeselected: Bool = false
+    if dataSource.selectedAnnotation != nil {
+      dataSource.deselect()
+      wasDeselected = true
+    }
+    
     if let createMode = dataSource.createMode {
-      if createMode == .number {
+      if createMode == .number, !wasDeselected {
         let number = Number.modelWithRadius(centerPoint: point.modelPoint,
                                             radius: Number.defaultRadius,
                                             value: nextModelNumber,
@@ -170,7 +177,7 @@ class MouseInteractionHandler {
                                             color: dataSource.createColor)
         dataSource.update(model: number)
         dataSource.select(model: number)
-      } else if createMode == .text {
+      } else if createMode == .text, !wasDeselected {
         let newText = TextAnnotationsManager.createNewTextAnnotation(from: point,
                                                                      color: dataSource.createColor,
                                                                      zPosition: positionsHandler.newZPosition,
@@ -237,6 +244,7 @@ class MouseInteractionHandler {
 
         self.possibleMovement = possibleMovement.copy(with: point,
                                                       modifiedAnnotation: updatedAnnotation)
+      updateCursorWhenMoving(for: updatedAnnotation)
     case .resize(let knobType):
       guard let selectedAnnotation = dataSource.selectedAnnotation else {
         return
@@ -249,6 +257,7 @@ class MouseInteractionHandler {
       dataSource.select(model: updatedAnnotation, renderingType: renderingType(for: knobType), checkIfContainsInModelsSet: false)
       self.possibleMovement = possibleMovement.copy(with: point,
                                                     modifiedAnnotation: updatedAnnotation)
+      updateCursorWhenDragging(knobType: knobType)
     }
   }
   
@@ -282,6 +291,63 @@ class MouseInteractionHandler {
     }
   }
   
+  // currently cursor are supported for text annotations only
+  func handleMouseMoved(point: CGPoint) {
+    guard let dataSource = dataSource else { return }
+    
+    guard possibleMovement == nil else { return }
+    
+    guard let selectedAnnotation = dataSource.selectedAnnotation as? Text else { return }
+        
+    let selectionRect = TextSelectionPathCreator.selectionRect(for: selectedAnnotation)
+    
+    let textKnobPair = TextKnobsCreator().createKnobs(for: selectedAnnotation)
+
+    if let first = textKnobPair.allKnobsWithType.first(where: { $0.1.frameRect.contains(point) })  {
+      if let knobType = first.0 as? TextKnobType {
+        setCursorFor(textKnobType: knobType)
+        return
+      }
+    }
+    
+    if textAnnotationsManager.isEditing {
+      if TextSelectionPathCreator.textViewRect(for: selectedAnnotation).contains(point) {
+        renderer?.setCursor(type: .textEditing)
+      } else {
+        renderer?.setCursor(type: .default)
+      }
+    } else {
+      if selectionRect.contains(point) {
+        renderer?.setCursor(type: .textMove)
+      } else {
+        renderer?.setCursor(type: .default)
+      }
+    }
+  }
+  
+  private func updateCursorWhenMoving(for annotation: AnnotationModel) {
+    if annotation is Text {
+      renderer?.setCursor(type: .textMove)
+    }
+  }
+  
+  private func updateCursorWhenDragging(knobType: KnobType) {
+    if let knobType = knobType as? TextKnobType {
+      setCursorFor(textKnobType: knobType)
+    } else {
+      renderer?.setCursor(type: .default)
+    }
+  }
+  
+  private func setCursorFor(textKnobType: TextKnobType) {
+    switch textKnobType {
+    case .resizeLeft, .resizeRight:
+      renderer?.setCursor(type: .textResize)
+    case .bottomScale:
+      renderer?.setCursor(type: .textScale)
+    }
+  }
+  
   // MARK: - Mouse button presses for text annotations
   func handleLegibilityButtonPressed(_ buttonId: String) {
     guard let textAnnotationId = SelectionsIdManager.extractAnnotationIdFromNumberId(buttonId) else { return }
@@ -304,7 +370,6 @@ class MouseInteractionHandler {
           selectedAnnotation.id == textAnnotationId else { return }
     renderer?.renderTextEmojiPicker(for: textAnnotationId)
   }
-  
 }
 
 // customise rendering type for some kind of updates

@@ -1,5 +1,6 @@
-import Cocoa
 import Combine
+import Cocoa
+
 
 struct LayerRenderingSet {
   let path: CGPath
@@ -7,6 +8,14 @@ struct LayerRenderingSet {
   let zPosition: CGFloat
 }
 
+
+enum CursorType {
+  case `default`
+  case textEditing
+  case textMove
+  case textResize
+  case textScale
+}
 
 protocol RendererCanvas: AnyObject {
   func renderLayer(id: String,
@@ -39,6 +48,8 @@ protocol RendererCanvas: AnyObject {
   
   
   func clearAll()
+  
+  func setCursor(for type: CursorType)
 }
 
 enum ObfuscatedAreaType {
@@ -194,9 +205,18 @@ class Renderer: TextAnnotationsSource {
     canvasView?.renderRemovalSelections([control])
   }
   
+  // MARK: - Cursors
+  
+  func setCursor(type: CursorType) {
+    canvasView?.setCursor(for: type)
+  }
+  
+  // MARK: - Obfuscated
   func renderObfuscatedAreaBackground(type: ObfuscatedAreaType) {
     canvasView?.renderObfuscatedAreaBackground(type)
   }
+  
+  // MARK: - Removal
   
   func renderRemoval(of modelId: String) {
     canvasView?.renderRemoval(with: modelId)

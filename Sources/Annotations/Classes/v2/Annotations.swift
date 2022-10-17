@@ -68,6 +68,13 @@ public final class AnnotationsCanvasFactory {
       .store(in: &canvasView.commonCancellables)
     
     canvasView
+      .mouseMovedSubject
+      .sink { [weak mouseInteractionHandler] point in
+        mouseInteractionHandler?.handleMouseMoved(point: point)
+      }
+      .store(in: &canvasView.commonCancellables)
+    
+    canvasView
       .legibilityButtonPressedSubject
       .sink { [weak mouseInteractionHandler] id in
         mouseInteractionHandler?.handleLegibilityButtonPressed(id)
