@@ -15,7 +15,7 @@ class TextAnnotationView: NSView, DrawableElement {
     }
   }
   
-  let debugMode: Bool = true
+  let debugMode: Bool = false
   
   private let textView = TextView(frame: .zero)
   

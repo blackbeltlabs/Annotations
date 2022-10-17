@@ -47,7 +47,14 @@ public class DrawableCanvasView: NSView {
   let emojiButtonPressedSubject = PassthroughSubject<String, Never>()
   
   let emojiPickerisPresented = CurrentValueSubject<Bool, Never>(false)
-  var emojiPickerPresentedCancellable: AnyCancellable?
+  private var emojiPickerPresentedCancellable: AnyCancellable?
+  
+  
+  let textViewEditingSubject = PassthroughSubject<Bool, Never>()
+  
+  public var textViewEditingPublisher: AnyPublisher<Bool, Never> {
+    textViewEditingSubject.eraseToAnyPublisher()
+  }
   
   var isUserInteractionEnabled: Bool = true
   
@@ -318,12 +325,16 @@ extension DrawableCanvasView: RendererCanvas {
   func startEditingText(for id: String) -> AnyPublisher<String, Never>? {
     guard let textAnnotation = drawable(with: id) as? TextAnnotationView else { return nil }
     textAnnotation.setEditing(true)
+    
+    textViewEditingSubject.send(true)
     return textAnnotation.textDidChangedSubject.eraseToAnyPublisher()
   }
   
   func stopEditingText(for id: String) {
     guard let textAnnotation = drawable(with: id) as? TextAnnotationView else { return }
     textAnnotation.setEditing(false)
+    
+    textViewEditingSubject.send(false)
   }
   
   func renderRemoval(with id: String) {

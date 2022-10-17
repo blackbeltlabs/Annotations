@@ -11,6 +11,7 @@ class PlaygroundViewController: NSViewController {
     return view
   }()
   
+  
   var loadViewClosure: ((PlaygroundViewController) -> Void)?
   
   var modelsManager: ModelsManager!
@@ -104,14 +105,11 @@ class PlaygroundViewController: NSViewController {
     let backgroundImage = NSImage(named: "catalina")!
     modelsManager.addBackgroundImage(backgroundImage)
     
-    setupPublishers()
-    
+    setupPublishers(drawableCanvasView: canvasView)
   }
   
-
+ // do not call super here otherwise beep sound will be played
   override func keyDown(with event: NSEvent) {
-    super.keyDown(with: event)
-    
     // delete button {
     if event.keyCode == 51  {
       modelsManager.deleteSelectedModel()
@@ -120,7 +118,7 @@ class PlaygroundViewController: NSViewController {
   
   override var acceptsFirstResponder: Bool { true }
   
-  func setupPublishers() {
+  func setupPublishers(drawableCanvasView: DrawableCanvasView) {
     canvasControlsView
       .colorSelected
       .map(\.annotationModelColor)
@@ -158,6 +156,16 @@ class PlaygroundViewController: NSViewController {
       .receive(on: DispatchQueue.main)
       .assign(to: \.isEnabled, on: canvasControlsView.redoButton)
       .store(in: &cancellables)
+    
+    
+    drawableCanvasView
+      .textViewEditingPublisher
+      .sink { [weak self] isEditing in
+        guard let self else { return }
+        if !isEditing {
+          self.view.window?.makeFirstResponder(self.view)
+        }
+      }.store(in: &cancellables)
   }
   
   override func viewDidAppear() {

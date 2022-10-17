@@ -27,7 +27,10 @@ class ResizeTextTransformation: ResizeTransformation {
     return updatedText
   }
   
-  private func resizeRightToLeft(_ frame: CGRect, attributedText: NSAttributedString, delta: CGVector, type: ResizeSideType) -> CGRect {
+  private func resizeRightToLeft(_ frame: CGRect,
+                                 attributedText: NSAttributedString,
+                                 delta: CGVector,
+                                 type: ResizeSideType) -> CGRect {
     let minimumTextViewWidth: CGFloat = 50.0
     
     let offset: CGFloat = type == .fromRightToLeft ? delta.dx * -1.0 : delta.dx

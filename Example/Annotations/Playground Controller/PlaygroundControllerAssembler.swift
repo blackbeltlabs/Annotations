@@ -28,11 +28,5 @@ final class PlaygroundControllerAssembler {
 }
 
 final class MainView: NSView {
-  override var isFlipped: Bool { true }
   
-  override func performKeyEquivalent(with event: NSEvent) -> Bool {
-    true
-  }
-  
-  override var acceptsFirstResponder: Bool { true }
 }
