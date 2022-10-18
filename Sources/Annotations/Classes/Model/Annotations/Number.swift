@@ -41,7 +41,7 @@ public struct Number: RectBased, Figure {
             zPosition: 10,
             origin: .init(x: 120, y: 120),
             to: .init(x: 200, y: 200),
-            value: 9)
+            value: 1)
     }
   }
 }

@@ -28,5 +28,5 @@ final class PlaygroundControllerAssembler {
 }
 
 final class MainView: NSView {
-  
+  override var acceptsFirstResponder: Bool { true }
 }
