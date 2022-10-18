@@ -221,4 +221,8 @@ class Renderer: TextAnnotationsSource {
   func renderRemoval(of modelId: String) {
     canvasView?.renderRemoval(with: modelId)
   }
+  
+  func renderRemovalAll() {
+    canvasView?.clearAll()
+  }
 }

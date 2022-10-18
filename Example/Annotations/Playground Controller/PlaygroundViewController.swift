@@ -166,8 +166,8 @@ class PlaygroundViewController: NSViewController {
       .store(in: &cancellables)
     
     
-    drawableCanvasView
-      .textViewEditingPublisher
+    parts.settings
+      .textViewIsEditingPublisher
       .sink { [weak self] isEditing in
         guard let self else { return }
         if !isEditing {

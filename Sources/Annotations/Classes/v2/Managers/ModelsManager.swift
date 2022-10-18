@@ -64,11 +64,15 @@ public class ModelsManager {
     
     Publishers.CombineLatest(viewSizeUpdate, models)
       .map(\.1)
-      .receive(on: DispatchQueue.main)
+      //.receive(on: DispatchQueue.main) //  FIXME: - handle custom receive here
       .sink { [weak self] models in
         guard let self = self else { return }
-        self.renderer.render(models.all)
-        self.updateSelectionModelIfNeeded(with: models.all)
+        if models.all.isEmpty {
+          self.renderer.renderRemovalAll()
+        } else {
+          self.renderer.render(models.all)
+          self.updateSelectionModelIfNeeded(with: models.all)
+        }
       }
       .store(in: &commonCancellables)
     
@@ -238,6 +242,14 @@ public class ModelsManager {
     }
     
     models.send(allModels)
+  }
+  
+  public func removeAll() {    
+    var currentSet = models.value
+    currentSet.refresh(with: [])
+    models.send(currentSet)
+    
+    history.clear()
   }
   
   public func updateCurrentColor(_ color: ModelColor) {

@@ -79,5 +79,6 @@ public class SharedHistory {
   // MARK: - Clear
   public func clear() {
     manager.removeAllActions()
+    updateUndoRedoStates()
   }
 }

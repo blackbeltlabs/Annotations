@@ -49,13 +49,8 @@ public class DrawableCanvasView: NSView {
   let emojiPickerisPresented = CurrentValueSubject<Bool, Never>(false)
   private var emojiPickerPresentedCancellable: AnyCancellable?
   
-  
   let textViewEditingSubject = PassthroughSubject<Bool, Never>()
-  
-  public var textViewEditingPublisher: AnyPublisher<Bool, Never> {
-    textViewEditingSubject.eraseToAnyPublisher()
-  }
-  
+    
   var isUserInteractionEnabled: Bool = true
   
   // MARK: - Cancellables
@@ -357,8 +352,10 @@ extension DrawableCanvasView: RendererCanvas {
   }
   
   func clearAll() {
-    drawables.forEach { self.removeDrawable($0) }
-    selectionDrawables.all.forEach { self.removeDrawable($0) }
+    CATransaction.withoutAnimation {
+      self.drawables.forEach { self.removeDrawable($0) }
+      self.selectionDrawables.all.forEach { self.removeDrawable($0) }
+    }
   }
 }
 

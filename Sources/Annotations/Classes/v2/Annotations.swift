@@ -82,12 +82,25 @@ public final class AnnotationsCanvasFactory {
       .receive(on: DispatchQueue.main)
       .assign(to: \.textStyle, on: textAnnotationManager)
       .store(in: &modelsManager.commonCancellables)
+    
+    canvas
+      .textViewEditingSubject
+      .sink { [weak settings] isEditing in
+        settings?.textViewIsEditingSubject.send(isEditing)
+      }
+      .store(in: &modelsManager.commonCancellables)
+    
+    canvas
+      .emojiPickerisPresented
+      .sink { [weak settings] isPresented in
+        settings?.emojiPickerIsPresented.send(isPresented)
+      }
+      .store(in: &modelsManager.commonCancellables)
   }
   
   static func setupPublishers(canvasView: DrawableCanvasView,
                               modelsManager: ModelsManager,
                               mouseInteractionHandler: MouseInteractionHandler) {
-    
     canvasView
       .viewSizeUpdated
       .sink { [weak modelsManager] size in
