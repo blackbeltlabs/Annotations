@@ -18,7 +18,7 @@ extension CALayer {
     } else {
       let dx = -spread
       let rect = bounds.insetBy(dx: dx, dy: dx)
-      shadowPath = NSBezierPath(rect: rect).cgPath
+      shadowPath = CGPath(rect: rect, transform: nil)      
     }
   }
 }

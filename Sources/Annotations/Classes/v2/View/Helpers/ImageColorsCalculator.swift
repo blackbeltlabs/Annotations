@@ -40,9 +40,7 @@ struct Pixel: Hashable, Equatable {
 }
 
 public class ImageColorsCalculator {
-  
-  let logger = Logger(isDebug: true)
-  
+    
   public init() { }
   
   func allColors(from nsImage: NSImage) -> [Pixel: Int] {
@@ -52,7 +50,6 @@ public class ImageColorsCalculator {
     let imageRect = NSRect(x: 0, y: 0, width: imageSize.width, height: imageSize.height)
     
     guard let colorSpace = CGColorSpace(name: CGColorSpace.sRGB) else {
-      logger.error("Can't instantiate color space to calculate average colors")
       return [:]
     }
     
@@ -64,7 +61,6 @@ public class ImageColorsCalculator {
                                          bytesPerRow: 0,
                                          space: colorSpace,
                                          bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else {
-      logger.error("Can't instantiate context from bitmap to calculate average colors")
       return [:]
     }
     
@@ -104,7 +100,6 @@ public class ImageColorsCalculator {
     let height = bitmap.height
     
     guard let pixelData = bitmap.data else {
-      logger.error("Can't get pixel data from bitmap to calculate average colors")
       return [:]
     }
     

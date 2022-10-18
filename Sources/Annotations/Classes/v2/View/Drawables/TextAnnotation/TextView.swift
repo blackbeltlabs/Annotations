@@ -1,6 +1,6 @@
 import Cocoa
 
-class TestTextView: NSTextView {
+class TextView: NSTextView {
   
   // MARK: - Properties
   private var cursorWidth: CGFloat = 2.0
@@ -50,29 +50,11 @@ class TestTextView: NSTextView {
     var updatedRect = rect
     updatedRect.size.width = cursorWidth
     super.drawInsertionPoint(in: updatedRect, color: color, turnedOn: flag)
-
   }
 
   override func setNeedsDisplay(_ rect: NSRect, avoidAdditionalLayout flag: Bool) {
     var rect = rect
     rect.size.width += cursorWidth - 1
     super.setNeedsDisplay(rect, avoidAdditionalLayout: flag)
-  }
-}
-
-
-// this method helps to scale text views in a correct way
-extension NSTextView {
-  var textBoundingBox: CGRect {
-    var textInsets = NSEdgeInsets(top: textContainerInset.height,
-                                  left: textContainerInset.width,
-                                  bottom: textContainerInset.height,
-                                  right: textContainerInset.width)
-
-    textInsets.left += textContainer?.lineFragmentPadding ?? 0
-    textInsets.right += textContainer?.lineFragmentPadding ?? 0
-
-    return bounds.insetBy(dx: textInsets.left + textInsets.right,
-                          dy: textInsets.bottom + textInsets.top)
   }
 }

@@ -1,6 +1,6 @@
 import AppKit
 
-class CursorHelper {
+final class CursorHelper {
   lazy var defaultCursor: NSCursor = NSCursor.arrow
   
   lazy var resizeCursor: NSCursor = {
@@ -16,7 +16,7 @@ class CursorHelper {
   }()
   
   func cursor(with resourceName: String, hotSpot: NSPoint) -> NSCursor {
-    guard let image = Bundle.module.image(forResource: resourceName) else {
+    guard let image = ImageHelper.imageFromBundle(named: resourceName) else {            
       return NSCursor.crosshair
     }
     return NSCursor(image: image, hotSpot: hotSpot)

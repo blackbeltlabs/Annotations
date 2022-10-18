@@ -65,7 +65,7 @@ class HiglightsLayer: CALayer {
     let maskPath = CGMutablePath()
     let bounds = bounds
     rects.forEach {
-      maskPath.addPath(NSBezierPath.concaveRectPath(rect: $0, radius: 4))
+      maskPath.addPath(CGPath.concaveRectPath(rect: $0, radius: 4))
     }
     maskPath.addRect(bounds)
     maskLayer.path = maskPath
@@ -73,5 +73,28 @@ class HiglightsLayer: CALayer {
 
   var allHighlightDrawables: [DrawableElement] {
     Array(rectAreas)
+  }
+}
+
+
+private extension CGPath {
+  static func concaveRectPath(rect: CGRect, radius: CGFloat) -> CGPath {
+    let cornerRadius = radius
+      
+    let path = CGMutablePath()
+      
+    let bottomLeft = CGPoint(x: rect.minX + cornerRadius, y: rect.minY + cornerRadius)
+    path.move(to: CGPoint(x: bottomLeft.x, y: bottomLeft.y))
+    
+    let bottomRight = CGPoint(x: rect.maxX - cornerRadius, y: rect.minY + cornerRadius)
+    path.addLine(to: CGPoint(x: bottomRight.x, y: bottomRight.y))
+      
+    let topRight = CGPoint(x: rect.maxX - cornerRadius, y: rect.maxY - cornerRadius)
+    path.addLine(to: CGPoint(x: topRight.x, y: topRight.y))
+      
+    let topLeft = CGPoint(x: rect.minX + cornerRadius, y: rect.maxY - cornerRadius)
+    path.addLine(to: CGPoint(x: topLeft.x, y: topLeft.y))
+      
+    return path
   }
 }
