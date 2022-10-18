@@ -55,6 +55,7 @@ private enum PossibleDraggingType {
   case resize(KnobType)
 }
 
+// Responsible for editing and creation of new annotations
 class MouseInteractionHandler {
   
   weak var dataSource: MouseInteractionHandlerDataSource?

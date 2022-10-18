@@ -2,36 +2,12 @@ import Foundation
 import Combine
 import Cocoa
 
-
-protocol RenderingType {
-  
-}
-
-
-enum CommonRenderingType: RenderingType {
-  case dontRenderSelection
-}
-
-enum TextRenderingType: RenderingType {
-  case newModel
-  case resize
-  case scale
-  case textEditingUpdate
-}
-
-struct RenderedModel {
-  let model: AnnotationModel
-  let renderingType: RenderingType?
-  
-  var id: String { model.id }
-}
-
 public class ModelsManager {
   
   // MARK: - Dependencies
-  let renderer: Renderer
-  let mouseInteractionHandler: MouseInteractionHandler
-  let history: SharedHistory
+  private let renderer: Renderer
+  private let mouseInteractionHandler: MouseInteractionHandler
+  private let history: SharedHistory
   
   // MARK: - Models
   private let models = CurrentValueSubject<AnnotationModelsSet, Never>(.init([]))
@@ -39,7 +15,7 @@ public class ModelsManager {
   let selectedModel = CurrentValueSubject<RenderedModel?, Never>(nil)
   
   // MARK: - Combine
-  public var commonCancellables = Set<AnyCancellable>()
+  var commonCancellables = Set<AnyCancellable>()
   
   // MARK: - Public settings
   var solidColorForObsfuscate: Bool = false
@@ -52,6 +28,7 @@ public class ModelsManager {
   // used for obfuscate purposes
   private let backgroundImage = CurrentValueSubject<NSImage?, Never>(nil)
 
+  // MARK: - Init
   init(renderer: Renderer, mouseInteractionHandler: MouseInteractionHandler, history: SharedHistory) {
     self.renderer = renderer
     self.mouseInteractionHandler = mouseInteractionHandler
@@ -59,7 +36,7 @@ public class ModelsManager {
     setupPublishers()
   }
   
-  func setupPublishers() {
+  private func setupPublishers() {
     let viewSizeUpdate = viewSizeUpdated.share()
     
     Publishers.CombineLatest(viewSizeUpdate, models)
@@ -166,62 +143,15 @@ public class ModelsManager {
       .store(in: &commonCancellables)
   }
   
+  // MARK: - Public
+  
+  // add one or multiple models
   public func add(models: [AnnotationModel]) {
     let modelsSet = AnnotationModelsSet(models)
     self.models.send(modelsSet)
   }
   
-  // FIXME: - Handle with just models (without additional render removal)
-  public func delete(model: AnnotationModel) {
-    var allModelsSet = self.models.value
-    allModelsSet.remove(with: model.id)
-    
-    if selectedAnnotation?.id == model.id {
-      deselect()
-    }
-    
-    // if number is deleted then it could be needed to recalculate number values
-    if model is Number, let numbers = updateNumbersIfNeeded(in: allModelsSet.all) {
-      allModelsSet.update(numbers)
-    }
-    
-    self.models.send(allModelsSet)
-    renderer.renderRemoval(of: model.id)
-    
-    history.addUndo { [weak self] in
-      self?.update(model: model)
-    }
-  }
-  
-  public func containsAnnotations() -> Bool {
-    !models.value.all.isEmpty
-  }
-  
-  public func deleteSelectedModel() {
-    guard let value = selectedModel.value else { return }
-    delete(model: value.model)
-  }
-  
-  public func select(model: AnnotationModel) {
-    select(model: model, renderingType: nil, checkIfContainsInModelsSet: true)
-  }
-  
-  func select(model: AnnotationModel, renderingType: RenderingType?) {
-    select(model: model, renderingType: renderingType, checkIfContainsInModelsSet: false)
-  }
-  
-  func select(model: AnnotationModel, renderingType: RenderingType?, checkIfContainsInModelsSet: Bool) {
-    if checkIfContainsInModelsSet {
-      guard models.value.contains(model) else { return }
-    }
-    selectedModel.send(.init(model: model,
-                             renderingType: renderingType))
-  }
-  
-  public func deselect() {
-    selectedModel.send(nil)
-  }
-  
+  // update model and add to history
   public func update(model: AnnotationModel) {
     var allModels = models.value
     
@@ -244,6 +174,45 @@ public class ModelsManager {
     models.send(allModels)
   }
   
+  // delete single model
+  public func delete(model: AnnotationModel) {
+    var allModelsSet = self.models.value
+    allModelsSet.remove(with: model.id)
+    
+    if selectedAnnotation?.id == model.id {
+      deselect()
+    }
+    
+    // if number is deleted then it could be needed to recalculate number values
+    if model is Number, let numbers = updateNumbersIfNeeded(in: allModelsSet.all) {
+      allModelsSet.update(numbers)
+    }
+    
+    self.models.send(allModelsSet)
+    renderer.renderRemoval(of: model.id)
+    
+    history.addUndo { [weak self] in
+      self?.update(model: model)
+    }
+  }
+  
+  public func select(model: AnnotationModel) {
+    select(model: model, renderingType: nil, checkIfContainsInModelsSet: true)
+  }
+  
+  public func deselect() {
+    selectedModel.send(nil)
+  }
+  
+  public func deleteSelectedModel() {
+    guard let value = selectedModel.value else { return }
+    delete(model: value.model)
+  }
+  
+  public func containsAnnotations() -> Bool {
+    !models.value.all.isEmpty
+  }
+  
   public func removeAll() {    
     var currentSet = models.value
     currentSet.refresh(with: [])
@@ -251,9 +220,19 @@ public class ModelsManager {
     
     history.clear()
   }
+    
+  // MARK: - Select
   
-  public func updateCurrentColor(_ color: ModelColor) {
-    createColorSubject.send(color)
+  func select(model: AnnotationModel, renderingType: RenderingType?) {
+    select(model: model, renderingType: renderingType, checkIfContainsInModelsSet: false)
+  }
+  
+  func select(model: AnnotationModel, renderingType: RenderingType?, checkIfContainsInModelsSet: Bool) {
+    if checkIfContainsInModelsSet {
+      guard models.value.contains(model) else { return }
+    }
+    selectedModel.send(.init(model: model,
+                             renderingType: renderingType))
   }
   
   private func updateSelectionModelIfNeeded(with models: [AnnotationModel]) {
@@ -264,6 +243,7 @@ public class ModelsManager {
     select(model: models[firstIndex])
   }
   
+  // MARK: - Background image
   // add background image that is used for obfuscated purposes
   func addBackgroundImage(_ image: NSImage) {
     backgroundImage.send(solidColorForObsfuscate ? nil : image)
@@ -271,7 +251,7 @@ public class ModelsManager {
   
   // MARK: - Numbers
   // if some intermediate number was deleted then it might need to update their values
-  func updateNumbersIfNeeded(in models: [AnnotationModel]) -> [Number]? {
+  private func updateNumbersIfNeeded(in models: [AnnotationModel]) -> [Number]? {
     // 1. get all numbers sorted
     let allNumbers: [Number] = models.compactMap { $0 as? Number }.sorted { $0.value < $1.value }
     

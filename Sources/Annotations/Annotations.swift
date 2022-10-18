@@ -1,5 +1,6 @@
 import Foundation
 
+// parts are returned from initializer inside struct for convenience and scalability
 public struct AnnotationsManagingParts {
   public let modelsManager: ModelsManager
   public let history: SharedHistory
@@ -23,16 +24,15 @@ public final class AnnotationsCanvasFactory {
     let modelsManager = ModelsManager(renderer: renderer,
                                       mouseInteractionHandler: mouseInteractionHandler,
                                       history: history)
-    
     let settings = Settings()
-    
     let analytics = Analytics()
-    analytics.dataSource = modelsManager
     
+    analytics.dataSource = modelsManager
     positionsHandler.dataSource = modelsManager
     mouseInteractionHandler.dataSource = modelsManager
     mouseInteractionHandler.renderer = renderer
     textAnnotationsManager.source = renderer
+    
     setupPublishers(canvasView: canvasView,
                     modelsManager: modelsManager,
                     mouseInteractionHandler: mouseInteractionHandler)
@@ -48,10 +48,10 @@ public final class AnnotationsCanvasFactory {
                               analytics: analytics))
   }
   
-  static func bindSettings(settings: Settings,
-                           modelsManager: ModelsManager,
-                           canvas: DrawableCanvasView,
-                           textAnnotationManager: TextAnnotationsManager) {
+  private static func bindSettings(settings: Settings,
+                                   modelsManager: ModelsManager,
+                                   canvas: DrawableCanvasView,
+                                   textAnnotationManager: TextAnnotationsManager) {
     settings
       .solidColorForObsfuscate
       .receive(on: DispatchQueue.main)
@@ -105,9 +105,9 @@ public final class AnnotationsCanvasFactory {
       .store(in: &modelsManager.commonCancellables)
   }
   
-  static func setupPublishers(canvasView: DrawableCanvasView,
-                              modelsManager: ModelsManager,
-                              mouseInteractionHandler: MouseInteractionHandler) {
+  private static func setupPublishers(canvasView: DrawableCanvasView,
+                                      modelsManager: ModelsManager,
+                                      mouseInteractionHandler: MouseInteractionHandler) {
     canvasView
       .viewSizeUpdated
       .sink { [weak modelsManager] size in
