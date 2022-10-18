@@ -4,6 +4,7 @@ public struct AnnotationsManagingParts {
   public let modelsManager: ModelsManager
   public let history: SharedHistory
   public let settings: Settings
+  public let analytics: Analytics
 }
 
 public final class AnnotationsCanvasFactory {
@@ -25,6 +26,9 @@ public final class AnnotationsCanvasFactory {
     
     let settings = Settings()
     
+    let analytics = Analytics()
+    analytics.dataSource = modelsManager
+    
     positionsHandler.dataSource = modelsManager
     mouseInteractionHandler.dataSource = modelsManager
     mouseInteractionHandler.renderer = renderer
@@ -38,7 +42,10 @@ public final class AnnotationsCanvasFactory {
                  canvas: canvasView,
                  textAnnotationManager: textAnnotationsManager)
     
-    return (canvasView, .init(modelsManager: modelsManager, history: history, settings: settings))
+    return (canvasView, .init(modelsManager: modelsManager,
+                              history: history,
+                              settings: settings,
+                              analytics: analytics))
   }
   
   static func bindSettings(settings: Settings,
