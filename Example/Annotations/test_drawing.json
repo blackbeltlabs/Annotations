@@ -30,7 +30,7 @@
     },
     {
       "zPosition": 2,
-      "origin": { "index": 2, "x": 300, "y": 300 },
+      "origin": { "index": 2, "x": 200, "y": 250 },
       "text": "Julian Drapaylo",
       "style": {
         "font_name": "Chalkduster Regular",

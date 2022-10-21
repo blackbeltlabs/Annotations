@@ -81,7 +81,7 @@ public struct TextParams: Codable, Equatable {
         size = 30.0
       }
       
-      let font = NSFont(name: fontName, size: size) ?? NSFont.systemFont(ofSize: size)
+      let font = FontsLayoutHelper.fontOrDefault(for: fontName, fontSize: size)
       attributes[.font] = font
     } else if let fontSize = self.fontSize {
       attributes[.font] = NSFont.systemFont(ofSize: CGFloat(fontSize))

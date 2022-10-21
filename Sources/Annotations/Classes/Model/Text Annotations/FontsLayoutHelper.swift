@@ -1,11 +1,15 @@
 import Cocoa
 
 final class FontsLayoutHelper {
+  
+  static func fontOrDefault(for fontName: String, fontSize: CGFloat) -> NSFont {
+    NSFont(name: fontName, size: fontSize) ?? NSFont.systemFont(ofSize: fontSize)
+  }
  
   static func fontSize(for text: String, from fontSizes: [Int], fontName: String, properBounds: CGRect) -> Int? {
     let constrainingBounds = CGSize(width: properBounds.width, height: CGFloat.infinity)
     return fontSizes.first { fontSize in
-      guard let font = NSFont(name: fontName, size: CGFloat(fontSize)) else { return false }
+      let font = Self.fontOrDefault(for: fontName, fontSize: CGFloat(fontSize))
       
       let boundingRectForThisFont = text.boundingRect(with: constrainingBounds,
                                                       options: [.usesLineFragmentOrigin, .usesFontLeading],
