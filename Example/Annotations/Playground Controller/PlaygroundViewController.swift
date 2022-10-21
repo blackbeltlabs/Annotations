@@ -3,6 +3,17 @@ import AppKit
 import Annotations
 import Combine
 
+enum LocalError: LocalizedError {
+  case cantLoadFromBundle(_ name: String, _ ext: String)
+  
+  var errorDescription: String? {
+    switch self {
+    case .cantLoadFromBundle(let name, let ext):
+      return "Can't create url from bundle from \(name).\(ext)"
+    }
+  }
+}
+
 class PlaygroundViewController: NSViewController {
   
   let imageView: NSImageView = {
@@ -29,19 +40,32 @@ class PlaygroundViewController: NSViewController {
     parts.history
   }
   
-  var annotationSettings: Settings {
+  var annotationSettings: Annotations.Settings {
     parts.settings
   }
-
+  
+  let image: NSImage
+  let url: URL
+  let withControls: Bool
+  
+  init(image: NSImage, url: URL, withControls: Bool) {
+    self.url = url
+    self.image = image
+    self.withControls = withControls
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func loadView() {
     loadViewClosure?(self)
   }
   
-  
   var mainView: MainView {
     view as! MainView
   }
-  
   
   private var cancellables = Set<AnyCancellable>()
   
@@ -63,26 +87,33 @@ class PlaygroundViewController: NSViewController {
     canvasControlsView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     canvasControlsView.heightAnchor.constraint(equalToConstant: 65.0).isActive = true
     
-
-    canvasView.topAnchor.constraint(equalTo: canvasControlsView.bottomAnchor).isActive = true
+    canvasControlsView.isHidden = !withControls
+    
+    canvasView.topAnchor.constraint(equalTo: withControls ? canvasControlsView.bottomAnchor : view.topAnchor).isActive = true
     canvasView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     canvasView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
     canvasView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     
     canvasView.layer?.backgroundColor = .clear // NSColor.brown.cgColor
     
-
-    let backgroundImage = NSImage(named: "catalina")!
-    
-    annotationSettings.setBackgroundImage(backgroundImage)
+        
+    annotationSettings.setBackgroundImage(image)
     
     setupPublishers(drawableCanvasView: canvasView)
     
-    imageView.image = NSImage(named: "catalina")!
+    imageView.image = image
     
     mainView.viewLayoutClosure = { [weak self] in
       guard let self else { return }
       self.imageView.frame = .init(origin: .zero, size: self.mainView.frame.size)
+    }
+    
+    do {
+      let result = try JSONSerializer.deserializeFromFile(url: url)
+      self.modelsManager.add(models: result.models)
+    } catch let error {
+      let alertController = NSAlert(error: error)
+      alertController.runModal()
     }
   }
 
@@ -173,18 +204,40 @@ class PlaygroundViewController: NSViewController {
      */
     
     
-    let url = Bundle.main.url(forResource: "test_drawing", withExtension: "json")!
+   
+  }
+}
+
+import SwiftUI
+
+struct PlaygroundViewControllerPreview: NSViewControllerRepresentable {
+  let image: NSImage
+  let jsonURL: URL
+  
+  init(image: NSImage, jsonURL: URL) {
+    self.image = image
+    self.jsonURL = jsonURL
+  }
+  
+  func makeNSViewController(context: Context) -> PlaygroundViewController {
+    let wc = PlaygroundControllerAssembler.assemble(with: image, jsonURL: jsonURL, withControls: false)
     
-    JSONSerializer.deserializeFromFile(url: url) { [weak self] result in
-      guard let self else { return }
-      switch result {
-      case .success(let result):
-        self.modelsManager.add(models: result.models)
-      case .failure(let error):
-        print(error.localizedDescription)
-      }
-    }
+    return wc.contentViewController as! PlaygroundViewController
+  }
+
+  func updateNSViewController(_ nsViewController: PlaygroundViewController, context: Context) {
   }
 }
 
 
+struct PlaygroundViewController_Previews: PreviewProvider {
+    static var previews: some View {
+      PlaygroundViewControllerPreview(image: NSImage(named: "catalina")!,
+                                      jsonURL: Bundle.jsonURL("test_drawing.json"))
+        .border(.green, width: 1.0)
+        .frame(width: 700,
+                 height: 500)
+        .background(Color.clear)
+        .padding()
+    }
+}

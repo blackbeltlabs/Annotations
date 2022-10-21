@@ -1,8 +1,8 @@
 import Foundation
 import AppKit
 
-final class PlaygroundControllerAssembler {
-  static func assemble(with image: NSImage) -> NSWindowController {
+final class PlaygroundControllerAssembler{
+  static func assemble(with image: NSImage, jsonURL: URL, withControls: Bool) -> NSWindowController {
     
     let imageSize = image.size
     print(imageSize)
@@ -19,7 +19,9 @@ final class PlaygroundControllerAssembler {
     
     window.title = "Playground"
     let windowController = NSWindowController(window: window)
-    let vc = PlaygroundViewController()
+    let vc = PlaygroundViewController(image: NSImage(named: "catalina")!,
+                                      url: jsonURL, /* Bundle.jsonURL("test_drawing.json")*/
+                                      withControls: withControls)
    
     vc.loadViewClosure = { vc in
       let view = MainView(frame: .init(origin: .zero, size: windowSize))
@@ -40,5 +42,13 @@ final class MainView: NSView {
   override func layout() {
     super.layout()
     viewLayoutClosure?()
+  }
+}
+
+extension Bundle {
+  static func jsonURL(_ string: String) -> URL {
+    let parts = string.components(separatedBy: ".")
+    return Bundle.main.url(forResource: parts[0],
+                           withExtension: parts[1])!
   }
 }

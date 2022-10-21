@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 
 // parts are returned from initializer inside struct for convenience and scalability
 public struct AnnotationsManagingParts {
@@ -108,8 +109,15 @@ public final class AnnotationsCanvasFactory {
   private static func setupPublishers(canvasView: DrawableCanvasView,
                                       modelsManager: ModelsManager,
                                       mouseInteractionHandler: MouseInteractionHandler) {
-    canvasView
-      .viewSizeUpdated
+    
+    // need two events here because:
+    // 1) view.layout() is called from time to time and no need to call it again and re-render
+    //) 2) view size updated can be called several times
+    let layoutEvent = canvasView.viewLayoutUpdated.first()
+    let viewSizeUpdated = Publishers.CombineLatest(canvasView.viewSizeUpdated, layoutEvent)
+    
+    viewSizeUpdated
+      .map(\.0)
       .sink { [weak modelsManager] size in
         modelsManager?.viewSizeUpdated.send(size)
       }

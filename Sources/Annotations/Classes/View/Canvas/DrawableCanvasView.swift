@@ -37,6 +37,7 @@ public class DrawableCanvasView: NSView {
   
   // MARK: - Publishers
   let viewSizeUpdated = PassthroughSubject<CGSize, Never>()
+  let viewLayoutUpdated = PassthroughSubject<Void, Never>()
   
   let mouseDownSubject = PassthroughSubject<CGPoint, Never>()
   let mouseDraggedSubject = PassthroughSubject<CGPoint, Never>()
@@ -57,6 +58,12 @@ public class DrawableCanvasView: NSView {
   
   var commonCancellables = Set<AnyCancellable>()
   
+  public override var frame: NSRect {
+    didSet {
+      viewSizeUpdated.send(frame.size)
+    }
+  }
+  
   // MARK: - Init
   override init(frame frameRect: NSRect) {
     super.init(frame: frameRect)
@@ -64,23 +71,13 @@ public class DrawableCanvasView: NSView {
     
     layer?.addSublayer(obfuscateLayer)
     layer?.addSublayer(higlightsLayer)
-    
-    
     addSubview(selectionView)
-    //layer?.addSublayer(selectionsLayer)
     
     selectionsLayer.zPosition = 10000000
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
-
-  // MARK: - Frame updates
-  public override var frame: NSRect {
-    didSet {
-      viewSizeUpdated.send(frame.size)
-    }
   }
   
   public override func layout() {
@@ -89,7 +86,7 @@ public class DrawableCanvasView: NSView {
     higlightsLayer.frame = bounds
     
     selectionView.frame = bounds
-  //  selectionsLayer.frame = bounds
+    viewLayoutUpdated.send(())
   }
   
   // MARK: - Tracking areas
