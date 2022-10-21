@@ -59,14 +59,13 @@ final class JSONModelsConverter {
   
   static func convertToTextModel(jsonModel: JSONTextModel, commonStyle: TextParams) -> Text {
     
+    let finalStyle = jsonModel.style.updatedModelWithTextParamsIfNil(commonStyle)
+    
     let bestSize = TextLayoutHelper.bestSizeWithAttributes(for: jsonModel.text,
-                                                           attributes: jsonModel.style.attributes)
+                                                           attributes: finalStyle.attributes)
     
     let toOrigin = CGPoint(x: jsonModel.origin.x + bestSize.width,
                            y: jsonModel.origin.y + bestSize.height)
-    
-    let finalStyle = jsonModel.style.updatedModelWithTextParamsIfNil(commonStyle)
-    
     
     return .init(id: jsonModel.id ?? randomId(),
                  zPosition: jsonModel.zPosition,

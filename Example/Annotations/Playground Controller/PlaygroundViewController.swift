@@ -5,16 +5,22 @@ import Combine
 
 class PlaygroundViewController: NSViewController {
   
+  let imageView: NSImageView = {
+    let imageView = NSImageView(frame: .zero)
+    imageView.imageScaling = .scaleNone
+    return imageView
+  }()
+  
   let canvasControlsView: CanvasControlsView = {
     let view = CanvasControlsView(frame: .zero)
     view.translatesAutoresizingMaskIntoConstraints = false
     return view
   }()
   
-  
   var loadViewClosure: ((PlaygroundViewController) -> Void)?
   
   var parts: AnnotationsManagingParts!
+  
   var modelsManager: ModelsManager {
     parts.modelsManager
   }
@@ -31,17 +37,22 @@ class PlaygroundViewController: NSViewController {
     loadViewClosure?(self)
   }
   
-  private var cancellables = Set<AnyCancellable>()
   
+  var mainView: MainView {
+    view as! MainView
+  }
+  
+  
+  private var cancellables = Set<AnyCancellable>()
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
- 
+    view.addSubview(imageView)
     
     let (canvasView, parts) = AnnotationsCanvasFactory.instantiate()
     self.parts = parts
-        
+    
     canvasView.translatesAutoresizingMaskIntoConstraints = false
     view.addSubview(canvasView)
     
@@ -52,12 +63,13 @@ class PlaygroundViewController: NSViewController {
     canvasControlsView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     canvasControlsView.heightAnchor.constraint(equalToConstant: 65.0).isActive = true
     
+
     canvasView.topAnchor.constraint(equalTo: canvasControlsView.bottomAnchor).isActive = true
     canvasView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     canvasView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
     canvasView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     
-    canvasView.layer?.backgroundColor = NSColor.brown.cgColor
+    canvasView.layer?.backgroundColor = .clear // NSColor.brown.cgColor
     
 
     let backgroundImage = NSImage(named: "catalina")!
@@ -65,6 +77,13 @@ class PlaygroundViewController: NSViewController {
     annotationSettings.setBackgroundImage(backgroundImage)
     
     setupPublishers(drawableCanvasView: canvasView)
+    
+    imageView.image = NSImage(named: "catalina")!
+    
+    mainView.viewLayoutClosure = { [weak self] in
+      guard let self else { return }
+      self.imageView.frame = .init(origin: .zero, size: self.mainView.frame.size)
+    }
   }
 
   

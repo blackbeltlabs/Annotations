@@ -2,8 +2,13 @@ import Foundation
 import AppKit
 
 final class PlaygroundControllerAssembler {
-  static func assemble() -> NSWindowController {
-    let windowSize = CGSize(width: 600, height: 600)
+  static func assemble(with image: NSImage) -> NSWindowController {
+    
+    let imageSize = image.size
+    print(imageSize)
+    let windowSize = CGSize(width: imageSize.width, height: imageSize.height)
+    
+    
     let window = NSWindow(contentRect: .init(origin: .zero,
                                              size: windowSize),
                           styleMask: [.closable, .miniaturizable, .titled],
@@ -29,4 +34,11 @@ final class PlaygroundControllerAssembler {
 
 final class MainView: NSView {
   override var acceptsFirstResponder: Bool { true }
+  
+  var viewLayoutClosure: (() -> Void)? = nil
+  
+  override func layout() {
+    super.layout()
+    viewLayoutClosure?()
+  }
 }
