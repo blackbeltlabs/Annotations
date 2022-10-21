@@ -275,14 +275,14 @@ extension DrawableCanvasView: RendererCanvas {
       if let renderingType = rendererType {
         switch renderingType {
         case .resize:
-          textAnnotation.frame = text.frame
+          textAnnotation.frame = text.renderFrame
         case .scale:
-          textAnnotation.frame = text.frame
+          textAnnotation.frame = text.renderFrame
           let newFont = text.style.attributes[.font] as! NSFont
           print("New font size = \(newFont.pointSize)")
           textAnnotation.font = newFont
         case .textEditingUpdate:
-          textAnnotation.frame = text.frame
+          textAnnotation.frame = text.renderFrame
         case .newModel:
           renderTextAnnotation(textAnnotation, with: text)
         }
@@ -300,11 +300,8 @@ extension DrawableCanvasView: RendererCanvas {
   
   private func renderTextAnnotation(_ annotation: TextAnnotationView,
                                     with textModel: Text) {
-    let frame = CGRect(fromPoint: textModel.origin.cgPoint,
-                       toPoint: textModel.to.cgPoint)
-    
     annotation.id = textModel.id
-    annotation.frame = frame
+    annotation.frame = textModel.renderFrame
     if annotation.string != textModel.text {
       annotation.string = textModel.text
     }

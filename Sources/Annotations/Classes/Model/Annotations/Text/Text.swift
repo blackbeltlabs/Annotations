@@ -39,7 +39,6 @@ public struct Text: AnnotationModel, TwoPointsModel, RectBased {
 }
 
 // Adapter for Text Anotations part
-
 extension Text {
   public var frame: CGRect {
     get {
@@ -49,6 +48,15 @@ extension Text {
       origin = CGPoint(x: newValue.minX, y: newValue.minY).modelPoint
       to = CGPoint(x: newValue.maxX, y: newValue.maxY).modelPoint
     }
+  }
+  
+  // render frame can be different from frame that is used in some logic calculation
+  // render frame contains additional height to ensure that legibility text frame isn't clipped
+  public var renderFrame: CGRect {
+    var frame = self.frame
+    let height = LegibilityTextHeightCalculator.lineWidth(for: style.fontSize ?? 0)
+    frame.size.height += height
+    return frame
   }
   
   mutating func updateFrameSize(_ size: CGSize) {
