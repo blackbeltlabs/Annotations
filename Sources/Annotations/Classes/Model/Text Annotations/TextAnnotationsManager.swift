@@ -35,10 +35,10 @@ class TextAnnotationsManager {
     
     let bestSize = TextLayoutHelper.bestSizeWithAttributes(for: "",
                                                            attributes: textStyle.attributes)
+    let updatedStyle = textStyle.updatedWithColor(color)
     
-    return Text(color: color,
-                zPosition: zPosition,
-                style: textStyle,
+    return Text(zPosition: zPosition,
+                style: updatedStyle,
                 legibilityEffectEnabled: false,
                 text: "",
                 origin: point.modelPoint,

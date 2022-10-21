@@ -4,7 +4,16 @@ import CoreGraphics
 public struct Text: AnnotationModel, TwoPointsModel, RectBased {
   
   public var id: String = UUID().uuidString
-  public var color: ModelColor = .zero
+  
+  public var color: ModelColor {
+    get {
+      style.foregroundColor ?? .orange
+    }
+    set {
+      style.foregroundColor = newValue
+    }
+  }
+  
   public var zPosition: CGFloat = 10
   
   public var style: TextParams = TextParams()
@@ -20,8 +29,7 @@ public struct Text: AnnotationModel, TwoPointsModel, RectBased {
   
   public struct Mocks {
     public static var mockText1: Text {
-      .init(color: .zero,
-            zPosition: 1,
+      .init(zPosition: 1,
             style: .init(fontName: "Apple Chancery", fontSize: 10.0, foregroundColor: .init(red: 0.1, green: 0.2, blue: 0.3, alpha: 1.0)),
             text: "Blackbelt Labs",
             origin: .init(x: 50, y: 50),

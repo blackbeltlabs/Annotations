@@ -201,5 +201,10 @@ public struct TextParams: Codable, Equatable {
     
     return newModel
   }
-
+  
+  public func updatedWithColor(_ modelColor: ModelColor) -> TextParams {
+    var newModel = self
+    newModel.foregroundColor = modelColor
+    return newModel
+  }
 }

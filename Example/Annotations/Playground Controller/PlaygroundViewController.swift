@@ -37,6 +37,8 @@ class PlaygroundViewController: NSViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+ 
+    
     let (canvasView, parts) = AnnotationsCanvasFactory.instantiate()
     self.parts = parts
         
@@ -64,7 +66,6 @@ class PlaygroundViewController: NSViewController {
     
     setupPublishers(drawableCanvasView: canvasView)
   }
-  
 
   
  // do not call super here otherwise beep sound will be played
@@ -132,6 +133,7 @@ class PlaygroundViewController: NSViewController {
     becomeFirstResponder()
     view.window?.makeKeyAndOrderFront(self)
     
+    /*
     let penMock = Pen.Mocks.mock
     let arrowMock = Arrow.Mocks.mock
     var rectRegular = Rect.Mocks.mockRegular
@@ -149,6 +151,20 @@ class PlaygroundViewController: NSViewController {
                                Rect.Mocks.mockHighlight3,
                                Rect.Mocks.mockRegularAsHighlight,
                                number])
+     */
+    
+    
+    let url = Bundle.main.url(forResource: "test_drawing", withExtension: "json")!
+    
+    JSONSerializer.deserializeFromFile(url: url) { [weak self] result in
+      guard let self else { return }
+      switch result {
+      case .success(let result):
+        self.modelsManager.add(models: result.models)
+      case .failure(let error):
+        print(error.localizedDescription)
+      }
+    }
   }
 }
 
