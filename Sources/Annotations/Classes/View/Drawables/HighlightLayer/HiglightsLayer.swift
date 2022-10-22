@@ -28,7 +28,8 @@ class HiglightsLayer: CALayer {
       }
     }
   }
-    
+  
+  // MARK: - Init
   override init() {
     super.init()
     setup()

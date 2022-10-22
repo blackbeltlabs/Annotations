@@ -11,7 +11,7 @@ class NumberLayer: CanvasShapeLayer {
     return numberLayer
   }()
   
-  
+  // MARK: - Init
   override init() {
     super.init()
     addSublayer(textLayer)

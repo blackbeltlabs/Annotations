@@ -6,6 +6,8 @@ enum SelectionIdType {
   case emojiButton
 }
 
+// A manager that helps with the generation of unique id for selections (borders, emojis, buttons) of annotations
+// to make it possible to identify them when updating or removal
 class SelectionsIdManager {
   static func generateId(for type: SelectionIdType, of annotationId: String) -> String {
     switch type {

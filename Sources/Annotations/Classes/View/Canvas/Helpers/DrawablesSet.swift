@@ -17,7 +17,6 @@ private struct StubModel: DrawableElement {
   var id: String = ""
 }
 
-
 struct DrawableModelsSet {
   private var modelsSet: Set<AnyDrawableModel> = Set()
   

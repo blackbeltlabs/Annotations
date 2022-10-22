@@ -8,7 +8,6 @@ class CanvasShapeLayer: CAShapeLayer, DrawableElement {
   var id: String = ""
 }
 
-
 extension CAShapeLayer {
   func setup(with settings: LayerUISettings) {
     lineWidth = settings.lineWidth

@@ -4,7 +4,6 @@ protocol RenderingType {
   
 }
 
-
 enum CommonRenderingType: RenderingType {
   case dontRenderSelection
 }

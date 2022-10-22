@@ -58,33 +58,29 @@ private enum PossibleDraggingType {
 // Responsible for editing and creation of new annotations
 class MouseInteractionHandler {
   
+  // MARK: - Weak dependencies
   weak var dataSource: MouseInteractionHandlerDataSource?
   weak var renderer: Renderer?
   
-  private var possibleMovement: PossibleDragging?
-  
+  // MARK: - Dependincies
   private let textAnnotationsManager: TextAnnotationsManager
   private let positionsHandler: PositionHandler
   
+  // MARK: - Properties
+  private var possibleMovement: PossibleDragging?
   private var textCouldBeEdited: Bool = false
   
   var isEditingMode: Bool {
     textAnnotationsManager.isEditing
   }
 
-
+  // MARK: - Init
   init(textAnnotationsManager: TextAnnotationsManager, positionsHandler: PositionHandler) {
     self.textAnnotationsManager = textAnnotationsManager
     self.positionsHandler = positionsHandler
   }
   
-  func handleColorUpdateForEditedAnnotation(_ color: ModelColor) {
-    guard textAnnotationsManager.isEditing else { return }
-    self.textAnnotationsManager.updateEditingText(with: color)
-    self.dataSource?.select(model: self.textAnnotationsManager.editingText!,
-                            renderingType: nil)
-  }
-  
+  // MARK: - Mouse events
   func handleMouseDown(point: CGPoint) {
     guard let dataSource = dataSource else { return }
        
@@ -121,6 +117,10 @@ class MouseInteractionHandler {
       return
     }
     
+    // if text annotation is editing then need to cancel that
+    // on mouse press
+    // but this action doesn't prevent from selection of another annotations
+    // so we shouldn't return here
     if textAnnotationsManager.isEditing {
       let result = textAnnotationsManager.cancelEditing()
       if let model = result.model, result.textWasUpdated {
@@ -128,7 +128,8 @@ class MouseInteractionHandler {
       }
     }
     
-    
+    // select the correct annotation depending on their visibility on canvas here
+    // and prepare for possible movement, resizing or editing
     let annotations = dataSource.annotations.sorted(by: { $0.zPosition > $1.zPosition })
     
     for annotation in annotations {
@@ -169,6 +170,7 @@ class MouseInteractionHandler {
       wasDeselected = true
     }
     
+    // create some annotations from a single press for different create modes
     if let createMode = dataSource.createMode {
       if createMode == .number, !wasDeselected {
         let number = Number.modelWithRadius(centerPoint: point.modelPoint,
@@ -270,6 +272,8 @@ class MouseInteractionHandler {
       self.possibleMovement = nil
     }
   
+    // if annotations was modified here (moved or resized)
+    // then need to updates models
     if let modifiedAnnotation = possibleMovement.modifiedAnnotation {
       
       if var text = modifiedAnnotation as? Text {
@@ -286,7 +290,6 @@ class MouseInteractionHandler {
         }
         return
       }
-    
       
       dataSource.update(model: modifiedAnnotation)
       // select annotation that just was created
@@ -294,6 +297,8 @@ class MouseInteractionHandler {
         dataSource.select(model: modifiedAnnotation)
       }
     } else {
+      // could start text editing here if there is a second tap
+      // on the text annotation
       if let selectedAnnotation = dataSource.selectedAnnotation as? Text,
          textCouldBeEdited {
         textAnnotationsManager.handleTextEditing(for: selectedAnnotation, showEmojiPicker: true) { text in
@@ -305,7 +310,8 @@ class MouseInteractionHandler {
   }
   
  
-  // currently cursor are supported for text annotations only
+  // show proper cursor depending on mouse movement position
+  // currently cursors are supported for text annotations only
   func handleMouseMoved(point: CGPoint) {
     guard let dataSource = dataSource else { return }
     
@@ -339,6 +345,15 @@ class MouseInteractionHandler {
     }
   }
   
+  // MARK: - Color update
+  func handleColorUpdateForEditedAnnotation(_ color: ModelColor) {
+    guard textAnnotationsManager.isEditing else { return }
+    self.textAnnotationsManager.updateEditingText(with: color)
+    self.dataSource?.select(model: self.textAnnotationsManager.editingText!,
+                            renderingType: nil)
+  }
+  
+  // MARK: - Cursor updates
   private func updateCursorWhenMoving(for annotation: AnnotationModel) {
     if annotation is Text {
       renderer?.setCursor(type: .textMove)

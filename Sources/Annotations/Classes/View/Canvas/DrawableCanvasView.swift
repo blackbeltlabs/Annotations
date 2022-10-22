@@ -51,11 +51,11 @@ public class DrawableCanvasView: NSView {
   private var emojiPickerPresentedCancellable: AnyCancellable?
   
   let textViewEditingSubject = PassthroughSubject<Bool, Never>()
-    
+
+  
   var isUserInteractionEnabled: Bool = true
   
   // MARK: - Cancellables
-  
   var commonCancellables = Set<AnyCancellable>()
   
   public override var frame: NSRect {
@@ -80,6 +80,7 @@ public class DrawableCanvasView: NSView {
     fatalError("init(coder:) has not been implemented")
   }
   
+  // MARK: - Layout updates
   public override func layout() {
     super.layout()
     obfuscateLayer.frame = bounds
@@ -103,7 +104,6 @@ public class DrawableCanvasView: NSView {
   }
   
   // MARK: - Mouse touches
-  
   override public func mouseDown(with event: NSEvent) {
     super.mouseDown(with: event)
     handleMouseEventType(.down, event: event)
@@ -157,14 +157,13 @@ public class DrawableCanvasView: NSView {
   public override func cursorUpdate(with event: NSEvent) { }
 }
 
-protocol DrawableElement {
-  var id: String { get set }
-}
 
+// MARK: - Conform to RendererCanvas protocol
 extension DrawableCanvasView: RendererCanvas {
   
   public override var isFlipped: Bool { true }
   
+  // MARK: - All drawables on the canvas
   var drawables: [DrawableElement] {
     let sublayers = layer?.sublayers ?? []
   
@@ -180,6 +179,8 @@ extension DrawableCanvasView: RendererCanvas {
     return regularLayers + obfuscateLayers + highlightDrawables + textAnnotations
   }
   
+  
+  // MARK: - Render layers
   func renderLayer(id: String,
                    type: LayerType,
                    renderingSet: LayerRenderingSet) {
@@ -201,7 +202,7 @@ extension DrawableCanvasView: RendererCanvas {
                           settings: renderingSet.settings,
                           zPosition: renderingSet.zPosition)
         return layer
-      } else if let highlight = drawable as? HiglightRectArea {
+      } else if drawable is HiglightRectArea {
         higlightsLayer.addHighlightArea(path: renderingSet.path,
                                         id: id)
         return nil
@@ -266,6 +267,7 @@ extension DrawableCanvasView: RendererCanvas {
     layer.zPosition = zPosition
   }
   
+  // MARK: - Text annotations
   func renderText(text: Text, rendererType: TextRenderingType?) {
     if let textAnnotation = drawable(with: text.id) as? TextAnnotationView {
       
@@ -326,6 +328,8 @@ extension DrawableCanvasView: RendererCanvas {
     textViewEditingSubject.send(false)
   }
   
+  // MARK: - Removal
+  
   func renderRemoval(with id: String) {
     guard let drawable = drawable(with: id) else { return }
     removeDrawable(drawable)
@@ -340,20 +344,21 @@ extension DrawableCanvasView: RendererCanvas {
       higlightsLayer.removeHighlightArea(highlightedArea.id)
     }
   }
-  
-  private func drawable(with id: String) -> DrawableElement? {
-    drawables.first(where: { $0.id == id })
-  }
-  
   func clearAll() {
     CATransaction.withoutAnimation {
       self.drawables.forEach { self.removeDrawable($0) }
       self.selectionDrawables.all.forEach { self.removeDrawable($0) }
     }
   }
+  
+  // MARK: - Helpers
+  private func drawable(with id: String) -> DrawableElement? {
+    drawables.first(where: { $0.id == id })
+  }
 }
 
 extension DrawableCanvasView {
+  // MARK: - Selections
   func renderSelections(_ selections: [Selection]) {
     CATransaction.withoutAnimation {
       if selections.isEmpty {
@@ -447,7 +452,6 @@ extension DrawableCanvasView {
   }
   
   // MARK: - Cursor
-  
   func setCursor(for type: CursorType) {
     let cursor = CursorHelper().cursor(for: type)
     cursor.set()
@@ -479,9 +483,9 @@ extension DrawableCanvasView {
       .map { _ in false }
       .assign(to: \.value, on: emojiPickerisPresented)
   }
-  
 }
 
+// MARK: - Animation
 extension DrawableCanvasView {
   func renderLineDashPhaseAnimation(for layerId: String,
                                     animation: LineDashPhaseAnimation,

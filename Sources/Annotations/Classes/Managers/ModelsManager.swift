@@ -1,7 +1,9 @@
-import Foundation
-import Combine
 import Cocoa
+import Combine
 
+
+// this class manages all models data that is used by Annotations
+// and is a source of truth for the view
 public class ModelsManager {
   
   // MARK: - Dependencies
@@ -42,9 +44,10 @@ public class ModelsManager {
   private func setupPublishers() {
     let viewSizeUpdate = viewSizeUpdated.share()
     
+    // render all models if viewSizeUpdated (or initial one is set)
+    // or models are updated (or initial one array is set)
     Publishers.CombineLatest(viewSizeUpdate, models)
       .map(\.1)
-      //.receive(on: DispatchQueue.main) //  FIXME: - handle custom receive here
       .sink { [weak self] models in
         guard let self = self else { return }
         if models.all.isEmpty {
@@ -56,19 +59,13 @@ public class ModelsManager {
       }
       .store(in: &commonCancellables)
     
-    viewSizeUpdate.sink { [weak self] _ in
-      self?.renderer.renderObfuscatedAreaBackground(type: .solidColor(.black))
-    }
-    .store(in: &commonCancellables)
-    
+    // render obfuscate area
     Publishers.CombineLatest(
       viewSizeUpdate.debounce(for: 0.1, scheduler: DispatchQueue.main),
       obfuscateType.removeDuplicates())
     .map(\.1)
     .receive(on: DispatchQueue.main)
     .sink { [weak self] obfuscateType in
-      
-      
       let obfuscatedAreaType: ObfuscatedAreaType = {
         switch obfuscateType {
         case .solid:
@@ -158,16 +155,18 @@ public class ModelsManager {
   }
   
   // update model and add to history
-  public func update(model: AnnotationModel) {
+  public func update(model: AnnotationModel, updateHistory: Bool = true) {
     var allModels = models.value
     
-    if let oldModel = allModels.model(for: model.id) {
-      history.addUndo {
-        self.update(model: oldModel)
-      }
-    } else {
-      history.addUndo { [weak self] in
-        self?.delete(model: model)
+    if updateHistory {
+      if let oldModel = allModels.model(for: model.id) {
+        history.addUndo {
+          self.update(model: oldModel)
+        }
+      } else {
+        history.addUndo { [weak self] in
+          self?.delete(model: model)
+        }
       }
     }
     
@@ -181,7 +180,7 @@ public class ModelsManager {
   }
   
   // delete single model
-  public func delete(model: AnnotationModel) {
+  public func delete(model: AnnotationModel, updateHistory: Bool = true) {
     var allModelsSet = self.models.value
     allModelsSet.remove(with: model.id)
     
@@ -197,11 +196,14 @@ public class ModelsManager {
     self.models.send(allModelsSet)
     renderer.renderRemoval(of: model.id)
     
-    history.addUndo { [weak self] in
-      self?.update(model: model)
+    if updateHistory {
+      history.addUndo { [weak self] in
+        self?.update(model: model)
+      }
     }
   }
   
+  // Select / deselect / remove selected
   public func select(model: AnnotationModel) {
     select(model: model, renderingType: nil, checkIfContainsInModelsSet: true)
   }
@@ -215,10 +217,7 @@ public class ModelsManager {
     delete(model: value.model)
   }
   
-  public func containsAnnotations() -> Bool {
-    !models.value.all.isEmpty
-  }
-  
+  // Delete all and clear the history
   public func removeAll() {    
     var currentSet = models.value
     currentSet.refresh(with: [])
@@ -226,14 +225,21 @@ public class ModelsManager {
     
     history.clear()
   }
+  
+  // if the canvas view contains annotations
+  public func containsAnnotations() -> Bool {
+    !models.value.all.isEmpty
+  }
     
   // MARK: - Select
-  
-  func select(model: AnnotationModel, renderingType: RenderingType?) {
+  func select(model: AnnotationModel,
+              renderingType: RenderingType?) {
     select(model: model, renderingType: renderingType, checkIfContainsInModelsSet: false)
   }
   
-  func select(model: AnnotationModel, renderingType: RenderingType?, checkIfContainsInModelsSet: Bool) {
+  func select(model: AnnotationModel,
+              renderingType: RenderingType?,
+              checkIfContainsInModelsSet: Bool) {
     if checkIfContainsInModelsSet {
       guard models.value.contains(model) else { return }
     }
@@ -241,6 +247,7 @@ public class ModelsManager {
                              renderingType: renderingType))
   }
   
+  // MARK; - Private
   private func updateSelectionModelIfNeeded(with models: [AnnotationModel]) {
     guard let selectedAnnotation = selectedModel.value else { return }
   
@@ -274,6 +281,10 @@ public class ModelsManager {
 
 // MARK: - MouseInteractionHandlerDataSource
 extension ModelsManager: MouseInteractionHandlerDataSource, PositionHandlerDataSource, AnalyticsDataSource {
+  func update(model: AnnotationModel) {
+    update(model: model, updateHistory: true)
+  }
+  
   var annotations: [AnnotationModel] {
     models.value.all
   }

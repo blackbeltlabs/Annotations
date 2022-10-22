@@ -1,6 +1,7 @@
 import Cocoa
 import Combine
 
+// a class that is used for undo / redo purposes
 public class SharedHistory {
   private let manager = UndoManager()
   

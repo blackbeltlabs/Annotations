@@ -1,13 +1,11 @@
 import Combine
 import Cocoa
 
-
 struct LayerRenderingSet {
   let path: CGPath
   let settings: LayerUISettings
   let zPosition: CGFloat
 }
-
 
 enum CursorType {
   case `default`
@@ -60,12 +58,13 @@ enum ObfuscatedAreaType {
 class Renderer: TextAnnotationsSource {
   weak var canvasView: RendererCanvas?
   
+  // MARK: - Init
   init(canvasView: RendererCanvas?) {
     self.canvasView = canvasView
   }
 
+  // MARK: - Annotations
   func render(_ models: [AnnotationModel]) {
-     // canvasView?.clearAll()
     for model in models {
       render(.init(model: model, renderingType: nil))
     }
@@ -108,6 +107,7 @@ class Renderer: TextAnnotationsSource {
     }
   }
   
+  // MARK: - Selections
   func renderSelection(for model: AnnotationModel, isSelected: Bool) {
     if model is Rect || model is Arrow || model is Number {
       if isSelected {
@@ -173,7 +173,7 @@ class Renderer: TextAnnotationsSource {
                                                            zPosition: 3)
   }
 
-  // MARK: - Text annotation
+  // MARK: - Text annotations
   func renderText(_ model: Text, rendererType: TextRenderingType?) {
     canvasView?.renderText(text: model,
                            rendererType: rendererType)
@@ -206,7 +206,6 @@ class Renderer: TextAnnotationsSource {
   }
   
   // MARK: - Cursors
-  
   func setCursor(type: CursorType) {
     canvasView?.setCursor(for: type)
   }
@@ -217,7 +216,6 @@ class Renderer: TextAnnotationsSource {
   }
   
   // MARK: - Removal
-  
   func renderRemoval(of modelId: String) {
     canvasView?.renderRemoval(with: modelId)
   }

@@ -4,13 +4,17 @@ protocol AnalyticsDataSource: AnyObject {
   var annotations: [AnnotationModel] { get }
 }
 
+// This class return some analytics data for the current annotations models
+// that could be retrieved in the app that uses Annotations framework
 public final class Analytics {
   weak var dataSource: AnalyticsDataSource?
   
+  // return total count of annotations on the canvas
   public var totalAnnotationsCount: Int {
     dataSource?.annotations.count ?? 0
   }
   
+  // string representations of unique annotation types that are on the canvas
   public var allAnnotationTypes: [String] {
     guard let annotations = dataSource?.annotations else { return [] }
     return Self.allAnnotationTypes(for: annotations)
@@ -23,7 +27,7 @@ public final class Analytics {
                                                 colors: colors)
   }
 
-  private static func allAnnotationTypes(for annotations: [AnnotationModel]) -> [String] {
+  static func allAnnotationTypes(for annotations: [AnnotationModel]) -> [String] {
     var names = Set<String>()
     
     for annotation in annotations {
@@ -59,7 +63,6 @@ public final class Analytics {
     return array
   }
   
-
   static func analyticsName(for model: AnnotationModel) -> String {
     switch model {
     case is Arrow:

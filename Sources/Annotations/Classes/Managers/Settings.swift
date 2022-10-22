@@ -30,7 +30,6 @@ public enum ObfuscateType: Equatable {
 
 public final class Settings {
   // MARK: - Input (from app that uses Annotations)
- 
   public let isUserInteractionEnabled = CurrentValueSubject<Bool, Never>(true)
   public let obfuscateType = CurrentValueSubject<ObfuscateType, Never>(.solid)
   public let currentAnnotationTypeSubject = CurrentValueSubject<CanvasItemType?, Never>(.arrow)

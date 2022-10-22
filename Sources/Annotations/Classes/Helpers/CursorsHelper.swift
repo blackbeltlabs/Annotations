@@ -16,8 +16,8 @@ final class CursorHelper {
   }()
   
   func cursor(with resourceName: String, hotSpot: NSPoint) -> NSCursor {
-    guard let image = ImageHelper.imageFromBundle(named: resourceName) else {            
-      return NSCursor.crosshair
+    guard let image = ImageHelper.imageFromBundle(named: resourceName) else {
+      return .crosshair
     }
     return NSCursor(image: image, hotSpot: hotSpot)
   }

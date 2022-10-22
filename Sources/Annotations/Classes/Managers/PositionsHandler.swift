@@ -4,6 +4,8 @@ protocol PositionHandlerDataSource: AnyObject {
   var annotations: [AnnotationModel] { get }
 }
 
+// this class is intented to assign a correct zPosition
+// for annotations that are created or interacted
 final class PositionHandler {
   weak var dataSource: PositionHandlerDataSource?
   

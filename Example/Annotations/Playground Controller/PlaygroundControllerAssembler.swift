@@ -5,7 +5,6 @@ final class PlaygroundControllerAssembler{
   static func assemble(with image: NSImage, jsonURL: URL, withControls: Bool) -> NSWindowController {
     
     let imageSize = image.size
-    print(imageSize)
     let windowSize = CGSize(width: imageSize.width, height: imageSize.height)
     
     
