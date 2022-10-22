@@ -61,10 +61,9 @@ public class ModelsManager {
     
     // render obfuscate area
     Publishers.CombineLatest(
-      viewSizeUpdate.debounce(for: 0.1, scheduler: DispatchQueue.main),
+      viewSizeUpdate,
       obfuscateType.removeDuplicates())
     .map(\.1)
-    .receive(on: DispatchQueue.main)
     .sink { [weak self] obfuscateType in
       let obfuscatedAreaType: ObfuscatedAreaType = {
         switch obfuscateType {
