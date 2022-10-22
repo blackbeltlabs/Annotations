@@ -144,6 +144,13 @@ class PlaygroundViewController: NSViewController {
       .store(in: &cancellables)
     
     canvasControlsView
+      .clearAllPressedPublisher
+      .sink { [weak self] in
+        self?.modelsManager.removeAll()
+      }
+      .store(in: &cancellables)
+    
+    canvasControlsView
       .undoPressedPublisher
       .sink { [weak self] in
         self?.sharedHistory.performUndo()

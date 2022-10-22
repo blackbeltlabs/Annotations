@@ -41,6 +41,7 @@ class CanvasControlsView: NSView {
   
   let undoPressedPublisher = PassthroughSubject<Void, Never>()
   let redoPressedPublisher = PassthroughSubject<Void, Never>()
+  let clearAllPressedPublisher = PassthroughSubject<Void, Never>()
   
   // MARK: - Colors
   lazy var colorPickerColors: [NSColor] = {
@@ -75,6 +76,16 @@ class CanvasControlsView: NSView {
       item.representedObject = type
       return item
     }
+  }()
+  
+  // MARK: - Clear
+  
+  lazy var clearAllButton: NSButton = {
+    let button = NSButton(title: "Clear all models",
+                          target: self,
+                          action: #selector(clearPressed))
+    button.translatesAutoresizingMaskIntoConstraints = false
+    return button
   }()
   
   // MARK: - Undo / Redo
@@ -141,6 +152,11 @@ class CanvasControlsView: NSView {
     createModePopupButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     createModePopupButton.centerYAnchor.constraint(equalTo: colorsStackView.centerYAnchor).isActive = true
     
+    addSubview(clearAllButton)
+    
+    clearAllButton.centerYAnchor.constraint(equalTo: createModePopupButton.centerYAnchor).isActive = true
+    clearAllButton.leadingAnchor.constraint(equalTo: createModePopupButton.trailingAnchor, constant: 30.0).isActive = true
+    
     undoRedoStackView.addArrangedSubview(undoButton)
     undoRedoStackView.addArrangedSubview(redoButton)
     
@@ -193,6 +209,11 @@ class CanvasControlsView: NSView {
   @objc
   func redoPressed() {
     redoPressedPublisher.send(())
+  }
+  
+  @objc
+  func clearPressed() {
+    clearAllPressedPublisher.send(())
   }
 }
 
