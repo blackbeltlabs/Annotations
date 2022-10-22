@@ -19,14 +19,12 @@ class TextAnnotationsManager {
   
   private var editCancellable: AnyCancellable?
   
-  private var startEditingString: String = ""
+  private var initialTextModel: Text?
   private(set) var editingText: Text?
   
   private var updatedTextAnnotationClosure: ((Text) -> Void)?
-  
-  
   private(set) var createMode: Bool = false
-    
+  
   
   static func createNewTextAnnotation(from point: CGPoint,
                                       color: ModelColor,
@@ -53,9 +51,9 @@ class TextAnnotationsManager {
       self.createMode = createMode
     }
     let inputText = text.copyWith(displayEmojiPicker: showEmojiPicker)
-
-    editingText = inputText
-    self.startEditingString = inputText.text
+    
+    (editingText, initialTextModel) = (inputText, inputText)
+    
     editCancellable =
     source?.startEditingText(for: inputText, options: .init(showEmojiPickerButton: showEmojiPicker))?.sink(receiveValue: { [weak self] textString in
       guard let self else { return }
@@ -76,7 +74,7 @@ class TextAnnotationsManager {
     text.color = color
     self.editingText = text
   }
-
+  
   func cancelEditing() -> (model: Text?, textWasUpdated: Bool) {
     guard let editingText = editingText else { return (nil, false) }
     if createMode {
@@ -88,17 +86,30 @@ class TextAnnotationsManager {
   func cancelEditing(for text: Text) -> (model: Text?, textWasUpdated: Bool) {
     defer {
       updatedTextAnnotationClosure = nil
-      editingText = nil
-      startEditingString = ""
+      (editingText, initialTextModel) = (nil, nil)
     }
     
     source?.stopEditingText(for: text)
     if let editingText {
       let textToReturn = editingText.copyWith(displayEmojiPicker: false)
-      return (textToReturn, textToReturn.text != startEditingString)
+      return (textToReturn, updatePerformed(for: initialTextModel,
+                                            finalText: textToReturn))
     } else {
       return (nil, false)
     }
+  }
+  
+  private func updatePerformed(for initialText: Text?,
+                               finalText: Text?) -> Bool {
+    guard let initialText, let finalText else { return false }
+    
+    let result =
+    initialText.text != finalText.text ||
+    initialText.style != finalText.style ||
+    initialText.frame != finalText.frame ||
+    initialText.legibilityEffectEnabled != finalText.legibilityEffectEnabled
+    
+    return result
   }
   
   var isEditing: Bool {
