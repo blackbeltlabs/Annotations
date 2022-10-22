@@ -1,13 +1,40 @@
 import Cocoa
 import Combine
 
+public enum ObfuscateType: Equatable {
+  case solid
+  case imagePattern(_ image: NSImage)
+  
+  public static func == (lhs: Self, rhs: Self) -> Bool {
+    (lhs.isSolid && rhs.isSolid) || (lhs.isImagePattern && rhs.isImagePattern)
+  }
+  
+  var isSolid: Bool {
+    switch self {
+    case .solid:
+      return true
+    default:
+      return false
+    }
+  }
+  
+  var isImagePattern: Bool {
+    switch self {
+    case .imagePattern:
+      return true
+    default:
+      return false
+    }
+  }
+}
+
 public final class Settings {
   // MARK: - Input (from app that uses Annotations)
-  public let solidColorForObsfuscate = CurrentValueSubject<Bool, Never>(false)
+ 
   public let isUserInteractionEnabled = CurrentValueSubject<Bool, Never>(true)
+  public let obfuscateType = CurrentValueSubject<ObfuscateType, Never>(.solid)
   public let currentAnnotationTypeSubject = CurrentValueSubject<CanvasItemType?, Never>(.arrow)
   public let createColorSubject = CurrentValueSubject<ModelColor, Never>(.defaultColor())
-  public let backgroundImageSubject = PassthroughSubject<NSImage, Never>()
   public let textStyleSubject = CurrentValueSubject<TextParams, Never>(.defaultFont())
   
   // MARK: - Output (from Annotations to external)
@@ -23,12 +50,13 @@ public final class Settings {
   }
   
   // Convenient non-Combine functions
-  public func setSolidColorForObfuscute(_ enabled: Bool) {
-    solidColorForObsfuscate.send(enabled)
-  }
   
   public func setIsUserInteractionEnabled(_ enabled: Bool) {
     isUserInteractionEnabled.send(enabled)
+  }
+  
+  public func setObfuscateType(_ type: ObfuscateType) {
+    obfuscateType.send(type)
   }
   
   public func setCurrentAnnotationType(_ itemType: CanvasItemType?) {
@@ -38,11 +66,7 @@ public final class Settings {
   public func setColor(_ color: ModelColor) {
     createColorSubject.send(color)
   }
-  
-  public func setBackgroundImage(_ image: NSImage){
-    backgroundImageSubject.send(image)
-  }
-  
+
   public func setTextStyle(_ style: TextParams) {
     textStyleSubject.send(style)
   }

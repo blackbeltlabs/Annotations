@@ -11,22 +11,25 @@ public class ModelsManager {
   
   // MARK: - Models
   private let models = CurrentValueSubject<AnnotationModelsSet, Never>(.init([]))
-  
   let selectedModel = CurrentValueSubject<RenderedModel?, Never>(nil)
   
   // MARK: - Combine
   var commonCancellables = Set<AnyCancellable>()
   
   // MARK: - Public settings
-  var solidColorForObsfuscate: Bool = false
+  let obfuscateType = CurrentValueSubject<ObfuscateType, Never>(.solid)
   let isUserInteractionEnabled = CurrentValueSubject<Bool, Never>(true)
   let createModeSubject = CurrentValueSubject<CanvasItemType?, Never>(.arrow)
   let createColorSubject = CurrentValueSubject<ModelColor, Never>(.defaultColor())
   
+  // MARK: - Public
   public let viewSizeUpdated = PassthroughSubject<CGSize, Never>()
   
-  // used for obfuscate purposes
-  private let backgroundImage = CurrentValueSubject<NSImage?, Never>(nil)
+  public var allModelsPublisher: AnyPublisher<[AnnotationModel], Never> {
+    models
+      .map(\.all)
+      .eraseToAnyPublisher()
+  }
 
   // MARK: - Init
   init(renderer: Renderer, mouseInteractionHandler: MouseInteractionHandler, history: SharedHistory) {
@@ -60,15 +63,18 @@ public class ModelsManager {
     
     Publishers.CombineLatest(
       viewSizeUpdate.debounce(for: 0.1, scheduler: DispatchQueue.main),
-      backgroundImage)
+      obfuscateType.removeDuplicates())
     .map(\.1)
     .receive(on: DispatchQueue.main)
-    .sink { [weak self] image in
+    .sink { [weak self] obfuscateType in
+      
+      
       let obfuscatedAreaType: ObfuscatedAreaType = {
-        if let image {
-          return .image(image)
-        } else {
+        switch obfuscateType {
+        case .solid:
           return .solidColor(.black)
+        case .imagePattern(let image):
+          return .image(image)
         }
       }()
       self?.renderer.renderObfuscatedAreaBackground(type: obfuscatedAreaType)
@@ -83,9 +89,9 @@ public class ModelsManager {
     
     // deselect previous if needed
     // and select the current one
+    // Ensure that is runned on the main thread
     Publishers.CombineLatest(viewSizeUpdate, selectionPreviousCurrent)
       .map(\.1)
-  //    .receive(on: DispatchQueue.main) FIXME: - handle custom receive here
       .sink { [weak self] (previousSelection, currentSelection) in
         guard let self else { return }
       
@@ -242,13 +248,7 @@ public class ModelsManager {
     
     select(model: models[firstIndex])
   }
-  
-  // MARK: - Background image
-  // add background image that is used for obfuscated purposes
-  func addBackgroundImage(_ image: NSImage) {
-    backgroundImage.send(solidColorForObsfuscate ? nil : image)
-  }
-  
+
   // MARK: - Numbers
   // if some intermediate number was deleted then it might need to update their values
   private func updateNumbersIfNeeded(in models: [AnnotationModel]) -> [Number]? {

@@ -53,12 +53,13 @@ public final class AnnotationsCanvasFactory {
                                    modelsManager: ModelsManager,
                                    canvas: DrawableCanvasView,
                                    textAnnotationManager: TextAnnotationsManager) {
-    settings
-      .solidColorForObsfuscate
-      .receive(on: DispatchQueue.main)
-      .assign(to: \.solidColorForObsfuscate, on: modelsManager)
-      .store(in: &modelsManager.commonCancellables)
   
+    settings
+      .obfuscateType
+      .receive(on: DispatchQueue.main)
+      .assign(to: \.value, on: modelsManager.obfuscateType)
+      .store(in: &modelsManager.commonCancellables)
+    
     settings
       .isUserInteractionEnabled
       .receive(on: DispatchQueue.main)
@@ -76,15 +77,7 @@ public final class AnnotationsCanvasFactory {
       .receive(on: DispatchQueue.main)
       .assign(to: \.value, on: modelsManager.createColorSubject)
       .store(in: &modelsManager.commonCancellables)
-    
-    settings
-      .backgroundImageSubject
-      .receive(on: DispatchQueue.main)
-      .sink { [weak modelsManager] image in
-        modelsManager?.addBackgroundImage(image)
-      }
-      .store(in: &modelsManager.commonCancellables)
-    
+
     settings
       .textStyleSubject
       .receive(on: DispatchQueue.main)

@@ -11,7 +11,7 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     let vc = PlaygroundControllerAssembler.assemble(with: NSImage(named: "catalina")!,
-                                                    jsonURL: Bundle.jsonURL("test_drawing.json"),
+                                                    jsonURL: Bundle.jsonURL("test_drawing1.json"),
                                                     withControls: true)
     vc.showWindow(self)
     vc.window?.makeKeyAndOrderFront(self)

@@ -68,6 +68,7 @@ class TextAnnotationsManager {
   
   func updateEditingText(_ text: Text) {
     self.editingText = text
+    
   }
   
   func updateEditingText(with color: ModelColor) {

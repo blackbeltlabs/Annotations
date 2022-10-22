@@ -12,6 +12,8 @@
 		6FA3D1FA231E4F6E00CA2306 /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA3D1F9231E4F6E00CA2306 /* ColorPickerView.swift */; };
 		A812040228FEFB8E004EC375 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A812040128FEFB8E004EC375 /* main.swift */; };
 		A812040628FF4541004EC375 /* CanvasControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A812040528FF4541004EC375 /* CanvasControlsView.swift */; };
+		A82EE2252904002B003A694F /* test_drawing1.json in Resources */ = {isa = PBXBuildFile; fileRef = A82EE2242904002B003A694F /* test_drawing1.json */; };
+		A82EE2272904149C003A694F /* test_drawing2.json in Resources */ = {isa = PBXBuildFile; fileRef = A82EE2262904149C003A694F /* test_drawing2.json */; };
 		A853A85C28EDC3A400AC2DAA /* AnyViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = A853A85B28EDC3A400AC2DAA /* AnyViewPreview.swift */; };
 		A8DA1ECC28B12F5200D4D91E /* PlaygroundControllerAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8DA1ECA28B12F5200D4D91E /* PlaygroundControllerAssembler.swift */; };
 		A8DA1ECD28B12F5200D4D91E /* PlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8DA1ECB28B12F5200D4D91E /* PlaygroundViewController.swift */; };
@@ -57,6 +59,8 @@
 		99A7D254385C1FB589AD3CCE /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		A812040128FEFB8E004EC375 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		A812040528FF4541004EC375 /* CanvasControlsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CanvasControlsView.swift; path = Views/CanvasControlsView.swift; sourceTree = "<group>"; };
+		A82EE2242904002B003A694F /* test_drawing1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_drawing1.json; sourceTree = "<group>"; };
+		A82EE2262904149C003A694F /* test_drawing2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_drawing2.json; sourceTree = "<group>"; };
 		A853A85B28EDC3A400AC2DAA /* AnyViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyViewPreview.swift; sourceTree = "<group>"; };
 		A8DA1ECA28B12F5200D4D91E /* PlaygroundControllerAssembler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaygroundControllerAssembler.swift; path = "Playground Controller/PlaygroundControllerAssembler.swift"; sourceTree = "<group>"; };
 		A8DA1ECB28B12F5200D4D91E /* PlaygroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaygroundViewController.swift; path = "Playground Controller/PlaygroundViewController.swift"; sourceTree = "<group>"; };
@@ -150,6 +154,8 @@
 		ED83F67A20348A760038D96B /* Annotations */ = {
 			isa = PBXGroup;
 			children = (
+				A82EE2262904149C003A694F /* test_drawing2.json */,
+				A82EE2242904002B003A694F /* test_drawing1.json */,
 				A812040528FF4541004EC375 /* CanvasControlsView.swift */,
 				A8DA1ECA28B12F5200D4D91E /* PlaygroundControllerAssembler.swift */,
 				A8DA1ECB28B12F5200D4D91E /* PlaygroundViewController.swift */,
@@ -279,7 +285,9 @@
 			files = (
 				ACE1820E2243A76A00CEC127 /* test_drawing.json in Resources */,
 				ED83F68020348A760038D96B /* Assets.xcassets in Resources */,
+				A82EE2252904002B003A694F /* test_drawing1.json in Resources */,
 				6F4BC2D8250BA911009B4070 /* texts.json in Resources */,
+				A82EE2272904149C003A694F /* test_drawing2.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -19,8 +19,8 @@ final class PlaygroundControllerAssembler{
     
     window.title = "Playground"
     let windowController = NSWindowController(window: window)
-    let vc = PlaygroundViewController(image: NSImage(named: "catalina")!,
-                                      url: jsonURL, /* Bundle.jsonURL("test_drawing.json")*/
+    let vc = PlaygroundViewController(image: image,
+                                      url: jsonURL,
                                       withControls: withControls)
    
     vc.loadViewClosure = { vc in

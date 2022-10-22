@@ -94,10 +94,12 @@ class PlaygroundViewController: NSViewController {
     canvasView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
     canvasView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     
-    canvasView.layer?.backgroundColor = .clear // NSColor.brown.cgColor
+    canvasView.layer?.backgroundColor = .clear
     
-        
-    annotationSettings.setBackgroundImage(image)
+    
+
+    annotationSettings.setObfuscateType(.solid)
+
     
     setupPublishers(drawableCanvasView: canvasView)
     
@@ -175,39 +177,18 @@ class PlaygroundViewController: NSViewController {
         if !isEditing {
           self.view.window?.makeFirstResponder(self.view)
         }
-      }.store(in: &cancellables)
+      }
+      .store(in: &cancellables)
   }
   
   override func viewDidAppear() {
     super.viewDidAppear()
     becomeFirstResponder()
     view.window?.makeKeyAndOrderFront(self)
-    
-    /*
-    let penMock = Pen.Mocks.mock
-    let arrowMock = Arrow.Mocks.mock
-    var rectRegular = Rect.Mocks.mockRegular
-    let rectObfuscate = Rect.Mocks.mockObfuscate
-    let rectHighlight = Rect.Mocks.mockHighlight
-    let number = Number.Mocks.mock
-    var textModel = Text.Mocks.mockText1
-    
-    modelsManager.add(models: [arrowMock,
-                               penMock,
-                               rectRegular,
-                               rectObfuscate,
-                               rectHighlight,
-                               Rect.Mocks.mockHighlight2,
-                               Rect.Mocks.mockHighlight3,
-                               Rect.Mocks.mockRegularAsHighlight,
-                               number])
-     */
-    
-    
-   
   }
 }
 
+// MARK: - Previews
 import SwiftUI
 
 struct PlaygroundViewControllerPreview: NSViewControllerRepresentable {
@@ -220,7 +201,7 @@ struct PlaygroundViewControllerPreview: NSViewControllerRepresentable {
   }
   
   func makeNSViewController(context: Context) -> PlaygroundViewController {
-    let wc = PlaygroundControllerAssembler.assemble(with: image, jsonURL: jsonURL, withControls: false)
+    let wc = PlaygroundControllerAssembler.assemble(with: image, jsonURL: jsonURL, withControls: true)
     
     return wc.contentViewController as! PlaygroundViewController
   }
@@ -231,13 +212,21 @@ struct PlaygroundViewControllerPreview: NSViewControllerRepresentable {
 
 
 struct PlaygroundViewController_Previews: PreviewProvider {
-    static var previews: some View {
-      PlaygroundViewControllerPreview(image: NSImage(named: "catalina")!,
-                                      jsonURL: Bundle.jsonURL("test_drawing.json"))
+  
+  static let allJsonFiles: [String] = ["test_drawing.json",
+                                       "test_drawing1.json",
+                                       "test_drawing2.json"]
+  static var previews: some View {
+    Group {
+      ForEach(allJsonFiles, id: \.self) { jsonFile in
+        PlaygroundViewControllerPreview(image: NSImage(named: "catalina")!,
+                                        jsonURL: Bundle.jsonURL(jsonFile))
         .border(.green, width: 1.0)
         .frame(width: 700,
-                 height: 500)
+               height: 500)
         .background(Color.clear)
         .padding()
+      }
     }
+  }
 }

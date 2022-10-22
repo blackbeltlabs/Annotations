@@ -1,10 +1,10 @@
 import Foundation
 
-struct JSONNumberModel: Codable {
-    var id: String?
-    var color: ModelColor
-    var zPosition: CGFloat
-    var origin: AnnotationPoint
-    var to: AnnotationPoint
-    var number: Int
+public struct JSONNumberModel: Codable {
+  public var id: String?
+  public var color: ModelColor
+  public var zPosition: CGFloat
+  public var origin: AnnotationPoint
+  public var to: AnnotationPoint
+  public var number: Int
 }

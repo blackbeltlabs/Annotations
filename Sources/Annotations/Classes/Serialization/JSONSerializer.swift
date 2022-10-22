@@ -1,6 +1,18 @@
 import Foundation
 
 public final class JSONSerializer {
+  
+  // MARK: - Serialize
+  
+  static public func serializeToSortedData(_ models: [AnnotationModel]) throws -> Data {
+    let sortedData = JSONModelsConverter.convertToSortedModel(models)
+    
+    let encoder = JSONEncoder()
+  
+    return try encoder.encode(sortedData)
+  }
+  
+  // MARK: - Deserialize
   static public func deserializeFromFile(url: URL) throws -> SortedDataDeserializationResult {
     let data = try Data(contentsOf: url)
     return try deserializeFromSortedData(data: data)
@@ -11,7 +23,7 @@ public final class JSONSerializer {
     
     let jsonSortedObject = try decoder.decode(JSONSortedModel.self, from: data)
     
-    return JSONModelsConverter.convertSortedModel(jsonSortedObject)
+    return JSONModelsConverter.convertFromSortedModel(jsonSortedObject)
   }
   
   

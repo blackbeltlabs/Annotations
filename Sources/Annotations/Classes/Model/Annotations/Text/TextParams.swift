@@ -65,6 +65,9 @@ public struct TextParams: Codable, Equatable {
                       shadowBlur: Double.random(in: 0..<6.0))
   }
   
+  public static func empty() -> TextParams {
+    TextParams()
+  }
   
   // get attributes from current params
   var attributes: [NSAttributedString.Key: Any] {

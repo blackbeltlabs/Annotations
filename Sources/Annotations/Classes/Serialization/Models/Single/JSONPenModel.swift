@@ -1,8 +1,8 @@
 import Foundation
 
-struct JSONPenModel: Codable {
-    var id: String?
-    var color: ModelColor
-    var zPosition: CGFloat
-    var points: [AnnotationPoint]
+public struct JSONPenModel: Codable {
+  public var id: String?
+  public var color: ModelColor
+  public var zPosition: CGFloat
+  public var points: [AnnotationPoint]
 }
