@@ -66,24 +66,24 @@ public final class Analytics {
   static func analyticsName(for model: AnnotationModel) -> String {
     switch model {
     case is Arrow:
-      return "Arrow"
+      return "analytics_name_arrow".localized
     case let rect as Rect:
       switch rect.rectType {
       case .regular:
-        return "Rectangle"
+        return "analytics_name_rect".localized
       case .highlight:
-        return "Highlight"
+        return "analytics_name_highlight".localized
       case .obfuscate:
-        return "Obfuscate"
+        return "analytics_name_obfuscate".localized
       }
     case is Pen:
-      return "Pen"
+      return "analytics_name_pen".localized
     case is Number:
-      return "Number"
+      return "analytics_name_number".localized
     case is Text:
-      return "Text"
+      return "analytics_name_text".localized
     default:
-      return "Unknown"
+      return "analytics_name_unknown".localized
     }
   }
 }

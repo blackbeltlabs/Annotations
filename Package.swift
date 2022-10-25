@@ -3,6 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "Annotations",
+    defaultLocalization: "en",
     platforms: [.macOS("10.15")],
     products: [
         .library(
@@ -15,6 +16,7 @@ let package = Package(
     targets: [
         .target(
             name: "Annotations",
-            dependencies: [])
+            dependencies: [],
+            resources: [.process("Resources")])
     ]
 )
