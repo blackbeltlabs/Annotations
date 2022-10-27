@@ -1,5 +1,4 @@
 {
-  "index": 0,
   "style": {
     "font_name": "Apple Chancery",
     "font_size": 40,
@@ -10,7 +9,6 @@
   "texts": [
     {
       "zPosition": 0,
-      "index": 0,
       "origin": { "index": 0, "x": 50, "y": 50 },
       "text": "Blackbelt Labs",
       "style": {
@@ -20,8 +18,7 @@
       "legibilityEffectEnabled": true
     },
     {
-      "zPosition": 0,
-      "index": 1,
+      "zPosition": 1,
       "origin": { "index": 1, "x": 150, "y": 150 },
       "text": "Some text",
       "style": {
@@ -31,8 +28,7 @@
       "legibilityEffectEnabled": false
     },
     {
-      "zPosition": 0,
-      "index": 2,
+      "zPosition": 2,
       "origin": { "index": 2, "x": 200, "y": 250 },
       "text": "Julian Drapaylo",
       "style": {
@@ -44,44 +40,66 @@
   ],
   "arrows": [
     {
-      "zPosition": 0,
-      "index": 3,
-      "origin": { "index": 3, "x": 10, "y": 10 },
-      "to": { "index": 3, "x": 80, "y": 80 },
+      "zPosition": 3,
+      "origin": { "x": 10, "y": 10 },
+      "to": { "x": 80, "y": 80 },
       "color": {"red": 1.0, "green": 0.5, "blue": 1.0, "alpha": 1.0}
     }
   ],
   "pens": [
     {
-      "zPosition": 0,
-      "index": 4,
+      "zPosition": 4,
       "points": [
-        { "index": 4, "x": 350, "y": 150},
-        { "index": 4, "x": 355, "y": 240},
-        { "index": 4, "x": 345, "y": 290}
+        { "x": 350, "y": 150},
+        { "x": 355, "y": 240},
+        { "x": 345, "y": 290}
       ],
       "color": {"red": 0.9, "green": 0.5, "blue": 0.5, "alpha": 1.0}
     }
   ],
   "rects": [
     {
-      "zPosition": 0,
-      "index": 5,
-      "origin": { "index": 5, "x": 80, "y": 120 },
-      "to": { "index": 5, "x": 100, "y": 100 },
+      "zPosition": 5,
+      "origin": { "x": 80, "y": 120 },
+      "to": { "x": 100, "y": 100 },
       "color": {"red": 1.0, "green": 0.0, "blue": 0.0, "alpha": 1.0}
     }
-
   ],
   "obfuscates": [
     {
-      "zPosition": 0,
-      "index": 6,
-      "origin": { "index": 6, "x": 180, "y": 80 },
-      "to": { "index": 6, "x": 100, "y": 100 },
+      "zPosition": 6,
+      "origin": { "x": 180, "y": 280 },
+      "to": { "x": 100, "y": 380 },
       "color": {"red": 1.0, "green": 1.0, "blue": 0.0, "alpha": 1.0 }
     }
   ],
-  "highlights" : [],
-  "numbers" : []
+  "highlights" : [
+    {
+      "zPosition": 7,
+      "origin": { "x": 100, "y": 100 },
+      "to": { "x": 200, "y": 200 },
+      "color": {"red": 1.0, "green": 0.0, "blue": 0.0, "alpha": 1.0 }
+    },
+    {
+      "zPosition": 8,
+      "origin": { "x": 250, "y": 250 },
+      "to": { "x": 350, "y": 350 },
+      "color": {"red": 1.0, "green": 0.0, "blue": 0.0, "alpha": 1.0 }
+    },
+    {
+      "zPosition": 9,
+      "origin": { "x": 300, "y": 300 },
+      "to": {"x": 350, "y": 350 },
+      "color": {"red": 1.0, "green": 0.0, "blue": 0.0, "alpha": 1.0 }
+    }
+  ],
+  "numbers" : [
+    {
+      "zPosition": 10,
+      "origin": { "x": 120, "y": 120 },
+      "to": { "x": 200, "y": 200 },
+      "color": {"red": 1.0, "green": 0.0, "blue": 0.0, "alpha": 1.0},
+      "number" : 1,
+    }
+  ]
 }
