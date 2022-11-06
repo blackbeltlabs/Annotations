@@ -56,7 +56,13 @@ extension Text {
     var frame = self.frame
     let height = LegibilityTextHeightCalculator.lineWidth(for: style.fontSize ?? 0)
     frame.size.height += height
-    return frame
+    
+    // need integral here to ensure integer values for text view rendered frame
+    // without this statement the layout() method of canvasView is called every time
+    // textView frame is updated that lead to redundant calls and unpredicated behaviour
+    let integralFrame = frame.integral
+    
+    return integralFrame
   }
   
   mutating func updateFrameSize(_ size: CGSize) {

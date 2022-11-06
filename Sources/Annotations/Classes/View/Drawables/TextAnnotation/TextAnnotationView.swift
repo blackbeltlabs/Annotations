@@ -10,8 +10,12 @@ class TextAnnotationView: NSView, DrawableElement {
   
   override var frame: NSRect {
     didSet {
-      textView.frame = bounds
-      legibilityTextView.frame = bounds
+      guard #available(macOS 13.0, *) else {
+        // update subframes in frames works well for macOS prior to 13.0 (Ventura)
+        textView.frame = bounds
+        legibilityTextView.frame = bounds
+        return
+      }
     }
   }
   
@@ -59,6 +63,16 @@ class TextAnnotationView: NSView, DrawableElement {
   private func setupUI() {
     wantsLayer = true
     addSubviews()
+  }
+  
+  override func layout() {
+    super.layout()
+    
+    // starting from macOS Ventura it is mandatory to update subviews here for correct work
+    if #available(macOS 13.0, *) {
+      textView.frame = bounds
+      legibilityTextView.frame = bounds
+    }
   }
   
   func addSubviews() {
