@@ -1,4 +1,5 @@
 import Foundation
+import CoreGraphics
 
 final class RectSelectionPathCreator: SelectionPathCreator {
   func createSelectionPath(for annotation: Rect) -> CGPath {

@@ -1,4 +1,5 @@
 import Foundation
+import CoreGraphics
 
 class PathFactory {
   static func path(for figure: Figure) -> CGPath? {

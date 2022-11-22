@@ -1,4 +1,5 @@
 import Foundation
+import CoreGraphics
 
 final class NumberPathCreator: PathCreator {
   func createPath(for figure: Number) -> CGPath {

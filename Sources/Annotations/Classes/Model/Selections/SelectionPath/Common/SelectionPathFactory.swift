@@ -1,4 +1,5 @@
 import Foundation
+import CoreGraphics
 
 class SelectionPathFactory {
   static func selectionPath(for annotation: AnnotationModel) -> CGPath? {

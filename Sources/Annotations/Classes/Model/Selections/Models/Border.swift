@@ -1,4 +1,5 @@
 import Foundation
+import CoreGraphics
 
 struct Border: Selection {
   let id: String

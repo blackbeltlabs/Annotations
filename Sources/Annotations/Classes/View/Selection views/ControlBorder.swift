@@ -1,4 +1,5 @@
 import Foundation
+import CoreGraphics
 
 class ControlBorder: CanvasShapeLayer {
   func setup(with path: CGPath, strokeColor: CGColor, lineWidth: CGFloat) {
