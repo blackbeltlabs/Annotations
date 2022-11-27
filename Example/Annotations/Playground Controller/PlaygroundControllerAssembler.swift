@@ -10,7 +10,7 @@ final class PlaygroundControllerAssembler{
     
     let window = NSWindow(contentRect: .init(origin: .zero,
                                              size: windowSize),
-                          styleMask: [.closable, .miniaturizable, .titled],
+                          styleMask: [.closable, .miniaturizable, .titled, .resizable],
                           backing: .buffered,
                           defer: true)
     

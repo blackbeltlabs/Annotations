@@ -44,12 +44,27 @@ public class ModelsManager {
   private func setupPublishers() {
     let viewSizeUpdate = viewSizeUpdated.share()
     
-    // render all models if viewSizeUpdated (or initial one is set)
-    // or models are updated (or initial one array is set)
-    Publishers.CombineLatest(viewSizeUpdate, models)
-      .map(\.1)
-      .sink { [weak self] models in
+    viewSizeUpdated
+       .scan((nil, nil)) { ($0.1, $1) }
+       .sink { [weak self] (previous, current) in
+         guard let self else { return }
+         guard let previous, let current else { return }
+         
+         var models = self.models.value
+         
+         let updatedModels = self.resize(models: models.all,
+                                         previousViewSize: previous,
+                                         currentViewSize: current)
+         models.refresh(with: updatedModels)
+         self.models.send(models)
+       }
+       .store(in: &commonCancellables)
+    
+    models
+      .combineLatest(viewSizeUpdate.first())
+      .sink { [weak self] (models, _) in
         guard let self = self else { return }
+        
         if models.all.isEmpty {
           self.renderer.renderRemovalAll()
         } else {
@@ -143,6 +158,32 @@ public class ModelsManager {
       })
       .assign(to: \.value, on: selectedModel)
       .store(in: &commonCancellables)
+  }
+  
+  // MARK: - Convert
+  
+  func resize(models: [AnnotationModel], previousViewSize: CGSize?, currentViewSize: CGSize?) -> [AnnotationModel] {
+    guard let previousViewSize, let currentViewSize else { return models }
+    var modelsToUpdate = models
+    
+    for i in 0..<modelsToUpdate.count {
+      let model = modelsToUpdate[i]
+      modelsToUpdate[i].points = model.points
+        .map(\.cgPoint)
+        .map { self.convertPoint($0, currentSize: currentViewSize, previousSize: previousViewSize) }
+        .map(\.modelPoint)
+    }
+  
+    return modelsToUpdate
+  }
+  
+  private func convert(_ value: CGFloat, currentSizeValue: CGFloat, previewsSizeValue: CGFloat) -> CGFloat {
+    value * (currentSizeValue / previewsSizeValue)
+  }
+  
+  private func convertPoint(_ point: CGPoint, currentSize: CGSize, previousSize: CGSize) -> CGPoint {
+    .init(x: convert(point.x, currentSizeValue: currentSize.width, previewsSizeValue: previousSize.width),
+          y: convert(point.y, currentSizeValue: currentSize.height, previewsSizeValue: previousSize.height))
   }
   
   // MARK: - Public

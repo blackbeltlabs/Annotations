@@ -18,7 +18,7 @@ class PlaygroundViewController: NSViewController {
   
   let imageView: NSImageView = {
     let imageView = NSImageView(frame: .zero)
-    imageView.imageScaling = .scaleNone
+    imageView.imageScaling = .scaleAxesIndependently
     return imageView
   }()
   

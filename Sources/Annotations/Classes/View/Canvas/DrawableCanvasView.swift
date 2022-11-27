@@ -36,8 +36,7 @@ public class DrawableCanvasView: NSView {
   let imageColorsCalculator = ImageColorsCalculator()
   
   // MARK: - Publishers
-  let viewSizeUpdated = PassthroughSubject<CGSize, Never>()
-  let viewLayoutUpdated = PassthroughSubject<Void, Never>()
+  let viewLayoutUpdated = PassthroughSubject<CGSize, Never>()
   
   let mouseDownSubject = PassthroughSubject<CGPoint, Never>()
   let mouseDraggedSubject = PassthroughSubject<CGPoint, Never>()
@@ -57,13 +56,7 @@ public class DrawableCanvasView: NSView {
   
   // MARK: - Cancellables
   var commonCancellables = Set<AnyCancellable>()
-  
-  public override var frame: NSRect {
-    didSet {
-      viewSizeUpdated.send(frame.size)
-    }
-  }
-  
+    
   // MARK: - Init
   override init(frame frameRect: NSRect) {
     super.init(frame: frameRect)
@@ -87,7 +80,7 @@ public class DrawableCanvasView: NSView {
     higlightsLayer.frame = bounds
     
     selectionView.frame = bounds
-    viewLayoutUpdated.send(())
+    viewLayoutUpdated.send(frame.size)
   }
   
   // MARK: - Tracking areas
