@@ -168,10 +168,20 @@ public class ModelsManager {
     
     for i in 0..<modelsToUpdate.count {
       let model = modelsToUpdate[i]
+      
+      // 1. update points that defines path of annotation on the canvas
       modelsToUpdate[i].points = model.points
         .map(\.cgPoint)
         .map { self.convertPoint($0, currentSize: currentViewSize, previousSize: previousViewSize) }
         .map(\.modelPoint)
+      
+      // 2. re-calculate line width if needed
+      if var sizeable = modelsToUpdate[i] as? Sizeable {
+        sizeable.lineWidth = convertLineWidth(sizeable.lineWidth,
+                                              currentSize: currentViewSize,
+                                              previousSize: previousViewSize)
+        modelsToUpdate[i] = sizeable
+      }
     }
   
     return modelsToUpdate
@@ -184,6 +194,10 @@ public class ModelsManager {
   private func convertPoint(_ point: CGPoint, currentSize: CGSize, previousSize: CGSize) -> CGPoint {
     .init(x: convert(point.x, currentSizeValue: currentSize.width, previewsSizeValue: previousSize.width),
           y: convert(point.y, currentSizeValue: currentSize.height, previewsSizeValue: previousSize.height))
+  }
+  
+  private func convertLineWidth(_ lineWidth: CGFloat, currentSize: CGSize, previousSize: CGSize) -> CGFloat {
+    convert(lineWidth, currentSizeValue: currentSize.width, previewsSizeValue: previousSize.width)
   }
   
   // MARK: - Public

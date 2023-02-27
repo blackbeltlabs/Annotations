@@ -1,13 +1,12 @@
 import Foundation
 import CoreGraphics
 
-public struct Pen: Figure {
+public struct Pen: Figure, Sizeable {
   public var id: String = UUID().uuidString
   public var color: ModelColor = .zero
   public var zPosition: CGFloat = 0
-  
   public var points: [AnnotationPoint] = []
-  
+  public var lineWidth: CGFloat = 5.0
   
   public struct Mocks {
     public static var mock: Pen {

@@ -7,13 +7,15 @@ public enum RectModelType: String, Codable {
   case highlight
 }
 
-public struct Rect: RectBased, TwoPointsModel, Figure {
+public struct Rect: RectBased, TwoPointsModel, Figure, Sizeable {
   
   public var rectType: RectModelType
   
   public var id: String = UUID().uuidString
   public var color: ModelColor = .zero
   public var zPosition: CGFloat = 0
+    
+  public var lineWidth: CGFloat = 5.0
   
   public var origin: AnnotationPoint
   public var to: AnnotationPoint
