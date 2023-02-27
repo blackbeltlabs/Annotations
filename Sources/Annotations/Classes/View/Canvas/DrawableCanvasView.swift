@@ -76,10 +76,13 @@ public class DrawableCanvasView: NSView {
   // MARK: - Layout updates
   public override func layout() {
     super.layout()
-    obfuscateLayer.frame = bounds
-    higlightsLayer.frame = bounds
     
-    selectionView.frame = bounds
+   CATransaction.withoutAnimation {
+      obfuscateLayer.frame = bounds
+      higlightsLayer.frame = bounds
+      selectionView.frame = bounds
+    }
+   
     viewLayoutUpdated.send(frame.size)
   }
   

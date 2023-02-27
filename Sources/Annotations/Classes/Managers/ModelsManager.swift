@@ -76,7 +76,7 @@ public class ModelsManager {
     
     // render obfuscate area
     Publishers.CombineLatest(
-      viewSizeUpdate,
+      viewSizeUpdate.first(),
       obfuscateType.removeDuplicates())
     .map(\.1)
     .sink { [weak self] obfuscateType in

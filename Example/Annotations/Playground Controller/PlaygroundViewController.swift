@@ -98,7 +98,7 @@ class PlaygroundViewController: NSViewController {
     
     
 
-    annotationSettings.setObfuscateType(.solid)
+    annotationSettings.setObfuscateType(.imagePattern(image))
 
     
     setupPublishers(drawableCanvasView: canvasView)
