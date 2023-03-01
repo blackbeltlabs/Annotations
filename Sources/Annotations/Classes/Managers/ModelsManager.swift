@@ -182,6 +182,22 @@ public class ModelsManager {
                                               previousSize: previousViewSize)
         modelsToUpdate[i] = sizeable
       }
+      
+      if var textAnnotation = modelsToUpdate[i] as? Text {
+        // 1. Convert current font size based on relation between previous view size and new view size
+        let currentFontSize = textAnnotation.style.fontSize!
+        
+        let convertedFontSize = convert(currentFontSize,
+                                        currentSizeValue: currentViewSize.width,
+                                        previewsSizeValue: previousViewSize.width)
+        textAnnotation.style.fontSize = convertedFontSize
+        
+        // 2. calculate updated frame size for the text with current font
+        textAnnotation.frame.size = TextLayoutHelper.bestSizeWithAttributes(for: textAnnotation.text,
+                                                                            attributes: textAnnotation.style.attributes)
+        
+        modelsToUpdate[i] = textAnnotation
+      }
     }
   
     return modelsToUpdate
