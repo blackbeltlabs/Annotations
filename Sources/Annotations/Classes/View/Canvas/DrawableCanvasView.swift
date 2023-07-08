@@ -50,6 +50,10 @@ public class DrawableCanvasView: NSView {
   private var emojiPickerPresentedCancellable: AnyCancellable?
   
   let textViewEditingSubject = PassthroughSubject<Bool, Never>()
+  
+  public var textViewEditingPublisher: AnyPublisher<Bool, Never> {
+    textViewEditingSubject.eraseToAnyPublisher()
+  }
 
   
   var isUserInteractionEnabled: Bool = true

@@ -110,6 +110,10 @@ class PlaygroundViewController: NSViewController {
       self.imageView.frame = .init(origin: .zero, size: self.mainView.frame.size)
     }
     
+    parts.settings.textViewIsEditingPublisher.sink { result in
+      print("Text view did editing = \(result)")
+    }.store(in: &cancellables)
+    
     do {
       let result = try JSONSerializer.deserializeFromFile(url: url)
       self.modelsManager.add(models: result.models)
