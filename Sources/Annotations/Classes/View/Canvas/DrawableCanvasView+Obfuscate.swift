@@ -4,6 +4,10 @@ extension DrawableCanvasView {
   func renderObfuscatedAreaBackground(_ type: ObfuscatedAreaType) {
     switch type {
     case .solidColor(let color):
+      guard frame.size.width > 0 && frame.size.height > 0 else {
+        return
+      }
+      
       let fallbackImage = ObfuscateRendererHelper.obfuscateFallbackImage(size: frame.size,
                                                                          color)
       obfuscateLayer.setObfuscatedAreaContents(fallbackImage)
