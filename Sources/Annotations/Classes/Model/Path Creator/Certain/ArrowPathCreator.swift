@@ -5,11 +5,29 @@ final class ArrowPathCreator: PathCreator {
     let (origin, to) = (figure.origin.cgPoint, figure.to.cgPoint)
     let length = PathCalculations.distance(from: origin, to: to)
     
+    let tailWidth = figure.lineWidth + CGFloat(length) / 45
+    
+    var headWidth = 15 + CGFloat(length) / 15
+    
+    // ensure correct arrow resizing when canvas is resizing
+    let maxHeadWidthCoeff = 3.2
+    if headWidth > tailWidth * maxHeadWidthCoeff {
+      headWidth = tailWidth * maxHeadWidthCoeff
+    }
+
+    var headLength = length >= 20 ? 20 + CGFloat(length) / 15 : CGFloat(length)
+    // ensure correct arrow resizing when canvas is resizing
+    let diff = headLength / tailWidth
+    let maxTailWidthCoeff = 4.0
+    if diff > maxTailWidthCoeff {
+      headLength = tailWidth * maxTailWidthCoeff
+    }
+    
     return arrow(from: origin,
                  to: to,
-                 tailWidth: 5 + CGFloat(length) / 45,
-                 headWidth: 15 + CGFloat(length) / 15,
-                 headLength: length >= 20 ? 20 + CGFloat(length) / 15 : CGFloat(length))
+                 tailWidth: tailWidth,
+                 headWidth: headWidth,
+                 headLength: headLength)
   }
   
   private func arrow(from start: CGPoint,

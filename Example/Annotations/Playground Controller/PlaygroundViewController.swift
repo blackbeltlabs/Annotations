@@ -18,7 +18,7 @@ class PlaygroundViewController: NSViewController {
   
   let imageView: NSImageView = {
     let imageView = NSImageView(frame: .zero)
-    imageView.imageScaling = .scaleNone
+    imageView.imageScaling = .scaleAxesIndependently
     return imageView
   }()
   
@@ -98,7 +98,7 @@ class PlaygroundViewController: NSViewController {
     
     
 
-    annotationSettings.setObfuscateType(.solid)
+    annotationSettings.setObfuscateType(.imagePattern(image))
 
     
     setupPublishers(drawableCanvasView: canvasView)
@@ -109,6 +109,10 @@ class PlaygroundViewController: NSViewController {
       guard let self else { return }
       self.imageView.frame = .init(origin: .zero, size: self.mainView.frame.size)
     }
+    
+    parts.settings.textViewIsEditingPublisher.sink { result in
+      print("Text view did editing = \(result)")
+    }.store(in: &cancellables)
     
     do {
       let result = try JSONSerializer.deserializeFromFile(url: url)

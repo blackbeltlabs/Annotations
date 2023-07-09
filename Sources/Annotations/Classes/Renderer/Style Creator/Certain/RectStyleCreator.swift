@@ -4,11 +4,11 @@ class RectStyleCreator: FigureStyleCreator {
   func createStyle(for figure: Rect) -> LayerUISettings {
     switch figure.rectType {
     case .regular:
-      return .init(lineWidth: 5,
+      return .init(lineWidth: figure.lineWidth,
                    strokeColor: figure.color.cgColor,
                    fillColor: CGColor.clear)
     case .obfuscate:
-      return .init(lineWidth: 2,
+      return .init(lineWidth: 0,
                    strokeColor: NSColor.red.cgColor,
                    fillColor: .black)
     case .highlight:        

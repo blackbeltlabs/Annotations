@@ -36,8 +36,7 @@ public class DrawableCanvasView: NSView {
   let imageColorsCalculator = ImageColorsCalculator()
   
   // MARK: - Publishers
-  let viewSizeUpdated = PassthroughSubject<CGSize, Never>()
-  let viewLayoutUpdated = PassthroughSubject<Void, Never>()
+  let viewLayoutUpdated = PassthroughSubject<CGSize, Never>()
   
   let mouseDownSubject = PassthroughSubject<CGPoint, Never>()
   let mouseDraggedSubject = PassthroughSubject<CGPoint, Never>()
@@ -51,19 +50,17 @@ public class DrawableCanvasView: NSView {
   private var emojiPickerPresentedCancellable: AnyCancellable?
   
   let textViewEditingSubject = PassthroughSubject<Bool, Never>()
+  
+  public var textViewEditingPublisher: AnyPublisher<Bool, Never> {
+    textViewEditingSubject.eraseToAnyPublisher()
+  }
 
   
   var isUserInteractionEnabled: Bool = true
   
   // MARK: - Cancellables
   var commonCancellables = Set<AnyCancellable>()
-  
-  public override var frame: NSRect {
-    didSet {
-      viewSizeUpdated.send(frame.size)
-    }
-  }
-  
+    
   // MARK: - Init
   override init(frame frameRect: NSRect) {
     super.init(frame: frameRect)
@@ -83,11 +80,14 @@ public class DrawableCanvasView: NSView {
   // MARK: - Layout updates
   public override func layout() {
     super.layout()
-    obfuscateLayer.frame = bounds
-    higlightsLayer.frame = bounds
     
-    selectionView.frame = bounds
-    viewLayoutUpdated.send(())
+   CATransaction.withoutAnimation {
+      obfuscateLayer.frame = bounds
+      higlightsLayer.frame = bounds
+      selectionView.frame = bounds
+    }
+   
+    viewLayoutUpdated.send(frame.size)
   }
   
   // MARK: - Tracking areas

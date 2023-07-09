@@ -10,7 +10,11 @@ class CanvasShapeLayer: CAShapeLayer, DrawableElement {
 
 extension CAShapeLayer {
   func setup(with settings: LayerUISettings) {
-    lineWidth = settings.lineWidth
+    
+    // MARK: - Ideally to separate cases where animations is required and where it is not needed
+    CATransaction.withoutAnimation {
+      lineWidth = settings.lineWidth
+    }
     strokeColor = settings.strokeColor
     fillColor = settings.fillColor
     lineJoin = settings.lineJoin

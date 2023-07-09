@@ -103,14 +103,9 @@ public final class AnnotationsCanvasFactory {
                                       modelsManager: ModelsManager,
                                       mouseInteractionHandler: MouseInteractionHandler) {
     
-    // need two events here because:
-    // 1) view.layout() is called from time to time and no need to call it again and re-render
-    //) 2) view size updated can be called several times
-    let layoutEvent = canvasView.viewLayoutUpdated.first()
-    let viewSizeUpdated = Publishers.CombineLatest(canvasView.viewSizeUpdated, layoutEvent)
-    
+    let viewSizeUpdated = canvasView.viewLayoutUpdated
+        
     viewSizeUpdated
-      .map(\.0)
       .sink { [weak modelsManager] size in
         modelsManager?.viewSizeUpdated.send(size)
       }

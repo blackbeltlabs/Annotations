@@ -44,12 +44,27 @@ public class ModelsManager {
   private func setupPublishers() {
     let viewSizeUpdate = viewSizeUpdated.share()
     
-    // render all models if viewSizeUpdated (or initial one is set)
-    // or models are updated (or initial one array is set)
-    Publishers.CombineLatest(viewSizeUpdate, models)
-      .map(\.1)
-      .sink { [weak self] models in
+    viewSizeUpdated
+       .scan((nil, nil)) { ($0.1, $1) }
+       .sink { [weak self] (previous, current) in
+         guard let self else { return }
+         guard let previous, let current else { return }
+         
+         var models = self.models.value
+         
+         let updatedModels = self.resize(models: models.all,
+                                         previousViewSize: previous,
+                                         currentViewSize: current)
+         models.refresh(with: updatedModels)
+         self.models.send(models)
+       }
+       .store(in: &commonCancellables)
+    
+    models
+      .combineLatest(viewSizeUpdate.first())
+      .sink { [weak self] (models, _) in
         guard let self = self else { return }
+        
         if models.all.isEmpty {
           self.renderer.renderRemovalAll()
         } else {
@@ -61,7 +76,7 @@ public class ModelsManager {
     
     // render obfuscate area
     Publishers.CombineLatest(
-      viewSizeUpdate,
+      viewSizeUpdate.filter { $0.width > 0 && $0.height > 0 }.first(),
       obfuscateType.removeDuplicates())
     .map(\.1)
     .sink { [weak self] obfuscateType in
@@ -143,6 +158,62 @@ public class ModelsManager {
       })
       .assign(to: \.value, on: selectedModel)
       .store(in: &commonCancellables)
+  }
+  
+  // MARK: - Convert
+  
+  func resize(models: [AnnotationModel], previousViewSize: CGSize?, currentViewSize: CGSize?) -> [AnnotationModel] {
+    guard let previousViewSize, let currentViewSize else { return models }
+    var modelsToUpdate = models
+    
+    for i in 0..<modelsToUpdate.count {
+      let model = modelsToUpdate[i]
+      
+      // 1. update points that defines path of annotation on the canvas
+      modelsToUpdate[i].points = model.points
+        .map(\.cgPoint)
+        .map { self.convertPoint($0, currentSize: currentViewSize, previousSize: previousViewSize) }
+        .map(\.modelPoint)
+      
+      // 2. re-calculate line width if needed
+      if var sizeable = modelsToUpdate[i] as? Sizeable {
+        sizeable.lineWidth = convertLineWidth(sizeable.lineWidth,
+                                              currentSize: currentViewSize,
+                                              previousSize: previousViewSize)
+        modelsToUpdate[i] = sizeable
+      }
+      
+      if var textAnnotation = modelsToUpdate[i] as? Text {
+        // 1. Convert current font size based on relation between previous view size and new view size
+        let currentFontSize = textAnnotation.style.fontSize!
+        
+        let convertedFontSize = convert(currentFontSize,
+                                        currentSizeValue: currentViewSize.width,
+                                        previewsSizeValue: previousViewSize.width)
+        textAnnotation.style.fontSize = convertedFontSize
+        
+        // 2. calculate updated frame size for the text with current font
+        textAnnotation.frame.size = TextLayoutHelper.bestSizeWithAttributes(for: textAnnotation.text,
+                                                                            attributes: textAnnotation.style.attributes)
+        
+        modelsToUpdate[i] = textAnnotation
+      }
+    }
+  
+    return modelsToUpdate
+  }
+  
+  private func convert(_ value: CGFloat, currentSizeValue: CGFloat, previewsSizeValue: CGFloat) -> CGFloat {
+    value * (currentSizeValue / previewsSizeValue)
+  }
+  
+  private func convertPoint(_ point: CGPoint, currentSize: CGSize, previousSize: CGSize) -> CGPoint {
+    .init(x: convert(point.x, currentSizeValue: currentSize.width, previewsSizeValue: previousSize.width),
+          y: convert(point.y, currentSizeValue: currentSize.height, previewsSizeValue: previousSize.height))
+  }
+  
+  private func convertLineWidth(_ lineWidth: CGFloat, currentSize: CGSize, previousSize: CGSize) -> CGFloat {
+    convert(lineWidth, currentSizeValue: currentSize.width, previewsSizeValue: previousSize.width)
   }
   
   // MARK: - Public

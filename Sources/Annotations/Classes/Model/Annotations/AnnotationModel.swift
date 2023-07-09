@@ -36,3 +36,7 @@ extension TwoPointsModel {
 public protocol RectBased: TwoPointsModel {
   
 }
+
+public protocol Sizeable: AnnotationModel {
+  var lineWidth: CGFloat { get set }
+}
