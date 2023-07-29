@@ -252,6 +252,8 @@ public class ModelsManager {
   // update multiple models in the array
   // if updateHistory == true then all of them will be added into a single Undo closure
   public func update(models: [AnnotationModel], updateHistory: Bool = true) {
+    guard !models.isEmpty else { return }
+    
     var allModels = self.models.value
     
     if updateHistory {
@@ -308,6 +310,8 @@ public class ModelsManager {
   }
   
   public func delete(models: [AnnotationModel], updateHistory: Bool = true) {
+    guard !models.isEmpty else { return }
+    
     var allModelsSet = self.models.value
     
     for model in models {
