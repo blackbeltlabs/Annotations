@@ -121,6 +121,15 @@ class PlaygroundViewController: NSViewController {
       let alertController = NSAlert(error: error)
       alertController.runModal()
     }
+    
+    // add some models manually
+    modelsManager.update(model: Arrow(color: .fuschia,
+                                      zPosition: modelsManager.maxZPosition + 1,
+                                      origin: .init(x: 0.0, y: 0.0),
+                                      to: .init(x: 200, y: 200)))
+    modelsManager.update(model: Rect(rectType: .obfuscate,
+                                     origin: .init(x: 200.0, y: 200.0),
+                                     to: .init(x: 600.0, y: 400.0)))
   }
 
   

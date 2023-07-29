@@ -300,6 +300,10 @@ public class ModelsManager {
   public func containsAnnotations() -> Bool {
     !models.value.all.isEmpty
   }
+  
+  public var maxZPosition: CGFloat {
+    models.value.all.map(\.zPosition).max() ?? 0
+  }
     
   // MARK: - Select
   func select(model: AnnotationModel,
