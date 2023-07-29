@@ -128,12 +128,18 @@ class PlaygroundViewController: NSViewController {
                                               origin: .init(x: 0.0, y: 0.0),
                                               to: .init(x: 200, y: 200)),
                                         Rect(rectType: .obfuscate,
-                                                                         origin: .init(x: 200.0, y: 200.0),
-                                                                         to: .init(x: 600.0, y: 400.0))
+                                             origin: .init(x: 200.0, y: 200.0),
+                                             to: .init(x: 600.0, y: 400.0))
                                         
     ]
     
     modelsManager.update(models: newModels, updateHistory: true)
+    
+    /* - Test delete multiple items
+    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+      self.modelsManager.delete(models: newModels)
+    }
+     */
   }
 
   

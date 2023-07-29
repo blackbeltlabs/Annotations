@@ -275,6 +275,11 @@ public class ModelsManager {
     }
     
     allModels.update(models)
+    
+    if let numbers = updateNumbersIfNeeded(in: allModels.all) {
+      allModels.update(numbers)
+    }
+    
     self.models.send(allModels)
   }
   
@@ -298,6 +303,41 @@ public class ModelsManager {
     if updateHistory {
       history.addUndo { [weak self] in
         self?.update(model: model)
+      }
+    }
+  }
+  
+  public func delete(models: [AnnotationModel], updateHistory: Bool = true) {
+    var allModelsSet = self.models.value
+    
+    for model in models {
+      allModelsSet.remove(with: model.id)
+      
+      if selectedAnnotation?.id == model.id {
+        deselect()
+      }
+      
+      // if number is deleted then it could be needed to recalculate number values
+      if model is Number, let numbers = updateNumbersIfNeeded(in: allModelsSet.all) {
+        allModelsSet.update(numbers)
+      }
+    }
+    
+    self.models.send(allModelsSet)
+    
+    models.forEach { renderer.renderRemoval(of: $0.id) }
+   
+    if updateHistory {
+      var closures: [() -> Void] = []
+      
+      for model in models {
+        closures.append {
+          self.update(model: model)
+        }
+      }
+      
+      history.addUndo {
+        closures.forEach { $0() }
       }
     }
   }
