@@ -249,6 +249,35 @@ public class ModelsManager {
     models.send(allModels)
   }
   
+  // update multiple models in the array
+  // if updateHistory == true then all of them will be added into a single Undo closure
+  public func update(models: [AnnotationModel], updateHistory: Bool = true) {
+    var allModels = self.models.value
+    
+    if updateHistory {
+      var closures: [() -> Void] = []
+      
+      for model in models {
+        if let oldModel = allModels.model(for: model.id) {
+          closures.append {
+            self.update(model: oldModel)
+          }
+        } else {
+          closures.append {
+            self.delete(model: model)
+          }
+        }
+      }
+      
+      history.addUndo {
+        closures.forEach { $0() }
+      }
+    }
+    
+    allModels.update(models)
+    self.models.send(allModels)
+  }
+  
   // delete single model
   public func delete(model: AnnotationModel, updateHistory: Bool = true) {
     var allModelsSet = self.models.value
