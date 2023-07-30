@@ -8,6 +8,7 @@ public enum RectModelType: String, Codable {
 }
 
 public struct Rect: RectBased, TwoPointsModel, Figure, Sizeable {
+  public static let defaultLineWidth = 5.0
   
   public var rectType: RectModelType
   
@@ -15,10 +16,26 @@ public struct Rect: RectBased, TwoPointsModel, Figure, Sizeable {
   public var color: ModelColor = .zero
   public var zPosition: CGFloat = 0
     
-  public var lineWidth: CGFloat = 5.0
+  public var lineWidth: CGFloat = Self.defaultLineWidth
   
   public var origin: AnnotationPoint
   public var to: AnnotationPoint
+  
+  public init(rectType: RectModelType,
+              id: String = UUID().uuidString,
+              color: ModelColor = .defaultColor(),
+              zPosition: CGFloat = 0,
+              lineWidth: CGFloat = Self.defaultLineWidth,
+              origin: AnnotationPoint,
+              to: AnnotationPoint) {
+    self.rectType = rectType
+    self.id = id
+    self.color = color
+    self.zPosition = zPosition
+    self.lineWidth = lineWidth
+    self.origin = origin
+    self.to = to
+  }
     
   public struct Mocks {
     public static var mockRegular: Rect {

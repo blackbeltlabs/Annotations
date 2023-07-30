@@ -4,6 +4,11 @@ public struct AnnotationPoint: Codable {
   let x: Double
   let y: Double
   
+  public init(x: Double, y: Double) {
+    self.x = x
+    self.y = y
+  }
+  
   static var zero: AnnotationPoint {
     .init(x: 0, y: 0)
   }

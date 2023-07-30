@@ -2,7 +2,6 @@ import Foundation
 import CoreGraphics
 
 public struct Number: RectBased, Figure {
-  
   public var id: String = UUID().uuidString
   public var color: ModelColor = .zero
   public var zPosition: CGFloat = 0
@@ -11,6 +10,21 @@ public struct Number: RectBased, Figure {
   public var to: AnnotationPoint
   
   public var value: Int  // number value
+  
+  
+  public init(id: String = UUID().uuidString,
+              color: ModelColor,
+              zPosition: CGFloat = 0,
+              origin: AnnotationPoint,
+              to: AnnotationPoint,
+              value: Int) {
+    self.id = id
+    self.color = color
+    self.zPosition = zPosition
+    self.origin = origin
+    self.to = to
+    self.value = value
+  }
     
   var rect: CGRect {
     CGRect(fromPoint: origin.cgPoint, toPoint: to.cgPoint)

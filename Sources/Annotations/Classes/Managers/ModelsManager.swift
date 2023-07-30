@@ -249,6 +249,42 @@ public class ModelsManager {
     models.send(allModels)
   }
   
+  // update multiple models in the array
+  // if updateHistory == true then all of them will be added into a single Undo closure
+  public func update(models: [AnnotationModel], updateHistory: Bool = true) {
+    guard !models.isEmpty else { return }
+    
+    var allModels = self.models.value
+    
+    if updateHistory {
+      var closures: [() -> Void] = []
+      
+      for model in models {
+        if let oldModel = allModels.model(for: model.id) {
+          closures.append {
+            self.update(model: oldModel)
+          }
+        } else {
+          closures.append {
+            self.delete(model: model)
+          }
+        }
+      }
+      
+      history.addUndo {
+        closures.forEach { $0() }
+      }
+    }
+    
+    allModels.update(models)
+    
+    if let numbers = updateNumbersIfNeeded(in: allModels.all) {
+      allModels.update(numbers)
+    }
+    
+    self.models.send(allModels)
+  }
+  
   // delete single model
   public func delete(model: AnnotationModel, updateHistory: Bool = true) {
     var allModelsSet = self.models.value
@@ -269,6 +305,43 @@ public class ModelsManager {
     if updateHistory {
       history.addUndo { [weak self] in
         self?.update(model: model)
+      }
+    }
+  }
+  
+  public func delete(models: [AnnotationModel], updateHistory: Bool = true) {
+    guard !models.isEmpty else { return }
+    
+    var allModelsSet = self.models.value
+    
+    for model in models {
+      allModelsSet.remove(with: model.id)
+      
+      if selectedAnnotation?.id == model.id {
+        deselect()
+      }
+      
+      // if number is deleted then it could be needed to recalculate number values
+      if model is Number, let numbers = updateNumbersIfNeeded(in: allModelsSet.all) {
+        allModelsSet.update(numbers)
+      }
+    }
+    
+    self.models.send(allModelsSet)
+    
+    models.forEach { renderer.renderRemoval(of: $0.id) }
+   
+    if updateHistory {
+      var closures: [() -> Void] = []
+      
+      for model in models {
+        closures.append {
+          self.update(model: model)
+        }
+      }
+      
+      history.addUndo {
+        closures.forEach { $0() }
       }
     }
   }
@@ -299,6 +372,10 @@ public class ModelsManager {
   // if the canvas view contains annotations
   public func containsAnnotations() -> Bool {
     !models.value.all.isEmpty
+  }
+  
+  public var maxZPosition: CGFloat {
+    models.value.all.map(\.zPosition).max() ?? 0
   }
     
   // MARK: - Select
