@@ -10,12 +10,11 @@ class TextAnnotationView: NSView, DrawableElement {
   
   override var frame: NSRect {
     didSet {
-      guard #available(macOS 13.0, *) else {
-        // update subframes in frames works well for macOS prior to 13.0 (Ventura)
-        textView.frame = bounds
-        legibilityTextView.frame = bounds
-        return
-      }
+      // This line must exists together with frames update in layout()
+      // otherwise the frame of legibility effect will be incorrect and cause issues
+      // (macOS Sonoma updates)
+      textView.frame = bounds
+      legibilityTextView.frame = bounds
     }
   }
   
