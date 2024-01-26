@@ -1,4 +1,4 @@
-import Cocoa
+import AppKit
 
 extension NSColor {
   public static func color(from modelColor: ModelColor) -> NSColor {

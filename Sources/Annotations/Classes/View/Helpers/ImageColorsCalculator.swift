@@ -1,4 +1,4 @@
-import Cocoa
+import AppKit
 
 struct Pixel: Hashable, Equatable {
   let r: Float

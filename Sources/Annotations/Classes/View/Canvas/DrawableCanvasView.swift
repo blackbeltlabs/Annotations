@@ -1,4 +1,4 @@
-import Cocoa
+import AppKit
 import Combine
 
 private enum MouseEventType {
