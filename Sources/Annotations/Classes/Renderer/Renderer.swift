@@ -48,6 +48,8 @@ protocol RendererCanvas: AnyObject {
   func clearAll()
   
   func setCursor(for type: CursorType)
+  
+  var bounds: CGRect { get }
 }
 
 enum ObfuscatedAreaType {
@@ -222,5 +224,9 @@ class Renderer: TextAnnotationsSource {
   
   func renderRemovalAll() {
     canvasView?.clearAll()
+  }
+  
+  var bounds: CGRect {
+    canvasView!.bounds
   }
 }

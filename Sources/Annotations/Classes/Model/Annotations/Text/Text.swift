@@ -70,6 +70,12 @@ extension Text {
     currentFrame.size = size
     self.frame = currentFrame
   }
+  
+  mutating func updateFrameHeight(_ height: CGFloat) {
+    var currentFrame = frame
+    currentFrame.size.height = height
+    self.frame = currentFrame
+  }
 }
 
 

@@ -10,6 +10,8 @@ protocol TextAnnotationsSource: AnyObject {
   func startEditingText(for text: Text,
                         options: TextAnnotationEditingOptions) -> AnyPublisher<String, Never>?
   func stopEditingText(for text: Text)
+  
+  var bounds: CGRect { get }
 }
 
 class TextAnnotationsManager {
@@ -118,12 +120,33 @@ class TextAnnotationsManager {
   
   
   func handleTextChanged(for text: Text, updatedString: String) {
+    guard let source = source else {
+      fatalError("Text annotations source is absent")
+    }
+    
     var updatedText = text
+    
+    // calculate best size for updated string
     let bestSize = TextLayoutHelper.bestSizeWithAttributes(for: updatedString,
                                                            attributes: text.style.attributes)
     
     updatedText.text = updatedString
-    updatedText.updateFrameSize(bestSize)
+
+    let minBorderDistance = 10.0
+    
+    // if with updated size a text annotation will be too close to the right border
+    // it needs to be resized and part of a text should be move to the next line
+    if text.frame.origin.x + bestSize.width > source.bounds.maxX - minBorderDistance {
+      let currentWidth = text.frame.size.width // an existing width
+      // calculate a new height for existing width
+      let height = TextLayoutHelper.calculateHeight(for: updatedText.attributedText,
+                                                    withWidth: currentWidth)
+      
+      updatedText.updateFrameHeight(height)
+    } else {
+      // just use the best size
+      updatedText.updateFrameSize(bestSize)
+    }
     
     self.editingText = updatedText
     
