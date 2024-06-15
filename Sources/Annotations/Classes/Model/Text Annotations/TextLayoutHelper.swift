@@ -30,16 +30,35 @@ final class TextLayoutHelper {
     textStorage.addLayoutManager(layoutManager)
     textContainer.size = .zero // maxSize
     layoutManager.glyphRange(for: textContainer)
-    if #available(OSX 10.15, *) {
-      layoutManager.usesDefaultHyphenation = false
-    } else {
-      layoutManager.hyphenationFactor = 0
-    }
+    layoutManager.usesDefaultHyphenation = false
     
     layoutManager.ensureLayout(for: textContainer)
     
     return layoutManager.usedRect(for: textContainer).size
   }
+
+  static func calculateHeight(for attributedString: NSAttributedString, withWidth width: CGFloat) -> CGFloat {
+    // Create a text storage object to hold the attributed string
+    let textStorage = NSTextStorage(attributedString: attributedString)
+    
+    // Create a layout manager to layout the text
+    let layoutManager = NSLayoutManager()
+    textStorage.addLayoutManager(layoutManager)
+    
+    // Create a text container with the specified width and unlimited height
+    let textContainer = NSTextContainer(size: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude))
+    textContainer.lineFragmentPadding = TextLayoutHelper.singleLinePadding // Remove padding if needed
+    textContainer.maximumNumberOfLines = 0
+    layoutManager.addTextContainer(textContainer)
+    
+    // Calculate the required height
+    layoutManager.glyphRange(for: textContainer)
+    layoutManager.usesDefaultHyphenation = false
+    let usedRect = layoutManager.usedRect(for: textContainer)
+    
+    return usedRect.height
+  }
+
   
   // calculate height for the attributedString with defined width
   static func getHeightAttr(for attributedString: NSAttributedString, width: CGFloat) -> CGFloat {
