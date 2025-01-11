@@ -1,7 +1,7 @@
 import Foundation
 import CoreGraphics
 
-public struct Arrow: TwoPointsModel, Figure, Sizeable {
+public struct Arrow: TwoPointsModel, Figure, Sizeable, Sendable {
   
   public static let defaultLineWidth = 5.0
   

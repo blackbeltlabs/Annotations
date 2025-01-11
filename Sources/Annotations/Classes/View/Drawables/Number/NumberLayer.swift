@@ -1,6 +1,6 @@
 import Quartz
 
-class NumberLayer: CanvasShapeLayer {
+class NumberLayer: CanvasShapeLayer, @unchecked Sendable {
   let textLayer: CATextLayer = {
     let numberLayer = NumberTextLayer()
     numberLayer.contentsScale = 2.0
@@ -14,7 +14,9 @@ class NumberLayer: CanvasShapeLayer {
   // MARK: - Init
   override init() {
     super.init()
-    addSublayer(textLayer)
+    MainActor.assumeIsolated() {
+      addSublayer(textLayer)
+    }
   }
   
   required init?(coder: NSCoder) {

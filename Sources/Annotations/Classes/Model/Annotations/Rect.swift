@@ -1,13 +1,13 @@
 import Foundation
 import CoreGraphics
 
-public enum RectModelType: String, Codable {
+public enum RectModelType: String, Codable, Sendable {
   case regular
   case obfuscate
   case highlight
 }
 
-public struct Rect: RectBased, TwoPointsModel, Figure, Sizeable {
+public struct Rect: RectBased, TwoPointsModel, Figure, Sizeable, Sendable {
   public static let defaultLineWidth = 5.0
   
   public var rectType: RectModelType

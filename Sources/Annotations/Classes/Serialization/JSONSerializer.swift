@@ -28,7 +28,7 @@ public final class JSONSerializer {
   
   
   static public func deserializeFromFile(url: URL,
-                                         completion: @escaping (Result<SortedDataDeserializationResult, Error>) -> Void) {
+                                         completion: @Sendable @escaping (Result<SortedDataDeserializationResult, Error>) -> Void) {
     DispatchQueue.global().async {
       do {
         let data = try deserializeFromFile(url: url)

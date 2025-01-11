@@ -52,9 +52,11 @@ public class SharedHistory {
   }
   
   // MARK: - Add
-  public func addUndo(closure: @escaping () -> Void) {
+  public func addUndo(closure: @MainActor @Sendable @escaping () -> Void) {
     manager.registerUndo(withTarget: self) { target in
-      closure()
+      MainActor.assumeIsolated {
+        closure()
+      }
     }
     updateUndoRedoStates()
   }

@@ -1,7 +1,7 @@
 import Foundation
 import CoreGraphics
 
-public struct Number: RectBased, Figure {
+public struct Number: RectBased, Figure, Sendable {
   public var id: String = UUID().uuidString
   public var color: ModelColor = .zero
   public var zPosition: CGFloat = 0
@@ -34,7 +34,7 @@ public struct Number: RectBased, Figure {
     rect.size
   }
   
-  static var defaultRadius: CGFloat = 15.0
+  static let defaultRadius: CGFloat = 15.0
   
   static func modelWithRadius(centerPoint: AnnotationPoint, radius: CGFloat, value: Int, zPosition: CGFloat, color: ModelColor) -> Self {
     let origin = CGPoint(x: CGFloat(centerPoint.x) - radius,

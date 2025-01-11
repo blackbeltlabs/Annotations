@@ -1,5 +1,6 @@
 import Foundation
 
+@MainActor
 protocol ResizeTransformation {
   associatedtype F: AnnotationModel
   associatedtype T: KnobType
@@ -8,7 +9,6 @@ protocol ResizeTransformation {
   
   func resizedAnnotation(_ annotation: F, knobType: T, delta: CGVector) -> F
 }
-
 
 
 extension ResizeTransformation {

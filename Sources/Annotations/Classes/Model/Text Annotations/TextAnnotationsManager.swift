@@ -6,6 +6,7 @@ struct TextAnnotationEditingOptions {
   let showEmojiPickerButton: Bool
 }
 
+@MainActor
 protocol TextAnnotationsSource: AnyObject {
   func startEditingText(for text: Text,
                         options: TextAnnotationEditingOptions) -> AnyPublisher<String, Never>?
@@ -14,6 +15,7 @@ protocol TextAnnotationsSource: AnyObject {
   var bounds: CGRect { get }
 }
 
+@MainActor
 class TextAnnotationsManager {
   var textStyle: TextParams = .defaultFont()
   

@@ -1,6 +1,6 @@
 import CoreGraphics
 
-public protocol AnnotationModel: Codable {
+public protocol AnnotationModel: Codable, Sendable {
   var id: String { get set }
   var color: ModelColor { get set }
   var zPosition: CGFloat { get set }

@@ -4,16 +4,17 @@ private struct AnyDrawableModel: Hashable, Equatable {
   let model: DrawableElement
   
   static func == (lhs: AnyDrawableModel, rhs: AnyDrawableModel) -> Bool {
-    lhs.model.id == rhs.model.id
+    
+    lhs.model.uniqueId == rhs.model.uniqueId
   }
   
   func hash(into hasher: inout Hasher) {
-    hasher.combine(model.id)
+    hasher.combine(model.uniqueId)
   }
 }
 
 
-private struct StubModel: DrawableElement {
+private struct StubModel: DrawableElement, Sendable {
   var id: String = ""
 }
 

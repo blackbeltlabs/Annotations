@@ -2,6 +2,7 @@ import Foundation
 import CoreGraphics
 import Combine
 
+@MainActor
 protocol MouseInteractionHandlerDataSource: AnyObject {
   var annotations: [AnnotationModel] { get }
   
@@ -19,7 +20,7 @@ protocol MouseInteractionHandlerDataSource: AnyObject {
   func deselect()
 }
 
-private struct PossibleDragging {
+private struct PossibleDragging : Sendable{
   let lastDraggedPoint: CGPoint
   let type: PossibleDraggingType
   let modifiedAnnotation: AnnotationModel?
@@ -49,13 +50,14 @@ private struct PossibleDragging {
   }
 }
 
-private enum PossibleDraggingType {
+private enum PossibleDraggingType: Sendable {
   case create(CanvasItemType)
   case move
   case resize(KnobType)
 }
 
 // Responsible for editing and creation of new annotations
+@MainActor
 class MouseInteractionHandler {
   
   // MARK: - Weak dependencies

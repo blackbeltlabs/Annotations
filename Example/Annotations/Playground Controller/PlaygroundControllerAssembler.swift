@@ -1,6 +1,7 @@
 import Foundation
 import AppKit
 
+@MainActor
 final class PlaygroundControllerAssembler{
   static func assemble(with image: NSImage, jsonURL: URL, withControls: Bool) -> NSWindowController {
     

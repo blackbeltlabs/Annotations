@@ -1,6 +1,6 @@
 import Foundation
 
-public struct SortedDataDeserializationResult {
+public struct SortedDataDeserializationResult: Sendable {
   public let models: [AnnotationModel]
   public let commonStyle: TextParams
 }
