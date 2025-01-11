@@ -1,5 +1,6 @@
 import Foundation
 
+@MainActor
 public class ResizeTransformationFactory {
   public static func resizedAnnotation(annotation: AnnotationModel, knob: KnobType, delta: CGVector) -> AnnotationModel {
     switch (annotation, knob) {

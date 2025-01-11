@@ -1,10 +1,10 @@
 import Quartz
 
-class CanvasLayer: CALayer, DrawableElement {
+class CanvasLayer: CALayer, DrawableElement, @unchecked Sendable {
   var id: String = ""
 }
 
-class CanvasShapeLayer: CAShapeLayer, DrawableElement {
+class CanvasShapeLayer: CAShapeLayer, DrawableElement, @unchecked Sendable {
   var id: String = ""
 }
 

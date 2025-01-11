@@ -1,6 +1,6 @@
 import CoreGraphics
 
-public struct AnnotationPoint: Codable {
+public struct AnnotationPoint: Codable, Sendable {
   let x: Double
   let y: Double
   

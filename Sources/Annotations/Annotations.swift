@@ -9,6 +9,7 @@ public struct AnnotationsManagingParts {
   public let analytics: Analytics
 }
 
+@MainActor
 public final class AnnotationsCanvasFactory {
   
   // a custom shared history instance could be passed if needed

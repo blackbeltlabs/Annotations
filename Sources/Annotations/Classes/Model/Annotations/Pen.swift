@@ -1,7 +1,7 @@
 import Foundation
 import CoreGraphics
 
-public struct Pen: Figure, Sizeable {
+public struct Pen: Figure, Sizeable, Sendable {
   public static let defaultLineWidth = 5.0
   
   public var id: String = UUID().uuidString

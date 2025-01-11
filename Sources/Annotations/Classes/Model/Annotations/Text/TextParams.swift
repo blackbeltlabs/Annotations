@@ -1,6 +1,6 @@
 import AppKit
 
-public struct TextParams: Codable, Equatable {
+public struct TextParams: Codable, Equatable, Sendable {
   // MARK: - Properties
   public var fontName: String?
   public var fontSize: Double?

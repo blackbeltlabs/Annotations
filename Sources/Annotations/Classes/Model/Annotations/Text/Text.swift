@@ -1,7 +1,7 @@
 import Foundation
 import CoreGraphics
 
-public struct Text: AnnotationModel, TwoPointsModel, RectBased {
+public struct Text: AnnotationModel, TwoPointsModel, RectBased, Sendable {
   
   public var id: String = UUID().uuidString
   

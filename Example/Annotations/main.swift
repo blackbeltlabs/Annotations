@@ -1,5 +1,6 @@
 import Cocoa
 
+@MainActor
 private func runApplication(application: NSApplication,
                             delegate: NSObject.Type?,
                             bundle: Bundle) {

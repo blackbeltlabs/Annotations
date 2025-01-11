@@ -1,6 +1,6 @@
 import Foundation
 
-public enum CanvasItemType {
+public enum CanvasItemType: Sendable {
   case text
   case arrow
   case pen

@@ -1,7 +1,7 @@
 import Foundation
 import CoreGraphics
 
-struct Knob: Selection {
+struct Knob: Selection, Sendable {
   let id: String
   let frameRect: CGRect
   let borderColor: CGColor

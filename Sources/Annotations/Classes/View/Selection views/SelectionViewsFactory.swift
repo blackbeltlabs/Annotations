@@ -1,6 +1,7 @@
 import Foundation
 import QuartzCore
 
+@MainActor
 final class SelectionDrawablesFactory {
   
   static func createKnobLayer(with id: String) -> ControlKnob {

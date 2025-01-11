@@ -1,11 +1,13 @@
 import Foundation
 
+@MainActor
 protocol AnalyticsDataSource: AnyObject {
   var annotations: [AnnotationModel] { get }
 }
 
 // This class return some analytics data for the current annotations models
 // that could be retrieved in the app that uses Annotations framework
+@MainActor
 public final class Analytics {
   weak var dataSource: AnalyticsDataSource?
   

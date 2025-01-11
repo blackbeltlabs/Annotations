@@ -15,6 +15,7 @@ enum CursorType {
   case textScale
 }
 
+@MainActor
 protocol RendererCanvas: AnyObject {
   func renderLayer(id: String,
                    type: LayerType,
@@ -57,6 +58,7 @@ enum ObfuscatedAreaType {
   case image(_ image: NSImage)
 }
 
+@MainActor
 class Renderer: TextAnnotationsSource {
   weak var canvasView: RendererCanvas?
   

@@ -4,6 +4,7 @@ import Combine
 
 // this class manages all models data that is used by Annotations
 // and is a source of truth for the view
+@MainActor
 public class ModelsManager {
   
   // MARK: - Dependencies

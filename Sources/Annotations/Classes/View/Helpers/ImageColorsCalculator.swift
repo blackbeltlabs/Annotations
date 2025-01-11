@@ -39,7 +39,7 @@ struct Pixel: Hashable, Equatable {
   }
 }
 
-public class ImageColorsCalculator {
+public class ImageColorsCalculator: @unchecked Sendable {
     
   public init() { }
   
@@ -88,7 +88,7 @@ public class ImageColorsCalculator {
   
   public func mostUsedColors(from nsImage: NSImage,
                              count: Int,
-                             completion: @escaping ([NSColor]) -> Void) {
+                             completion: @escaping @Sendable ([NSColor]) -> Void) {
     DispatchQueue.global().async {
       let colors = self.mostUsedColors(from: nsImage, count: count)
       completion(colors)
@@ -166,3 +166,6 @@ public class ImageColorsCalculator {
     return mostUsedColors
   }
 }
+
+
+extension NSImage: @unchecked @retroactive Sendable { }

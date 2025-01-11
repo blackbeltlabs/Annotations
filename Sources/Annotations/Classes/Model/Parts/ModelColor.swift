@@ -1,6 +1,6 @@
 import CoreGraphics
 
-public struct ModelColor: Codable, Equatable {
+public struct ModelColor: Codable, Equatable, Sendable {
   public let red: CGFloat
   public let green: CGFloat
   public let blue: CGFloat
