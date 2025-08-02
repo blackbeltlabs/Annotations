@@ -1,6 +1,6 @@
 import QuartzCore
 
-final class ControlKnob: CanvasLayer, @unchecked Sendable {
+final class ControlKnob: CanvasLayer {
   
   // MARK: - Init
   override init() {

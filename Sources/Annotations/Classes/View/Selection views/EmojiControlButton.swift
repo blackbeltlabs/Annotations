@@ -1,6 +1,6 @@
 import Cocoa
 
-class EmojiControlButton: NSButton, DrawableElement {
+class EmojiControlButton: NSButton, @preconcurrency DrawableElement {
   var id: String = ""
   // MARK: - Init
   override init(frame frameRect: NSRect) {

@@ -1,7 +1,7 @@
 import Foundation
 import CoreGraphics
 
-class ControlBorder: CanvasShapeLayer, @unchecked Sendable {
+class ControlBorder: CanvasShapeLayer {
   func setup(with path: CGPath, strokeColor: CGColor, lineWidth: CGFloat) {
     masksToBounds = false
     fillColor = .clear
