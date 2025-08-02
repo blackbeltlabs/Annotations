@@ -4,20 +4,15 @@ private struct AnyDrawableModel: Hashable, Equatable {
   let model: DrawableElement
   
   static func == (lhs: AnyDrawableModel, rhs: AnyDrawableModel) -> Bool {
-      let lhsID = lhs.model.id
-      let rhsID = rhs.model.id
-      
-      return MainActor.assumeIsolated {
-          lhsID == rhsID
-      }
+    let lhsID = lhs.model.id
+    let rhsID = rhs.model.id
+    return lhsID == rhsID
   }
   
   func hash(into hasher: inout Hasher) {
-      let id = model.id
+    let id = model.id
       
-      return MainActor.assumeIsolated {
-          hasher.combine(id)
-      }
+    hasher.combine(id)
   }
 }
 
