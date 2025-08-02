@@ -14,7 +14,7 @@ enum LegibilityControlImageType {
   }
 }
 
-class LegibilityControlButton: NSButton, DrawableElement {
+class LegibilityControlButton: NSButton, @preconcurrency DrawableElement {
   
   var id: String = ""
   

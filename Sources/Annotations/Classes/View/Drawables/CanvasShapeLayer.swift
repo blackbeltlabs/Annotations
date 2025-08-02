@@ -1,10 +1,10 @@
-import Quartz
+@preconcurrency import Quartz
 
-class CanvasLayer: CALayer, DrawableElement, @unchecked Sendable {
+class CanvasLayer: CALayer, DrawableElement {
   var id: String = ""
 }
 
-class CanvasShapeLayer: CAShapeLayer, DrawableElement, @unchecked Sendable {
+class CanvasShapeLayer: CAShapeLayer, DrawableElement {
   var id: String = ""
 }
 

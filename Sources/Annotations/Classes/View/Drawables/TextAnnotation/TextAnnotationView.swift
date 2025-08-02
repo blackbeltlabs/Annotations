@@ -2,7 +2,7 @@ import Foundation
 import Cocoa
 import Combine
 
-class TextAnnotationView: NSView, DrawableElement {
+class TextAnnotationView: NSView, @preconcurrency DrawableElement {
   
   var id: String = ""
   
