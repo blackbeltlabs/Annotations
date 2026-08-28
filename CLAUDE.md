@@ -37,23 +37,23 @@ DrawableCanvasView (mouse subjects) → MouseInteractionHandler → ModelsManage
 
 - **`MouseInteractionHandler`** ([Managers/](Sources/Annotations/Classes/Managers)) interprets mouse down/drag/up into creation, selection, movement, and knob-resize operations on models.
 - **`Renderer`** ([Renderer/](Sources/Annotations/Classes/Renderer)) turns models into `LayerRenderingSet`s (CGPath + `LayerUISettings` + zPosition) and drives the canvas through the `RendererCanvas` protocol — the only interface it has to the view.
-- **`DrawableCanvasView`** ([View/Canvas/](Sources/Annotations/Classes/View/Canvas)) implements `RendererCanvas`, managing `CAShapeLayer`-based drawables (`Classes/View/Drawables/`), obfuscate/highlight layers, and selection views (knobs, borders).
+- **`DrawableCanvasView`** ([View/Canvas/](Sources/Annotations/Classes/View/Canvas)) implements `RendererCanvas`, managing `CAShapeLayer`-based drawables ([View/Drawables/](Sources/Annotations/Classes/View/Drawables)), obfuscate/highlight layers, and selection views (knobs, borders).
 
 ### Per-annotation-type factories
 
 Models are `Codable & Sendable` structs conforming to `AnnotationModel` ([Model/Annotations/](Sources/Annotations/Classes/Model/Annotations)); `Rect` covers three variants via `RectModelType` (regular / obfuscate / highlight). Behavior for each type is spread across parallel factory hierarchies, each with a `Common/` protocol + factory and `Certain/` per-type implementations:
 
-- `Model/Path Creator/` — model → CGPath
-- `Renderer/Style Creator/` — model → layer stroke/fill style
-- `Model/Selections/Knobs Creator/` and `SelectionPath/` — selection handles and outlines
-- `Model/Transformations/Resize/` — knob-drag resize logic
+- [Model/Path Creator/](Sources/Annotations/Classes/Model/Path%20Creator) — model → CGPath
+- [Renderer/Style Creator/](Sources/Annotations/Classes/Renderer/Style%20Creator) — model → layer stroke/fill style
+- [Model/Selections/Knobs Creator/](Sources/Annotations/Classes/Model/Selections/Knobs%20Creator) and [SelectionPath/](Sources/Annotations/Classes/Model/Selections/SelectionPath) — selection handles and outlines
+- [Model/Transformations/Resize/](Sources/Annotations/Classes/Model/Transformations/Resize) — knob-drag resize logic
 
 Adding a new annotation type means adding a case to `CanvasItemType` and an implementation in each of these factories.
 
 ### Text annotations
 
-Text is the special case: it is not a `CAShapeLayer` but an `NSTextView`-based view (`View/Drawables/TextAnnotation/`), managed by `TextAnnotationsManager` (`Model/Text Annotations/`) which handles editing state, dynamic sizing, scaling, and the legibility/emoji controls. The original functional spec with expected behaviors lives in [Sources/Spec/Specification.md](Sources/Spec/Specification.md).
+Text is the special case: it is not a `CAShapeLayer` but an `NSTextView`-based view ([View/Drawables/TextAnnotation/](Sources/Annotations/Classes/View/Drawables/TextAnnotation)), managed by `TextAnnotationsManager` ([Model/Text Annotations/](Sources/Annotations/Classes/Model/Text%20Annotations)) which handles editing state, dynamic sizing, scaling, and the legibility/emoji controls. The original functional spec with expected behaviors lives in [Sources/Spec/Specification.md](Sources/Spec/Specification.md).
 
 ### Serialization
 
-`JSONSerializer` (`Classes/Serialization/`) saves/loads all models to JSON via intermediate `JSONSortedModel` types — keep these in sync when changing model fields, as annotation documents persist across app versions.
+`JSONSerializer` ([Serialization/](Sources/Annotations/Classes/Serialization)) saves/loads all models to JSON via intermediate `JSONSortedModel` types — keep these in sync when changing model fields, as annotation documents persist across app versions.
