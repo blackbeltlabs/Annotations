@@ -13,6 +13,7 @@ enum CursorType {
   case textMove
   case textResize
   case textScale
+  case dragCopy
 }
 
 @MainActor

@@ -8,6 +8,11 @@ private enum MouseEventType {
   case moved
 }
 
+struct MouseDownEvent: Sendable {
+  let point: CGPoint
+  let isOptionPressed: Bool
+}
+
 private class SelectionMainView: NSView {
   override var isFlipped: Bool { true }
 }
@@ -38,7 +43,7 @@ public class DrawableCanvasView: NSView {
   // MARK: - Publishers
   let viewLayoutUpdated = PassthroughSubject<CGSize, Never>()
   
-  let mouseDownSubject = PassthroughSubject<CGPoint, Never>()
+  let mouseDownSubject = PassthroughSubject<MouseDownEvent, Never>()
   let mouseDraggedSubject = PassthroughSubject<CGPoint, Never>()
   let mouseUpSubject = PassthroughSubject<CGPoint, Never>()
   let mouseMovedSubject = PassthroughSubject<CGPoint, Never>()
@@ -137,7 +142,8 @@ public class DrawableCanvasView: NSView {
     
     switch type {
     case .down:
-      mouseDownSubject.send(point)
+      mouseDownSubject.send(.init(point: point,
+                                  isOptionPressed: event.modifierFlags.contains(.option)))
     case .dragged:
       mouseDraggedSubject.send(point)
     case .up:
