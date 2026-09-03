@@ -34,6 +34,8 @@ final class CursorHelper {
       return resizeCursor
     case .textScale:
       return scaleCursor
+    case .dragCopy:
+      return .dragCopy
     }
   }
 }

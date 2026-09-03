@@ -121,8 +121,9 @@ public final class AnnotationsCanvasFactory {
     // Mouse events
     canvasView
       .mouseDownSubject
-      .sink { [weak mouseInteractionHandler] point in
-        mouseInteractionHandler?.handleMouseDown(point: point)
+      .sink { [weak mouseInteractionHandler] event in
+        mouseInteractionHandler?.handleMouseDown(point: event.point,
+                                                 isOptionPressed: event.isOptionPressed)
       }
       .store(in: &canvasView.commonCancellables)
     

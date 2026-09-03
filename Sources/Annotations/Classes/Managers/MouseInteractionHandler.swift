@@ -48,12 +48,22 @@ private struct PossibleDragging : Sendable{
       return false
     }
   }
+
+  var isDuplicateMode: Bool {
+    switch type {
+    case .duplicate:
+      return true
+    default:
+      return false
+    }
+  }
 }
 
 private enum PossibleDraggingType: Sendable {
   case create(CanvasItemType)
   case move
   case resize(KnobType)
+  case duplicate(original: AnnotationModel)
 }
 
 // Responsible for editing and creation of new annotations
@@ -83,7 +93,7 @@ class MouseInteractionHandler {
   }
   
   // MARK: - Mouse events
-  func handleMouseDown(point: CGPoint) {
+  func handleMouseDown(point: CGPoint, isOptionPressed: Bool = false) {
     guard let dataSource = dataSource else { return }
        
     // if annotation was selected before
@@ -91,12 +101,22 @@ class MouseInteractionHandler {
     // or if it is a create mode for text annotation then can transform it during creation
     if let selectedAnnotation = dataSource.selectedAnnotation,
        let knobPair = KnobsFactory.knobPair(for: selectedAnnotation) {
-      
+
       for (knobType, knob) in knobPair.allKnobsWithType {
         if knob.frameRect.contains(point) {
-          possibleMovement = .init(lastDraggedPoint: point,
-                                   type: .resize(knobType))
-          ResizeTransformationFactory.resizingStarted(selectedAnnotation, knob: knobType, point: point)
+          // Option + drag from a knob duplicates the selected annotation instead of
+          // resizing (knobs may lie outside the selection path, so falling through to
+          // path hit-testing could miss it). Skipped while a text is created / edited:
+          // duplicating would bypass the editing teardown below and lose the copy
+          if isOptionPressed,
+             !textAnnotationsManager.createMode,
+             !textAnnotationsManager.isEditing {
+            startDuplicateDragging(of: selectedAnnotation, from: point)
+          } else {
+            possibleMovement = .init(lastDraggedPoint: point,
+                                     type: .resize(knobType))
+            ResizeTransformationFactory.resizingStarted(selectedAnnotation, knob: knobType, point: point)
+          }
           return
         }
       }
@@ -137,7 +157,12 @@ class MouseInteractionHandler {
     for annotation in annotations {
       let selectionPath = SelectionPathFactory.selectionPath(for: annotation)
       if let selectionPath, selectionPath.contains(point) {
-        
+
+        if isOptionPressed {
+          startDuplicateDragging(of: annotation, from: point)
+          return
+        }
+
         // if this is a text annotation, and text annotation was already selected
         // then it could be edited on double tap
         if annotation.id == dataSource.selectedAnnotation?.id,
@@ -254,18 +279,54 @@ class MouseInteractionHandler {
       guard let selectedAnnotation = dataSource.selectedAnnotation else {
         return
       }
-      
+
       let updatedAnnotation = ResizeTransformationFactory.resizedAnnotation(annotation: selectedAnnotation,
                                                                             knob: knobType,
                                                                             delta: delta)
-      
+
       dataSource.select(model: updatedAnnotation, renderingType: renderingType(for: knobType), checkIfContainsInModelsSet: false)
       self.possibleMovement = possibleMovement.copy(with: point,
                                                     modifiedAnnotation: updatedAnnotation)
       updateCursorWhenDragging(knobType: knobType)
+    case .duplicate(let original):
+      let draggedCopy: AnnotationModel
+      if let inFlightCopy = possibleMovement.modifiedAnnotation {
+        draggedCopy = MovementTransformation.movedAnnotation(inFlightCopy, delta: delta)
+      } else {
+        // first drag event: create the copy with a new id above all other annotations
+        var copy = original
+        copy.id = UUID().uuidString
+        copy.zPosition = positionsHandler.newZPosition
+        // a copied number must get the next free value (like a newly created one),
+        // otherwise the duplicated value would force renumbering of the existing markers
+        if var number = copy as? Number {
+          number.value = nextModelNumber
+          copy = number
+        }
+        draggedCopy = MovementTransformation.movedAnnotation(copy, delta: delta)
+        renderer?.setCursor(type: .dragCopy)
+      }
+
+      // the copy is not in the models set until mouse up
+      // so must be selected without the models set check (similar to .create)
+      dataSource.select(model: draggedCopy,
+                        renderingType: CommonRenderingType.dontRenderSelection,
+                        checkIfContainsInModelsSet: false)
+      self.possibleMovement = possibleMovement.copy(with: point,
+                                                    modifiedAnnotation: draggedCopy)
     }
   }
-  
+
+  // Option + drag on an annotation duplicates it (Finder-like behaviour):
+  // the original stays in place while a copy is dragged.
+  // The copy itself is created lazily on the first drag event
+  // so that Option + click without dragging doesn't create anything
+  private func startDuplicateDragging(of annotation: AnnotationModel, from point: CGPoint) {
+    dataSource?.select(model: annotation)
+    possibleMovement = .init(lastDraggedPoint: point,
+                             type: .duplicate(original: annotation))
+  }
+
   func handleMouseUp(point: CGPoint) {
     guard let dataSource = dataSource else { return }
     guard let possibleMovement else { return }
@@ -277,14 +338,18 @@ class MouseInteractionHandler {
     // if annotations was modified here (moved or resized)
     // then need to updates models
     if let modifiedAnnotation = possibleMovement.modifiedAnnotation {
-      
+
+      if possibleMovement.isDuplicateMode {
+        renderer?.setCursor(type: .default)
+      }
+
       if var text = modifiedAnnotation as? Text {
-    
+
         if let updatedAnnotation = ResizeTextTransformation.reduceHeightIfNeeded(for: text) {
           dataSource.select(model: updatedAnnotation)
           text = updatedAnnotation
         }
-        
+
         if textAnnotationsManager.isEditing {
           textAnnotationsManager.updateEditingText(text)
         } else {
@@ -292,7 +357,7 @@ class MouseInteractionHandler {
         }
         return
       }
-      
+
       dataSource.update(model: modifiedAnnotation)
       // select annotation that just was created
       if possibleMovement.isCreateMode {
